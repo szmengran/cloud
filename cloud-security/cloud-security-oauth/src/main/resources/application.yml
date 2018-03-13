@@ -1,0 +1,32 @@
+security:
+  user:
+    password: password
+  oauth2:
+    client:
+      client-id: demo
+      client-secret: demo
+      scope: read, write
+      auto-approve-scopes: .*
+    authorization:
+      check-token-access: permitAll()
+server:
+  port: 9999
+  servlet:
+    context-path: /
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+# REDIS (RedisProperties)
+
+spring:
+  redis:
+      database: 0
+      host: 192.168.0.112
+      password: Li1234567890
+      port: 6379
+      pool:
+          max-active: 8
+          max-wait: 8
+          min-idle: 0
+          max-idle: 8
