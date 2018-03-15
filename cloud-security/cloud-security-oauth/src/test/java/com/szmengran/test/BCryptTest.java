@@ -49,7 +49,7 @@ public class BCryptTest {
 	public static void main(String arge[]) {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		Long start = System.currentTimeMillis();
-		String pw = bCryptPasswordEncoder.encode("admin");
+		String pw = bCryptPasswordEncoder.encode("12345");
 		System.out.println(pw);
 		boolean f = bCryptPasswordEncoder.matches("12345", pw);
 		System.out.println(System.currentTimeMillis());

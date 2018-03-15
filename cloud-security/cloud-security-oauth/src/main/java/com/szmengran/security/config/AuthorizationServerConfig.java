@@ -1,12 +1,15 @@
 package com.szmengran.security.config;
 
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -14,12 +17,10 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
-import com.szmengran.common.orm.DBManager;
+import com.szmengran.common.config.database.DatabaseProperty;
+import com.szmengran.common.pool.druid.DBPool;
 import com.szmengran.security.service.UserService;
 
-/**
- * Created by wangyunfei on 2017/6/9.
- */
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
@@ -33,13 +34,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         return new RedisTokenStore(connectionFactory);
     }
 
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	@Bean
 	public UserDetailsService userDetailsService() {
 		return new UserService();
 	}
 
-    @Override
+	@Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
     		try {
         endpoints
@@ -57,26 +62,30 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
     }
-
+    
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-                .withClient("android")
-                .scopes("xx")
-                .secret("$2a$10$FQAIRsqi3dP9bAzfG..5EukHidVpygnN0snZi3xELK/Ioz.Ja/fQq")
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-            .and()
-                .withClient("webapp")
-                .scopes("xx")
-                .authorizedGrantTypes("implicit")
-            .and()
-            		.withClient("admin")
-				.authorizedGrantTypes("client_credentials", "password")
-				.authorities("ROLE_CLIENT")
-				.scopes("read")
-				.secret("$2a$10$FQAIRsqi3dP9bAzfG..5EukHidVpygnN0snZi3xELK/Ioz.Ja/fQq")
-            ;
-//        clients.jdbc(dataSource);
-//        clients.withClientDetails(clientDetailsService)
+//        clients.inMemory()
+//                .withClient("android")
+//                .scopes("xx")
+//                .secret("$2a$10$A.6tA4COSuT1YTT9xTQlzenyD.aymSHKw1nmW51Y3MV2M7w6iCuFW") //12345
+//                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
+//            .and()
+//                .withClient("webapp")
+//                .scopes("xx")
+//                .authorizedGrantTypes("implicit")
+//            .and()
+//            		.withClient("admin")
+//				.authorizedGrantTypes("client_credentials", "password")
+//				.authorities("ROLE_CLIENT")
+//				.scopes("read")
+//				.secret("$2a$10$A.6tA4COSuT1YTT9xTQlzenyD.aymSHKw1nmW51Y3MV2M7w6iCuFW") //12345
+//            ;
+//        DataSource dataSource = DBPool.getDataSource(DatabaseProperty.DATASOURCE_WRITE);
+//        Connection conn = dataSource.getConnection();
+//        clients.jdbc(dataSource).passwordEncoder(passwordEncoder());
+    		DataSource dataSource = DBPool.getDataSource(DatabaseProperty.DATASOURCE_WRITE);
+        clients.jdbc(dataSource)
+		.passwordEncoder(passwordEncoder());
     }
 }

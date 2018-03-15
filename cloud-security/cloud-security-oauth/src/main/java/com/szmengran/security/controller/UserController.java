@@ -12,4 +12,14 @@ public class UserController {
     public Principal user(Principal user){
         return user;
     }
+    
+    @GetMapping("/users")
+    public String user(){
+        return "limaoyuan";
+    }
+    
+    @GetMapping("/api/users")
+    public Principal users(){
+    	return null;
+    }
 }

@@ -25,7 +25,6 @@ public class UserService extends AbstractService implements UserDetailsService {
 		try {
 			list = super.findBySql(new User(), sql.toString() , params);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         if(list == null || list.size()==0) {
@@ -50,51 +49,5 @@ public class UserService extends AbstractService implements UserDetailsService {
 		String hashedPassword = passwordEncoder.encode(password);
 		user.setPassword(hashedPassword);
         return new CustomUserDetails(user);
-//        return new User(t_power_user.getUsername(),t_power_user.getPassword(), null);
-//        return new UserRepositoryUserDetails((T_power_user) list.get(0), this);
     }
-
-//    private final static class UserRepositoryUserDetails extends T_power_user implements UserDetails {
-//
-//		private static final long serialVersionUID = 1L;
-//		private UserService userService = null;
-//		private UserRepositoryUserDetails(T_power_user t_power_user, UserService userService) {
-//			this.setUsername(t_power_user.getUsername());
-//			this.setUserid(t_power_user.getUserid());
-//			this.userService = userService;
-//		}
-//
-//		@Override
-//		public Collection<? extends GrantedAuthority> getAuthorities() {
-//			StringBuffer conditions = new StringBuffer();
-//			
-//			return this.userService.findByConditions(object, conditions, params);
-//		}
-//
-//		@Override
-//		public String getUsername() {
-//			return this.getUsername();
-//		}
-//
-//		@Override
-//		public boolean isAccountNonExpired() {
-//			return true;
-//		}
-//
-//		@Override
-//		public boolean isAccountNonLocked() {
-//			return true;
-//		}
-//
-//		@Override
-//		public boolean isCredentialsNonExpired() {
-//			return true;
-//		}
-//
-//		@Override
-//		public boolean isEnabled() {
-//			return true;
-//		}
-//
-//	}
 }
