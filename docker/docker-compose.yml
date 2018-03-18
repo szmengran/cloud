@@ -1,0 +1,10 @@
+discovery:
+  image: szmengran/cloud-discovery
+  ports:
+   - "8761:8761"
+configserver:
+  image: szmengran/cloud-config
+  ports:
+   - "8888:8888"
+  links:
+   - discovery
