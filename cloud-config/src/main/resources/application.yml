@@ -3,7 +3,7 @@ server:
 
 eureka:
   instance:
-    hostname: configserver
+    hostname: localhost
   client:
     registerWithEureka: true
     fetchRegistry: true
@@ -15,4 +15,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/kbastani/spring-boot-microservice-config
+          uri: https://github.com/spring-cloud-samples/config-repo
+          force-pull: true
+application:
+    name: cloud-config
