@@ -1,7 +1,0 @@
----
-applications:
-- name: cloud-config
-  host: cloud-config-${random-word}
-  memory: 512M
-  instances: 1
-  path: target/cloud-config-0.0.1.jar
