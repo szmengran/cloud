@@ -19,7 +19,7 @@ public class UserController {
     }
     
     @GetMapping("/api/users")
-    public Principal users(){
-    	return null;
+    public Principal users(Principal user){
+    	return user;
     }
 }
