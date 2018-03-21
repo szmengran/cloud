@@ -8,3 +8,17 @@ configserver:
    - "8888:8888"
   links:
    - discovery
+gateway:
+  image: szmengran/cloud-gateway
+  ports:
+   - "10000:10000"
+  links:
+   - discovery
+   - configserver
+hystrix:
+  image: szmengran/cloud-hystrix
+  ports:
+   - "7979:7979"
+  links:
+   - gateway
+   - discovery

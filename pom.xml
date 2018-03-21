@@ -151,5 +151,7 @@
 		<module>cloud-config</module>
 		<module>cloud-discovery</module>
 		<module>cloud-gateway</module>
+		<module>cloud-consul</module>
+		<module>cloud-hystrix</module>
 	</modules>
 </project>
