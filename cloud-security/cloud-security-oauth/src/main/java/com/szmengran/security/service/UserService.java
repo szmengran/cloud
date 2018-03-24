@@ -40,7 +40,6 @@ public class UserService extends AbstractService implements UserDetailsService {
 		try {
 			roleList = super.findBySql(new Role(), roleSql.toString() , roleParams);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		user.setRoles(roleList);

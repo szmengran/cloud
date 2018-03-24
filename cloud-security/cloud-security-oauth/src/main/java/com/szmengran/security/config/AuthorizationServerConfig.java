@@ -17,7 +17,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
-import com.szmengran.common.config.database.DatabaseProperty;
+import com.szmengran.common.Constant;
 import com.szmengran.common.pool.druid.DBPool;
 import com.szmengran.security.service.UserService;
 
@@ -84,7 +84,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 //        DataSource dataSource = DBPool.getDataSource(DatabaseProperty.DATASOURCE_WRITE);
 //        Connection conn = dataSource.getConnection();
 //        clients.jdbc(dataSource).passwordEncoder(passwordEncoder());
-    		DataSource dataSource = DBPool.getDataSource(DatabaseProperty.DATASOURCE_WRITE);
+    		DataSource dataSource = DBPool.getDataSource(Constant.DATASOURCE_WRITE);
         clients.jdbc(dataSource)
 		.passwordEncoder(passwordEncoder());
     }

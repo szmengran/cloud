@@ -31,20 +31,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
 	}
 	
-	@Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
-                .antMatchers("/", "/home").permitAll()
-                .anyRequest().authenticated()
-                .and()
-            .formLogin()
-                .loginPage("http://localhost:8000/#/user/login") //指定登录页面
-                .permitAll()
-                .and()
-            .logout()
-                .permitAll();
-    }
+//	@Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//            .authorizeRequests()
+//                .antMatchers("/", "/home").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//            .formLogin()
+//                .loginPage("http://localhost:8000/#/user/login") //指定登录页面
+//                .permitAll()
+//                .and()
+//            .logout()
+//                .permitAll();
+//    }
 //
 //	@Bean
 //	public SecurityEvaluationContextExtension securityEvaluationContextExtension() {

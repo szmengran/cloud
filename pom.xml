@@ -10,7 +10,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.0.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
@@ -26,6 +26,7 @@
 		<maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version>
 		<!-- Sonar -->
 		<surefire.plugin.version>2.19.1</surefire.plugin.version>
+		<aop.version>0.0.1</aop.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -93,7 +94,12 @@
 			<dependency>
 				<groupId>com.szmengran</groupId>
 				<artifactId>orm-mysql</artifactId>
-				<version>${orm.version}</version>
+				<version>(${orm.version},]</version>
+			</dependency>
+			<dependency>
+				<groupId>com.suntak</groupId>
+				<artifactId>aop-exception</artifactId>
+				<version>${aop.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -153,5 +159,11 @@
 		<module>cloud-gateway</module>
 		<module>cloud-consul</module>
 		<module>cloud-hystrix</module>
+		<module>cloud-model</module>
+		<module>cloud-engineering</module>
+		<module>cloud-business</module>
+		<module>cloud-common</module>
+		<module>cloud-admin</module>
+		<module>cloud-exception</module>
 	</modules>
 </project>
