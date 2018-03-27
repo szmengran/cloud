@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: cloud-admin-user
+  aop:
+    auto: true
+security:
+  oauth2:
+    resource:
+      token-info-uri: http://localhost:9999/oauth/check_token
+    client:
+      client-id: cloud-engineering-order
+      client-secret: 12345

@@ -1,4 +1,4 @@
-package com.szmengran.admin.user.exception;
+package com.szmengran.cloud.user.exception;
 
 import java.util.HashMap;
 import java.util.Map;

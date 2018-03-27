@@ -1,4 +1,4 @@
-package com.szmengran.admin.user.service.impl;
+package com.szmengran.cloud.user.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import com.szmengran.admin.entity.T_power_user;
 import com.szmengran.admin.entity.T_power_user_role_r;
 import com.szmengran.admin.entity.ext.T_power_user_ext;
 import com.szmengran.admin.user.exception.BusinessException;
-import com.szmengran.admin.user.service.UserService;
+import com.szmengran.cloud.user.service.UserService;
 import com.szmengran.common.Constant;
 import com.szmengran.common.orm.DBManager;
 import com.szmengran.common.service.AbstractService;
@@ -27,11 +27,11 @@ public class UserServiceImpl extends AbstractService implements UserService{
 		conditions.append(" and username = ?");
 		List<Object> list = super.findByConditions(new T_power_user(), conditions, new Object[]{username});
 		if(list == null || list.size() == 0){
-			throw new BusinessException(3000);
+			throw new BusinessException(1010);
 		}else{
 			T_power_user t_power_user = (T_power_user)list.get(0);
 			if(!"1".equals(t_power_user.getValidstatus())) {
-				throw new BusinessException(3001);
+				throw new BusinessException(1013);
 			}
 			T_power_user_ext t_power_user_ext = new T_power_user_ext();
 			BeanUtils.copyProperties(t_power_user, t_power_user_ext);
@@ -79,6 +79,54 @@ public class UserServiceImpl extends AbstractService implements UserService{
 				super.addBatch(dbManager, list);
 				dbManager.commitBatch();
 			}
+			dbManager.commitTransaction();
+		}catch(Exception e){
+			dbManager.rollbackTransaction();
+			throw e;
+		}finally{
+			dbManager.close();
+		}
+	}
+	
+	@Override
+	public void updatePwd(String userid, String password) throws Exception {
+		String strSql = "update t_power_user set password=?,updatestamp=? where userid=?";
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		String cryPassword = bCryptPasswordEncoder.encode(password);
+		Object params[] = new Object[3];
+		params[0] = cryPassword;
+		params[1] = new Timestamp(System.currentTimeMillis());
+		params[2] = userid;
+		super.executeSql(strSql, params);
+	}
+	
+	@Override
+	public void updatePwd(String userid, String password, String oldPassword) throws Exception {
+		DBManager dbManager = null;
+		try{
+			Long start = System.currentTimeMillis();
+			dbManager = super.getDBManager();
+			dbManager.openConnection(Constant.DATASOURCE_WRITE);
+			dbManager.beginTransaction();
+			T_power_user t_power_user = new T_power_user();
+			t_power_user.setUserid(userid);
+			t_power_user = super.findByPrimaryKey(t_power_user);
+			System.out.println((System.currentTimeMillis()-start));
+			if (null == t_power_user) {
+				throw new BusinessException(1010);
+			} else if (!"1".equals(t_power_user.getValidstatus())) {
+				throw new BusinessException(1013);
+			} else {
+				BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+				if (bCryptPasswordEncoder.matches(oldPassword, t_power_user.getPassword())) {
+					System.out.println((System.currentTimeMillis()-start));
+					updatePwd(userid, password);
+					System.out.println((System.currentTimeMillis()-start));
+				} else {
+					throw new BusinessException(3002);
+				}
+			}
+			System.out.println((System.currentTimeMillis()-start));
 			dbManager.commitTransaction();
 		}catch(Exception e){
 			dbManager.rollbackTransaction();
