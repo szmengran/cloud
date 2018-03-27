@@ -34,6 +34,6 @@ public class UserController {
     
     @GetMapping("/api/users")
     public Principal users(Principal user){
-    	return user;
+    		return user;
     }
 }

@@ -47,7 +47,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
     		try {
-        endpoints
+    			endpoints
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService())//若无，refresh_token会有UserDetailsService is required错误
                 .tokenStore(tokenStore());
@@ -65,25 +65,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-//        clients.inMemory()
-//                .withClient("android")
-//                .scopes("xx")
-//                .secret("$2a$10$A.6tA4COSuT1YTT9xTQlzenyD.aymSHKw1nmW51Y3MV2M7w6iCuFW") //12345
-//                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-//            .and()
-//                .withClient("webapp")
-//                .scopes("xx")
-//                .authorizedGrantTypes("implicit")
-//            .and()
-//            		.withClient("admin")
-//				.authorizedGrantTypes("client_credentials", "password")
-//				.authorities("ROLE_CLIENT")
-//				.scopes("read")
-//				.secret("$2a$10$A.6tA4COSuT1YTT9xTQlzenyD.aymSHKw1nmW51Y3MV2M7w6iCuFW") //12345
-//            ;
-//        DataSource dataSource = DBPool.getDataSource(DatabaseProperty.DATASOURCE_WRITE);
-//        Connection conn = dataSource.getConnection();
-//        clients.jdbc(dataSource).passwordEncoder(passwordEncoder());
     		DataSource dataSource = DBPool.getDataSource(Constant.DATASOURCE_WRITE);
         clients.jdbc(dataSource)
 		.passwordEncoder(passwordEncoder());

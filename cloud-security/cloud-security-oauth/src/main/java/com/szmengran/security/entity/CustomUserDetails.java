@@ -14,12 +14,10 @@ public class CustomUserDetails implements UserDetails {
 	private Collection<? extends GrantedAuthority> authorities;
 	private String password;
 	private String username;
-	private String userid;
 
 	public CustomUserDetails(User user) {
-		this.username = user.getUsername();
+		this.username = user.getUserid();
 		this.password = user.getPassword();
-		this.userid = user.getUserid();
 		this.authorities = translate(user.getRoles());
 	}
 
@@ -36,14 +34,6 @@ public class CustomUserDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
-	}
-
-	public String getUserid() {
-		return userid;
-	}
-
-	public void setUserid(String userid) {
-		this.userid = userid;
 	}
 
 	@Override
