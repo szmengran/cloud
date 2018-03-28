@@ -33,7 +33,7 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>Finchley.M8</version>
+				<version>Finchley.M9</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -53,7 +53,7 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-config</artifactId>
-				<version>2.0.0.M8</version>
+				<version>${spring-cloud-commons.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -99,6 +99,11 @@
 			<dependency>
 				<groupId>com.suntak</groupId>
 				<artifactId>aop-exception</artifactId>
+				<version>${aop.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.suntak</groupId>
+				<artifactId>aop-logging-service</artifactId>
 				<version>${aop.version}</version>
 			</dependency>
 		</dependencies>

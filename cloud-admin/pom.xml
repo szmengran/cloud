@@ -33,6 +33,14 @@
 			<artifactId>orm-mysql</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.suntak</groupId>
+			<artifactId>aop-exception</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.suntak</groupId>
+			<artifactId>aop-logging-service</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.szmengran</groupId>
 			<artifactId>cloud-exception</artifactId>
 			<version>${project.parent.version}</version>

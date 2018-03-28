@@ -3,8 +3,8 @@ package com.szmengran.cloud.order.service.impl;
 import org.springframework.stereotype.Service;
 
 import com.szmengran.cloud.order.service.EngineeringOrderService;
+import com.szmengran.cloud.order.utils.OrderStatus;
 import com.szmengran.common.service.AbstractService;
-import com.szmengran.utils.OrderStatus;
 
 @Service
 public class EngineeringOrderServiceImpl extends AbstractService implements EngineeringOrderService{

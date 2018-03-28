@@ -2,7 +2,9 @@ package com.szmengran.cloud.order.service;
 
 public interface EngineeringOrderService {
 	/**
-	 * 设计工程师接单
+	 * 设计工程师接单逻辑
+	 * 1）设计工程师的ID回写到工程表中
+	 * 2）将“等待接单”状态的工程订单修改为“设计中”
 	 * @param engineering_id
 	 * @param designuserid
 	 * @throws Exception      

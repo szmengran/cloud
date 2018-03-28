@@ -9,7 +9,6 @@
 	<artifactId>cloud-engineering</artifactId>
 	<packaging>pom</packaging>
 	<modules>
-		<module>cloud-engineering-design</module>
 		<module>cloud-engineering-order</module>
 	</modules>
 	<dependencies>
