@@ -1,6 +1,6 @@
 spring:
   application:
-    name: configserver
+    name: cloud-config-server
 encrypt:
   failOnError: false
   keyStore:
