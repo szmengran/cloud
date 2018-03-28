@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: cloud-gateway-zuul
+security:
+  oauth2:
+    resource:
+      token-info-uri: http://localhost:9999/oauth/check_token
+    client:
+      client-id: cloud-engineering-order
+      client-secret: 12345
+ribbon:
+  ReadTimeout: 20000
+  ConnectTimeout: 20000
+zuul:
+  routes:
+    cloud-admin-user:
+      path: /user/**
+      serviceId: cloud-admin-user
+      stripPrefix: false
+      sensitiveHeaders:
+  host:
+    connect-timeout-millis: 500000
+    socket-timeout-millis: 100000
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 100000
