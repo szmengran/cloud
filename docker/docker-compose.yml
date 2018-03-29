@@ -1,24 +1,24 @@
 discovery:
-  image: szmengran/cloud-discovery
+  image: szmengran/cloud-discovery-eureka
   ports:
    - "8761:8761"
 configserver:
-  image: szmengran/cloud-config
+  image: szmengran/cloud-config-server
   ports:
    - "8888:8888"
   links:
-   - discovery
+   - cloud-discovery-eureka
 gateway:
-  image: szmengran/cloud-gateway
+  image: szmengran/cloud-gateway-zuul
   ports:
    - "10000:10000"
   links:
-   - discovery
-   - configserver
+   - cloud-discovery-eureka
+   - cloud-config-server
 hystrix:
   image: szmengran/cloud-hystrix
   ports:
    - "7979:7979"
   links:
-   - gateway
-   - discovery
+   - cloud-gateway-zuul
+   - cloud-discovery-eureka
