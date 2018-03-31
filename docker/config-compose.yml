@@ -1,0 +1,8 @@
+version: '3'
+services:
+  configserver:
+    build: ../cloud-config/cloud-config-server
+    image: szmengran/cloud-config-server:$CLOUD_VERSION
+    restart: always
+    ports:
+     - "8888:8888"

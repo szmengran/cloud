@@ -1,20 +1,7 @@
-server:
-  port: 8888
-
-management:
-  context-path: /admin
-  
 logging:
   level:
     com.netflix.discovery: 'OFF'
     org.springframework.cloud: 'DEBUG'
-    
-eureka:
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    statusPageUrlPath: /admin/info
-    healthCheckUrlPath: /admin/health
-
 spring:
   application:
     name: cloud-config-server

@@ -1,24 +1,87 @@
-discovery:
-  image: szmengran/cloud-discovery-eureka
-  ports:
-   - "8761:8761"
-configserver:
-  image: szmengran/cloud-config-server
-  ports:
-   - "8888:8888"
-  links:
-   - cloud-discovery-eureka
-gateway:
-  image: szmengran/cloud-gateway-zuul
-  ports:
-   - "10000:10000"
-  links:
-   - cloud-discovery-eureka
-   - cloud-config-server
-hystrix:
-  image: szmengran/cloud-hystrix
-  ports:
-   - "7979:7979"
-  links:
-   - cloud-gateway-zuul
-   - cloud-discovery-eureka
+version: "3.3"
+services:
+  rabbitmq:
+    image: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    networks:
+      - overlay
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: vip
+
+  config:
+    image: szmengran/cloud-config-server:$CLOUD_VERSION
+    restart: always
+    ports:
+     - "8888:8888"
+    hostname: 192.168.8.56
+    environment:
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    networks:
+      - overlay
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: vip
+      
+  cloud-discovery-eureka:
+    image: szmengran/cloud-discovery-eureka:$CLOUD_VERSION
+    restart: always
+    ports:
+     - "8761:8761"
+    environment:
+      ENVIRONMENT_ACTIVE: $ENVIRONMENT_ACTIVE
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    depends_on:
+      - config
+    networks:
+      - overlay
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: vip
+ 
+  cloud-gateway-zuul:
+    image: szmengran/cloud-gateway-zuul:$CLOUD_VERSION
+    restart: always
+    ports:
+     - "10000:10000"
+    environment:
+      ENVIRONMENT_ACTIVE: $ENVIRONMENT_ACTIVE
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    depends_on:
+      - config
+      - cloud-discovery-eureka
+    networks:
+      - overlay
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: vip
+      
+  cloud-security-oauth:
+    image: szmengran/cloud-security-oauth:$CLOUD_VERSION
+    restart: always
+    ports:
+     - 9999:9999
+    environment:
+      ENVIRONMENT_ACTIVE: $ENVIRONMENT_ACTIVE
+      CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
+    depends_on:
+      - config
+      - cloud-discovery-eureka
+    networks:
+      - overlay
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: vip
+networks:
+  overlay:

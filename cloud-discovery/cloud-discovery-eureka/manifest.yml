@@ -1,7 +1,7 @@
 ---
 applications:
-- name: cloud-config
-  host: cloud-config-${random-word}
+- name: cloud-discovery-eureka
+  host: cloud-discovery-eureka-${random-word}
   memory: 512M
   instances: 1
-  path: target/cloud-config-0.0.1.jar
+  path: target/cloud-discovery-eureka-0.0.1.jar

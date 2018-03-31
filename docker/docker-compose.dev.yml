@@ -1,28 +1,21 @@
-discovery:
-  build: cloud-discovery-eureka
-  ports:
-   - "8761:8761"
-configserver:
-  build: cloud-config-server
-  ports:
-   - "8888:8888"
-  links:
-   - discovery
-gateway:
-  build: cloud-gateway-zuul
-  ports:
-   - "10000:10000"
-  links:
-   - discovery
-   - configserver
-hystrix:
-  build: cloud-hystrix
-  ports:
-   - "7979:7979"
-  links:
-   - gateway
-   - discovery
-oauth-service:
-    build: cloud-security-oauth
+version: '3'
+services:
+  rabbitmq:
     ports:
-      - 9999:9999
+      - 5672:5672
+  discovery:
+    build: ../cloud-discovery/cloud-discovery-eureka
+    ports:
+     - "8761:8761"
+  configserver:
+    build: ../cloud-config/cloud-config-server
+    ports:
+     - "8888:8888"
+  gateway:
+    build: ../cloud-gateway/cloud-gateway-zuul
+    ports:
+     - "10000:10000"
+  oauth-service:
+    build: ../cloud-security/cloud-security-oauth
+    ports:
+     - 9999:9999
