@@ -8,13 +8,15 @@ services:
     image: szmengran/cloud-config-server
     environment:
       - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - GITLAB_USERNAME=$GITLAB_USERNAME
+      - GITLAB_PASSWORD=$GITLAB_PASSWORD
     ports:
-     - "8888:8888"
+     - "10001:10001"
   gateway:
     image: szmengran/cloud-gateway-zuul
     environment:
       - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:8888
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
       - ENVIRONMENT=dev
     ports:
      - "10000:10000"
@@ -22,7 +24,7 @@ services:
     image: szmengran/cloud-security-oauth
     environment:
       - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:8888
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
       - ENVIRONMENT=dev
     ports:
-     - 9999:9999
+     - 10002:10002
