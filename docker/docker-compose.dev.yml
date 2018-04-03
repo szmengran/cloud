@@ -1,21 +1,22 @@
 version: '3'
 services:
-  rabbitmq:
-    ports:
-      - 5672:5672
   discovery:
+    image: szmengran/cloud-discovery-eureka:$CLOUD_VERSION
     build: ../cloud-discovery/cloud-discovery-eureka
     ports:
      - "8761:8761"
   configserver:
+    image: szmengran/cloud-config-server:$CLOUD_VERSION
     build: ../cloud-config/cloud-config-server
     ports:
      - "8888:8888"
   gateway:
+    image: szmengran/cloud-gateway-zuul:$CLOUD_VERSION
     build: ../cloud-gateway/cloud-gateway-zuul
     ports:
      - "10000:10000"
-  oauth-service:
+  oauth:
+    image: szmengran/cloud-security-oauth:$CLOUD_VERSION
     build: ../cloud-security/cloud-security-oauth
     ports:
      - 9999:9999

@@ -35,7 +35,10 @@
 			<artifactId>netty-transport-native-kqueue</artifactId>
 			<classifier>osx-x86_64</classifier>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>

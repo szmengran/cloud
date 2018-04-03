@@ -1,0 +1,37 @@
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER_ADDRESS}
+server:
+  port: 9999
+logging:
+  level:
+    org.springframework.security: DEBUG
+spring:
+  application:
+    name: cloud-security-oauth
+  cloud:
+    config:
+      uri: ${CONFIG_SERVER_ADDRESS}
+      fail-fast: true
+  profiles:
+    active: ${ENVIRONMENT}
+  redis:
+    database: 0
+    host: 192.168.0.112
+    password: Li1234567890
+    port: 6379
+    pool:
+      max-active: 8
+      max-wait: 8
+      min-idle: 0
+      max-idle: 8
+  datasource:
+    url: jdbc:mysql://192.168.0.116:3306/oauth?useSSL=false
+    username: oauth
+    password: OautH123
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    

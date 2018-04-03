@@ -14,5 +14,5 @@ spring:
       uri: ${CONFIG_SERVER_ADDRESS}
       fail-fast: true
   profiles:
-    active: dev
+    active: ${ENVIRONMENT}
     

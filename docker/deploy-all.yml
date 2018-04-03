@@ -1,0 +1,28 @@
+version: '3'
+services:
+  discovery:
+    image: szmengran/cloud-discovery-eureka
+    ports:
+     - "8761:8761"
+  configserver:
+    image: szmengran/cloud-config-server
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+    ports:
+     - "8888:8888"
+  gateway:
+    image: szmengran/cloud-gateway-zuul
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:8888
+      - ENVIRONMENT=dev
+    ports:
+     - "10000:10000"
+  oauth:
+    image: szmengran/cloud-security-oauth
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:8888
+      - ENVIRONMENT=dev
+    ports:
+     - 9999:9999
