@@ -1,5 +1,10 @@
 version: '3'
 services:
+  rabbitmq:
+    image: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
   discovery:
     image: szmengran/cloud-discovery-eureka
     ports:
@@ -17,7 +22,7 @@ services:
     environment:
       - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
       - CONFIG_SERVER_ADDRESS=http://configserver:10001
-      - ENVIRONMENT=dev
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
     ports:
      - "10000:10000"
   oauth:
@@ -25,6 +30,14 @@ services:
     environment:
       - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
       - CONFIG_SERVER_ADDRESS=http://configserver:10001
-      - ENVIRONMENT=dev
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
     ports:
      - 10002:10002
+  user:
+    image: szmengran/cloud-admin-user
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
+    ports:
+     - 10003:10003

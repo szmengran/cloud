@@ -12,7 +12,7 @@ import com.suntak.exception.model.Response;
 import com.szmengran.cloud.user.service.UserService;
 
 @RestController
-@RequestMapping(path = "/cloud/api/v1", produces = { "application/json" })
+@RequestMapping(path = "/api/v1", produces = { "application/json" })
 public class UserController {
 	
 	@Autowired
