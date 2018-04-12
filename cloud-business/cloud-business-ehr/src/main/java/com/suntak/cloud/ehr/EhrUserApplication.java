@@ -2,14 +2,14 @@ package com.suntak.cloud.ehr;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-@EnableResourceServer
+@EnableFeignClients
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.suntak.exception.controller", "com.suntak.cloud", "com.szmengran.logging.service"})
 public class EhrUserApplication {

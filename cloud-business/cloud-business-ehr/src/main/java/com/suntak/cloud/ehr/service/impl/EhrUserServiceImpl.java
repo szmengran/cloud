@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.ehr.service.EhrUserService;
 import com.suntak.ehr.entity.EhrUser;
-import com.szmengran.common.service.AbstractService;
+import com.szmengran.common.orm.service.AbstractService;
 
 @Service
 public class EhrUserServiceImpl extends AbstractService implements EhrUserService{

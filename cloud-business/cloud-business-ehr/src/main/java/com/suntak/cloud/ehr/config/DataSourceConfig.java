@@ -20,13 +20,13 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 public class DataSourceConfig {
 	
 	@Bean(initMethod = "init", name = "readDataSource")  
-    @ConfigurationProperties(prefix = "spring.datasource.druid.read")  
+    @ConfigurationProperties(prefix = "spring.datasource.druid.cuxsoa.read")  
     public DataSource readDataSource(){  
         return DruidDataSourceBuilder.create().build();  
     }  
   
     @Bean(initMethod = "init", name = "writeDataSource")  
-    @ConfigurationProperties(prefix = "spring.datasource.druid.write")  
+    @ConfigurationProperties(prefix = "spring.datasource.druid.cuxsoa.write")  
     public DataSource writeDataSource(){  
             return DruidDataSourceBuilder.create().build();  
     } 

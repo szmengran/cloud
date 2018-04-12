@@ -41,4 +41,27 @@ public class EhrUserController {
 		response.setData(list);
 		return response;
 	}
+	
+	/**
+	 * 根据日期查找入职满整年的员工
+	 * @param monthdate
+	 * @return
+	 * @throws Exception      
+	 * @return: Response      
+	 * @throws   
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@GetMapping("onboardusers/{monthdate}")
+	public Response findOnboardFromEhrUser(@PathVariable String monthdate) throws Exception {
+		Response response = new Response();
+		if(StringUtils.isBlank(monthdate.replace("*", ""))) {
+			monthdate = new SimpleDateFormat("MM-dd").format(new Date());
+		}
+		StringBuffer conditions = new StringBuffer();
+		conditions.append("empstatusname='在职' and to_char(c_birth_date, 'mm-dd')='")
+		.append(monthdate).append("'");
+		List<EhrUser> list = ehrUserService.findByCondition(conditions.toString());
+		response.setData(list);
+		return response;
+	}
 }
