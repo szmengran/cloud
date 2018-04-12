@@ -1,0 +1,17 @@
+logging:
+  level:
+    com.netflix.discovery: 'OFF'
+    org.springframework.cloud: 'DEBUG'
+spring:
+  application:
+    name: cloud-config-server
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: ./config_repo_git
+        git:
+          uri: https://gitlab.com/suntak/cloud-config-repo.git
+          basedir: ./config_repo_git
+          username: ${GITLAB_USERNAME}
+          password: ${GITLAB_PASSWORD}

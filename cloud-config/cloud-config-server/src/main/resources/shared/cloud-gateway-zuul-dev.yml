@@ -1,0 +1,15 @@
+zuul:
+  routes:
+    cloud-admin-user:
+      path: /user/**
+      serviceId: cloud-admin-user
+      stripPrefix: false
+      sensitiveHeaders:
+    cloud-business-ehr:
+      path: /**
+      serviceId: cloud-business-ehr
+      stripPrefix: false
+      sensitiveHeaders:
+  host:
+    connect-timeout-millis: 500000
+    socket-timeout-millis: 100000

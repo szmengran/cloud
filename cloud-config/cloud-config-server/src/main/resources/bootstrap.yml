@@ -12,6 +12,8 @@ eureka:
 spring:
   application:
     name: cloud-config-server
+  profiles:
+    active: ${ENVIRONMENT}
 server:
   port: 10001
 encrypt:

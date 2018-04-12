@@ -14,9 +14,9 @@ import com.szmengran.admin.entity.T_power_user_role_r;
 import com.szmengran.admin.entity.ext.T_power_user_ext;
 import com.szmengran.admin.user.exception.BusinessException;
 import com.szmengran.cloud.user.service.UserService;
-import com.szmengran.common.Constant;
+import com.szmengran.common.Constants;
 import com.szmengran.common.orm.DBManager;
-import com.szmengran.common.service.AbstractService;
+import com.szmengran.common.orm.service.AbstractService;
 
 @Service
 public class UserServiceImpl extends AbstractService implements UserService{
@@ -57,9 +57,9 @@ public class UserServiceImpl extends AbstractService implements UserService{
 	
 	@Override
 	public void save(T_power_user t_power_user, String[] roleids) throws Exception {
-		DBManager dbManager = super.getDBManager();
+		DBManager dbManager = super.getDBManager(Constants.DATASOURCE_WRITE);
 		try{
-			dbManager.openConnection(Constant.DATASOURCE_WRITE);
+			dbManager.openConnection();
 			dbManager.beginTransaction();
 			BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 			t_power_user.setUserid(super.generatePrimaryKeyByTime());
@@ -105,8 +105,8 @@ public class UserServiceImpl extends AbstractService implements UserService{
 		DBManager dbManager = null;
 		try{
 			Long start = System.currentTimeMillis();
-			dbManager = super.getDBManager();
-			dbManager.openConnection(Constant.DATASOURCE_WRITE);
+			dbManager = super.getDBManager(Constants.DATASOURCE_WRITE);
+			dbManager.openConnection();
 			dbManager.beginTransaction();
 			T_power_user t_power_user = new T_power_user();
 			t_power_user.setUserid(userid);
