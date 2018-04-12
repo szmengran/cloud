@@ -2,16 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.szmengran</groupId>
-    <artifactId>cloud</artifactId>
+    <artifactId>cloud-model</artifactId>
     <version>0.0.1</version>
   </parent>
-  <artifactId>cloud-model</artifactId>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>cloud-model-engineering</module>
-  	<module>cloud-model-util</module>
-  	<module>cloud-model-admin</module>
-  	<module>cloud-model-common</module>
-  	<module>cloud-model-business</module>
-  </modules>
+  <artifactId>cloud-model-business</artifactId>
 </project>
