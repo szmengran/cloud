@@ -1,13 +1,13 @@
 zuul:
   routes:
     cloud-admin-user:
-      path: /user/**
+      path: /api/*/cloud-admin-user/**
       serviceId: cloud-admin-user
       stripPrefix: false
       sensitiveHeaders:
-    cloud-business-ehr:
+    cloud-suntak-ehr:
       path: /**
-      serviceId: cloud-business-ehr
+      serviceId: cloud-suntak-ehr
       stripPrefix: false
       sensitiveHeaders:
   host:
