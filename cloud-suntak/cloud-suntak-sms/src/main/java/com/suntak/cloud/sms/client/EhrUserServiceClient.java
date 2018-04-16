@@ -19,4 +19,7 @@ public interface EhrUserServiceClient {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/birthdayusers/{monthdate}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	Response getBirthdayEhrUser(@PathVariable("monthdate") String monthdate);
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/onboardusers/{monthdate}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	Response getOnboardEhrUser(@PathVariable("monthdate") String monthdate);
 }
