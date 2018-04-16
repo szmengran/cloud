@@ -1,10 +1,22 @@
+server:
+  port: 10001
+logging:
+  level:
+    org.springframework.security: DEBUG
 spring:
   application:
     name: cloud-engineering-order
-security:
-  oauth2:
-    resource:
-      token-info-uri: http://localhost:9999/oauth/check_token
-    client:
-      client-id: cloud-engineering-order
-      client-secret: 12345
+  cloud:
+    config:
+      uri: ${CONFIG_SERVER_ADDRESS}
+      fail-fast: true
+  profiles:
+    active: ${ENVIRONMENT}
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false

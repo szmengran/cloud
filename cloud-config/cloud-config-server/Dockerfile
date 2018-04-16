@@ -1,7 +1,8 @@
 FROM java:8-jre
 MAINTAINER Joe <android_li@sina.cn>
 
-ADD ./target/configserver.jar /app/
-CMD ["java", "-Xmx200m", "-jar", "/app/configserver.jar"]
+ENV JAR_VERSION configserver.jar
+ADD ./target/$JAR_VERSION /app/
+CMD ["java", "-Xmx200m", "-jar", "/app/$JAR_VERSION"]
 
 EXPOSE 10001

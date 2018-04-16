@@ -19,7 +19,7 @@ eureka:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_SERVER_ADDRESS}
 
 security:
   oauth2:
@@ -65,6 +65,57 @@ spring:
             url: jdbc:mysql://192.168.0.116:3306/common?useSSL=false
             username: common
             password: Li123456
+            driver-class-name: com.mysql.jdbc.Driver
+            initial-size: 2
+            max-active: 5
+            min-idle: 2
+            max-wait: 60000
+            pool-prepared-statements: true
+            max-pool-prepared-statement-per-connection-size: 20
+            validation-query: SELECT 'x'
+            validation-query-timeout: 60000
+            test-on-borrow: false
+            test-on-return: false
+            test-while-idle: true
+            time-between-eviction-runs-millis: 60000
+            min-evictable-idle-time-millis: 300000 #配置一个连接在池中最小生存的时间，单位是毫秒
+            max-evictable-idle-time-millis: 3000000 #配置一个连接在池中最小生存的时间，单位是毫秒
+            filters: stat
+            stat-view-servlet:
+              login-username: admin
+              login-password: admin
+              url-pattern: /druid
+        sales:
+          read:
+            type: com.alibaba.druid.pool.DruidDataSource
+            url: jdbc:mysql://192.168.0.117:3306/sales?useSSL=false
+            username: sales
+            password: ${MYSQL_PASSWORD}
+            driver-class-name: com.mysql.jdbc.Driver
+            initial-size: 2
+            max-active: 5
+            min-idle: 2
+            max-wait: 60000
+            pool-prepared-statements: true
+            max-pool-prepared-statement-per-connection-size: 20
+            validation-query: SELECT 'x'
+            validation-query-timeout: 60000
+            test-on-borrow: false
+            test-on-return: false
+            test-while-idle: true
+            time-between-eviction-runs-millis: 60000
+            min-evictable-idle-time-millis: 300000 #配置一个连接在池中最小生存的时间，单位是毫秒
+            max-evictable-idle-time-millis: 3000000 #配置一个连接在池中最小生存的时间，单位是毫秒
+            filters: stat
+            stat-view-servlet:
+              login-username: admin
+              login-password: admin
+              url-pattern: /druid
+          write:
+            type: com.alibaba.druid.pool.DruidDataSource
+            url: jdbc:mysql://192.168.0.116:3306/sales?useSSL=false
+            username: sales
+            password: ${MYSQL_PASSWORD}
             driver-class-name: com.mysql.jdbc.Driver
             initial-size: 2
             max-active: 5

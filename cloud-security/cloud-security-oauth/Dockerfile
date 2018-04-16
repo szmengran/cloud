@@ -1,7 +1,8 @@
 FROM java:8-jre
 MAINTAINER Joe <android_li@sina.cn>
 
-ADD ./target/cloud-security-oauth-0.0.1.jar /app/
-CMD ["java", "-Xmx200m", "-jar", "/app/cloud-security-oauth-0.0.1.jar"]
+ENV JAR_VERSION cloud-security-oauth-0.0.1.jar
+ADD ./target/$JAR_VERSION /app/
+CMD ["java", "-Xmx200m", "-jar", "/app/$JAR_VERSION"]
 
 EXPOSE 10002

@@ -1,9 +1,3 @@
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_SERVER_ADDRESS}
 server:
   port: 10005
 logging:
