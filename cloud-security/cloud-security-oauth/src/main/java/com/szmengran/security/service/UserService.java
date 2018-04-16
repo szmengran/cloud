@@ -6,13 +6,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.szmengran.common.service.AbstractService;
+import com.szmengran.common.orm.service.AbstractService;
 import com.szmengran.security.entity.CustomUserDetails;
 import com.szmengran.security.entity.Role;
 import com.szmengran.security.entity.User;
 
 public class UserService extends AbstractService implements UserDetailsService {
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     		String lowcaseUsername = username.toLowerCase();

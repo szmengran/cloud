@@ -27,6 +27,7 @@
 		<!-- Sonar -->
 		<surefire.plugin.version>2.19.1</surefire.plugin.version>
 		<aop.version>0.0.1</aop.version>
+		<springfox.version>2.8.0</springfox.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -70,6 +71,11 @@
 				<version>${spring-boot.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-data-rest</artifactId>
+				<version>${spring-boot.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.springframework.security.oauth</groupId>
 				<artifactId>spring-security-oauth2</artifactId>
 				<version>${spring-security-oauth2.version}</version>
@@ -92,8 +98,18 @@
 				<classifier>osx-x86_64</classifier>
 			</dependency>
 			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-starter</artifactId>
+				<version>1.1.9</version>
+			</dependency>
+			<dependency>
 				<groupId>com.szmengran</groupId>
 				<artifactId>orm-mysql</artifactId>
+				<version>(${orm.version},]</version>
+			</dependency>
+			<dependency>
+				<groupId>com.szmengran</groupId>
+				<artifactId>orm-oracle</artifactId>
 				<version>(${orm.version},]</version>
 			</dependency>
 			<dependency>
@@ -105,6 +121,27 @@
 				<groupId>com.suntak</groupId>
 				<artifactId>aop-logging-service</artifactId>
 				<version>${aop.version}</version>
+			</dependency>
+			<!-- 阿里短信发送API -->
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+				<version>[1.1.0,)</version>
+			</dependency>
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-core</artifactId>
+				<version>[3.2.8,)</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${springfox.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${springfox.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -166,9 +203,9 @@
 		<module>cloud-hystrix</module>
 		<module>cloud-model</module>
 		<module>cloud-engineering</module>
-		<module>cloud-business</module>
 		<module>cloud-common</module>
 		<module>cloud-admin</module>
 		<module>cloud-exception</module>
+		<module>cloud-suntak</module>
 	</modules>
 </project>

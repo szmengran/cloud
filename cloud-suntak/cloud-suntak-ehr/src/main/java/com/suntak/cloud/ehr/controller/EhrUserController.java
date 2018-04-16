@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiResponses;
  * @date 2018年4月11日 下午2:43:35
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
-@Api(value = "Test")
+@Api(value = "ehr")
 @RestController
 @RequestMapping(path = "/api/v1", produces = { "application/json" })
 public class EhrUserController {

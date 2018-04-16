@@ -1,4 +1,4 @@
-package com.suntak.cloud.ehr.config;
+package com.szmengran.cloud.user.config;
 
 import javax.sql.DataSource;
 
@@ -10,7 +10,7 @@ import org.springframework.core.annotation.Order;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 
 /**
- * @Package com.szmengran.cloud.common.sms.config
+ * @Package com.suntak.cloud.sms.config
  * @Description: 数据源配置
  * @date 2018年4月9日 下午3:34:56
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
@@ -20,13 +20,13 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 public class DataSourceConfig {
 	
 	@Bean(initMethod = "init", name = "readDataSource")  
-    @ConfigurationProperties(prefix = "spring.datasource.druid.cuxsoa.read")  
+    @ConfigurationProperties(prefix = "spring.datasource.druid.common.read")  
     public DataSource readDataSource(){  
         return DruidDataSourceBuilder.create().build();  
-    }  
+    }
   
     @Bean(initMethod = "init", name = "writeDataSource")  
-    @ConfigurationProperties(prefix = "spring.datasource.druid.cuxsoa.write")  
+    @ConfigurationProperties(prefix = "spring.datasource.druid.common.write")  
     public DataSource writeDataSource(){  
             return DruidDataSourceBuilder.create().build();  
     } 

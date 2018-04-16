@@ -14,7 +14,7 @@ REGPREFIX=szmengran
 VERSION=$CLOUD_VERSION
 
 cd ../cloud-admin/cloud-admin-user
-mvn package
+mvn -e package
 progress "Building cloud-admin-user image ..."
 docker tag $(docker build -t ${REGPREFIX}/cloud-admin-user -q .) ${REGPREFIX}/cloud-admin-user:${VERSION}
 cd -

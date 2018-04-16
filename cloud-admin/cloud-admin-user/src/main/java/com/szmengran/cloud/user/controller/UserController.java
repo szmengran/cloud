@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.suntak.exception.model.Response;
 import com.szmengran.cloud.user.service.UserService;
 
+import io.swagger.annotations.Api;
+
+@Api(value = "user")
 @RestController
-@RequestMapping(path = "/api/v1", produces = { "application/json" })
+@RequestMapping(path = "/api/v1/cloud-admin-user", produces = { "application/json" })
 public class UserController {
 	
 	@Autowired

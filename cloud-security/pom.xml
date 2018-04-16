@@ -16,5 +16,9 @@
 			<groupId>com.szmengran</groupId>
 			<artifactId>orm-mysql</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid-spring-boot-starter</artifactId>
+		</dependency>
 	</dependencies>
 </project>

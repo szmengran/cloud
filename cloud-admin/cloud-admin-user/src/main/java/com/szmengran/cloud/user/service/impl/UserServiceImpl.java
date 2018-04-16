@@ -104,14 +104,12 @@ public class UserServiceImpl extends AbstractService implements UserService{
 	public void updatePwd(String userid, String password, String oldPassword) throws Exception {
 		DBManager dbManager = null;
 		try{
-			Long start = System.currentTimeMillis();
 			dbManager = super.getDBManager(Constants.DATASOURCE_WRITE);
 			dbManager.openConnection();
 			dbManager.beginTransaction();
 			T_power_user t_power_user = new T_power_user();
 			t_power_user.setUserid(userid);
 			t_power_user = super.findByPrimaryKey(t_power_user);
-			System.out.println((System.currentTimeMillis()-start));
 			if (null == t_power_user) {
 				throw new BusinessException(1010);
 			} else if (!"1".equals(t_power_user.getValidstatus())) {
@@ -119,14 +117,11 @@ public class UserServiceImpl extends AbstractService implements UserService{
 			} else {
 				BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 				if (bCryptPasswordEncoder.matches(oldPassword, t_power_user.getPassword())) {
-					System.out.println((System.currentTimeMillis()-start));
 					updatePwd(userid, password);
-					System.out.println((System.currentTimeMillis()-start));
 				} else {
 					throw new BusinessException(3002);
 				}
 			}
-			System.out.println((System.currentTimeMillis()-start));
 			dbManager.commitTransaction();
 		}catch(Exception e){
 			dbManager.rollbackTransaction();

@@ -1,3 +1,9 @@
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER_ADDRESS}
 server:
   port: 10003
 spring:
@@ -7,6 +13,8 @@ spring:
     auto: true
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: ${CONFIG_SERVER_ADDRESS}
+      fail-fast: true
   profiles:
-    active: ${ENVIRONMENT_ACTIVE}
+    active: ${ENVIRONMENT}
+    

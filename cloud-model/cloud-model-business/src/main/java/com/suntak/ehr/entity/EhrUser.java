@@ -16,10 +16,11 @@ public class EhrUser implements Serializable{
 	private String empcode;
 	private String empname;
 	private String phone;
+	private Integer year;
 	public EhrUser() {
 		
 	}
-	public EhrUser(String empcode, String empname, String phone) {
+	public EhrUser(String empcode, String empname, String phone, Integer year) {
 		super();
 		this.empcode = empcode;
 		this.empname = empname;
@@ -42,6 +43,12 @@ public class EhrUser implements Serializable{
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public Integer getYear() {
+		return year;
+	}
+	public void setYear(Integer year) {
+		this.year = year;
 	}
 
 }

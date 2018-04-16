@@ -1,7 +1,7 @@
 package com.szmengran.security.config;
 
 
-import javax.sql.DataSource;
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +17,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
-import com.szmengran.common.Constant;
-import com.szmengran.common.pool.druid.DBPool;
+import com.alibaba.druid.pool.DruidDataSource;
 import com.szmengran.security.service.UserService;
 
 @Configuration
@@ -28,7 +27,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthenticationManager authenticationManager;
     @Autowired
     private RedisConnectionFactory connectionFactory;
-    
+    @Resource
+    private DruidDataSource writeDataSource;
     @Bean
     public RedisTokenStore tokenStore() {
         return new RedisTokenStore(connectionFactory);
@@ -62,11 +62,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
     }
-    
+   
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-    		DataSource dataSource = DBPool.getDataSource(Constant.DATASOURCE_WRITE);
-        clients.jdbc(dataSource)
+        clients.jdbc(this.writeDataSource)
 		.passwordEncoder(passwordEncoder());
     }
 }
