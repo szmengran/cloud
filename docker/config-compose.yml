@@ -5,4 +5,4 @@ services:
     image: szmengran/cloud-config-server:$CLOUD_VERSION
     restart: always
     ports:
-     - "8888:8888"
+     - "10001:10001"

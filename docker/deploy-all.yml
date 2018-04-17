@@ -6,19 +6,20 @@ services:
     ports:
       - 5672:5672
   discovery:
-    image: szmengran/cloud-discovery-eureka
+    image: szmengran/cloud-discovery-eureka:$CLOUD_VERSION
     ports:
      - "8761:8761"
   configserver:
-    image: szmengran/cloud-config-server
+    image: szmengran/cloud-config-server:$CLOUD_VERSION
     environment:
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
       - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
       - GITLAB_USERNAME=$GITLAB_USERNAME
       - GITLAB_PASSWORD=$GITLAB_PASSWORD
     ports:
      - "10001:10001"
   gateway:
-    image: szmengran/cloud-gateway-zuul
+    image: szmengran/cloud-gateway-zuul:$CLOUD_VERSION
     environment:
       - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
       - CONFIG_SERVER_ADDRESS=http://configserver:10001
@@ -26,7 +27,7 @@ services:
     ports:
      - "10000:10000"
   oauth:
-    image: szmengran/cloud-security-oauth
+    image: szmengran/cloud-security-oauth:$CLOUD_VERSION
     environment:
       - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
       - CONFIG_SERVER_ADDRESS=http://configserver:10001
@@ -34,10 +35,40 @@ services:
     ports:
      - 10002:10002
   user:
-    image: szmengran/cloud-admin-user
+    image: szmengran/cloud-admin-user:$CLOUD_VERSION
     environment:
       - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
       - CONFIG_SERVER_ADDRESS=http://configserver:10001
       - ENVIRONMENT=$CLOUD_ENVIRONMENT
     ports:
      - 10003:10003
+  sms:
+    image: szmengran/cloud-common-sms:$CLOUD_VERSION
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
+      - SMS_ACCESSKEYID=$SMS_ACCESSKEYID
+      - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
+    ports:
+     - 10004:10004
+  ehr:
+    image: szmengran/cloud-suntak-ehr:$CLOUD_VERSION
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
+      - SMS_ACCESSKEYID=$SMS_ACCESSKEYID
+      - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
+    ports:
+     - 10005:10005
+  suntak-sms:
+    image: szmengran/cloud-suntak-sms:$CLOUD_VERSION
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
+      - SMS_ACCESSKEYID=$SMS_ACCESSKEYID
+      - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
+    ports:
+     - 10006:10006
