@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,11 +25,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.suntak.cloud.questionnaire.client.QuestionnaireSmsServiceClient;
 import com.suntak.cloud.questionnaire.entity.T_questionnaire_evaluate;
 import com.suntak.cloud.questionnaire.entity.T_questionnaire_user;
 import com.suntak.cloud.questionnaire.entity.ext.T_questionnaire_evaluate_ext;
+import com.suntak.cloud.questionnaire.entity.other.Questionnaire;
 import com.suntak.cloud.questionnaire.service.QuestionnaireService;
 import com.suntak.cloud.questionnaire.service.QuestionnaireUserService;
+import com.suntak.ehr.entity.Questionnaire_sms;
 import com.suntak.exception.model.Response;
 import com.szmengran.admin.user.exception.BusinessException;
 import com.szmengran.utils.JwtUtil;
@@ -54,6 +58,9 @@ public class QuestionnaireController {
 	QuestionnaireService questionnaireService;
 	
 	@Autowired
+	QuestionnaireSmsServiceClient questionnaireSmsServiceClient;
+	
+	@Autowired
 	QuestionnaireUserService questionnaireUserService;
 	
 	@Autowired
@@ -72,9 +79,15 @@ public class QuestionnaireController {
 	}
 	
 	@ApiOperation(value = "根据用户查询对应的评估表", response = Response.class)
-	@GetMapping("/{userid}/{yearmonth}")
-	public Response findQuestionnaireByConditions(@PathVariable("userid") Integer userid, @PathVariable("yearmonth") String yearmonth) throws Exception {
-		httpServletRequest.setCharacterEncoding("UTF-8");
+	@GetMapping("/{userid}/{yearmonth}/{token}")
+	public Response findQuestionnaireByConditions(@PathVariable("userid") Integer userid, @PathVariable("yearmonth") String yearmonth, @PathVariable("token") String token) throws Exception {
+		String json = JwtUtil.parseToken(token);
+        T_questionnaire_user t_questionnaire_user = new Gson().fromJson(json, T_questionnaire_user.class);
+		if (userid != t_questionnaire_user.getUserid()) {
+			throw new BusinessException(5105);
+		} else if ((System.currentTimeMillis() - t_questionnaire_user.getUpdatestamp().getTime())/1000 > 24*60*60) {
+			throw new BusinessException(5106);
+		}
 		if (StringUtils.isBlank(yearmonth.replace("*", ""))) {
 			yearmonth = new SimpleDateFormat("yyyyMM").format(new Date());
 		} else {
@@ -128,7 +141,7 @@ public class QuestionnaireController {
 	}
 	
 	@ApiOperation(value = "用户提交调查问卷", response = Response.class)
-	@PostMapping("/users/{userid}/{yearmonth}/{token}")
+	@PatchMapping("/users/{userid}/{yearmonth}/{token}")
 	public Response updateQuestionnaires(@PathVariable("userid") Integer userid, @PathVariable("yearmonth") String yearmonth, @PathVariable("token") String token, @RequestBody T_questionnaire_evaluate[] t_questionnaire_evaluates) throws Exception {
 		String json = JwtUtil.parseToken(token);
         T_questionnaire_user t_questionnaire_user = new Gson().fromJson(json, T_questionnaire_user.class);
@@ -137,9 +150,59 @@ public class QuestionnaireController {
 		} else if ((System.currentTimeMillis() - t_questionnaire_user.getUpdatestamp().getTime())/1000 > 24*60*60) {
 			throw new BusinessException(5106);
 		}
-		questionnaireService.updateAll(userid,yearmonth, t_questionnaire_evaluates);
+		Boolean flag = questionnaireService.updateAll(userid,yearmonth, t_questionnaire_evaluates);
+		if (flag) {
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						Boolean flag = questionnaireService.check(yearmonth);
+						if (flag) {
+							List<Questionnaire> questionnaireList = questionnaireService.findResult(yearmonth);
+							for (int i=0; i<questionnaireList.size(); i++) {
+								Questionnaire questionnaire = questionnaireList.get(i);
+								try {
+									String year = yearmonth.substring(0,4);
+									String month = yearmonth.substring(5,6);
+									Questionnaire_sms questionnaire_sms = new Questionnaire_sms();
+									questionnaire_sms.setName(questionnaire.getEmpname());
+									questionnaire_sms.setYear(year);
+									questionnaire_sms.setMonth(month);
+									questionnaire_sms.setPhone(questionnaire.getPhone());
+									questionnaire_sms.setNum(questionnaire.getTotalcount());
+									questionnaire_sms.setScore(questionnaire.getAvgscore());
+									questionnaire_sms.setRank((i+1));
+									questionnaireSmsServiceClient.sendQuestionnaireSmsCode(questionnaire_sms);
+								} catch (Exception e) {
+									e.printStackTrace();
+									logger.error(e.getMessage());
+								}
+							}
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		}
 		Response response = new Response();
 		return response;
 	}
 	
+	@ApiOperation(value="问卷调查汇总结果查询")
+	@GetMapping("/result/{yearmonth}/{token}")
+	public Response findResult(@PathVariable("yearmonth") String yearmonth, @PathVariable("token") String token) throws Exception {
+		String json = JwtUtil.parseToken(token);
+        T_questionnaire_user t_questionnaire_user = new Gson().fromJson(json, T_questionnaire_user.class);
+		if (!"admin".equals(t_questionnaire_user.getEmpcode())) {
+			throw new BusinessException(5105);
+		} else if ((System.currentTimeMillis() - t_questionnaire_user.getUpdatestamp().getTime())/1000 > 24*60*60) {
+			throw new BusinessException(5106);
+		}
+		List<Questionnaire> list = questionnaireService.findResult(yearmonth);
+		Response response = new Response();
+		response.setData(list);
+		return response;
+	}
 }

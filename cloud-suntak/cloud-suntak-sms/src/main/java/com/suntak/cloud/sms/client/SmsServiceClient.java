@@ -16,6 +16,6 @@ import com.szmengran.common.entity.T_common_sms_log;
 @FeignClient(name = "cloud-common-sms")
 public interface SmsServiceClient {
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/api/v1/sms")
+	@RequestMapping(method = RequestMethod.POST, value = "/api/v1/smses")
 	Response send(T_common_sms_log t_common_sms_log) throws Exception;
 }

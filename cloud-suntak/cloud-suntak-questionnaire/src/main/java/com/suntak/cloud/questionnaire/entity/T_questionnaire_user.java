@@ -19,8 +19,6 @@ public class T_questionnaire_user implements Serializable {
 	private String empcode;
 	private String empname;
 	private String password;
-	private String deptname;
-	private String job_level;
 	private Integer displayno;
 	private Timestamp createstamp;
 	private Timestamp updatestamp;
@@ -47,18 +45,6 @@ public class T_questionnaire_user implements Serializable {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public String getDeptname() {
-		return deptname;
-	}
-	public void setDeptname(String deptname) {
-		this.deptname = deptname;
-	}
-	public String getJob_level() {
-		return job_level;
-	}
-	public void setJob_level(String job_level) {
-		this.job_level = job_level;
 	}
 	public Integer getDisplayno() {
 		return displayno;

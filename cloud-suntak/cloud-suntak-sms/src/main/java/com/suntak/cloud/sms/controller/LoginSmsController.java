@@ -1,6 +1,7 @@
 package com.suntak.cloud.sms.controller;
 
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -36,11 +37,10 @@ import io.swagger.annotations.ApiResponses;
 @Api(value = "ehr")
 @RestController
 @RequestMapping(path = "/api/v1/suntaksms", produces = { "application/json" })
-public class BlessingSmsController {
+public class LoginSmsController {
 	
-	private final static Logger logger = LoggerFactory.getLogger(BlessingSmsController.class);
-	private final static Integer MSG_TYPE_ONBOARD=1;
-	private final static Integer MSG_TYPE_BIRTHDAY=2;
+	private final static Logger logger = LoggerFactory.getLogger(LoginSmsController.class);
+	private final static Integer MSG_TYPE_CODE=1; //短信验证码
 
 	@Autowired
 	private EhrUserServiceClient ehrUserServiceClient;
@@ -56,34 +56,17 @@ public class BlessingSmsController {
 	 * @throws   
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	@ApiOperation(value = "定时发送生日祝福信息", response = Response.class)
+	@ApiOperation(value = "发送短信登录验证码", response = Response.class)
 	@ApiResponses(value = {@ApiResponse(code = 405, message = "Invalid input", response = Response.class) })
-	@GetMapping("birthdayblessing/{monthdate}")
-	public Response autoSendBirthdayBlessing(@PathVariable("monthdate") String monthdate) throws Exception {
+	@GetMapping("code/{phone}")
+	public Response sendLoginSmsCode(@PathVariable("phone") String phone) throws Exception {
 		Response response = null;
 		T_common_sms_log t_common_sms_log = new T_common_sms_log();
 		try {
-			t_common_sms_log.setTemplatecode("SMS_130912375");
+			t_common_sms_log.setTemplatecode("SMS_132391535");
 			t_common_sms_log.setSignname("崇达技术");
-			response = ehrUserServiceClient.getBirthdayEhrUser(monthdate);
-			this.send(response, t_common_sms_log, MSG_TYPE_BIRTHDAY);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return response;
-	}
-	
-	@ApiOperation(value = "定时发送入职满整年通知信息", response = Response.class)
-	@ApiResponses(value = {@ApiResponse(code = 405, message = "Invalid input", response = Response.class) })
-	@GetMapping("onboardblessing/{monthdate}")
-	public Response autoSendOnboardBlessing(@PathVariable("monthdate") String monthdate) throws Exception {
-		Response response = null;
-		T_common_sms_log t_common_sms_log = new T_common_sms_log();
-		try {
-			t_common_sms_log.setTemplatecode("SMS_130929238");
-			t_common_sms_log.setSignname("崇达技术");
-			response = ehrUserServiceClient.getOnboardEhrUser(monthdate);
-			this.send(response, t_common_sms_log, MSG_TYPE_ONBOARD);
+			response = ehrUserServiceClient.findEhrUserByPhone(phone);
+			this.send(response, t_common_sms_log, MSG_TYPE_CODE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -102,24 +85,19 @@ public class BlessingSmsController {
 				if(StringUtils.isBlank(ehrUser.getPhone()) || ehrUser.getPhone().length() != 11) {
 					continue;
 				}
+				final String code = generateCode(4);
 				executor.submit(new Runnable() {
 					@Override
 	                public void run() {
 						t_common_sms_log.setPhone(ehrUser.getPhone());
-						if (MSG_TYPE_ONBOARD == type) {
+						if (MSG_TYPE_CODE == type) {
 							t_common_sms_log.setTemplateparam(
 									new StringBuffer()
 									.append("{")
-									.append("\"name\":\"").append(ehrUser.getEmpname()).append("\"")
-									.append(",\"year\":\"").append(ehrUser.getYear()).append("\"")
-									.append(",\"year1\":\"").append(ehrUser.getYear()).append("\"")
-									.append(",\"year2\":\"").append(ehrUser.getYear()).append("\"")
+									.append("\"code\":\"").append(code).append("\"")
 									.append("}")
 									.toString()
 									);
-						} else if (MSG_TYPE_BIRTHDAY == type) {
-							t_common_sms_log.setTemplateparam(new StringBuffer().append("{\"name\":\"")
-								.append(ehrUser.getEmpname()).append("\"}").toString());
 						}
 						try {
 							smsServiceClient.send(t_common_sms_log);
@@ -132,5 +110,15 @@ public class BlessingSmsController {
 			}
 			executor.shutdown();
 		}
+	}
+	
+	private String generateCode(Integer num) {
+		String str = "0123456789";
+		StringBuilder sb = new StringBuilder(num);
+		for (int i = 0; i < num; i++) {
+			char ch = str.charAt(new Random().nextInt(str.length()));
+			sb.append(ch);
+		}
+		return sb.toString();
 	}
 }

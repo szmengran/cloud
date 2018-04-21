@@ -11,6 +11,7 @@
   <modules>
   	<module>cloud-suntak-ehr</module>
   	<module>cloud-suntak-sms</module>
+  	<module>cloud-suntak-questionnaire</module>
   </modules>
   <dependencies>
 		<dependency>
@@ -48,7 +49,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.szmengran</groupId>
-			<artifactId>cloud-model-business</artifactId>
+			<artifactId>cloud-model-suntak</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>

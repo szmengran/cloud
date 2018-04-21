@@ -17,9 +17,12 @@ import com.suntak.exception.model.Response;
 @FeignClient(name = "cloud-suntak-ehr")
 public interface EhrUserServiceClient {
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/birthdayusers/{monthdate}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/ehr/birthdayusers/{monthdate}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	Response getBirthdayEhrUser(@PathVariable("monthdate") String monthdate);
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/onboardusers/{monthdate}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/ehr/onboardusers/{monthdate}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	Response getOnboardEhrUser(@PathVariable("monthdate") String monthdate);
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/api/v1/ehr/user/{phone}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	Response findEhrUserByPhone(@PathVariable("phone") String phone);
 }

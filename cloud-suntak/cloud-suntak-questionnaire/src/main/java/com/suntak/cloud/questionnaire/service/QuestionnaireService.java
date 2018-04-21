@@ -6,6 +6,7 @@ import java.util.Map;
 import com.suntak.cloud.questionnaire.entity.T_questionnaire_evaluate;
 import com.suntak.cloud.questionnaire.entity.T_questionnaire_user;
 import com.suntak.cloud.questionnaire.entity.ext.T_questionnaire_evaluate_ext;
+import com.suntak.cloud.questionnaire.entity.other.Questionnaire;
 
 /**
  * @Package com.suntak.cloud.questionnaire.service
@@ -69,13 +70,15 @@ public interface QuestionnaireService {
 	/**
 	 * 更新一个用户的问卷信息
 	 * @param userid
+	 * @param yearmonth
 	 * @param t_questionnaire_evaluates
+	 * @return
 	 * @throws Exception      
-	 * @return: void      
+	 * @return: Boolean      
 	 * @throws   
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	void updateAll(Integer userid, String yearmonth, T_questionnaire_evaluate[] t_questionnaire_evaluates) throws Exception;
+	Boolean updateAll(Integer userid, String yearmonth, T_questionnaire_evaluate[] t_questionnaire_evaluates) throws Exception;
 	
 	/**
 	 * 根据条件查询问卷信息
@@ -87,4 +90,26 @@ public interface QuestionnaireService {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	List<T_questionnaire_evaluate> findByConditions(Map<String, Object> params) throws Exception;
+	
+	/**
+	 * 根据月度查询问卷调查结果
+	 * @param yearmonth
+	 * @return
+	 * @throws Exception      
+	 * @return: List<Questionnaire>      
+	 * @throws   
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	List<Questionnaire> findResult(String yearmonth) throws Exception;
+	
+	/**
+	 * 检查问卷调查是否完成
+	 * @param yearmonth
+	 * @return
+	 * @throws Exception      
+	 * @return: Boolean      
+	 * @throws   
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	Boolean check(String yearmonth) throws Exception;
 }

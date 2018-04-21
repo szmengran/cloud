@@ -2,6 +2,7 @@ package com.suntak.cloud.questionnaire.service.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.suntak.cloud.questionnaire.entity.T_questionnaire_evaluate;
 import com.suntak.cloud.questionnaire.entity.T_questionnaire_user;
 import com.suntak.cloud.questionnaire.entity.ext.T_questionnaire_evaluate_ext;
+import com.suntak.cloud.questionnaire.entity.other.Questionnaire;
 import com.suntak.cloud.questionnaire.service.QuestionnaireService;
 import com.szmengran.common.orm.DBManager;
 import com.szmengran.common.orm.DbPrimaryKeyType;
@@ -58,6 +60,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		return list;
 	}
 
+	
 	@Override
 	public void generateQuestionnaireByConditions(Integer userid, String yearmonth) throws Exception {
 		List<T_questionnaire_user> list = findByUserid(userid);
@@ -74,6 +77,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 			t_questionnaire_evaluate.setCreatestamp(currentTime);
 			t_questionnaire_evaluate.setUpdatestamp(currentTime);
 			t_questionnaire_evaluate.setYearmonth(yearmonth);
+			t_questionnaire_evaluate.setStatus(0);
 			evaluateList.add(t_questionnaire_evaluate);
 		}
 		super.addBatch(evaluateList, DbPrimaryKeyType.SEQ, SEQ_QUESTIONNAIRE_EVALUATE);
@@ -84,7 +88,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		Timestamp createstamp = new Timestamp(System.currentTimeMillis());
 		t_questionnaire_evaluate.setCreatestamp(createstamp);
 		t_questionnaire_evaluate.setUpdatestamp(createstamp);
-		t_questionnaire_evaluate.setStatus(1);
+		t_questionnaire_evaluate.setStatus(0);
 		super.save(t_questionnaire_evaluate, DbPrimaryKeyType.SEQ, SEQ_QUESTIONNAIRE_EVALUATE);
 	}
 
@@ -105,8 +109,9 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 	}
 	
 	@Override
-	public void updateAll(Integer userid, String yearmonth, T_questionnaire_evaluate[] t_questionnaire_evaluates) throws Exception {
+	public Boolean updateAll(Integer userid, String yearmonth, T_questionnaire_evaluate[] t_questionnaire_evaluates) throws Exception {
 		DBManager dbManager = new DBManager(super.getWriteDataSource());
+		Boolean flag = true;
 		try {
 			dbManager.openConnection();
 			dbManager.beginTransaction();
@@ -127,7 +132,10 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 				params[7] = t_questionnaire_evaluate.getEvaluateid();
 				params[8] = userid;
 				params[9] = yearmonth;
-				super.executeSql(dbManager, strSql, params);
+				int count = super.executeSql(dbManager, strSql, params);
+				if (count == 0) {
+					flag = false;
+				}
 			}
 			dbManager.commitTransaction();
 		} catch (Exception e) {
@@ -136,10 +144,38 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		} finally {
 			dbManager.close();
 		}
+		return flag;
 	}
 
 	@Override
 	public List<T_questionnaire_evaluate> findByConditions(Map<String, Object> params) throws Exception {
 		return super.findByConditions(new T_questionnaire_evaluate(), params);
 	}
+
+	@Override
+	public List<Questionnaire> findResult(String yearmonth) throws Exception {
+		StringBuffer strSql = new StringBuffer();
+		strSql.append("select a.userid,a.empcode,b.EMPNAME,b.DEPTNAME,b.JOB_LEVEL,b.C_MOBILE_TEL phone,t.yearmonth,t.totalcount,t.alreadycount,t.avgscore")
+		      .append(" from T_QUESTIONNAIRE_USER a left join tb_v_rpt_emp_info b on a.empcode=b.EMPCODE,(")
+		      .append(" SELECT customerid,yearmonth,count(*) totalcount,sum(decode(status,1,1,0)) alreadycount,avg(total) avgscore FROM T_QUESTIONNAIRE_EVALUATE")
+		      .append(" where yearmonth = ? group by customerid,yearmonth) t")
+		      .append(" where a.userid = t.customerid order by t.avgscore desc");
+		Object params[] = new Object[1];
+		params[0] = yearmonth;
+		return super.findBySql(new Questionnaire(), strSql.toString(), params);
+	}
+
+	@Override
+	public Boolean check(String yearmonth) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("yearmonth", yearmonth);
+		params.put("status", 0);
+		List<T_questionnaire_evaluate> list = super.findByConditions(new T_questionnaire_evaluate(), params);
+		if (list == null || list.size() ==0) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 }

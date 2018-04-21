@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiResponses;
  */
 @Api(value = "ehr")
 @RestController
-@RequestMapping(path = "/api/v1", produces = { "application/json" })
+@RequestMapping(path = "/api/v1/ehr", produces = { "application/json" })
 public class EhrUserController {
 	
 	@Autowired
@@ -69,6 +69,17 @@ public class EhrUserController {
 		StringBuffer conditions = new StringBuffer();
 		conditions.append("empstatusname='在职' and labordate < sysdate and to_char(labordate, 'mm-dd')='")
 		.append(monthdate).append("'");
+		List<EhrUser> list = ehrUserService.findByCondition(conditions.toString());
+		response.setData(list);
+		return response;
+	}
+	
+	@ApiOperation(value = "根据手机号查找用户信息", response = Response.class)
+	@GetMapping("user/{phone}")
+	public Response findEhrUserByPhone(@PathVariable("phone") String phone) throws Exception {
+		Response response = new Response();
+		StringBuffer conditions = new StringBuffer();
+		conditions.append("empstatusname='在职' and C_MOBILE_TEL='").append(phone).append("'");
 		List<EhrUser> list = ehrUserService.findByCondition(conditions.toString());
 		response.setData(list);
 		return response;
