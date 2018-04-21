@@ -12,6 +12,6 @@
   	<module>cloud-model-util</module>
   	<module>cloud-model-admin</module>
   	<module>cloud-model-common</module>
-  	<module>cloud-model-business</module>
+  	<module>cloud-model-suntak</module>
   </modules>
 </project>

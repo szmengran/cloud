@@ -5,8 +5,13 @@ zuul:
       serviceId: cloud-admin-user
       stripPrefix: false
       sensitiveHeaders:
+    cloud-common-sms:
+      path: /smses/**
+      serviceId: cloud-common-sms
+      stripPrefix: false
+      sensitiveHeaders:
     cloud-suntak-ehr:
-      path: /**
+      path: /ehr/**
       serviceId: cloud-suntak-ehr
       stripPrefix: false
       sensitiveHeaders:
