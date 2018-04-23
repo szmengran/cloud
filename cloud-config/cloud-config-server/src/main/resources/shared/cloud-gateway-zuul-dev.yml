@@ -1,22 +1,22 @@
 zuul:
   routes:
     cloud-admin-user:
-      path: /api/*/cloud-admin-user/**
+      path: /**/cloud-admin-user/**
       serviceId: cloud-admin-user
       stripPrefix: false
       sensitiveHeaders:
     cloud-common-sms:
-      path: /smses/**
+      path: /**/smses/**
       serviceId: cloud-common-sms
       stripPrefix: false
       sensitiveHeaders:
     cloud-suntak-ehr:
-      path: /ehr/**
+      path: /**/ehr/**
       serviceId: cloud-suntak-ehr
       stripPrefix: false
       sensitiveHeaders:
     cloud-suntak-questionnaire:
-      path: /api/*/questionnaires/**
+      path: /**/questionnaires/**
       serviceId: cloud-suntak-questionnaire
       stripPrefix: false
       sensitiveHeaders:
