@@ -79,4 +79,4 @@ services:
       - CONFIG_SERVER_ADDRESS=http://configserver:10001
       - ENVIRONMENT=$CLOUD_ENVIRONMENT
     ports:
-     - 11000:11000
+     - 10007:10007

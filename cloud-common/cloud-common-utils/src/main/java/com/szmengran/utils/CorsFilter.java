@@ -25,7 +25,7 @@ public class CorsFilter extends OncePerRequestFilter{
 		//跨域请求处理
 		httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
 		String origin = httpServletRequest.getHeader("Origin");
-		httpServletResponse.setHeader("Access-Control-Allow-Origin", allowedOrigins.contains(origin) ? origin : "");
+		httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
 		httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH, HEAD, POST, PUT, DELETE");
 		httpServletResponse.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
 		httpServletResponse.setHeader("Access-Control-Max-Age", "3600");

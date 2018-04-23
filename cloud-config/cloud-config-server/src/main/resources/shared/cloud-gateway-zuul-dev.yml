@@ -15,6 +15,11 @@ zuul:
       serviceId: cloud-suntak-ehr
       stripPrefix: false
       sensitiveHeaders:
+    cloud-suntak-questionnaire:
+      path: /api/*/questionnaires/**
+      serviceId: cloud-suntak-questionnaire
+      stripPrefix: false
+      sensitiveHeaders:
   host:
     connect-timeout-millis: 500000
     socket-timeout-millis: 100000
