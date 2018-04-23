@@ -20,7 +20,7 @@ services:
     image: szmengran/cloud-config-server:$CLOUD_VERSION
     restart: always
     ports:
-     - "8888:8888"
+     - "10001:10001"
     hostname: 192.168.8.56
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD

@@ -18,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @creaetTime 2015-3-9 下午10:50:54
  */
 public class CorsFilter extends OncePerRequestFilter{
-	private final List<String> allowedOrigins = Arrays.asList("http://localhost:8000","http://localhost:8001","http://192.168.0.116:8081","http://192.168.0.117:8081","http://localhost:8081"); 
+	private final List<String> allowedOrigins = Arrays.asList("http://localhost:8000","http://localhost:8001","http://192.168.0.116:6001","http://192.168.0.117:6001","http://localhost:8081"); 
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {

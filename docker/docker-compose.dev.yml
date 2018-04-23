@@ -9,7 +9,7 @@ services:
     image: szmengran/cloud-config-server:$CLOUD_VERSION
     build: ../cloud-config/cloud-config-server
     ports:
-     - "8888:8888"
+     - "10001:10001"
   gateway:
     image: szmengran/cloud-gateway-zuul:$CLOUD_VERSION
     build: ../cloud-gateway/cloud-gateway-zuul

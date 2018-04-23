@@ -72,3 +72,11 @@ services:
       - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
     ports:
      - 10006:10006
+  questionnaire:
+    image: szmengran/cloud-suntak-questionnaire:$CLOUD_VERSION
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
+    ports:
+     - 11000:11000
