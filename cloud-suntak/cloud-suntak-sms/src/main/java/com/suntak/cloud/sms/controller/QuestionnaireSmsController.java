@@ -43,7 +43,7 @@ public class QuestionnaireSmsController {
 	@ApiOperation(value = "发送调查问卷评估结果", response = Response.class)
 	@PostMapping("/questionnaire")
 	public Response sendQuestionnaireSmsCode(@RequestBody Questionnaire_sms questionnaire_sms) throws Exception {
-		Response response = null;
+		Response response = new Response();
 		T_common_sms_log t_common_sms_log = new T_common_sms_log();
 		try {
 			t_common_sms_log.setTemplatecode("SMS_130924253");
