@@ -103,6 +103,18 @@ public interface QuestionnaireService {
 	List<Questionnaire> findResult(String yearmonth) throws Exception;
 	
 	/**
+	 * 查找还没有评估的用户
+	 * @param yearmonth
+	 * @return
+	 * @throws Exception      
+	 * @return: List<Questionnaire>      
+	 * @throws   
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	List<Questionnaire> findNotEvaluateUser(String yearmonth) throws Exception;
+	
+	
+	/**
 	 * 检查问卷调查是否完成
 	 * @param yearmonth
 	 * @return

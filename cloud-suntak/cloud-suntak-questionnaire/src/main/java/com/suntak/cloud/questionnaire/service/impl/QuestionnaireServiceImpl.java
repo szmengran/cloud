@@ -166,6 +166,18 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 	}
 
 	@Override
+	public List<Questionnaire> findNotEvaluateUser(String yearmonth) throws Exception {
+		StringBuffer strSql = new StringBuffer();
+		strSql.append("select a.userid,a.empcode,b.EMPNAME,b.DEPTNAME,b.JOB_LEVEL,b.C_MOBILE_TEL phone")
+		      .append(" from T_QUESTIONNAIRE_USER a left join tb_v_rpt_emp_info b on a.empcode=b.EMPCODE where exists (")
+		      .append(" SELECT 1 FROM T_QUESTIONNAIRE_EVALUATE c")
+		      .append(" where c.status=0 and a.userid=c.userid and yearmonth=?)");
+		Object params[] = new Object[1];
+		params[0] = yearmonth;
+		return super.findBySql(new Questionnaire(), strSql.toString(), params);
+	}
+	
+	@Override
 	public Boolean check(String yearmonth) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("yearmonth", yearmonth);

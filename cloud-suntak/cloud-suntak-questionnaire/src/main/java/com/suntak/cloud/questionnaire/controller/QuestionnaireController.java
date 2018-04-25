@@ -205,4 +205,13 @@ public class QuestionnaireController {
 		response.setData(list);
 		return response;
 	}
+	
+	@ApiOperation(value="未填写问卷调查的用户")
+	@GetMapping("/users/{yearmonth}")
+	public Response findNotEvaluateUser(@PathVariable("yearmonth") String yearmonth) throws Exception {
+		List<Questionnaire> list = questionnaireService.findNotEvaluateUser(yearmonth);
+		Response response = new Response();
+		response.setData(list);
+		return response;
+	}
 }

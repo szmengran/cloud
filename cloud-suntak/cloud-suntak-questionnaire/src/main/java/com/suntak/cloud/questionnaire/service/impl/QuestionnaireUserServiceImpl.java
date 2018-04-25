@@ -21,7 +21,7 @@ public class QuestionnaireUserServiceImpl extends AbstractService implements Que
 
 	@Override
 	public List<T_questionnaire_user> findAllUsers() throws Exception {
-		String strSql = "select userid,empcode,empname,deptname,job_level from t_questionnaire_user where validstatus=1";
+		String strSql = "select a.userid,a.empcode,a.empname from t_questionnaire_user a left join tb_v_rpt_emp_info b on a.empcode=b.empcode where b.empstatusname='在职' and validstatus=1";
 		return super.findBySql(new T_questionnaire_user(), strSql, null);
 	}
 
