@@ -157,7 +157,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		StringBuffer strSql = new StringBuffer();
 		strSql.append("select a.userid,a.empcode,b.EMPNAME,b.DEPTNAME,b.JOB_LEVEL,b.C_MOBILE_TEL phone,t.yearmonth,t.totalcount,t.alreadycount,t.avgscore")
 		      .append(" from T_QUESTIONNAIRE_USER a left join tb_v_rpt_emp_info b on a.empcode=b.EMPCODE,(")
-		      .append(" SELECT customerid,yearmonth,count(*) totalcount,sum(decode(status,1,1,0)) alreadycount,avg(total) avgscore FROM T_QUESTIONNAIRE_EVALUATE")
+		      .append(" SELECT customerid,yearmonth,count(*) totalcount,sum(decode(status,1,1,0)) alreadycount,round(avg(total),2) avgscore FROM T_QUESTIONNAIRE_EVALUATE")
 		      .append(" where yearmonth = ? group by customerid,yearmonth) t")
 		      .append(" where a.userid = t.customerid order by t.avgscore desc");
 		Object params[] = new Object[1];
