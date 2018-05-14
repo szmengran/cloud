@@ -71,5 +71,4 @@ public class T_questionnaire_user implements Serializable {
 	public void setUpdatestamp(Timestamp updatestamp) {
 		this.updatestamp = updatestamp;
 	}
-
 }

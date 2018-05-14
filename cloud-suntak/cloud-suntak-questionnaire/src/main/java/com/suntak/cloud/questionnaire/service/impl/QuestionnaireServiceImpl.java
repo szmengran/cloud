@@ -94,8 +94,8 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 
 	@Override
 	public void update(T_questionnaire_evaluate t_questionnaire_evaluate) throws Exception {
-		String strSql = "update t_questionnaire_evaluate set attribute_1=?,attribute_2=?,attribute_3=?,attribute_4=?,attribute_5=?,status=1,updatestamp=? where evaluateid=? and userid=?";
-		Object params[] = new Object[8];
+		String strSql = "update t_questionnaire_evaluate set attribute_1=?,attribute_2=?,attribute_3=?,attribute_4=?,attribute_5=?,status=1,updatestamp=?,remark=? where evaluateid=? and userid=?";
+		Object params[] = new Object[10];
 		params[0] = t_questionnaire_evaluate.getAttribute_1();
 		params[1] = t_questionnaire_evaluate.getAttribute_2();
 		params[2] = t_questionnaire_evaluate.getAttribute_3();
@@ -103,8 +103,9 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		params[4] = t_questionnaire_evaluate.getAttribute_5();
 		params[5] = t_questionnaire_evaluate.getAttribute_1()+t_questionnaire_evaluate.getAttribute_2()+t_questionnaire_evaluate.getAttribute_3()+t_questionnaire_evaluate.getAttribute_4()+t_questionnaire_evaluate.getAttribute_5();
 		params[6] = new Timestamp(System.currentTimeMillis());
-		params[7] = t_questionnaire_evaluate.getEvaluateid();
-		params[8] = t_questionnaire_evaluate.getUserid();
+		params[7] = t_questionnaire_evaluate.getRemark();
+		params[8] = t_questionnaire_evaluate.getEvaluateid();
+		params[9] = t_questionnaire_evaluate.getUserid();
 		super.executeSql(strSql, params);
 	}
 	
@@ -115,8 +116,8 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		try {
 			dbManager.openConnection();
 			dbManager.beginTransaction();
-			String strSql = "update t_questionnaire_evaluate set attribute_1=?,attribute_2=?,attribute_3=?,attribute_4=?,attribute_5=?,total=?,status=1,updatestamp=? where evaluateid=? and userid=? and yearmonth=?";
-			Object params[] = new Object[10];
+			String strSql = "update t_questionnaire_evaluate set attribute_1=?,attribute_2=?,attribute_3=?,attribute_4=?,attribute_5=?,total=?,status=1,updatestamp=?,remark=? where evaluateid=? and userid=? and yearmonth=?";
+			Object params[] = new Object[11];
 			for (int i=0; i<t_questionnaire_evaluates.length; i++) {
 				T_questionnaire_evaluate t_questionnaire_evaluate = t_questionnaire_evaluates[i];
 				if (t_questionnaire_evaluate.getAttribute_1() == null || t_questionnaire_evaluate.getAttribute_2() == null || t_questionnaire_evaluate.getAttribute_3() == null || t_questionnaire_evaluate.getAttribute_4() == null || t_questionnaire_evaluate.getAttribute_5() == null) {
@@ -129,9 +130,10 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 				params[4] = t_questionnaire_evaluate.getAttribute_5();
 				params[5] = t_questionnaire_evaluate.getAttribute_1()+t_questionnaire_evaluate.getAttribute_2()+t_questionnaire_evaluate.getAttribute_3()+t_questionnaire_evaluate.getAttribute_4()+t_questionnaire_evaluate.getAttribute_5();
 				params[6] = new Timestamp(System.currentTimeMillis());
-				params[7] = t_questionnaire_evaluate.getEvaluateid();
-				params[8] = userid;
-				params[9] = yearmonth;
+				params[7] = t_questionnaire_evaluate.getRemark();
+				params[8] = t_questionnaire_evaluate.getEvaluateid();
+				params[9] = userid;
+				params[10] = yearmonth;
 				int count = super.executeSql(dbManager, strSql, params);
 				if (count == 0) {
 					flag = false;
