@@ -34,6 +34,7 @@ public class CustomerExceptionMessage {
         messageMap.put("5105", "token校验异常，请重新登录");
         messageMap.put("5106", "token已失效，请重新登录");
         messageMap.put("5107", "原密码不正确");
+        messageMap.put("5108", "该用户已被停用，如有疑问，请联系管理员");
     }
     
     public static String getMessage(Integer status) {

@@ -113,7 +113,7 @@ public class QuestionnaireController {
 		if (list == null || list.size() == 0) {
 			response.setStatus(5100);
 			return response;
-		}
+		} 
 		ExecutorService executors = Executors.newFixedThreadPool(10);
 		for (int i=0; i<list.size(); i++) {
 			T_questionnaire_user t_questionnaire_user = list.get(i);

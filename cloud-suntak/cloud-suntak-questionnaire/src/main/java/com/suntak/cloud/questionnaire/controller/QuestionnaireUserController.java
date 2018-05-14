@@ -64,6 +64,9 @@ public class QuestionnaireUserController {
 		List<T_questionnaire_user> list = questionnaireUserService.findByConditions(params);
 		if (list != null && list.size() > 0) {
 			t_questionnaire_user = list.get(0);
+			if (!"1".equals(t_questionnaire_user.getValidstatus())) {
+				throw new BusinessException(5108);
+			}
 		} else {
 			throw new BusinessException(5104);
 		}

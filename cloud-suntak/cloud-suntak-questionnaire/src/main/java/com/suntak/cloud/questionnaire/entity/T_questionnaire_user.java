@@ -20,6 +20,7 @@ public class T_questionnaire_user implements Serializable {
 	private String empname;
 	private String password;
 	private Integer displayno;
+	private String validstatus;
 	private Timestamp createstamp;
 	private Timestamp updatestamp;
 	public Integer getUserid() {
@@ -48,6 +49,12 @@ public class T_questionnaire_user implements Serializable {
 	}
 	public Integer getDisplayno() {
 		return displayno;
+	}
+	public String getValidstatus() {
+		return validstatus;
+	}
+	public void setValidstatus(String validstatus) {
+		this.validstatus = validstatus;
 	}
 	public void setDisplayno(Integer displayno) {
 		this.displayno = displayno;

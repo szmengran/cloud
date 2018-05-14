@@ -159,7 +159,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		      .append(" from T_QUESTIONNAIRE_USER a left join tb_v_rpt_emp_info b on a.empcode=b.EMPCODE,(")
 		      .append(" SELECT customerid,yearmonth,count(*) totalcount,sum(decode(status,1,1,0)) alreadycount,round(avg(total),2) avgscore FROM T_QUESTIONNAIRE_EVALUATE")
 		      .append(" where yearmonth = ? group by customerid,yearmonth) t")
-		      .append(" where a.userid = t.customerid order by t.avgscore desc");
+		      .append(" where a.validstatus='1' and a.userid = t.customerid order by t.avgscore desc");
 		Object params[] = new Object[1];
 		params[0] = yearmonth;
 		return super.findBySql(new Questionnaire(), strSql.toString(), params);
