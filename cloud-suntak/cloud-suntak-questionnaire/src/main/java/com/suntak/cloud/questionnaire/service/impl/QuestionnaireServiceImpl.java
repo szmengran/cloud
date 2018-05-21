@@ -31,7 +31,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 	@Override
 	public List<T_questionnaire_user> findByUserid(Integer userid) throws Exception {
 		StringBuffer strSql = new StringBuffer();
-		strSql.append("select * from t_questionnaire_user where userid in (")
+		strSql.append("select * from t_questionnaire_user where validstatus='1' and userid in (")
 			  .append(" select userid")
 			  .append(" from T_questionnaire_user_role_r")
 			  .append(" where roleid in (select toroleid")
