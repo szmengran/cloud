@@ -67,7 +67,7 @@ public class EhrUserController {
 			monthdate = new SimpleDateFormat("MM-dd").format(new Date());
 		}
 		StringBuffer conditions = new StringBuffer();
-		conditions.append("empstatusname='在职' and labordate < sysdate and to_char(labordate, 'mm-dd')='")
+		conditions.append("empstatusname='在职' and labordate < sysdate-1 and to_char(labordate, 'mm-dd')='")
 		.append(monthdate).append("'");
 		List<EhrUser> list = ehrUserService.findByCondition(conditions.toString());
 		response.setData(list);
