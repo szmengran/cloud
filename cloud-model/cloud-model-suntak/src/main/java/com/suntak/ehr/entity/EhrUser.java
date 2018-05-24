@@ -16,6 +16,11 @@ public class EhrUser implements Serializable{
 	private String empcode;
 	private String empname;
 	private String phone;
+	private String companycode;
+	private String companyname;
+	private String deptname;
+	private String kename;
+	private String gender;
 	private Integer year;
 	public EhrUser() {
 		
@@ -43,6 +48,36 @@ public class EhrUser implements Serializable{
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public String getCompanycode() {
+		return companycode;
+	}
+	public void setCompanycode(String companycode) {
+		this.companycode = companycode;
+	}
+	public String getCompanyname() {
+		return companyname;
+	}
+	public void setCompanyname(String companyname) {
+		this.companyname = companyname;
+	}
+	public String getDeptname() {
+		return deptname;
+	}
+	public void setDeptname(String deptname) {
+		this.deptname = deptname;
+	}
+	public String getKename() {
+		return kename;
+	}
+	public void setKename(String kename) {
+		this.kename = kename;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	public Integer getYear() {
 		return year;

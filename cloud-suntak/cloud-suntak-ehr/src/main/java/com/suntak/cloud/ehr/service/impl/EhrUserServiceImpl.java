@@ -19,9 +19,13 @@ public class EhrUserServiceImpl extends AbstractService implements EhrUserServic
 
 	@Override
 	public List<EhrUser> findByCondition(String conditions) throws Exception {
-		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT EMPCODE,EMPNAME,C_MOBILE_TEL PHONE,TO_NUMBER(TO_CHAR(SYSDATE,'yyyy'))-TO_NUMBER(to_char(labordate, 'yyyy')) year FROM tb_v_rpt_emp_info WHERE ").append(conditions);
-		return super.findBySql(new EhrUser(), sql.toString(), null);
+		return findByCondition(conditions, null);
 	}
 
+	@Override
+	public List<EhrUser> findByCondition(String conditions, Object[] params) throws Exception {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT EMPCODE,EMPNAME,COMPANYCODE,COMPANYNAME,DEPTNAME,KENAME,GENDER,C_MOBILE_TEL PHONE,TO_NUMBER(TO_CHAR(SYSDATE,'yyyy'))-TO_NUMBER(to_char(labordate, 'yyyy')) year FROM tb_v_rpt_emp_info WHERE ").append(conditions);
+		return super.findBySql(new EhrUser(), sql.toString(), params);
+	}
 }

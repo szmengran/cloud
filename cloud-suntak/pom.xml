@@ -12,6 +12,7 @@
   	<module>cloud-suntak-ehr</module>
   	<module>cloud-suntak-sms</module>
   	<module>cloud-suntak-questionnaire</module>
+  	<module>cloud-suntak-activity</module>
   </modules>
   <dependencies>
 		<dependency>

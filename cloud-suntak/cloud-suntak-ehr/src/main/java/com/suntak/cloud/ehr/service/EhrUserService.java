@@ -20,4 +20,16 @@ public interface EhrUserService {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	List<EhrUser> findByCondition(String conditions) throws Exception;
+	
+	/**
+	 * 查找用户信息
+	 * @param conditions
+	 * @param params
+	 * @return
+	 * @throws Exception      
+	 * @return: List<EhrUser>      
+	 * @throws   
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	public List<EhrUser> findByCondition(String conditions, Object[] params) throws Exception;
 }

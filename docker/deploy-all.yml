@@ -80,3 +80,11 @@ services:
       - ENVIRONMENT=$CLOUD_ENVIRONMENT
     ports:
      - 10007:10007
+  activity:
+    image: szmengran/cloud-suntak-activity:$CLOUD_VERSION
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
+    ports:
+     - 10008:10008

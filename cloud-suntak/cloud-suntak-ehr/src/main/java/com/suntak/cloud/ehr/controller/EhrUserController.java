@@ -84,4 +84,19 @@ public class EhrUserController {
 		response.setData(list);
 		return response;
 	}
+	
+	@ApiOperation(value = "根据工号查找EHR用户的信息", response = Response.class)
+	@GetMapping(value = "/users/{empcode}")
+	public Response getEhrUser(@PathVariable("empcode") String empcode) throws Exception{
+		Response response = new Response();
+		StringBuffer conditions = new StringBuffer();
+		conditions.append("empstatusname='在职' and empcode=?");
+		Object[] params = new Object[1];
+		params[0] = empcode;
+		List<EhrUser> list = ehrUserService.findByCondition(conditions.toString(), params);
+		if (list != null && list.size() > 0) {
+			response.setData(list.get(0));
+		}
+		return response;
+	}
 }

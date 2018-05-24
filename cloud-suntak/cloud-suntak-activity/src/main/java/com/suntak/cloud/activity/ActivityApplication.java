@@ -1,4 +1,4 @@
-package com.suntak.cloud.ehr;
+package com.suntak.cloud.activity;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,13 +10,19 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+/**
+ * @Package com.suntak.cloud.activity
+ * @Description: 活动管理
+ * @date 2018年5月23日 上午9:10:35
+ * @author <a href="mailto:android_li@sina.cn">Joe</a>
+ */
 @EnableFeignClients
 @SpringBootApplication
 @RefreshScope
-@ComponentScan(basePackages = {"com.suntak.exception.controller", "com.suntak.cloud", "com.szmengran.logging.service"})
-public class SuntakEhrApplication {
+@ComponentScan(basePackages= {"com.suntak.exception.controller", "com.suntak.cloud", "com.szmengran.logging.service"})
+public class ActivityApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(SuntakEhrApplication.class, args);
+		SpringApplication.run(ActivityApplication.class, args);
 	}
 	
 	@Bean
@@ -25,5 +31,4 @@ public class SuntakEhrApplication {
         builder.serializationInclusion(JsonInclude.Include.NON_NULL);
         return builder;
     }
-	
 }

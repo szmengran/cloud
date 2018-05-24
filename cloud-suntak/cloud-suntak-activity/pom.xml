@@ -6,7 +6,7 @@
 		<artifactId>cloud-suntak</artifactId>
 		<version>0.0.1</version>
 	</parent>
-	<artifactId>cloud-suntak-ehr</artifactId>
+	<artifactId>cloud-suntak-activity</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>com.szmengran</groupId>
