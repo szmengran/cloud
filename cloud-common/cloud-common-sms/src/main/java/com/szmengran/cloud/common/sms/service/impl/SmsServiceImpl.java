@@ -1,5 +1,7 @@
 package com.szmengran.cloud.common.sms.service.impl;
 
+import java.sql.Timestamp;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -70,6 +72,9 @@ public class SmsServiceImpl extends AbstractService implements SmsService{
 		// 请求失败这里会抛ClientException异常
 		SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
 		logger.info("aliyun sms send result:{}", new Gson().toJson(sendSmsResponse));
+		Timestamp createstamp = new Timestamp(System.currentTimeMillis());
+		t_common_sms_log.setCreatestamp(createstamp);
+		t_common_sms_log.setUpdatestamp(createstamp);
 		if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
 			t_common_sms_log.setResult("1");
 			this.save(t_common_sms_log);
