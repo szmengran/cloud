@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -90,7 +91,7 @@ public class BlessingSmsController {
 		return response;
 	}
 	
-	private void send(Response response, T_common_sms_log t_common_sms_log, Integer type) {
+	private void send(Response response, final T_common_sms_log t_common_sms_log_tmp, Integer type) {
 		if (response.getData() != null) {
 			MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
 	        ObjectMapper objectMapper = jackson2HttpMessageConverter.getObjectMapper();
@@ -105,6 +106,8 @@ public class BlessingSmsController {
 				executor.submit(new Runnable() {
 					@Override
 	                public void run() {
+						T_common_sms_log t_common_sms_log = new T_common_sms_log();
+						BeanUtils.copyProperties(t_common_sms_log_tmp, t_common_sms_log);
 						t_common_sms_log.setPhone(ehrUser.getPhone());
 						if (MSG_TYPE_ONBOARD == type) {
 							t_common_sms_log.setTemplateparam(
