@@ -10,6 +10,11 @@ zuul:
       serviceId: cloud-common-sms
       stripPrefix: false
       sensitiveHeaders:
+    cloud-suntak-sms:
+      path: /**/suntaksms/**
+      serviceId: cloud-suntak-sms
+      stripPrefix: false
+      sensitiveHeaders:
     cloud-suntak-ehr:
       path: /**/ehr/**
       serviceId: cloud-suntak-ehr

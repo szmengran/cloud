@@ -11,11 +11,12 @@ public class T_activity_apply implements Serializable{
 	private Integer apply_id;
 	private Integer service_id;
 	private Integer group_id;
+	private String empcode;
+	private String empname;
+	private Integer year;
 	private String username;
-	private String name;
-	private String year;
-	private String createby;
 	private String isnight;
+	private String updateby;
 	private Timestamp createstamp;
 	private Timestamp updatestamp;
 	private String validstatus;
@@ -43,29 +44,35 @@ public class T_activity_apply implements Serializable{
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getName() {
-		return name;
+	public String getEmpname() {
+		return empname;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setEmpname(String empname) {
+		this.empname = empname;
 	}
-	public String getYear() {
+	public Integer getYear() {
 		return year;
 	}
-	public void setYear(String year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
-	public String getCreateby() {
-		return createby;
+	public String getEmpcode() {
+		return empcode;
 	}
-	public void setCreateby(String createby) {
-		this.createby = createby;
+	public void setEmpcode(String empcode) {
+		this.empcode = empcode;
 	}
 	public String getIsnight() {
 		return isnight;
 	}
 	public void setIsnight(String isnight) {
 		this.isnight = isnight;
+	}
+	public String getUpdateby() {
+		return updateby;
+	}
+	public void setUpdateby(String updateby) {
+		this.updateby = updateby;
 	}
 	public Timestamp getCreatestamp() {
 		return createstamp;
