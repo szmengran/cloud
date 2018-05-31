@@ -16,6 +16,8 @@ public class T_activity_service implements Serializable {
 	private Integer month;
 	private Integer day;
 	private String roomid;
+	private String researchurl;
+	private String researchtype;
 	private Integer type;
 	private Timestamp starttime;
 	private Timestamp endtime;
@@ -105,6 +107,18 @@ public class T_activity_service implements Serializable {
 	}
 	public void setVaildstatus(String vaildstatus) {
 		this.vaildstatus = vaildstatus;
+	}
+	public String getResearchurl() {
+		return researchurl;
+	}
+	public void setResearchurl(String researchurl) {
+		this.researchurl = researchurl;
+	}
+	public String getResearchtype() {
+		return researchtype;
+	}
+	public void setResearchtype(String researchtype) {
+		this.researchtype = researchtype;
 	}
 	
 }

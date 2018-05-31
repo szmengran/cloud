@@ -66,15 +66,14 @@ public class T_activity_applyController {
 	@PatchMapping("/apply/{username}/{apply_id}/{service_id}/{empcode}")
 	public Response signin(@PathVariable("username") String username, @PathVariable("apply_id") Integer apply_id, @PathVariable("service_id") Integer service_id, @PathVariable("empcode") String empcode) throws Exception {
 		t_activity_applyService.signin(username, apply_id);
-		final T_activity_serviceService t_activity_serviceService_tmp = t_activity_serviceService;
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				T_activity_service t_activity_service;
 				try {
-					t_activity_service = t_activity_serviceService_tmp.findById(service_id);
+					t_activity_service = t_activity_serviceService.findById(service_id);
 					RestTemplate restT = new RestTemplate();
-					restT.postForEntity("http://localhost:9999/suntak-consumer-web/api/v1/serviceitem/notification/notification/Li542184118123/"+empcode, t_activity_service, null);
+					restT.postForEntity("http://openfire.suntakpcb.com:6001/suntak-consumer-web/api/v1/serviceitem/notification/notification/Li542184118123/"+empcode, t_activity_service, null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
