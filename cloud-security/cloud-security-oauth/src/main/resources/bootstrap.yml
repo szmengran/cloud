@@ -19,3 +19,10 @@ spring:
   profiles:
     active: ${ENVIRONMENT}
     
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false

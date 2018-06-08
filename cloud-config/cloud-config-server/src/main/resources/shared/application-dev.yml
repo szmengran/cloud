@@ -13,7 +13,13 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 10000
-
+            
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh #消息总线配置
+        
 eureka:
   instance:
     prefer-ip-address: true
@@ -31,7 +37,8 @@ security:
 
 spring:
   rabbitmq:
-    host: rabbitmq
+    addresses: localhost
+    port: 5672
   datasource:
       druid:
         common:

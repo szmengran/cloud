@@ -5,6 +5,11 @@ zuul:
       serviceId: cloud-admin-user
       stripPrefix: false
       sensitiveHeaders:
+    cloud-security-oauth:
+      path: /**/oauth/**
+      serviceId: cloud-security-oauth
+      stripPrefix: false
+      sensitiveHeaders:
     cloud-common-sms:
       path: /**/smses/**
       serviceId: cloud-common-sms
