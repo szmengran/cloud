@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.activity.entity.T_activity_apply;
@@ -15,24 +17,28 @@ import com.suntak.cloud.activity.entity.ext.T_activity_apply_ext;
 import com.suntak.cloud.activity.service.T_activity_applyService;
 import com.szmengran.common.orm.DBManager;
 import com.szmengran.common.orm.DbPrimaryKeyType;
-import com.szmengran.common.orm.service.AbstractService;
+import com.szmengran.common.service.BaseService;
 
 @Service
-public class T_activity_applyServiceImpl extends AbstractService implements T_activity_applyService{
-
+public class T_activity_applyServiceImpl implements T_activity_applyService{
+	
+	@Autowired
+	@Qualifier("oracleService")
+	BaseService abstractService;
+	
 	@Override
 	public void apply(String username, Integer service_id, List<T_activity_apply> t_activity_applys) throws Exception {
-		DBManager dbManager = new DBManager(super.getWriteDataSource());
+		DBManager dbManager = new DBManager(abstractService.getWriteDataSource());
 		try {
 			dbManager.openConnection();
 			dbManager.beginTransaction();
 			Timestamp createstamp = new Timestamp(System.currentTimeMillis());
 			if (t_activity_applys != null && t_activity_applys.size() > 1) {
 				String strSql = "select seq_t_activity_group.nextval as group_id from dual";
-				List<Object> list = super.findBySql(new T_activity_group(), strSql, null);
+				List<Object> list = abstractService.findBySql(new T_activity_group(), strSql, null);
 				if (list != null && list.size() > 0) {
 					T_activity_group t_group = (T_activity_group)list.get(0);
-					super.save(dbManager, t_group);
+					abstractService.save(dbManager, t_group);
 					List<T_activity_apply> t_activity_applyList = new ArrayList<T_activity_apply>();
 					for (T_activity_apply t_activity_apply:t_activity_applys) {
 						t_activity_apply.setIsnight(t_activity_apply.getIsnight().equalsIgnoreCase("true")?"白班":"夜班");
@@ -44,7 +50,7 @@ public class T_activity_applyServiceImpl extends AbstractService implements T_ac
 						t_activity_apply.setUpdatestamp(createstamp);
 						t_activity_applyList.add(t_activity_apply);
 					}
-					super.addBatch(dbManager, t_activity_applyList, DbPrimaryKeyType.SEQ, "seq_t_activity_apply");
+					abstractService.addBatch(dbManager, t_activity_applyList, DbPrimaryKeyType.SEQ, "seq_t_activity_apply");
 					dbManager.commitBatch();
 				}
 			} else if(t_activity_applys != null && t_activity_applys.size() == 1) {
@@ -55,7 +61,7 @@ public class T_activity_applyServiceImpl extends AbstractService implements T_ac
 					t_activity_apply.setUsername(username);
 					t_activity_apply.setCreatestamp(createstamp);
 					t_activity_apply.setUpdatestamp(createstamp);
-					super.save(dbManager, t_activity_apply, DbPrimaryKeyType.SEQ, "seq_t_activity_apply");
+					abstractService.save(dbManager, t_activity_apply, DbPrimaryKeyType.SEQ, "seq_t_activity_apply");
 				}
 			}
 			dbManager.commitTransaction();
@@ -73,7 +79,7 @@ public class T_activity_applyServiceImpl extends AbstractService implements T_ac
 		Object[] params = new Object[2];
 		params[0] = username;
 		params[1] = apply_id;
-		int count = super.executeSql(strSql, params);
+		int count = abstractService.executeSql(strSql, params);
 		return (count == 1);
 	}
 
@@ -93,7 +99,7 @@ public class T_activity_applyServiceImpl extends AbstractService implements T_ac
 			}
 		}
 		strSql.append(" order by a.validstatus desc, b.companycode,b.deptname,b.kename,a.empcode");
-		return super.findBySql(new T_activity_apply_ext(), strSql.toString(), values);
+		return abstractService.findBySql(new T_activity_apply_ext(), strSql.toString(), values);
 	}
 	
 

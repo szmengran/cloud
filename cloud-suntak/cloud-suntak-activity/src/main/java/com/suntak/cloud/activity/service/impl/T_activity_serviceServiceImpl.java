@@ -5,11 +5,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.activity.entity.T_activity_service;
 import com.suntak.cloud.activity.service.T_activity_serviceService;
-import com.szmengran.common.orm.service.AbstractService;
+import com.szmengran.common.service.BaseService;
 
 /**
  * @Package com.suntak.cloud.activity.service.impl
@@ -18,17 +20,21 @@ import com.szmengran.common.orm.service.AbstractService;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 @Service
-public class T_activity_serviceServiceImpl extends AbstractService implements T_activity_serviceService{
+public class T_activity_serviceServiceImpl implements T_activity_serviceService{
+
+	@Autowired
+	@Qualifier("oracleService")
+	BaseService abstractService;
 	
 	@Override
 	public List<T_activity_service> findByConditions(StringBuffer conditions, Object[] params) throws Exception {
-		return super.findByConditions(new T_activity_service(), conditions, params);
+		return abstractService.findByConditions(new T_activity_service(), conditions, params);
 	}
 	
 	public T_activity_service findById(Integer service_id) throws Exception {
 		T_activity_service t_activity_service = new T_activity_service();
 		t_activity_service.setService_id(service_id);
-		return super.findByPrimaryKey(t_activity_service);
+		return abstractService.findByPrimaryKey(t_activity_service);
 	}
 	
 	@Override
@@ -50,6 +56,6 @@ public class T_activity_serviceServiceImpl extends AbstractService implements T_
 		params[1] = datetime;
 		params[2] = month;
 		params[3] = day;
-		return super.findByConditions(new T_activity_service(), conditions, params);
+		return abstractService.findByConditions(new T_activity_service(), conditions, params);
 	}
 }

@@ -12,3 +12,7 @@ spring:
           search-locations: classpath:/shared
   profiles:
      active: native
+spring:
+  rabbitmq:
+    addresses: localhost
+    port: 5672
