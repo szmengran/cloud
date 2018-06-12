@@ -1,0 +1,15 @@
+server:
+  port: 10009
+logging:
+  level:
+    org.springframework.security: DEBUG
+spring:
+  application:
+    name: cloud-suntak-test
+  cloud:
+    config:
+      uri: ${CONFIG_SERVER_ADDRESS}
+      fail-fast: true
+  profiles:
+    active: ${ENVIRONMENT}
+    
