@@ -21,6 +21,7 @@ public class CustomerExceptionMessage {
         messageMap.put("2001", "PCB文件没有上传，请上传PCB文件再继续！");
         messageMap.put("3002", "输入的旧密码错误");
         
+        messageMap.put("4000", "在HR系统中找不到该工号的信息！");
         //短信部分异常代码
         messageMap.put("5001", "由于没有手机号码，阿里云短信发送不成功");
         messageMap.put("5002", "阿里云短信发送不成功");

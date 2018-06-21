@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.suntak.cloud.ehr.service.EhrUserService;
 import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
+import com.szmengran.admin.user.exception.BusinessException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -96,6 +97,8 @@ public class EhrUserController {
 		List<EhrUser> list = ehrUserService.findByCondition(conditions.toString(), params);
 		if (list != null && list.size() > 0) {
 			response.setData(list.get(0));
+		} else {
+			throw new BusinessException(4000);
 		}
 		return response;
 	}
