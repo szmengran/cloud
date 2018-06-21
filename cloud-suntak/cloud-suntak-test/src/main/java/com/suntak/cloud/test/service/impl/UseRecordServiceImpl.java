@@ -3,6 +3,7 @@ package com.suntak.cloud.test.service.impl;
 import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.test.entity.T_oa_test_use_record;
 import com.suntak.cloud.test.service.UseRecordService;
@@ -14,6 +15,7 @@ import com.szmengran.common.orm.dao.AbstractDao;
  * @date 2018年6月12日 下午5:15:02
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
+@Service("useRecordService")
 public class UseRecordServiceImpl implements UseRecordService{
 
 	@Autowired

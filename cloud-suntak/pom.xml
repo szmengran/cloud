@@ -13,6 +13,7 @@
   	<module>cloud-suntak-sms</module>
   	<module>cloud-suntak-questionnaire</module>
   	<module>cloud-suntak-activity</module>
+  	<module>cloud-suntak-test</module>
   </modules>
   <dependencies>
 		<dependency>

@@ -1,5 +1,7 @@
 package com.suntak.cloud.test.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,17 +27,21 @@ import io.swagger.annotations.Api;
 @RequestMapping(path = "/api/v1/test", produces = { "application/json" })
 public class WareHouseController {
 	
+	private final static Logger logger = LoggerFactory.getLogger(WareHouseController.class);
+	
 	@Autowired
 	WareHouseService wareHouseService;
 	
-	@PostMapping(value = "/t_oa_test_warehouses")
-	public Response insert (@RequestBody T_oa_test_warehouse t_oa_test_warehouse) throws Exception {
+	@PostMapping(value = "/t_oa_test_warehouses/{empcode}")
+	public Response insert (@RequestBody T_oa_test_warehouse t_oa_test_warehouse, @PathVariable("empcode") String empcode) throws Exception {
+		logger.info("insert:{},Operator empcode:{}", t_oa_test_warehouse.getWarehouse_code(), empcode);
 		wareHouseService.insert(t_oa_test_warehouse);
 		return new Response();
 	}
 	
-	@DeleteMapping(value = "/t_oa_test_warehouses/{warehouse_code}")
-	public Response delete (@PathVariable("warehouse_code") String warehouse_code) throws Exception {
+	@DeleteMapping(value = "/t_oa_test_warehouses/{empcode}/{warehouse_code}")
+	public Response delete (@PathVariable("empcode") String empcode, @PathVariable("warehouse_code") String warehouse_code) throws Exception {
+		logger.info("delete:{},Operator empcode:{}", warehouse_code, empcode);
 		wareHouseService.delete(warehouse_code);
 		return new Response();
 	}

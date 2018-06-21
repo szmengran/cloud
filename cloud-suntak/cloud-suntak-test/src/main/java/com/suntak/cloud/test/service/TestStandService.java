@@ -21,7 +21,7 @@ public interface TestStandService {
 	 * @throws   
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	List<T_oa_test_stand> findByConditions (StringBuffer conditions, Object[] params) throws Exception;
+	List<T_oa_test_stand> findByConditions(StringBuffer conditions, Object[] params) throws Exception;
 	
 	/**
 	 * 领用测试架
@@ -35,11 +35,19 @@ public interface TestStandService {
 	/**
 	 * 归还测试架
 	 * @param test_stand_code
+	 * @param warehouse_code
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	void giveback (String test_stand_code) throws Exception;
+	void giveback(String test_stand_code, String warehouse_code) throws Exception;
 	
+	/**
+	 * 测试架作废
+	 * @param test_stand_code
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	void invalid(String test_stand_code) throws Exception;
 	/**
 	 * 保存一个测试架信息
 	 * @param t_oa_test_stand
@@ -48,5 +56,5 @@ public interface TestStandService {
 	 * @throws   
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	void insert (T_oa_test_stand t_oa_test_stand) throws Exception;
+	void insert(T_oa_test_stand t_oa_test_stand) throws Exception;
 }

@@ -10,8 +10,8 @@ import java.sql.Timestamp;
  */
 public class T_oa_test_stand {
 	private String test_stand_code;
-	private Integer warehouse_code;
-	private String wip_primary_item;
+	private String warehouse_code;
+	private String type;
 	private Timestamp createstamp;
 	private Timestamp updatestamp;
 	private String validstatus;
@@ -21,17 +21,17 @@ public class T_oa_test_stand {
 	public void setTest_stand_code(String test_stand_code) {
 		this.test_stand_code = test_stand_code;
 	}
-	public Integer getWarehouse_code() {
+	public String getWarehouse_code() {
 		return warehouse_code;
 	}
-	public void setWarehouse_code(Integer warehouse_code) {
+	public void setWarehouse_code(String warehouse_code) {
 		this.warehouse_code = warehouse_code;
 	}
-	public String getWip_primary_item() {
-		return wip_primary_item;
+	public String getType() {
+		return type;
 	}
-	public void setWip_primary_item(String wip_primary_item) {
-		this.wip_primary_item = wip_primary_item;
+	public void setType(String type) {
+		this.type = type;
 	}
 	public Timestamp getCreatestamp() {
 		return createstamp;

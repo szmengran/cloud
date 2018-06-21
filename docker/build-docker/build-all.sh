@@ -8,3 +8,4 @@ sh ./build-docker/build-sms.sh
 sh ./build-docker/build-suntak-ehr.sh
 sh ./build-docker/build-suntak-sms.sh
 sh ./build-docker/build-suntak-questionnaire.sh
+sh ./build-docker/build-suntak-test.sh

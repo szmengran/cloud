@@ -17,28 +17,29 @@ import com.suntak.cloud.activity.entity.ext.T_activity_apply_ext;
 import com.suntak.cloud.activity.service.T_activity_applyService;
 import com.szmengran.common.orm.DBManager;
 import com.szmengran.common.orm.DbPrimaryKeyType;
-import com.szmengran.common.service.BaseService;
+import com.szmengran.common.orm.dao.AbstractDao;
 
 @Service
 public class T_activity_applyServiceImpl implements T_activity_applyService{
 	
 	@Autowired
-	@Qualifier("oracleService")
-	BaseService abstractService;
+	@Qualifier("oracleDao")
+	AbstractDao abstractDao;
 	
 	@Override
 	public void apply(String username, Integer service_id, List<T_activity_apply> t_activity_applys) throws Exception {
-		DBManager dbManager = new DBManager(abstractService.getWriteDataSource());
+		DBManager dbManager = null;
 		try {
+			dbManager = new DBManager(abstractDao.getWriteDataSource());
 			dbManager.openConnection();
 			dbManager.beginTransaction();
 			Timestamp createstamp = new Timestamp(System.currentTimeMillis());
 			if (t_activity_applys != null && t_activity_applys.size() > 1) {
 				String strSql = "select seq_t_activity_group.nextval as group_id from dual";
-				List<Object> list = abstractService.findBySql(new T_activity_group(), strSql, null);
+				List<T_activity_group> list = abstractDao.findBySql(T_activity_group.class, strSql, null);
 				if (list != null && list.size() > 0) {
-					T_activity_group t_group = (T_activity_group)list.get(0);
-					abstractService.save(dbManager, t_group);
+					T_activity_group t_group = list.get(0);
+					abstractDao.insert(dbManager, t_group);
 					List<T_activity_apply> t_activity_applyList = new ArrayList<T_activity_apply>();
 					for (T_activity_apply t_activity_apply:t_activity_applys) {
 						t_activity_apply.setIsnight(t_activity_apply.getIsnight().equalsIgnoreCase("true")?"白班":"夜班");
@@ -50,7 +51,7 @@ public class T_activity_applyServiceImpl implements T_activity_applyService{
 						t_activity_apply.setUpdatestamp(createstamp);
 						t_activity_applyList.add(t_activity_apply);
 					}
-					abstractService.addBatch(dbManager, t_activity_applyList, DbPrimaryKeyType.SEQ, "seq_t_activity_apply");
+					abstractDao.addBatch(dbManager, t_activity_applyList, DbPrimaryKeyType.SEQ, "seq_t_activity_apply");
 					dbManager.commitBatch();
 				}
 			} else if(t_activity_applys != null && t_activity_applys.size() == 1) {
@@ -61,7 +62,7 @@ public class T_activity_applyServiceImpl implements T_activity_applyService{
 					t_activity_apply.setUsername(username);
 					t_activity_apply.setCreatestamp(createstamp);
 					t_activity_apply.setUpdatestamp(createstamp);
-					abstractService.save(dbManager, t_activity_apply, DbPrimaryKeyType.SEQ, "seq_t_activity_apply");
+					abstractDao.insert(dbManager, t_activity_apply, DbPrimaryKeyType.SEQ, "seq_t_activity_apply");
 				}
 			}
 			dbManager.commitTransaction();
@@ -79,7 +80,7 @@ public class T_activity_applyServiceImpl implements T_activity_applyService{
 		Object[] params = new Object[2];
 		params[0] = username;
 		params[1] = apply_id;
-		int count = abstractService.executeSql(strSql, params);
+		int count = abstractDao.executeSql(strSql, params);
 		return (count == 1);
 	}
 
@@ -99,7 +100,7 @@ public class T_activity_applyServiceImpl implements T_activity_applyService{
 			}
 		}
 		strSql.append(" order by a.validstatus desc, b.companycode,b.deptname,b.kename,a.empcode");
-		return abstractService.findBySql(new T_activity_apply_ext(), strSql.toString(), values);
+		return abstractDao.findBySql(T_activity_apply_ext.class, strSql.toString(), values);
 	}
 	
 

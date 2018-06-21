@@ -3,12 +3,14 @@ package com.suntak.cloud.questionnaire.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.questionnaire.entity.T_questionnaire_user;
 import com.suntak.cloud.questionnaire.service.QuestionnaireUserService;
 import com.szmengran.admin.user.exception.BusinessException;
-import com.szmengran.common.orm.service.AbstractService;
+import com.szmengran.common.orm.dao.AbstractDao;
 
 /**
  * @Package com.suntak.cloud.questionnaire.service.impl
@@ -17,17 +19,21 @@ import com.szmengran.common.orm.service.AbstractService;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 @Service
-public class QuestionnaireUserServiceImpl extends AbstractService implements QuestionnaireUserService{
+public class QuestionnaireUserServiceImpl implements QuestionnaireUserService{
 
+	@Autowired
+	@Qualifier("oracleDao")
+	AbstractDao abstractDao;
+	
 	@Override
 	public List<T_questionnaire_user> findAllUsers() throws Exception {
 		String strSql = "select a.userid,a.empcode,a.empname from t_questionnaire_user a left join tb_v_rpt_emp_info b on a.empcode=b.empcode and validstatus=1 where b.empstatusname='在职'";
-		return super.findBySql(new T_questionnaire_user(), strSql, null);
+		return abstractDao.findBySql(T_questionnaire_user.class, strSql, null);
 	}
 
 	@Override
 	public List<T_questionnaire_user> findByConditions(Map<String, Object> params) throws Exception {
-		return super.findByConditions(new T_questionnaire_user(), params);
+		return abstractDao.findByConditions(T_questionnaire_user.class, params);
 	}
 
 	@Override
@@ -37,7 +43,7 @@ public class QuestionnaireUserServiceImpl extends AbstractService implements Que
 		params[0] = password;
 		params[1] = userid;
 		params[2] = password3;
-		int count = super.executeSql(strSql, params);
+		int count = abstractDao.executeSql(strSql, params);
 		if (count == 0) {
 			throw new BusinessException(5107);
 		}

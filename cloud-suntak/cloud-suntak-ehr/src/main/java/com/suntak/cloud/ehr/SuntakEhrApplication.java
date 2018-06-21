@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @EnableFeignClients
 @SpringBootApplication
 @RefreshScope
-@ComponentScan(basePackages = {"com.suntak.exception.controller", "com.suntak.cloud", "com.szmengran.logging.service"})
+@ComponentScan(basePackages = {"com.suntak.exception.controller", "com.suntak.cloud", "com.szmengran.logging.service", "com.szmengran.common.orm"})
 public class SuntakEhrApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SuntakEhrApplication.class, args);

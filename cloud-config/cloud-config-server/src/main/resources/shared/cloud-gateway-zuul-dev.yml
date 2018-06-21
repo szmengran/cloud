@@ -35,6 +35,11 @@ zuul:
       serviceId: cloud-suntak-questionnaire
       stripPrefix: false
       sensitiveHeaders:
+    cloud-suntak-test:
+      path: /**/test/**
+      serviceId: cloud-suntak-test
+      stripPrefix: false
+      sensitiveHeaders:
   host:
     connect-timeout-millis: 500000
     socket-timeout-millis: 100000

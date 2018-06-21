@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @SpringBootApplication
 @EnableFeignClients
 @RefreshScope
-@ComponentScan(basePackages = {"com.suntak.exception.controller", "com.suntak.cloud.questionnaire", "com.szmengran.logging.service"})
+@ComponentScan(basePackages = {"com.suntak.exception.controller", "com.suntak.cloud.questionnaire", "com.szmengran.logging.service", "com.szmengran.common.orm"})
 public class QuestionnaireApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(QuestionnaireApplication.class, args);

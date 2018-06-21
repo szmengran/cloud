@@ -3,6 +3,7 @@ package com.suntak.cloud.test.service.impl;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import com.suntak.cloud.test.entity.T_oa_test_stand;
 import com.suntak.cloud.test.entity.T_oa_test_use_record;
 import com.suntak.cloud.test.entity.ext.TestStandStatus;
 import com.suntak.cloud.test.service.TestStandService;
+import com.szmengran.admin.user.exception.BusinessException;
 import com.szmengran.common.orm.DBManager;
 import com.szmengran.common.orm.DbPrimaryKeyType;
 import com.szmengran.common.orm.dao.AbstractDao;
@@ -36,13 +38,17 @@ public class TestStandServiceImpl implements TestStandService{
 		DBManager dbManager = null;
 		try {
 			dbManager = new DBManager(abstractDao.getWriteDataSource());
+			dbManager.openConnection();
 			dbManager.beginTransaction();
-			Object params[] = new Object[2];
+			Timestamp stamp = new Timestamp(System.currentTimeMillis());
+			Object params[] = new Object[3];
 			params[0] = TestStandStatus.INUSE.status;
-			params[1] = test_stand_code;
-			int num = abstractDao.executeSql(dbManager, "update t_oa_test_stand set validstatus=? where test_stand_code=?", params);
+			params[1] = stamp;
+			params[2] = test_stand_code;
+			int num = abstractDao.executeSql(dbManager, "update t_oa_test_stand set validstatus=?,warehouse_code=null,updatestamp=? where test_stand_code=? and validstatus='1'", params);
+			//型号不存在，则新增一条
 			if (num == 0) {
-				
+				throw new BusinessException(6002);
 			}
 			T_oa_test_use_record t_oa_test_use_record = new T_oa_test_use_record();
 			t_oa_test_use_record.setEmpcode(empcode);
@@ -60,9 +66,56 @@ public class TestStandServiceImpl implements TestStandService{
 	}
 
 	@Override
-	public void giveback(String test_stand_code) throws Exception {
+	public void giveback(String test_stand_code, String warehouse_code) throws Exception {
+		DBManager dbManager = null;
+		try {
+			dbManager = new DBManager(abstractDao.getWriteDataSource());
+			dbManager.openConnection();
+			dbManager.beginTransaction();
+			Timestamp stamp = new Timestamp(System.currentTimeMillis());
+			Object params[] = new Object[4];
+			params[0] = TestStandStatus.VALID.status;
+			params[1] = warehouse_code;
+			params[2] = stamp;
+			params[3] = test_stand_code;
+			if (StringUtils.isBlank(warehouse_code)) {
+				throw new BusinessException(6001);
+			}
+			//更新状态和库位编号
+			int num = abstractDao.executeSql(dbManager, "update t_oa_test_stand set validstatus=?,warehouse_code=?,updatestamp=? where test_stand_code=?", params);
+			//型号不存在，则新增一条
+			if (num == 0) {
+				T_oa_test_stand t_oa_test_stand = new T_oa_test_stand();
+				t_oa_test_stand.setTest_stand_code(test_stand_code);
+				t_oa_test_stand.setWarehouse_code(warehouse_code);
+				t_oa_test_stand.setCreatestamp(stamp);
+				t_oa_test_stand.setUpdatestamp(stamp);
+				t_oa_test_stand.setValidstatus(TestStandStatus.VALID.status);
+				abstractDao.insert(dbManager, t_oa_test_stand);
+			}
+			//更新归还时间
+			abstractDao.executeSql(dbManager, "update t_oa_test_use_record set back_time=? where test_stand_code=?", new Object[] {stamp, test_stand_code});
+			dbManager.commitTransaction();
+		} catch (Exception e) {
+			dbManager.rollbackTransaction();
+			if (e.getMessage().contains("CUX_SOA.FK_T_OA_TES_WAREHOUSE_T_OA_TES")) {
+				throw new BusinessException(6003);
+			}
+			throw e;
+		} finally {
+			dbManager.close();
+		}
 		
-		
+	}
+
+	@Override
+	public void invalid(String test_stand_code) throws Exception {
+		Timestamp stamp = new Timestamp(System.currentTimeMillis());
+		Object[] params = new Object[3];
+		params[0] = TestStandStatus.INVAILD.status;
+		params[1] = stamp;
+		params[2] = test_stand_code;
+		abstractDao.executeSql("update t_oa_test_stand set validstatus=?, updatestamp=? where test_stand_code=?", params);
 	}
 
 	@Override

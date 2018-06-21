@@ -26,7 +26,7 @@ public class SwaggerConfig {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("员工信息查询API")
+                .title("文体活动报名API")
                 .description("This is to show api description")
                 .license("Apache 2.0")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")

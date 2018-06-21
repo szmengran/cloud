@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.questionnaire.entity.T_questionnaire_evaluate;
@@ -15,7 +17,7 @@ import com.suntak.cloud.questionnaire.entity.other.Questionnaire;
 import com.suntak.cloud.questionnaire.service.QuestionnaireService;
 import com.szmengran.common.orm.DBManager;
 import com.szmengran.common.orm.DbPrimaryKeyType;
-import com.szmengran.common.orm.service.AbstractService;
+import com.szmengran.common.orm.dao.AbstractDao;
 
 /**
  * @Package com.suntak.cloud.questionnaire.service.impl
@@ -24,7 +26,11 @@ import com.szmengran.common.orm.service.AbstractService;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 @Service
-public class QuestionnaireServiceImpl extends AbstractService implements QuestionnaireService{
+public class QuestionnaireServiceImpl implements QuestionnaireService{
+	
+	@Autowired
+	@Qualifier("oracleDao")
+	AbstractDao abstractDao;
 	
 	private final static String SEQ_QUESTIONNAIRE_EVALUATE = "seq_t_questionnaire_evaluate";
 	
@@ -42,7 +48,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 			  .append(" )");
 		Object params[] = new Object[1];
 		params[0] = userid;
-		return super.findBySql(new T_questionnaire_user(), strSql.toString(), params);
+		return abstractDao.findBySql(T_questionnaire_user.class, strSql.toString(), params);
 	}
 
 	@Override
@@ -52,10 +58,10 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		params[1] = yearmonth;
 		StringBuffer strSql = new StringBuffer("select a.*,b.empname from t_questionnaire_evaluate a, t_questionnaire_user b ");
 		strSql.append(" where a.customerid = b.userid and a.userid=? and yearmonth=? order by b.displayno,b.empcode");
-		List<T_questionnaire_evaluate_ext> list = super.findBySql(new T_questionnaire_evaluate_ext(), strSql.toString(), params);
+		List<T_questionnaire_evaluate_ext> list = abstractDao.findBySql(T_questionnaire_evaluate_ext.class, strSql.toString(), params);
 		if (list == null || list.size() == 0) {
 			generateQuestionnaireByConditions(userid, yearmonth);
-			list = super.findBySql(new T_questionnaire_evaluate_ext(), strSql.toString(), params);
+			list = abstractDao.findBySql(T_questionnaire_evaluate_ext.class, strSql.toString(), params);
 		}
 		return list;
 	}
@@ -80,7 +86,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 			t_questionnaire_evaluate.setStatus(0);
 			evaluateList.add(t_questionnaire_evaluate);
 		}
-		super.addBatch(evaluateList, DbPrimaryKeyType.SEQ, SEQ_QUESTIONNAIRE_EVALUATE);
+		abstractDao.addBatch(evaluateList, DbPrimaryKeyType.SEQ, SEQ_QUESTIONNAIRE_EVALUATE);
 	}
 
 	@Override
@@ -89,7 +95,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		t_questionnaire_evaluate.setCreatestamp(createstamp);
 		t_questionnaire_evaluate.setUpdatestamp(createstamp);
 		t_questionnaire_evaluate.setStatus(0);
-		super.save(t_questionnaire_evaluate, DbPrimaryKeyType.SEQ, SEQ_QUESTIONNAIRE_EVALUATE);
+		abstractDao.insert(t_questionnaire_evaluate, DbPrimaryKeyType.SEQ, SEQ_QUESTIONNAIRE_EVALUATE);
 	}
 
 	@Override
@@ -106,14 +112,15 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		params[7] = t_questionnaire_evaluate.getRemark();
 		params[8] = t_questionnaire_evaluate.getEvaluateid();
 		params[9] = t_questionnaire_evaluate.getUserid();
-		super.executeSql(strSql, params);
+		abstractDao.executeSql(strSql, params);
 	}
 	
 	@Override
 	public Boolean updateAll(Integer userid, String yearmonth, T_questionnaire_evaluate[] t_questionnaire_evaluates) throws Exception {
-		DBManager dbManager = new DBManager(super.getWriteDataSource());
+		DBManager dbManager = null;
 		Boolean flag = true;
 		try {
+			dbManager = new DBManager(abstractDao.getWriteDataSource());
 			dbManager.openConnection();
 			dbManager.beginTransaction();
 			String strSql = "update t_questionnaire_evaluate set attribute_1=?,attribute_2=?,attribute_3=?,attribute_4=?,attribute_5=?,total=?,status=1,updatestamp=?,remark=? where evaluateid=? and userid=? and yearmonth=?";
@@ -134,7 +141,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 				params[8] = t_questionnaire_evaluate.getEvaluateid();
 				params[9] = userid;
 				params[10] = yearmonth;
-				int count = super.executeSql(dbManager, strSql, params);
+				int count = abstractDao.executeSql(dbManager, strSql, params);
 				if (count == 0) {
 					flag = false;
 				}
@@ -151,7 +158,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 
 	@Override
 	public List<T_questionnaire_evaluate> findByConditions(Map<String, Object> params) throws Exception {
-		return super.findByConditions(new T_questionnaire_evaluate(), params);
+		return abstractDao.findByConditions(T_questionnaire_evaluate.class, params);
 	}
 
 	@Override
@@ -164,7 +171,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		      .append(" where a.validstatus='1' and a.userid = t.customerid order by t.avgscore desc");
 		Object params[] = new Object[1];
 		params[0] = yearmonth;
-		return super.findBySql(new Questionnaire(), strSql.toString(), params);
+		return abstractDao.findBySql(Questionnaire.class, strSql.toString(), params);
 	}
 
 	@Override
@@ -176,7 +183,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		      .append(" where c.status=0 and a.userid=c.userid and yearmonth=?)");
 		Object params[] = new Object[1];
 		params[0] = yearmonth;
-		return super.findBySql(new Questionnaire(), strSql.toString(), params);
+		return abstractDao.findBySql(Questionnaire.class, strSql.toString(), params);
 	}
 	
 	@Override
@@ -184,7 +191,7 @@ public class QuestionnaireServiceImpl extends AbstractService implements Questio
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("yearmonth", yearmonth);
 		params.put("status", 0);
-		List<T_questionnaire_evaluate> list = super.findByConditions(new T_questionnaire_evaluate(), params);
+		List<T_questionnaire_evaluate> list = abstractDao.findByConditions(T_questionnaire_evaluate.class, params);
 		if (list == null || list.size() ==0) {
 			return true;
 		}
