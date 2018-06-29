@@ -42,12 +42,19 @@ public class CuxSoaFtDataVServiceImpl implements CuxSoaFtDataVService{
 				 	  .append(" ,T_OA_TEST_STORE c")
 				 	  .append(" WHERE A.CHECK_TYPE IN ('通用','飞针')")
 				 	  .append(" AND a.dept=c.name")
-				 	  .append(" AND A.CHECK_STATUS IN ('待做','待钻孔','待装', '待做资料')")
 				 	  .append(" and a.dept in (select name from T_OA_TEST_STORE)")
 				 	  .append(" AND A.ORGANIZATION_ID = ?");
 				if ("progress".equalsIgnoreCase(status)) {
-					strSql.append(" and b.empcode is not null and b.finish_time is null");
+					strSql.append(" and b.empcode is not null and b.finish_time is null")
+				 	      .append(" AND (A.CHECK_STATUS IN ('待做','待钻孔','待装', '待做资料') or A.CHECK_STATUS is null)");
 				} else {
+					if ("pending".equalsIgnoreCase(status)) {
+						strSql.append(" AND (A.CHECK_STATUS IN ('待做','待做资料') or A.CHECK_STATUS is null)");
+					} else if ("drilling".equalsIgnoreCase(status)) {
+						strSql.append(" AND A.CHECK_STATUS IN ('待钻孔')");
+					} else if ("installing".equalsIgnoreCase(status)) {
+						strSql.append(" AND A.CHECK_STATUS IN ('待装')");
+					}
 					strSql.append(" and b.empcode is null");
 				}
 				strSql.append(" ORDER BY c.orderby desc, A.INV_DATE").append(") where rownum <= 20");
