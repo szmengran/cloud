@@ -37,7 +37,7 @@ public class CustomerExceptionMessage {
         messageMap.put("5107", "原密码不正确");
         messageMap.put("5108", "该用户已被停用，如有疑问，请联系管理员");
         
-        messageMap.put("6000", "测试架当前状态不允许领用");
+        messageMap.put("6000", "测试架已被领用，请先归还再领用");
         messageMap.put("6001", "归还测试架时，库位编号不能为空");
         messageMap.put("6002", "该型号测试架不存在");
         messageMap.put("6003", "该库位号不存在");

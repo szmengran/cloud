@@ -58,7 +58,7 @@ public class TestStandController {
 		List<T_oa_test_stand> t_oa_test_stands = testStandService.findByConditions(conditions, params);
 		Response response = new Response();
 		if(t_oa_test_stands != null && t_oa_test_stands.size()>0) {
-			response.setData(t_oa_test_stands.get(0));
+			response.setData(t_oa_test_stands);
 		} else {
 			throw new BusinessException(6002);
 		}
@@ -76,17 +76,17 @@ public class TestStandController {
 	 */
 	@ApiOperation(value = "领用测试架", response = Response.class)
 	@ApiResponses(value = {@ApiResponse(code = 405, message = "Invalid input", response = Response.class) })
-	@PutMapping(value = "/t_oa_test_stands/{empcode}/{test_stand_code}")
-	public Response inuse(@PathVariable("empcode") String empcode, @PathVariable("test_stand_code") String test_stand_code) throws Exception {
-		logger.info("inuse:{}, empcode:{}", test_stand_code, empcode);
-		testStandService.inuse(empcode, test_stand_code);
+	@PutMapping(value = "/t_oa_test_stands/{empcode}/{test_stand_code}/{num}")
+	public Response inuse(@PathVariable("empcode") String empcode, @PathVariable("test_stand_code") String test_stand_code, @PathVariable("num") Integer num) throws Exception {
+		logger.info("inuse:{}, {}, {}", empcode, test_stand_code, num);
+		testStandService.inuse(empcode, test_stand_code, num);
 		return new Response();
 	}
 	
-	@PutMapping(value = "/t_oa_test_stands/{empcode}/{test_stand_code}/{warehouse_code}")
-	public Response giveback(@PathVariable("empcode") String empcode, @PathVariable("test_stand_code") String test_stand_code, @PathVariable("warehouse_code") String warehouse_code) throws Exception {
-		logger.info("giveback:{},{}, empcode:{}", test_stand_code, warehouse_code, empcode);
-		testStandService.giveback(test_stand_code, warehouse_code);
+	@PutMapping(value = "/t_oa_test_stands/{empcode}/{test_stand_code}/{warehouse_code}/{num}")
+	public Response giveback(@PathVariable("empcode") String empcode, @PathVariable("test_stand_code") String test_stand_code, @PathVariable("warehouse_code") String warehouse_code, @PathVariable("num") Integer num) throws Exception {
+		logger.info("giveback:{}, {}, {}, {}", empcode, test_stand_code, warehouse_code, num);
+		testStandService.giveback(test_stand_code, warehouse_code, num);
 		return new Response();
 	}
 	
@@ -111,10 +111,10 @@ public class TestStandController {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	@DeleteMapping(value = "/t_oa_test_stands/{empcode}/{test_stand_code}")
-	public Response invalid(@PathVariable("test_stand_code") String test_stand_code, @PathVariable("empcode") String empcode) throws Exception {
+	@DeleteMapping(value = "/t_oa_test_stands/{empcode}/{test_stand_code}/{num}")
+	public Response invalid(@PathVariable("test_stand_code") String test_stand_code, @PathVariable("empcode") String empcode, @PathVariable("num") Integer num) throws Exception {
 		logger.info("invalid:{}, empcode:{}", test_stand_code, empcode);
-		testStandService.invalid(test_stand_code);
+		testStandService.invalid(test_stand_code, num);
 		return new Response();
 	}
 }

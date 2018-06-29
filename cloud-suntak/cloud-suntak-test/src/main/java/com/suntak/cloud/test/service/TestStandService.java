@@ -27,27 +27,31 @@ public interface TestStandService {
 	 * 领用测试架
 	 * @param empcode
 	 * @param test_stand_code
+	 * @param num
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	void inuse (String empcode, String test_stand_code) throws Exception;
+	void inuse(String empcode, String test_stand_code, Integer num) throws Exception;
 	
 	/**
 	 * 归还测试架
 	 * @param test_stand_code
 	 * @param warehouse_code
+	 * @param num
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	void giveback(String test_stand_code, String warehouse_code) throws Exception;
+	void giveback(String test_stand_code, String warehouse_code, Integer num) throws Exception;
 	
 	/**
 	 * 测试架作废
 	 * @param test_stand_code
+	 * @param num
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	void invalid(String test_stand_code) throws Exception;
+	void invalid(String test_stand_code, Integer num) throws Exception;
+	
 	/**
 	 * 保存一个测试架信息
 	 * @param t_oa_test_stand

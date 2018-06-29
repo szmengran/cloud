@@ -34,24 +34,26 @@ public class TestStandServiceImpl implements TestStandService{
 	}
 
 	@Override
-	public void inuse(String empcode, String test_stand_code) throws Exception {
+	public void inuse(String empcode, String test_stand_code, Integer num) throws Exception {
 		DBManager dbManager = null;
 		try {
 			dbManager = new DBManager(abstractDao.getWriteDataSource());
 			dbManager.openConnection();
 			dbManager.beginTransaction();
 			Timestamp stamp = new Timestamp(System.currentTimeMillis());
-			Object params[] = new Object[3];
+			Object params[] = new Object[4];
 			params[0] = TestStandStatus.INUSE.status;
 			params[1] = stamp;
 			params[2] = test_stand_code;
-			int num = abstractDao.executeSql(dbManager, "update t_oa_test_stand set validstatus=?,warehouse_code=null,updatestamp=? where test_stand_code=? and validstatus='1'", params);
+			params[3] = num;
+			int number = abstractDao.executeSql(dbManager, "update t_oa_test_stand set validstatus=?,warehouse_code=null,updatestamp=? where test_stand_code=? and num=? and validstatus='1'", params);
 			//型号不存在，则新增一条
-			if (num == 0) {
+			if (number == 0) {
 				throw new BusinessException(6002);
 			}
 			T_oa_test_use_record t_oa_test_use_record = new T_oa_test_use_record();
 			t_oa_test_use_record.setEmpcode(empcode);
+			t_oa_test_use_record.setNum(num);
 			t_oa_test_use_record.setTest_stand_code(test_stand_code);
 			t_oa_test_use_record.setUse_time(new Timestamp(System.currentTimeMillis()));
 			abstractDao.insert(dbManager, t_oa_test_use_record, DbPrimaryKeyType.SEQ, "seq_t_oa_test_use_record");
@@ -66,32 +68,27 @@ public class TestStandServiceImpl implements TestStandService{
 	}
 
 	@Override
-	public void giveback(String test_stand_code, String warehouse_code) throws Exception {
+	public void giveback(String test_stand_code, String warehouse_code, Integer num) throws Exception {
 		DBManager dbManager = null;
 		try {
 			dbManager = new DBManager(abstractDao.getWriteDataSource());
 			dbManager.openConnection();
 			dbManager.beginTransaction();
 			Timestamp stamp = new Timestamp(System.currentTimeMillis());
-			Object params[] = new Object[4];
+			Object params[] = new Object[5];
 			params[0] = TestStandStatus.VALID.status;
 			params[1] = warehouse_code;
 			params[2] = stamp;
 			params[3] = test_stand_code;
+			params[4] = num;
 			if (StringUtils.isBlank(warehouse_code)) {
 				throw new BusinessException(6001);
 			}
 			//更新状态和库位编号
-			int num = abstractDao.executeSql(dbManager, "update t_oa_test_stand set validstatus=?,warehouse_code=?,updatestamp=? where test_stand_code=?", params);
+			int number = abstractDao.executeSql(dbManager, "update t_oa_test_stand set validstatus=?,warehouse_code=?,updatestamp=? where test_stand_code=? and num=?", params);
 			//型号不存在，则新增一条
-			if (num == 0) {
-				T_oa_test_stand t_oa_test_stand = new T_oa_test_stand();
-				t_oa_test_stand.setTest_stand_code(test_stand_code);
-				t_oa_test_stand.setWarehouse_code(warehouse_code);
-				t_oa_test_stand.setCreatestamp(stamp);
-				t_oa_test_stand.setUpdatestamp(stamp);
-				t_oa_test_stand.setValidstatus(TestStandStatus.VALID.status);
-				abstractDao.insert(dbManager, t_oa_test_stand);
+			if (number == 0) {
+				throw new BusinessException(6002);
 			}
 			//更新归还时间
 			abstractDao.executeSql(dbManager, "update t_oa_test_use_record set back_time=? where test_stand_code=?", new Object[] {stamp, test_stand_code});
@@ -109,22 +106,42 @@ public class TestStandServiceImpl implements TestStandService{
 	}
 
 	@Override
-	public void invalid(String test_stand_code) throws Exception {
+	public void invalid(String test_stand_code, Integer num) throws Exception {
 		Timestamp stamp = new Timestamp(System.currentTimeMillis());
-		Object[] params = new Object[3];
+		Object[] params = new Object[4];
 		params[0] = TestStandStatus.INVAILD.status;
 		params[1] = stamp;
 		params[2] = test_stand_code;
-		abstractDao.executeSql("update t_oa_test_stand set validstatus=?, updatestamp=? where test_stand_code=?", params);
+		params[3] = num;
+		abstractDao.executeSql("update t_oa_test_stand set validstatus=?, updatestamp=? where test_stand_code=? and num=?", params);
 	}
 
 	@Override
 	public void insert(T_oa_test_stand t_oa_test_stand) throws Exception {
-		Timestamp createstamp = new Timestamp(System.currentTimeMillis());
-		t_oa_test_stand.setCreatestamp(createstamp);
-		t_oa_test_stand.setUpdatestamp(createstamp);
-		t_oa_test_stand.setValidstatus(TestStandStatus.VALID.status);
-		abstractDao.insert(t_oa_test_stand);
+		DBManager dbManager = null;
+		try {
+			dbManager = new DBManager(abstractDao.getWriteDataSource());
+			dbManager.openConnection();
+			dbManager.beginTransaction();
+			//查询最多的套数，以便进行累加
+			List<T_oa_test_stand> list = abstractDao.findBySql(dbManager, T_oa_test_stand.class, "select max(num) num from t_oa_test_stand where test_stand_code=?", new Object[]{t_oa_test_stand.getTest_stand_code()});
+			int num = 0;
+			if (list != null && list.size() > 0) {
+				num = list.get(0).getNum();
+			}
+			Timestamp createstamp = new Timestamp(System.currentTimeMillis());
+			t_oa_test_stand.setCreatestamp(createstamp);
+			t_oa_test_stand.setUpdatestamp(createstamp);
+			t_oa_test_stand.setValidstatus(TestStandStatus.VALID.status);
+			t_oa_test_stand.setNum(num+1);
+			abstractDao.insert(dbManager, t_oa_test_stand);
+			dbManager.commitTransaction();
+		} catch (Exception e) {
+			dbManager.rollbackTransaction();
+			throw e;
+		} finally {
+			dbManager.close();
+		}
 	}
 	
 }

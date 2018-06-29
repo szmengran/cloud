@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 public class T_oa_test_use_record {
 	private Integer use_record_id;
 	private String test_stand_code;
+	private Integer num;
 	private String empcode;
 	private Timestamp use_time;
 	private Timestamp back_time;
@@ -25,6 +26,12 @@ public class T_oa_test_use_record {
 	}
 	public void setTest_stand_code(String test_stand_code) {
 		this.test_stand_code = test_stand_code;
+	}
+	public Integer getNum() {
+		return num;
+	}
+	public void setNum(Integer num) {
+		this.num = num;
 	}
 	public String getEmpcode() {
 		return empcode;
