@@ -32,6 +32,11 @@ public class CreateRecordServiceImpl implements CreateRecordService{
 	}
 
 	@Override
+	public void delete(Integer wip_entity_id, String empcode) throws Exception {
+		abstractDao.executeSql("delete from t_oa_test_create_record where wip_entity_id = ? and empcode = ?", new Object[] {wip_entity_id, empcode});
+	}
+	
+	@Override
 	public void finish(Integer wip_entity_id) throws Exception {
 		DBManager dbManager = null;
 		try {

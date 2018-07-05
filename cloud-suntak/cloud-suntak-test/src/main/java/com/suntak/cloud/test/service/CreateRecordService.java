@@ -26,6 +26,15 @@ public interface CreateRecordService {
 	void finish(Integer wip_entity_id) throws Exception;
 	
 	/**
+	 * 取消制作资料
+	 * @param wip_entity_id
+	 * @param empcode
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	void delete(Integer wip_entity_id, String empcode) throws Exception;
+	
+	/**
 	 * 更新测试资料的状态
 	 * @param organization_id
 	 * @param segment1

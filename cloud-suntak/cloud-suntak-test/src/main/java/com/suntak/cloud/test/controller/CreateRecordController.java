@@ -1,6 +1,7 @@
 package com.suntak.cloud.test.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,6 +34,13 @@ public class CreateRecordController {
 	@PostMapping(value="/t_oa_test_create_records")
 	public Response insert(@RequestBody T_oa_test_create_record t_oa_test_create_record) throws Exception {
 		createRecordService.insert(t_oa_test_create_record);
+		return new Response();
+	}
+	
+	@ApiOperation(value="资料制作取消", response = Response.class)
+	@DeleteMapping(value="/t_oa_test_create_records/{empcode}/{create_record_id}")
+	public Response cancel(@PathVariable Integer create_record_id, @PathVariable String empcode) throws Exception {
+		createRecordService.delete(create_record_id, empcode);
 		return new Response();
 	}
 	
