@@ -21,9 +21,11 @@ import com.alibaba.druid.support.http.WebStatFilter;
 @Order(-100)
 public class DataSourceConfig {
 
-    @Bean
+    @SuppressWarnings("rawtypes")
+	@Bean
     public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+        @SuppressWarnings("unchecked")
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
         filterRegistrationBean.addUrlPatterns("/*");
         filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*,swagger-ui.html*");
         return filterRegistrationBean;

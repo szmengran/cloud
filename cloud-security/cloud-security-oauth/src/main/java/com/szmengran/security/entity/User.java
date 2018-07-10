@@ -6,12 +6,12 @@ public class User {
 	private String userid;
 	private String username;
 	private String password;
-	private List<Object> roles;
+	private List<Role> roles;
 
 	public User() {
 	}
 
-	public User(String userid, String username, String password, List<Object> roles) {
+	public User(String userid, String username, String password, List<Role> roles) {
 		this.username = username;
 		this.password = password;
 		this.roles = roles;
@@ -41,11 +41,11 @@ public class User {
 		this.password = password;
 	}
 
-	public List<Object> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Object> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 }

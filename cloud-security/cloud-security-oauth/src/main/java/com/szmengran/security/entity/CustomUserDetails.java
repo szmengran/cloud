@@ -21,9 +21,9 @@ public class CustomUserDetails implements UserDetails {
 		this.authorities = translate(user.getRoles());
 	}
 
-	private Collection<? extends GrantedAuthority> translate(List<Object> roles) {
+	private Collection<? extends GrantedAuthority> translate(List<Role> roles) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		for (Object role : roles) {
+		for (Role role : roles) {
 			Role _role = (Role)role;
 			String name = _role.getName().toUpperCase();
 			authorities.add(new SimpleGrantedAuthority(name));
