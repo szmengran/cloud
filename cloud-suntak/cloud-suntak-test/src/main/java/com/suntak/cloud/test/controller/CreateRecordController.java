@@ -1,5 +1,8 @@
 package com.suntak.cloud.test.controller;
 
+import java.sql.Timestamp;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +36,9 @@ public class CreateRecordController {
 	@ApiOperation(value = "开始制作资料", response = Response.class)
 	@PostMapping(value="/t_oa_test_create_records")
 	public Response insert(@RequestBody T_oa_test_create_record t_oa_test_create_record) throws Exception {
+		if (StringUtils.isBlank(t_oa_test_create_record.getOperation_code())) { //取消待装
+			t_oa_test_create_record.setFinish_time(new Timestamp(System.currentTimeMillis()));
+		}
 		createRecordService.insert(t_oa_test_create_record);
 		return new Response();
 	}

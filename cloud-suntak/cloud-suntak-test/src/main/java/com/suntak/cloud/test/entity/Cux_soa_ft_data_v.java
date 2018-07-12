@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 public class Cux_soa_ft_data_v {
 	private Integer wip_entity_id;
 	private Integer organization_id;
+	private Integer pnl_qty;
 	private String operation_code;
 	private String segment1;
 	private String item_rev;
@@ -29,6 +30,12 @@ public class Cux_soa_ft_data_v {
 	}
 	public void setOrganization_id(Integer organization_id) {
 		this.organization_id = organization_id;
+	}
+	public Integer getPnl_qty() {
+		return pnl_qty;
+	}
+	public void setPnl_qty(Integer pnl_qty) {
+		this.pnl_qty = pnl_qty;
 	}
 	public String getOperation_code() {
 		return operation_code;

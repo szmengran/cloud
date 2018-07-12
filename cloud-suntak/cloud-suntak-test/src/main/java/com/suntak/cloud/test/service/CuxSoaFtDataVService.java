@@ -16,10 +16,11 @@ public interface CuxSoaFtDataVService {
 	 * 查询贷做资料列表
 	 * @param empcode
 	 * @param status
+	 * @param segment1
 	 * @return
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	List<Cux_soa_ft_data_v_ext> findByConditions(String empcode, String status) throws Exception;
+	List<Cux_soa_ft_data_v_ext> findByConditions(String empcode, String status, String segment1) throws Exception;
 	
 }

@@ -52,7 +52,7 @@ public class TestStandController {
 	@GetMapping(value = "/t_oa_test_stands/{test_stand_code}")
 	public Response findByWipPrimaryItem(@PathVariable("test_stand_code") String wip_primary_item) throws Exception {
 		StringBuffer conditions = new StringBuffer();
-		conditions.append("and test_stand_code=?");
+		conditions.append("and test_stand_code=? and validstatus!='0'");
 		Object[] params = new Object[1];
 		params[0] = wip_primary_item;
 		List<T_oa_test_stand> t_oa_test_stands = testStandService.findByConditions(conditions, params);

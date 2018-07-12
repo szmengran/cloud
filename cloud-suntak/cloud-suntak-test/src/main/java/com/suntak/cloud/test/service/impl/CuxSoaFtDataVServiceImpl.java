@@ -2,6 +2,7 @@ package com.suntak.cloud.test.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class CuxSoaFtDataVServiceImpl implements CuxSoaFtDataVService{
 	AbstractDao abstractDao;
 	
 	@Override
-	public List<Cux_soa_ft_data_v_ext> findByConditions(String empcode, String status) throws Exception {
+	public List<Cux_soa_ft_data_v_ext> findByConditions(String empcode, String status, String segment1) throws Exception {
 		DBManager dbManager = null;
 		try {
 			dbManager = new DBManager(abstractDao.getReadDataSource());
@@ -36,7 +37,7 @@ public class CuxSoaFtDataVServiceImpl implements CuxSoaFtDataVService{
 				Cux_soa_ft_data_v_ext cux_soa_ft_data_v_ext = list.get(0);
 				StringBuffer strSql = new StringBuffer();
 				strSql.append("select * from (")
-					  .append("SELECT a.wip_entity_id,a.operation_code,a.ORGANIZATION_ID,a.SEGMENT1,a.Item_Rev,a.DEPT,a.CHECK_TYPE,a.CHECK_STATUS,a.INV_DATE,")
+					  .append("SELECT a.wip_entity_id,a.operation_code,pnl_qty,a.ORGANIZATION_ID,a.SEGMENT1,a.Item_Rev,a.DEPT,a.CHECK_TYPE,a.CHECK_STATUS,a.INV_DATE,")
 				 	  .append(" b.empcode,b.empname,b.create_time,b.finish_time")
 				 	  .append(" FROM APPS.CUX_SOA_FT_DATA_V a left join t_oa_test_create_record b on a.wip_entity_id=b.wip_entity_id")
 				 	  .append(" ,T_OA_TEST_STORE c")
@@ -57,6 +58,11 @@ public class CuxSoaFtDataVServiceImpl implements CuxSoaFtDataVService{
 					}
 					strSql.append(" and b.empcode is null");
 				}
+				
+				if (!StringUtils.isBlank(segment1) && !"*".equals(segment1)) {
+					strSql.append(" and a.segment1 like '%").append(segment1).append("%'");
+				}
+				
 				strSql.append(" ORDER BY c.orderby desc, A.INV_DATE").append(") where rownum <= 20");
 				return abstractDao.findBySql(dbManager, Cux_soa_ft_data_v_ext.class, strSql.toString(), new Object[] {cux_soa_ft_data_v_ext.getOrganization_id()});
 			} else {

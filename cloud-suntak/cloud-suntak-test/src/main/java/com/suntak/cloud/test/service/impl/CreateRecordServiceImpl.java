@@ -3,6 +3,7 @@ package com.suntak.cloud.test.service.impl;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +72,7 @@ public class CreateRecordServiceImpl implements CreateRecordService{
 	
 	private String getNextStatus(String check_type, String check_status) {
 		if ("通用".equals(check_type)) {
-			if ("待做".equals(check_status) || "待做资料".equals(check_status)) {
+			if ("待做".equals(check_status) || "待做资料".equals(check_status) || StringUtils.isBlank(check_status)) {
 				return "待钻孔";
 			} else if ("待钻孔".equals(check_status)) {
 				return "待钻孔";
@@ -79,7 +80,7 @@ public class CreateRecordServiceImpl implements CreateRecordService{
 				return "OK";
 			}
 		} else if ("飞针".equals(check_type)) {
-			if ("待做".equals(check_status) || "待做资料".equals(check_status)) {
+			if ("待做".equals(check_status) || "待做资料".equals(check_status) || StringUtils.isBlank(check_status)) {
 				return "OK";
 			}
 		}

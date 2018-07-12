@@ -28,9 +28,9 @@ public class CuxSoaFtDataVController {
 	@Autowired
 	CuxSoaFtDataVService cuxSoaFtDataVService;
 	
-	@GetMapping(value="/cux_soa_ft_data_vs/{empcode}/{status}")
-	public Response findByConditions(@PathVariable("empcode") String empcode, @PathVariable("status") String status) throws Exception {
-		List<Cux_soa_ft_data_v_ext> cux_soa_ft_data_v_exts = cuxSoaFtDataVService.findByConditions(empcode, status);
+	@GetMapping(value="/cux_soa_ft_data_vs/{empcode}/{status}/{segment1}")
+	public Response findByConditions(@PathVariable("empcode") String empcode, @PathVariable("status") String status, @PathVariable("segment1") String segment1) throws Exception {
+		List<Cux_soa_ft_data_v_ext> cux_soa_ft_data_v_exts = cuxSoaFtDataVService.findByConditions(empcode, status, segment1);
 		Response response = new Response();
 		response.setData(cux_soa_ft_data_v_exts);
 		return response;
