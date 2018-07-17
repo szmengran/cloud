@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ import io.swagger.annotations.ApiResponses;
 public class EhrUserController {
 	
 	@Autowired
+	@Qualifier("ehrUserService")
 	EhrUserService ehrUserService;
 	
 	@ApiOperation(value = "获取生日的员工信息", response = Response.class)

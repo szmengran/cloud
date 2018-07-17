@@ -16,7 +16,7 @@ import com.suntak.cloud.ehr.service.EhrUserService;
 import com.suntak.ehr.entity.EhrUser;
 import com.szmengran.common.orm.dao.AbstractDao;
 
-@Service
+@Service("ehrUserService")
 public class EhrUserServiceImpl implements EhrUserService{
 
 	@Autowired
