@@ -1,0 +1,11 @@
+server:
+  port: 10011
+spring:
+  application:
+    name: cloud-suntak-recruitment
+  cloud:
+    config:
+      uri: ${CONFIG_SERVER_ADDRESS}
+      fail-fast: true
+  profiles:
+    active: ${ENVIRONMENT}
