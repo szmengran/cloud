@@ -2,6 +2,7 @@ logging:
   level:
     com.netflix.discovery: 'OFF'
     org.springframework.cloud: 'DEBUG'
+    org.springframework.security: DEBUG
 spring:
   application:
     name: cloud-config-server
@@ -11,4 +12,16 @@ spring:
         native:
           search-locations: classpath:/shared
   profiles:
-     active: native
+     active: dev
+ribbon:
+  ReadTimeout: 120000 #请求处理的超时时间 
+  ConnectTimeout: 30000 #请求连接的超时时间
+security:
+  oauth2:
+    resource:
+      token-info-uri: http://localhost:10002/oauth/check_token
+      tokenInfoUri: http://localhost:10002/oauth/check_token
+      id: recruitment
+    client:
+      client-id: cloud-engineering-order
+      client-secret: 12345
