@@ -69,6 +69,9 @@ public class LoginSmsController {
 			this.send(response, t_common_sms_log, MSG_TYPE_CODE);
 		} catch (Exception e) {
 			e.printStackTrace();
+			response = new Response();
+			response.setMessage(e.getMessage());
+			response.setStatus(500);
 		}
 		return response;
 	}

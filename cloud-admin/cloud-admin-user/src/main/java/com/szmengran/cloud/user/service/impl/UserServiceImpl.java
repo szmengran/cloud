@@ -24,7 +24,7 @@ import com.szmengran.common.orm.util.Tools;
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
-	@Qualifier("mysqlDao")
+	@Qualifier("mySqlDao")
 	AbstractDao abstractDao;
 	
 	@Override

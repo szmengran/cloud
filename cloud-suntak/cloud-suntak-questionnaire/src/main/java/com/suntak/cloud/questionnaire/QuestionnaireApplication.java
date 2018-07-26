@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @SpringBootApplication
 @EnableFeignClients
 @RefreshScope
-@ComponentScan(basePackages = {"com.suntak.exception.controller", "com.suntak.cloud.questionnaire", "com.szmengran.logging.service", "com.szmengran.common.orm"})
 public class QuestionnaireApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(QuestionnaireApplication.class, args);
