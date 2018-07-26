@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @EnableDiscoveryClient
 @EnableFeignClients
 @RefreshScope
-@ComponentScan(basePackages = {"com.suntak.exception.controller", "com.szmengran.cloud", "com.szmengran.logging.service"})
+@ComponentScan(basePackages = {"com.suntak.exception.controller", "com.szmengran.cloud", "com.szmengran.logging.service", "com.szmengran.common.orm"})
 public class SmsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SmsApplication.class, args);

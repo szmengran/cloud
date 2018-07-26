@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ import com.google.gson.Gson;
 import com.szmengran.admin.user.exception.BusinessException;
 import com.szmengran.cloud.common.sms.service.SmsService;
 import com.szmengran.common.entity.T_common_sms_log;
-import com.szmengran.common.orm.service.AbstractService;
+import com.szmengran.common.orm.dao.AbstractDao;
 
 /**
  * @Package com.szmengran.cloud.common.sms.service.impl
@@ -27,8 +29,12 @@ import com.szmengran.common.orm.service.AbstractService;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 @Service
-public class SmsServiceImpl extends AbstractService implements SmsService{
+public class SmsServiceImpl implements SmsService{
 
+	@Autowired
+	@Qualifier("mySqlDao")
+	AbstractDao abstractDao;
+	
 	private final static Logger logger = LoggerFactory.getLogger(SmsServiceImpl.class);
 	
 	@Value("${aliyun.sms.AccessKeyID}")
@@ -77,10 +83,10 @@ public class SmsServiceImpl extends AbstractService implements SmsService{
 		t_common_sms_log.setUpdatestamp(createstamp);
 		if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
 			t_common_sms_log.setResult("1");
-			this.save(t_common_sms_log);
+			abstractDao.insert(t_common_sms_log);
 		} else {
 			t_common_sms_log.setResult("0");
-			this.save(t_common_sms_log);
+			abstractDao.insert(t_common_sms_log);
 			throw new BusinessException(5002);
 		}
 	}
