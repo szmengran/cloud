@@ -14,7 +14,14 @@ spring:
     name: cloud-config-server
   profiles:
     active: ${ENVIRONMENT}
+  bus:
+    trace:
+      enabled: true
 server:
   port: 10001
 management:
   context-path: /admin
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
