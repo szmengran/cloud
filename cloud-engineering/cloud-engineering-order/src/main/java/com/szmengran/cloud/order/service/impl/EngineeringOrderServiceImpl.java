@@ -1,14 +1,20 @@
 package com.szmengran.cloud.order.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.szmengran.cloud.order.service.EngineeringOrderService;
 import com.szmengran.cloud.order.utils.OrderStatus;
-import com.szmengran.common.orm.service.AbstractService;
+import com.szmengran.common.orm.dao.AbstractDao;
 
 @Service
-public class EngineeringOrderServiceImpl extends AbstractService implements EngineeringOrderService{
+public class EngineeringOrderServiceImpl implements EngineeringOrderService{
 
+	@Autowired
+	@Qualifier("mySqlDao")
+	AbstractDao abstractDao;
+	
 	@Override
 	public void receive(String engineering_id, String designuserid) throws Exception {
 		String strSql = "update t_engineering_order set designuserid=?,validstatus=? where engineering_id=? and validstatus=?";
@@ -17,7 +23,7 @@ public class EngineeringOrderServiceImpl extends AbstractService implements Engi
 		params[1] = OrderStatus.DESIGN_PROCESSING;
 		params[2] = engineering_id;
 		params[3] = OrderStatus.WAIT_FOR_RECEIVE;
-		super.executeSql(strSql, params);
+		abstractDao.executeSql(strSql, params);
 	}
 
 }
