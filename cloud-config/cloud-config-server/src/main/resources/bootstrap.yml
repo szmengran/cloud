@@ -2,8 +2,6 @@ eureka:
   instance:
     prefer-ip-address: true
     leaseRenewalIntervalInSeconds: 10
-    statusPageUrlPath: /admin/info
-    healthCheckUrlPath: /admin/health
   client:
     registerWithEureka: true
     fetchRegistry: true
@@ -20,7 +18,6 @@ spring:
 server:
   port: 10001
 management:
-  context-path: /admin
   endpoints:
     web:
       exposure:

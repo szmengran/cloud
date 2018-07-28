@@ -30,9 +30,9 @@ eureka:
 security:
   oauth2:
     resource:
-      token-info-uri: http://localhost:10002/oauth/check_token
       tokenInfoUri: http://localhost:10002/oauth/check_token
-      id: recruitment
+      accessTokenUri: http://localhost:10002/oauth/access_token
+      userAuthorizationUri: http://localhost:10002/oauth/authorize
     client:
       client-id: cloud-engineering-order
       client-secret: 12345

@@ -1,7 +1,8 @@
 package com.suntak.cloud.sms.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.sms.client.SmsServiceClient;
+import com.suntak.cloud.sms.util.SmsTool;
 import com.suntak.ehr.entity.Questionnaire_sms;
 import com.suntak.exception.model.Response;
 import com.szmengran.common.entity.T_common_sms_log;
@@ -26,8 +28,6 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping(path = "/api/v1/suntaksms", produces = { "application/json" })
 public class QuestionnaireSmsController {
-	
-	private final static Logger logger = LoggerFactory.getLogger(QuestionnaireSmsController.class);
 	
 	@Autowired
 	private SmsServiceClient smsServiceClient;
@@ -48,32 +48,18 @@ public class QuestionnaireSmsController {
 		try {
 			t_common_sms_log.setTemplatecode("SMS_130924253");
 			t_common_sms_log.setSignname("崇达技术");
-			new Thread(new Runnable() {
-				@Override
-                public void run() {
-					t_common_sms_log.setPhone(questionnaire_sms.getPhone());
-					t_common_sms_log.setTemplateparam(
-							new StringBuffer()
-							.append("{")
-							.append("\"name\":\"").append(questionnaire_sms.getName()).append("\"")
-							.append(",\"year\":\"").append(questionnaire_sms.getYear()).append("\"")
-							.append(",\"month\":\"").append(questionnaire_sms.getMonth()).append("\"")
-							.append(",\"score\":\"").append(questionnaire_sms.getScore()).append("\"")
-							.append(",\"num\":\"").append(questionnaire_sms.getNum()).append("\"")
-							.append(",\"rank\":\"").append(questionnaire_sms.getRank()).append("\"")
-							.append(",\"year1\":\"").append(questionnaire_sms.getYear()).append("\"")
-							.append(",\"month1\":\"").append(questionnaire_sms.getMonth()).append("\"")
-							.append("}")
-							.toString()
-							);
-					try {
-						smsServiceClient.send(t_common_sms_log);
-					} catch (Exception e) {
-						e.printStackTrace();
-						logger.error(e.getMessage());
-					}
-                }
-			}).start();
+			t_common_sms_log.setPhone(questionnaire_sms.getPhone());
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("name", questionnaire_sms.getName());
+			map.put("year", questionnaire_sms.getYear());
+			map.put("month", questionnaire_sms.getMonth());
+			map.put("score", questionnaire_sms.getScore());
+			map.put("num", questionnaire_sms.getNum());
+			map.put("rank", questionnaire_sms.getRank());
+			map.put("year1", questionnaire_sms.getYear());
+			map.put("month1", questionnaire_sms.getMonth());
+			t_common_sms_log.setTemplateparam(SmsTool.transferMapToJson(map));
+			smsServiceClient.send(t_common_sms_log);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

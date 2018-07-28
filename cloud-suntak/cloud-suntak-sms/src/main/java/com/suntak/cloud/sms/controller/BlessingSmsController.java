@@ -1,6 +1,8 @@
 package com.suntak.cloud.sms.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,6 +21,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suntak.cloud.sms.client.EhrUserServiceClient;
 import com.suntak.cloud.sms.client.SmsServiceClient;
+import com.suntak.cloud.sms.util.SmsTool;
 import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
 import com.szmengran.common.entity.T_common_sms_log;
@@ -91,11 +94,21 @@ public class BlessingSmsController {
 		return response;
 	}
 	
+	/**
+	 * 将返回的数据转换为EhrUser列表
+	 * @param response
+	 * @return 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	private List<EhrUser> transferResponseToList(Response response) {
+		MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+        ObjectMapper objectMapper = jackson2HttpMessageConverter.getObjectMapper();
+		return objectMapper.convertValue(response.getData(), new TypeReference<List<EhrUser>>() { });
+	}
+	
 	private void send(Response response, final T_common_sms_log t_common_sms_log_tmp, Integer type) {
 		if (response.getData() != null) {
-			MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-	        ObjectMapper objectMapper = jackson2HttpMessageConverter.getObjectMapper();
-			List<EhrUser> list = objectMapper.convertValue(response.getData(), new TypeReference<List<EhrUser>>() { });
+			List<EhrUser> list = transferResponseToList(response);
 			ExecutorService executor = Executors.newFixedThreadPool(20);
 			for (int i=0; i<list.size(); i++) {
 				final EhrUser ehrUser = list.get(i);
@@ -109,22 +122,19 @@ public class BlessingSmsController {
 						T_common_sms_log t_common_sms_log = new T_common_sms_log();
 						BeanUtils.copyProperties(t_common_sms_log_tmp, t_common_sms_log);
 						t_common_sms_log.setPhone(ehrUser.getPhone());
-						if (MSG_TYPE_ONBOARD == type) {
-							t_common_sms_log.setTemplateparam(
-									new StringBuffer()
-									.append("{")
-									.append("\"name\":\"").append(ehrUser.getEmpname()).append("\"")
-									.append(",\"year\":\"").append(ehrUser.getYear()).append("\"")
-									.append(",\"year1\":\"").append(ehrUser.getYear()).append("\"")
-									.append(",\"year2\":\"").append(ehrUser.getYear()).append("\"")
-									.append("}")
-									.toString()
-									);
-						} else if (MSG_TYPE_BIRTHDAY == type) {
-							t_common_sms_log.setTemplateparam(new StringBuffer().append("{\"name\":\"")
-								.append(ehrUser.getEmpname()).append("\"}").toString());
-						}
 						try {
+							if (MSG_TYPE_ONBOARD == type) {
+								Map<String, Object> map = new HashMap<String, Object>();
+								map.put("name", ehrUser.getEmpname());
+								map.put("year", ehrUser.getYear());
+								map.put("year1", ehrUser.getYear());
+								map.put("year2", ehrUser.getYear());
+								t_common_sms_log.setTemplateparam(SmsTool.transferMapToJson(map));
+							} else if (MSG_TYPE_BIRTHDAY == type) {
+								Map<String, Object> map = new HashMap<String, Object>();
+								map.put("name", ehrUser.getEmpname());
+								t_common_sms_log.setTemplateparam(SmsTool.transferMapToJson(map));
+							}
 							smsServiceClient.send(t_common_sms_log);
 						} catch (Exception e) {
 							e.printStackTrace();
