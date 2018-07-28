@@ -30,6 +30,7 @@ public class DataSourceConfig {
         filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*,swagger-ui.html*");
         return filterRegistrationBean;
     }
+    
 	@Bean(initMethod = "init", name = "readDataSource")  
     @ConfigurationProperties(prefix = "spring.datasource.druid.common.read")  
     public DataSource readDataSource(){  
