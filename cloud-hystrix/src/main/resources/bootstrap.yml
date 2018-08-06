@@ -1,7 +1,14 @@
+server:
+  port: 10012
 spring:
   application:
     name: cloud-hystrix
   cloud:
     config:
-      uri: ${vcap.services.${PREFIX:}configserver.credentials.uri:http://user:password@localhost:8888}
-      
+      uri: ${CONFIG_SERVER_ADDRESS}
+      fail-fast: true
+  profiles:
+    active: ${ENVIRONMENT}
+  sleuth:
+    traceId128:
+      true
