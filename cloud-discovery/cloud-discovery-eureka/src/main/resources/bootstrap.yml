@@ -3,6 +3,9 @@ server:
 spring:
   application:
     name: cloud-discovery-eureka
+  sleuth:
+    traceId128:
+      true
 eureka:
   instance:
     prefer-ip-address: true

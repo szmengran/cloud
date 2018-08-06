@@ -35,9 +35,9 @@ public class SmsCodeServiceImpl implements SmsCodeService{
 	}
 
 	@Override
-	public void update(T_common_sms_code t_common_sms_code) throws Exception {
+	public int update(T_common_sms_code t_common_sms_code) throws Exception {
 		t_common_sms_code.setUpdatestamp(new Timestamp(System.currentTimeMillis()));
-		abstractDao.update(t_common_sms_code);
+		return abstractDao.update(t_common_sms_code);
 	}
 
 }

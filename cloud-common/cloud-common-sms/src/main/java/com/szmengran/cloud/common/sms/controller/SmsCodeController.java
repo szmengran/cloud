@@ -40,22 +40,16 @@ public class SmsCodeController {
 	
 	@ApiOperation(value = "验证码保存或更新", response = Response.class)
 	@PostMapping("/code")
-	public Response save(@RequestBody T_common_sms_code t_common_sms_code) throws Exception {
+	public Response saveOrUpdate(@RequestBody T_common_sms_code t_common_sms_code) throws Exception {
 		logger.info("save sms code request:{}", new Gson().toJson(t_common_sms_code));
 		if (StringUtils.isBlank(t_common_sms_code.getPhone())) {
 			throw new BusinessException(5001);
 		}
-		T_common_sms_code t_common_sms_code_ = smsCodeService.findByPrimaryKey(t_common_sms_code);
-		Response response = new Response();
-		if (checkTime(t_common_sms_code.getUpdatestamp(), 1*60)){
-			throw new BusinessException(5103);
-		}
-		if (t_common_sms_code_ != null) {
-			smsCodeService.update(t_common_sms_code);
-		} else {
+		int num = smsCodeService.update(t_common_sms_code);
+		if (num == 0) {
 			smsCodeService.save(t_common_sms_code);
 		}
-		return response;
+		return new Response();
 	}
 	
 	@ApiOperation(value = "验证码检查是否正确", response = Response.class)
