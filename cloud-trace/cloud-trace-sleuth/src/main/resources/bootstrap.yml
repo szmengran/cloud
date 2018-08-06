@@ -1,9 +1,0 @@
-server:
-  port: 10010
-spring:
-  application:
-    name: cloud-trace-sleuth
-  cloud:
-    config:
-      uri: ${CONFIG_SERVER_ADDRESS}
-      fail-fast: true

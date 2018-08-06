@@ -12,4 +12,7 @@ spring:
       fail-fast: true
   profiles:
     active: ${ENVIRONMENT}
+  sleuth:
+    traceId128:
+      true
     

@@ -1,5 +1,7 @@
 package com.suntak.cloud.activity.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import net.sf.json.JSONObject;
 
 /**
  * @Package com.suntak.cloud.activity.controller
@@ -25,7 +28,8 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping(path = "/api/v1/activity", produces = { "application/json" })
 public class T_activity_serviceController {
-	
+
+	private static Logger log = LoggerFactory.getLogger(T_activity_serviceController.class);
 	@Autowired
 	T_activity_serviceService t_activity_serviceService;
 	
@@ -36,6 +40,7 @@ public class T_activity_serviceController {
 		T_activity_service t_activity_service = t_activity_serviceService.findById(service_id);
 		Response response = new Response();
 		response.setData(t_activity_service);
+		log.info(JSONObject.fromObject(t_activity_service).toString());
 		return response;
 	}
 }

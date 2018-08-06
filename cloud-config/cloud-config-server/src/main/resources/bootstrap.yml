@@ -7,6 +7,13 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: ${EUREKA_SERVER_ADDRESS}
+server:
+  port: 10001
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
 spring:
   application:
     name: cloud-config-server
@@ -15,10 +22,6 @@ spring:
   bus:
     trace:
       enabled: true
-server:
-  port: 10001
-management:
-  endpoints:
-    web:
-      exposure:
-        include: bus-refresh
+  sleuth:
+    traceId128:
+      true

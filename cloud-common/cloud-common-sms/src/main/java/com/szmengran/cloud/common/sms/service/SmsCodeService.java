@@ -35,9 +35,9 @@ public interface SmsCodeService {
 	 * 更新短信验证码信息
 	 * @param t_common_sms_code
 	 * @throws Exception      
-	 * @return: void      
+	 * @return: int      
 	 * @throws   
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	void update(T_common_sms_code t_common_sms_code) throws Exception;
+	int update(T_common_sms_code t_common_sms_code) throws Exception;
 }
