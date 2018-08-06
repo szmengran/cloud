@@ -1,12 +1,13 @@
 package com.suntak.cloud.recruitment.service.impl;
 
+import java.sql.Timestamp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.recruitment.entity.T_hr_applicant;
 import com.suntak.cloud.recruitment.service.ApplicantService;
-import com.szmengran.common.orm.DbPrimaryKeyType;
 import com.szmengran.common.orm.dao.AbstractDao;
 
 /**
@@ -24,7 +25,10 @@ public class ApplicantServiceImpl implements ApplicantService{
 	
 	@Override
 	public void insert(T_hr_applicant t_hr_applicant) throws Exception {
-		abstractDao.insert(t_hr_applicant, DbPrimaryKeyType.SEQ, "seq_t_hr_application");
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		t_hr_applicant.setCreatestamp(currentTime);
+		t_hr_applicant.setUpdatestamp(currentTime);
+		abstractDao.insert(t_hr_applicant);
 	}
 
 }
