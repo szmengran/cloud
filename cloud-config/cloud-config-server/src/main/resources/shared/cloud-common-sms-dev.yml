@@ -2,3 +2,5 @@ aliyun:
   sms:
     AccessKeyID: ${SMS_ACCESSKEYID}
     AccessKeySecret: ${SMS_ACCESSKEYSECRET}
+    templatecode: SMS_132391535
+    signname: 崇达技术

@@ -127,7 +127,8 @@ public class TestStandServiceImpl implements TestStandService{
 			List<T_oa_test_stand> list = abstractDao.findBySql(dbManager, T_oa_test_stand.class, "select max(num) num from t_oa_test_stand where test_stand_code=?", new Object[]{t_oa_test_stand.getTest_stand_code()});
 			int num = 0;
 			if (list != null && list.size() > 0) {
-				num = list.get(0).getNum();
+				T_oa_test_stand t_oa_test_stand_temp = list.get(0);
+				num = t_oa_test_stand_temp.getNum() == null ? 0 : t_oa_test_stand_temp.getNum();
 			}
 			Timestamp createstamp = new Timestamp(System.currentTimeMillis());
 			t_oa_test_stand.setCreatestamp(createstamp);

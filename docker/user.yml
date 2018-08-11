@@ -1,0 +1,11 @@
+version: '3'
+services:
+  user:
+    image: szmengran/cloud-admin-user:$CLOUD_VERSION
+    restart: always
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
+    ports:
+     - 10003:10003

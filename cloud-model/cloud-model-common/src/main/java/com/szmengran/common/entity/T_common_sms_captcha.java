@@ -9,14 +9,14 @@ import java.sql.Timestamp;
  * @date 2018年4月19日 下午4:25:05
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
-public class T_common_sms_code implements Serializable{
+public class T_common_sms_captcha implements Serializable{
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4243245678923421L;
 	private String phone;
-	private String code;
+	private String captcha;
 	private Timestamp updatestamp;
 	public String getPhone() {
 		return phone;
@@ -24,11 +24,14 @@ public class T_common_sms_code implements Serializable{
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getCode() {
-		return code;
+	public String getCaptcha() {
+		return captcha;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setCaptcha(String captcha) {
+		this.captcha = captcha;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	public Timestamp getUpdatestamp() {
 		return updatestamp;

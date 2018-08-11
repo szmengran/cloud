@@ -195,6 +195,16 @@
 				<version>0.2.0-RC1</version>
 				<scope>runtime</scope>
 			</dependency>
+			<dependency>
+				<groupId>com.szmengran</groupId>
+				<artifactId>cloud-model-common</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.szmengran</groupId>
+				<artifactId>cloud-common-utils</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>

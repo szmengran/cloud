@@ -20,7 +20,10 @@ spring:
     active: ${ENVIRONMENT}
   sleuth:
     traceId128:
-      true 
+      true
+  kafka:
+    bootstrap-servers: kafka:9092
+    
 endpoints:
   restart:
     enabled: true

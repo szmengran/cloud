@@ -1,0 +1,7 @@
+version: '3'
+services:
+  discovery:
+    image: szmengran/cloud-discovery-eureka:$CLOUD_VERSION
+    restart: always
+    ports:
+     - "8761:8761"

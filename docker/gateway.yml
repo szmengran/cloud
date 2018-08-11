@@ -1,10 +1,11 @@
 version: '3'
 services:
-  oauth:
-    image: szmengran/cloud-security-oauth
+  gateway:
+    image: szmengran/cloud-gateway-zuul:$CLOUD_VERSION
+    restart: always
     environment:
       - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
       - CONFIG_SERVER_ADDRESS=http://configserver:10001
-      - ENVIRONMENT=dev
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
     ports:
-     - 9999:9999
+     - "10000:10000"

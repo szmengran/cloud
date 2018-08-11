@@ -15,3 +15,6 @@ spring:
   sleuth:
     traceId128:
       true
+  kafka:
+    bootstrap-servers: kafka:9092
+    

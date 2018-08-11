@@ -1,5 +1,5 @@
 server:
-  port: 10012
+  port: 10020
 spring:
   application:
     name: cloud-hystrix
@@ -12,3 +12,6 @@ spring:
   sleuth:
     traceId128:
       true
+  kafka:
+    bootstrap-servers: kafka:9092
+    

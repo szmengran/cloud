@@ -6,6 +6,8 @@ spring:
   sleuth:
     traceId128:
       true
+  kafka:
+    bootstrap-servers: kafka:9092
 eureka:
   instance:
     prefer-ip-address: true
@@ -17,4 +19,3 @@ eureka:
       waitTimeInMsWhenSyncEmpty: 0
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-    

@@ -1,0 +1,12 @@
+version: '3'
+services:
+  configserver:
+    image: szmengran/cloud-config-server:$CLOUD_VERSION
+    restart: always
+    environment:
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - GITLAB_USERNAME=$GITLAB_USERNAME
+      - GITLAB_PASSWORD=$GITLAB_PASSWORD
+    ports:
+     - "10001:10001"

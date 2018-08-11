@@ -6,4 +6,4 @@ ENV JAR_FILE cloud-hystrix-0.0.1.jar
 ADD ./target/$JAR_FILE /app/
 CMD java -Xmx200m -jar /app/$JAR_FILE
 
-EXPOSE 10012
+EXPOSE 10020
