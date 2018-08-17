@@ -1,6 +1,8 @@
 package com.suntak.cloud.recruitment.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +25,18 @@ public class ContactController {
 	@Autowired
 	ContactService contactService;
 	
-	@PostMapping(value="/contact")
-	public Response insert(@RequestBody T_hr_contact t_hr_contact) throws Exception {
-		contactService.insert(t_hr_contact);
+	@PostMapping(value="/contact/{applicantid}")
+	public Response saveOrUpdate(@PathVariable("applicantid") String applicantid, @RequestBody T_hr_contact t_hr_contact) throws Exception {
+		t_hr_contact.setApplicantid(applicantid);
+		contactService.saveOrUpdate(t_hr_contact);
 		return new Response();
 	}
-	
+
+	@GetMapping(value="/contact/{applicantid}")
+	public Response find(@PathVariable("applicantid") String applicantid) throws Exception {
+		T_hr_contact t_hr_contact = contactService.findByApplicantid(applicantid);
+		Response response = new Response();
+		response.setData(t_hr_contact);
+		return response;
+	}
 }

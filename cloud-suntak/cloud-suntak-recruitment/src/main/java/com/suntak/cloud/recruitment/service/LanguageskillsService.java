@@ -16,5 +16,14 @@ public interface LanguageskillsService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void insert(T_hr_languageskills t_hr_languageskills) throws Exception;
+	public void saveOrUpdate(T_hr_languageskills t_hr_languageskills) throws Exception;
+	
+	/**
+	 * 根据应聘者id查找紧急联系人
+	 * @param applicantid
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	public T_hr_languageskills findByApplicantid(String applicantid) throws Exception;
 }

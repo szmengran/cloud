@@ -16,6 +16,15 @@ public interface RelativesService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void insert(T_hr_relatives t_hr_relatives) throws Exception;
+	public void saveOrUpdate(T_hr_relatives t_hr_relatives) throws Exception;
+	
+	/**
+	 * 根据应聘者id查找工作经历
+	 * @param applicantid
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	public T_hr_relatives findByApplicantid(String applicantid) throws Exception;
 	
 }

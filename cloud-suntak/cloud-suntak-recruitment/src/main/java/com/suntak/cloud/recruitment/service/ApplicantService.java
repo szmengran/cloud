@@ -18,4 +18,22 @@ public interface ApplicantService {
 	 */
 	public void insert(T_hr_applicant t_hr_applicant) throws Exception;
 	
+	/**
+	 * 更新基本资料
+	 * @param t_hr_applicant
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	public int update(T_hr_applicant t_hr_applicant) throws Exception;
+	
+	/**
+	 * 根据主键查找基本信息
+	 * @param applicantid
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	public T_hr_applicant findById(String applicantid) throws Exception;
+	
 }

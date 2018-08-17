@@ -12,7 +12,7 @@ import com.szmengran.common.orm.dao.AbstractDao;
 
 /**
  * @Package com.suntak.cloud.interview.service.impl
- * @Description: TODO
+ * @Description: 应聘人员基本信息
  * @date 2018年7月19日 上午10:59:07
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
@@ -29,6 +29,20 @@ public class ApplicantServiceImpl implements ApplicantService{
 		t_hr_applicant.setCreatestamp(currentTime);
 		t_hr_applicant.setUpdatestamp(currentTime);
 		abstractDao.insert(t_hr_applicant);
+	}
+
+	@Override
+	public int update(T_hr_applicant t_hr_applicant) throws Exception {
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		t_hr_applicant.setUpdatestamp(currentTime);
+		return abstractDao.update(t_hr_applicant);
+	}
+
+	@Override
+	public T_hr_applicant findById(String applicantid) throws Exception {
+		T_hr_applicant t_hr_applicant = new T_hr_applicant();
+		t_hr_applicant.setApplicantid(applicantid);
+		return abstractDao.findByPrimaryKey(t_hr_applicant);
 	}
 
 }

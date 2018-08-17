@@ -6,16 +6,16 @@ package com.suntak.cloud.recruitment.entity;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 public class T_hr_relatives {
-	private Integer relativesid;
+	private String applicantid;
 	private String name        ;
 	private String department  ;
 	private String position    ;
 	private String relationship;
-	public Integer getRelativesid() {
-		return relativesid;
+	public String getApplicantid() {
+		return applicantid;
 	}
-	public void setRelativesid(Integer relativesid) {
-		this.relativesid = relativesid;
+	public void setApplicantid(String applicantid) {
+		this.applicantid = applicantid;
 	}
 	public String getName() {
 		return name;

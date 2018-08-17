@@ -6,15 +6,15 @@ package com.suntak.cloud.recruitment.entity;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 public class T_hr_languageskills {
-	private Integer applicantid;
+	private String applicantid;
 	private String mandarin    ;
 	private String english     ;
 	private String japanese    ;
 	private String other       ;
-	public Integer getApplicantid() {
+	public String getApplicantid() {
 		return applicantid;
 	}
-	public void setApplicantid(Integer applicantid) {
+	public void setApplicantid(String applicantid) {
 		this.applicantid = applicantid;
 	}
 	public String getMandarin() {

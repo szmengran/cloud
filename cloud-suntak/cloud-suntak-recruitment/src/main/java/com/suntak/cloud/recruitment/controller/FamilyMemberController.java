@@ -1,6 +1,11 @@
 package com.suntak.cloud.recruitment.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +27,25 @@ public class FamilyMemberController {
 	
 	@Autowired
 	FamilyMemberService familyMemberService;
-	
-	@PostMapping(value="/familyMember")
-	public Response insert(@RequestBody T_hr_familymember t_hr_familymember) throws Exception {
-		familyMemberService.insert(t_hr_familymember);
+
+	@PostMapping(value="/familyMember/{applicantid}")
+	public Response saveOrUpdate(@PathVariable("applicantid") String applicantid, @RequestBody T_hr_familymember t_hr_familymember) throws Exception {
+		t_hr_familymember.setApplicantid(applicantid);
+		familyMemberService.saveOrUpdate(t_hr_familymember);
 		return new Response();
 	}
-	
+
+	@GetMapping(value="/familyMember/{applicantid}")
+	public Response find(@PathVariable("applicantid") String applicantid) throws Exception {
+		List<T_hr_familymember> t_hr_familymember = familyMemberService.findByApplicantid(applicantid);
+		Response response = new Response();
+		response.setData(t_hr_familymember);
+		return response;
+	}
+
+	@DeleteMapping(value="/familyMember/{familymemberid}")
+	public Response delete(@PathVariable("familymemberid") Integer familymemberid) throws Exception {
+		familyMemberService.delete(familymemberid);
+		return new Response();
+	}
 }

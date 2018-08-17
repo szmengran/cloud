@@ -1,6 +1,8 @@
 package com.suntak.cloud.recruitment.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +25,18 @@ public class RelativesController {
 	@Autowired
 	RelativesService relativesService;
 	
-	@PostMapping(value="/relatives")
-	public Response insert(@RequestBody T_hr_relatives t_hr_relatives) throws Exception {
-		relativesService.insert(t_hr_relatives);
+	@PostMapping(value="/relatives/{applicantid}")
+	public Response insert(@PathVariable("applicantid") String applicantid, @RequestBody T_hr_relatives t_hr_relatives) throws Exception {
+		t_hr_relatives.setApplicantid(applicantid);
+		relativesService.saveOrUpdate(t_hr_relatives);
 		return new Response();
 	}
-	
+
+	@GetMapping(value="/relatives/{applicantid}")
+	public Response find(@PathVariable("applicantid") String applicantid) throws Exception {
+		T_hr_relatives t_hr_relatives = relativesService.findByApplicantid(applicantid);
+		Response response = new Response();
+		response.setData(t_hr_relatives);
+		return response;
+	}
 }

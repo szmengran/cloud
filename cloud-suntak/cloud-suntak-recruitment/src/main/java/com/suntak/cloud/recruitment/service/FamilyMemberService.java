@@ -1,5 +1,7 @@
 package com.suntak.cloud.recruitment.service;
 
+import java.util.List;
+
 import com.suntak.cloud.recruitment.entity.T_hr_familymember;
 
 /**
@@ -16,5 +18,22 @@ public interface FamilyMemberService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void insert(T_hr_familymember t_hr_familymember) throws Exception;
+	public void saveOrUpdate(T_hr_familymember t_hr_familymember) throws Exception;
+	
+	/**
+	 * 根据应聘者id查找家庭成员信息
+	 * @param applicantid
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	public List<T_hr_familymember> findByApplicantid(String applicantid) throws Exception;
+	
+	/**
+	 * 删除家庭成员信息
+	 * @param workhistoryid
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	public void delete(Integer familymemberid) throws Exception;
 }

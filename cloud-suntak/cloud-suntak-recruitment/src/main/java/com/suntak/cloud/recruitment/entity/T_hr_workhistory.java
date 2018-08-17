@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  */
 public class T_hr_workhistory {
 	private Integer workhistoryid   ;
-	private Integer applicantid     ;
+	private String applicantid     ;
 	private Timestamp starttime     ;
 	private Timestamp endtime       ;
 	private String company          ;
@@ -24,10 +24,10 @@ public class T_hr_workhistory {
 	public void setWorkhistoryid(Integer workhistoryid) {
 		this.workhistoryid = workhistoryid;
 	}
-	public Integer getApplicantid() {
+	public String getApplicantid() {
 		return applicantid;
 	}
-	public void setApplicantid(Integer applicantid) {
+	public void setApplicantid(String applicantid) {
 		this.applicantid = applicantid;
 	}
 	public Timestamp getStarttime() {

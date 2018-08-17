@@ -16,5 +16,14 @@ public interface ContactService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void insert(T_hr_contact t_hr_contact) throws Exception;
+	public void saveOrUpdate(T_hr_contact t_hr_contact) throws Exception;
+	
+	/**
+	 * 根据应聘者id查找紧急联系人
+	 * @param applicantid
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	public T_hr_contact findByApplicantid(String applicantid) throws Exception;
 }

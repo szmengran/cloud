@@ -30,7 +30,7 @@ public class T_hr_applicant {
 	private Float rightvision;
 	private String education;
 	private String profession;
-	private String medicalhistory;
+	private Integer medicalhistory;
 	private Integer crimehistory;
 	private Integer pregnancy;
 	private String jobtitle;
@@ -164,10 +164,10 @@ public class T_hr_applicant {
 	public void setProfession(String profession) {
 		this.profession = profession;
 	}
-	public String getMedicalhistory() {
+	public Integer getMedicalhistory() {
 		return medicalhistory;
 	}
-	public void setMedicalhistory(String medicalhistory) {
+	public void setMedicalhistory(Integer medicalhistory) {
 		this.medicalhistory = medicalhistory;
 	}
 	public Integer getCrimehistory() {
