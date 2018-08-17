@@ -160,7 +160,8 @@ public class QuestionnaireController {
 						Boolean flag = questionnaireService.check(yearmonth);
 						if (flag) {
 							List<Questionnaire> questionnaireList = questionnaireService.findResult(yearmonth);
-							for (int i=0; i<questionnaireList.size(); i++) {
+							int size = questionnaireList.size();
+							for (int i=0; i<size; i++) {
 								Questionnaire questionnaire = questionnaireList.get(i);
 								try {
 									String year = yearmonth.substring(0,4);
@@ -170,7 +171,7 @@ public class QuestionnaireController {
 									questionnaire_sms.setYear(year);
 									questionnaire_sms.setMonth(month);
 									questionnaire_sms.setPhone(questionnaire.getPhone());
-									questionnaire_sms.setNum(questionnaire.getTotalcount());
+									questionnaire_sms.setNum(size);
 									questionnaire_sms.setScore(questionnaire.getAvgscore());
 									questionnaire_sms.setRank((i+1));
 									questionnaireSmsServiceClient.sendQuestionnaireSmsCode(questionnaire_sms);
