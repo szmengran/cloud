@@ -11,7 +11,7 @@ import com.suntak.cloud.recruitment.service.ApplicantService;
 import com.szmengran.common.orm.dao.AbstractDao;
 
 /**
- * @Package com.suntak.cloud.interview.service.impl
+ * @Package com.suntak.cloud.recruitment.service.impl
  * @Description: 应聘人员基本信息
  * @date 2018年7月19日 上午10:59:07
  * @author <a href="mailto:android_li@sina.cn">Joe</a>

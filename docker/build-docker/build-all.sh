@@ -10,3 +10,4 @@ sh ./build-docker/build-suntak-sms.sh
 sh ./build-docker/build-suntak-questionnaire.sh
 sh ./build-docker/build-suntak-test.sh
 sh ./build-docker/build-suntak-activity.sh
+sh ./build-docker/build-suntak-recruitment.sh

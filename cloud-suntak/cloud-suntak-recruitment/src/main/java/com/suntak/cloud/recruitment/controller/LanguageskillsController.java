@@ -29,6 +29,12 @@ public class LanguageskillsController {
 	public Response saveOrUpdate(@PathVariable("applicantid") String applicantid, @RequestBody T_hr_languageskills t_hr_languageskills) throws Exception {
 		t_hr_languageskills.setApplicantid(applicantid);
 		languageskillsService.saveOrUpdate(t_hr_languageskills);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				
+			}
+		}).start();
 		return new Response();
 	}
 
