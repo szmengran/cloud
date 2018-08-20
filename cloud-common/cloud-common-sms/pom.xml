@@ -50,7 +50,6 @@
 		<dependency>
 			<groupId>com.szmengran</groupId>
 			<artifactId>cloud-common-utils</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.szmengran</groupId>
@@ -72,7 +71,6 @@
 		<dependency>
 			<groupId>com.szmengran</groupId>
 			<artifactId>cloud-model-common</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
