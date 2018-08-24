@@ -1,7 +1,5 @@
 package com.suntak.cloud.recruitment.service;
 
-import java.util.List;
-
 import com.suntak.cloud.recruitment.entity.T_hr_educationhistory;
 
 /**
@@ -11,16 +9,7 @@ import com.suntak.cloud.recruitment.entity.T_hr_educationhistory;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 public interface EducationHistoryService {
-	
-	/**
-	 * 填写教育经历
-	 * @param applicantid
-	 * @param t_hr_educationhistory
-	 * @throws Exception 
-	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
-	 */
-	public void saveOrUpdateList(String applicantid, List<T_hr_educationhistory> t_hr_educationhistory) throws Exception;
-	
+
 	/**
 	 * 保存教育经历
 	 * @param applicantid
@@ -31,19 +20,11 @@ public interface EducationHistoryService {
 	public void saveOrUpdate(T_hr_educationhistory t_hr_educationhistory) throws Exception;
 	
 	/**
-	 * 删除教育经历
-	 * @param educationhistoryid
-	 * @throws Exception 
-	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
-	 */
-	public void delete(Integer educationhistoryid) throws Exception;
-	
-	/**
 	 * 根据主键查找学习经历
 	 * @param applicantid
 	 * @return
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public List<T_hr_educationhistory> findByApplicantid(String applicantid) throws Exception;
+	public T_hr_educationhistory findByApplicantid(String applicantid) throws Exception;
 }

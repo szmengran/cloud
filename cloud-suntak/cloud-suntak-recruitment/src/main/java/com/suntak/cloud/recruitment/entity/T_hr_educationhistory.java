@@ -9,19 +9,12 @@ import java.sql.Timestamp;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 public class T_hr_educationhistory {
-	private Integer educationhistoryid;
 	private String applicantid        ;
 	private Timestamp starttime     ;
 	private Timestamp endtime       ;
 	private String school             ;
 	private String profession         ;
 	private String certificate        ;
-	public Integer getEducationhistoryid() {
-		return educationhistoryid;
-	}
-	public void setEducationhistoryid(Integer educationhistoryid) {
-		this.educationhistoryid = educationhistoryid;
-	}
 	public String getApplicantid() {
 		return applicantid;
 	}

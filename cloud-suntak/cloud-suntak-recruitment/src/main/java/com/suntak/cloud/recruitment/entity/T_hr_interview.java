@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 public class T_hr_interview {
 	private Integer interviewid  ;
 	private String applicantid   ;
-	private String username      ;
+	private Integer userid      ;
 	private String result        ;
 	private String pass          ;
 	private Timestamp createstamp;
@@ -28,11 +28,11 @@ public class T_hr_interview {
 	public void setApplicantid(String applicantid) {
 		this.applicantid = applicantid;
 	}
-	public String getUsername() {
-		return username;
+	public Integer getUserid() {
+		return userid;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserid(Integer userid) {
+		this.userid = userid;
 	}
 	public String getResult() {
 		return result;

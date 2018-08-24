@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.recruitment.entity.T_hr_interview;
+import com.suntak.cloud.recruitment.entity.ext.T_hr_interview_ext;
 import com.suntak.cloud.recruitment.service.InterviewService;
 import com.suntak.exception.model.Response;
 
@@ -29,4 +30,10 @@ public class InterviewController {
 		return new Response();
 	}
 	
+
+	@PostMapping("/recruiter")
+	public Response handler(@RequestBody T_hr_interview_ext t_hr_interview_ext) throws Exception {
+		interviewService.interviewAndassignTask(t_hr_interview_ext);
+		return new Response();
+	}
 }

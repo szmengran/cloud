@@ -1,9 +1,6 @@
 package com.suntak.cloud.recruitment.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,16 +33,10 @@ public class EducationHistoryController {
 	}
 
 	@GetMapping(value="/educationHistory/{applicantid}")
-	public Response findEducationByApplicantId(@PathVariable("applicantid") String applicantid) throws Exception {
-		List<T_hr_educationhistory> t_hr_educationhistorys = educationHistoryService.findByApplicantid(applicantid);
+	public Response find(@PathVariable("applicantid") String applicantid) throws Exception {
+		T_hr_educationhistory t_hr_educationhistory = educationHistoryService.findByApplicantid(applicantid);
 		Response response = new Response();
-		response.setData(t_hr_educationhistorys);
+		response.setData(t_hr_educationhistory);
 		return response;
-	}
-	
-	@DeleteMapping(value="/educationHistory/{educationhistoryid}")
-	public Response delete(@PathVariable("educationhistoryid") Integer educationhistoryid) throws Exception {
-		educationHistoryService.delete(educationhistoryid);
-		return new Response();
 	}
 }

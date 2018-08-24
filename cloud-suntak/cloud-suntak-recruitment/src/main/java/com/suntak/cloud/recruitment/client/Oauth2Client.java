@@ -16,12 +16,12 @@ public class Oauth2Client {
 //	Response token(@PathVariable("code") String code, @PathVariable("phone") String phone) throws Exception;
 	
 	public static void main(String[] args) {  
-        String []cmds = {"curl", "-i", "-w", "状态%{http_code}；DNS时间%{time_namelookup}；"  
-                + "等待时间%{time_pretransfer}TCP 连接%{time_connect}；发出请求%{time_starttransfer}；"  
-                + "总时间%{time_total}","http://localhost:10000/oauth/token"};  
-//        String[] cmds = {"curl", "-XPOST", "-u recruitment:Recruitment123", " -d grant_type=client_credentials ", "状态%{http_code}；DNS时间%{time_namelookup}；"  
-//        		+ "等待时间%{time_pretransfer}TCP 连接%{time_connect}；发出请求%{time_starttransfer}；"  
-//        		+ "总时间%{time_total}","http://localhost:10000/oauth/token"};  
+//        String []cmds = {"curl", "-i", "-w", "状态%{http_code}；DNS时间%{time_namelookup}；"  
+//                + "等待时间%{time_pretransfer}TCP 连接%{time_connect}；发出请求%{time_starttransfer}；"  
+//                + "总时间%{time_total}","http://localhost:10000/oauth/token"};  
+        String[] cmds = {"curl", "-XPOST", "-u recruitment:Recruitment123", " -d grant_type=client_credentials ", "状态%{http_code}；DNS时间%{time_namelookup}；"  
+        		+ "等待时间%{time_pretransfer}TCP 连接%{time_connect}；发出请求%{time_starttransfer}；"  
+        		+ "总时间%{time_total}","http://localhost:10000/oauth/token"};  
         ProcessBuilder pb=new ProcessBuilder(cmds);  
         pb.redirectErrorStream(true);  
         Process p;  

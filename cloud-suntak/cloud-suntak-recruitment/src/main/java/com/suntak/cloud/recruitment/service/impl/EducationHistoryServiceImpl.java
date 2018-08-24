@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.recruitment.entity.T_hr_educationhistory;
 import com.suntak.cloud.recruitment.service.EducationHistoryService;
-import com.szmengran.common.orm.DBManager;
-import com.szmengran.common.orm.DbPrimaryKeyType;
 import com.szmengran.common.orm.dao.AbstractDao;
 
 /**
@@ -28,35 +26,21 @@ public class EducationHistoryServiceImpl implements EducationHistoryService{
 	AbstractDao abstractDao;
 	
 	@Override
-	public void saveOrUpdateList(String applicantid, List<T_hr_educationhistory> t_hr_educationhistory) throws Exception {
-		DBManager dbManager = new DBManager(abstractDao.getWriteDataSource());
-		dbManager.beginTransaction();
-		abstractDao.executeSql(dbManager, "delete from t_hr_educationhistory where applicantid=?", new Object[] {applicantid});
-		abstractDao.addBatch(dbManager, t_hr_educationhistory, DbPrimaryKeyType.SEQ, "seq_t_hr_educationhistory");
-		dbManager.commitBatch();
-		dbManager.commitTransaction();
-	}
-	
-	@Override
 	public void saveOrUpdate(T_hr_educationhistory t_hr_educationhistory) throws Exception {
-		if (t_hr_educationhistory.getEducationhistoryid() == null) {
-			abstractDao.insert(t_hr_educationhistory, DbPrimaryKeyType.SEQ, "seq_t_hr_educationhistory");
-		} else {
-			abstractDao.update(t_hr_educationhistory);
+		int num = abstractDao.update(t_hr_educationhistory);
+		if (num == 0) {
+			abstractDao.insert(t_hr_educationhistory);
 		}
-	}
-	
-	@Override
-	public void delete(Integer educationhistoryid) throws Exception {
-		T_hr_educationhistory t_hr_educationhistory = new T_hr_educationhistory();
-		t_hr_educationhistory.setEducationhistoryid(educationhistoryid);
-		abstractDao.delete(t_hr_educationhistory);
 	}
 
 	@Override
-	public List<T_hr_educationhistory> findByApplicantid(String applicantid) throws Exception {
+	public T_hr_educationhistory findByApplicantid(String applicantid) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("applicantid", applicantid);
-		return abstractDao.findByConditions(T_hr_educationhistory.class, params);
+		List<T_hr_educationhistory> list = abstractDao.findByConditions(T_hr_educationhistory.class, params);
+		if (list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
 	}
 }

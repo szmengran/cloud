@@ -1,7 +1,9 @@
 package com.suntak.cloud.recruitment.service;
 
-import com.suntak.cloud.recruitment.entity.T_hr_contact;
+import java.util.List;
+
 import com.suntak.cloud.recruitment.entity.T_hr_task;
+import com.suntak.cloud.recruitment.entity.ext.T_hr_task_ext;
 
 /**
  * @Package com.suntak.cloud.recruitment.service
@@ -20,13 +22,12 @@ public interface TaskService {
 	public void insert(T_hr_task t_hr_task) throws Exception;
 	
 	/**
-	 * 根据应聘者id查找紧急联系人
-	 * @param applicantid
+	 * 查找任务
+	 * @param roles
+	 * @param userid
 	 * @return
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public T_hr_task findByApplicantid(String applicantid) throws Exception;
-	
-	public void assignTask() throws Exception;
+	public List<T_hr_task_ext> find(String[] roles, Integer userid) throws Exception;
 }
