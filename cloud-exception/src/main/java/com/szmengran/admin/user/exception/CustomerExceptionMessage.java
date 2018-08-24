@@ -19,7 +19,7 @@ public class CustomerExceptionMessage {
     static {
         messageMap.put("2000", "工艺信息填写不完整，请填写再继续");
         messageMap.put("2001", "PCB文件没有上传，请上传PCB文件再继续！");
-        messageMap.put("3002", "输入的旧密码错误");
+        messageMap.put("3002", "输入的密码不正确！");
         
         messageMap.put("4000", "在HR系统中找不到该工号的信息！");
         //短信部分异常代码

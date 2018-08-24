@@ -137,4 +137,13 @@ public class UserServiceImpl implements UserService{
 			dbManager.close();
 		}
 	}
+	
+	@Override
+	public List<T_power_user> findUserByRole(String assignrole) throws Exception {
+		StringBuffer strSql = new StringBuffer();
+		strSql.append("select userid, username, nickname from t_power_user where userid in(")
+		.append("select userid from t_power_user_role_r where roleid in(")
+		.append("select roleid from t_power_role where rolename=?))");
+		return abstractDao.findBySql(T_power_user.class, strSql.toString(), new Object[] {assignrole});
+	}
 }

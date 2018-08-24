@@ -1,28 +1,5 @@
 version: '3'
 services:
-  rabbitmq:
-    image: rabbitmq
-    restart: always
-    ports:
-      - 5672:5672
-  discovery:
-    image: szmengran/cloud-discovery-eureka:$CLOUD_VERSION
-    restart: always
-    environment:
-      - KAFKA_SERVER=$KAFKA_SERVER
-    ports:
-     - "8761:8761"
-  configserver:
-    image: szmengran/cloud-config-server:$CLOUD_VERSION
-    restart: always
-    environment:
-      - KAFKA_SERVER=$KAFKA_SERVER
-      - ENVIRONMENT=$CLOUD_ENVIRONMENT
-      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - GITLAB_USERNAME=$GITLAB_USERNAME
-      - GITLAB_PASSWORD=$GITLAB_PASSWORD
-    ports:
-     - "10001:10001"
   gateway:
     image: szmengran/cloud-gateway-zuul:$CLOUD_VERSION
     restart: always
@@ -119,6 +96,16 @@ services:
       - ENVIRONMENT=$CLOUD_ENVIRONMENT
     ports:
      - 10009:10009
+  recruitment:
+    image: szmengran/cloud-suntak-recruitment:$CLOUD_VERSION
+    restart: always
+    environment:
+      - KAFKA_SERVER=$KAFKA_SERVER
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$CLOUD_ENVIRONMENT
+    ports:
+     - 10011:10011
 networks:
   default:
     external:

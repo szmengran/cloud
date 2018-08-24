@@ -23,4 +23,4 @@ spring:
     traceId128:
       true
   kafka:
-    bootstrap-servers: kafka:9092
+    bootstrap-servers: ${KAFKA_SERVER}

@@ -47,12 +47,10 @@
 		<dependency>
 			<groupId>com.szmengran</groupId>
 			<artifactId>cloud-exception</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.szmengran</groupId>
 			<artifactId>cloud-model-suntak</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>

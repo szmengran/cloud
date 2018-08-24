@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.szmengran</groupId>
@@ -14,24 +15,26 @@
 	</parent>
 
 	<properties>
+		<orm.version>0.0.3</orm.version>
 		<bintray.package>cloud</bintray.package>
 		<spring-boot.version>2.0.3.RELEASE</spring-boot.version>
-		<orm.version>0.0.3</orm.version>
 		<spring-security-oauth2.version>2.2.1.RELEASE</spring-security-oauth2.version>
 		<donotreplacespring-cloud-contract.version>1.2.0.RELEASE</donotreplacespring-cloud-contract.version>
 
 		<!-- Plugin versions -->
-		<maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
 		<maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version>
+		<maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+
 		<!-- Sonar -->
-		<surefire.plugin.version>2.19.1</surefire.plugin.version>
 		<aop.version>0.0.1</aop.version>
-		<springfox.version>2.8.0</springfox.version>
 		<jwt.version>0.7.0</jwt.version>
+		<springfox.version>2.8.0</springfox.version>
+		<surefire.plugin.version>2.19.1</surefire.plugin.version>
 
 		<!-- 文件拷贝时的编码 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
 		<!-- 编译时的编码 -->
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 		<spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
@@ -195,6 +198,7 @@
 				<version>0.2.0-RC1</version>
 				<scope>runtime</scope>
 			</dependency>
+
 			<dependency>
 				<groupId>com.szmengran</groupId>
 				<artifactId>cloud-model-common</artifactId>
@@ -203,6 +207,21 @@
 			<dependency>
 				<groupId>com.szmengran</groupId>
 				<artifactId>cloud-common-utils</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.szmengran</groupId>
+				<artifactId>cloud-model-suntak</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.szmengran</groupId>
+				<artifactId>cloud-exception</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.szmengran</groupId>
+				<artifactId>cloud-model-admin</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
 		</dependencies>

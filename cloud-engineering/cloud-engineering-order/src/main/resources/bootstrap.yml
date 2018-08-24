@@ -15,6 +15,8 @@ spring:
   sleuth:
     traceId128:
       true
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
 endpoints:
   restart:
     enabled: true

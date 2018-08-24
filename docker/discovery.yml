@@ -3,5 +3,12 @@ services:
   discovery:
     image: szmengran/cloud-discovery-eureka:$CLOUD_VERSION
     restart: always
+    environment:
+      - KAFKA_SERVER=$KAFKA_SERVER
     ports:
      - "8761:8761"
+networks:
+  default:
+    external:
+      name: cloud
+

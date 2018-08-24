@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<springProperty scope="context" name="springAppName" source="spring.application.name"/>
+	<springProperty scope="context" name="kafkaService" source="spring.kafka.bootstrap-servers"/>
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread, %X{X-B3-TraceId:-},%X{X-B3-SpanId:-}] %-5level %logger{36} - %msg%n</pattern>
@@ -55,7 +56,7 @@
 			key=value) -->
 		<!-- producer configs are documented here: https://kafka.apache.org/documentation.html#newproducerconfigs -->
 		<!-- bootstrap.servers is the only mandatory producerConfig -->
-		<producerConfig>bootstrap.servers=kafka:9092</producerConfig>
+		<producerConfig>bootstrap.servers=${kafkaService}</producerConfig>
 		<producerConfig>buffer.memory=8388608</producerConfig>
 
 		<!-- If the kafka broker is not online when we try to log, just block until 

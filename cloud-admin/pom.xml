@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
@@ -19,10 +20,6 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-oauth2</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -51,12 +48,14 @@
 		<dependency>
 			<groupId>com.szmengran</groupId>
 			<artifactId>cloud-exception</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.szmengran</groupId>
 			<artifactId>cloud-model-admin</artifactId>
-			<version>${project.parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.szmengran</groupId>
+			<artifactId>cloud-common-utils</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
