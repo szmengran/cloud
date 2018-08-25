@@ -38,8 +38,6 @@ security:
       client-secret: 12345
 
 spring:
-  kafka:
-    bootstrap-servers: kafka:9092
   datasource:
     druid:
       common:

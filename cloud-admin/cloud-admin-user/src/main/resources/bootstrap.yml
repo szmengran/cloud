@@ -22,4 +22,3 @@ spring:
       true
   kafka:
     bootstrap-servers: ${KAFKA_SERVER}
-    
