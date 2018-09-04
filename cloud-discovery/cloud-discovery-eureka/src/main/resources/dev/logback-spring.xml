@@ -56,7 +56,7 @@
 			key=value) -->
 		<!-- producer configs are documented here: https://kafka.apache.org/documentation.html#newproducerconfigs -->
 		<!-- bootstrap.servers is the only mandatory producerConfig -->
-		<producerConfig>bootstrap.servers=${kafkaService}</producerConfig>
+		<producerConfig>bootstrap.servers={kafkaService}</producerConfig>
 		<producerConfig>buffer.memory=8388608</producerConfig>
 
 		<!-- If the kafka broker is not online when we try to log, just block until 

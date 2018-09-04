@@ -1,12 +1,8 @@
 server:
-  port: 10009
-logging:
-  level:
-    org.springframework.security: DEBUG
-  config: ${CONFIG_SERVER_ADDRESS}/resources/logback-spring.xml
+  port: 10014
 spring:
   application:
-    name: cloud-suntak-test
+    name: cloud-suntak-wechat
   cloud:
     config:
       uri: ${CONFIG_SERVER_ADDRESS}
@@ -18,3 +14,5 @@ spring:
       true
   kafka:
     bootstrap-servers: ${KAFKA_SERVER}
+logging:
+  config: ${CONFIG_SERVER_ADDRESS}/resources/logback-spring.xml

@@ -17,4 +17,9 @@ public class BusinessException extends AbstractException{
 		super.setStatus(status);
 		super.setMsg(CustomerExceptionMessage.getMessage(status));
 	}
+	
+	public BusinessException(Integer status, String errormsg) {
+		super.setStatus(status);
+		super.setMsg(errormsg);
+	}
 }

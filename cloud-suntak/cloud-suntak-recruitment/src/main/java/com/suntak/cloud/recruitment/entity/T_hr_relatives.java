@@ -11,6 +11,7 @@ public class T_hr_relatives {
 	private String department  ;
 	private String position    ;
 	private String relationship;
+	private String flag;
 	public String getApplicantid() {
 		return applicantid;
 	}
@@ -40,6 +41,12 @@ public class T_hr_relatives {
 	}
 	public void setRelationship(String relationship) {
 		this.relationship = relationship;
+	}
+	public String getFlag() {
+		return flag;
+	}
+	public void setFlag(String flag) {
+		this.flag = flag;
 	}
 	
 }

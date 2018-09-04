@@ -13,5 +13,6 @@
   	<module>cloud-model-admin</module>
   	<module>cloud-model-common</module>
   	<module>cloud-model-suntak</module>
+  	<module>cloud-model-wechat</module>
   </modules>
 </project>

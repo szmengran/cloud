@@ -10,6 +10,7 @@ import java.sql.Timestamp;
  */
 public class T_hr_applicant {
 	private String applicantid;
+	private String ownerid;
 	private String name;
 	private String formername;
 	private Integer sex;
@@ -35,6 +36,14 @@ public class T_hr_applicant {
 	private Integer pregnancy;
 	private String jobtitle;
 	private String hobby;
+	private String relativesname        ;
+	private String relativesdepartment  ;
+	private String relativesposition    ;
+	private String relativesrelationship;
+	private String mandarin             ;
+	private String english              ;
+	private String japanese             ;
+	private String other                ;
 	private Timestamp createstamp;
 	private Timestamp updatestamp;
 	private Integer status;
@@ -43,6 +52,12 @@ public class T_hr_applicant {
 	}
 	public void setApplicantid(String applicantid) {
 		this.applicantid = applicantid;
+	}
+	public String getOwnerid() {
+		return ownerid;
+	}
+	public void setOwnerid(String ownerid) {
+		this.ownerid = ownerid;
 	}
 	public String getName() {
 		return name;
@@ -193,6 +208,54 @@ public class T_hr_applicant {
 	}
 	public void setHobby(String hobby) {
 		this.hobby = hobby;
+	}
+	public String getRelativesname() {
+		return relativesname;
+	}
+	public void setRelativesname(String relativesname) {
+		this.relativesname = relativesname;
+	}
+	public String getRelativesdepartment() {
+		return relativesdepartment;
+	}
+	public void setRelativesdepartment(String relativesdepartment) {
+		this.relativesdepartment = relativesdepartment;
+	}
+	public String getRelativesposition() {
+		return relativesposition;
+	}
+	public void setRelativesposition(String relativesposition) {
+		this.relativesposition = relativesposition;
+	}
+	public String getRelativesrelationship() {
+		return relativesrelationship;
+	}
+	public void setRelativesrelationship(String relativesrelationship) {
+		this.relativesrelationship = relativesrelationship;
+	}
+	public String getMandarin() {
+		return mandarin;
+	}
+	public void setMandarin(String mandarin) {
+		this.mandarin = mandarin;
+	}
+	public String getEnglish() {
+		return english;
+	}
+	public void setEnglish(String english) {
+		this.english = english;
+	}
+	public String getJapanese() {
+		return japanese;
+	}
+	public void setJapanese(String japanese) {
+		this.japanese = japanese;
+	}
+	public String getOther() {
+		return other;
+	}
+	public void setOther(String other) {
+		this.other = other;
 	}
 	public Timestamp getCreatestamp() {
 		return createstamp;
