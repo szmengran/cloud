@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * @Package com.suntak.cloud.wechat
- * @Description: 企业微信交互表
+ * @Description: 企业微信交互服务
  * @date 2018年8月31日 下午2:33:47
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */

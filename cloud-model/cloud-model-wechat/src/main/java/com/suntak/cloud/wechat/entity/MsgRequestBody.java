@@ -10,7 +10,7 @@ public class MsgRequestBody {
 	private String toparty;
 	private String totag;
 	private String msgtype;
-	private Integer agentid;
+	private String agentid;
 	private Textcard textcard;
 	public String getTouser() {
 		return touser;
@@ -36,10 +36,10 @@ public class MsgRequestBody {
 	public void setMsgtype(String msgtype) {
 		this.msgtype = msgtype;
 	}
-	public Integer getAgentid() {
+	public String getAgentid() {
 		return agentid;
 	}
-	public void setAgentid(Integer agentid) {
+	public void setAgentid(String agentid) {
 		this.agentid = agentid;
 	}
 	public Textcard getTextcard() {

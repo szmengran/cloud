@@ -28,6 +28,7 @@ public class ApplicantServiceImpl implements ApplicantService{
 		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
 		t_hr_applicant.setCreatestamp(currentTime);
 		t_hr_applicant.setUpdatestamp(currentTime);
+		t_hr_applicant.setStatus(0);
 		abstractDao.insert(t_hr_applicant);
 	}
 

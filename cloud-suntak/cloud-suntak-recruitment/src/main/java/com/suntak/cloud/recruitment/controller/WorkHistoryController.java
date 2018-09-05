@@ -1,9 +1,6 @@
 package com.suntak.cloud.recruitment.controller;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.suntak.cloud.recruitment.entity.T_hr_applicant;
 import com.suntak.cloud.recruitment.entity.T_hr_workhistory;
-import com.suntak.cloud.recruitment.service.ApplicantService;
 import com.suntak.cloud.recruitment.service.WorkHistoryService;
 import com.suntak.exception.model.Response;
 
@@ -32,20 +27,11 @@ public class WorkHistoryController {
 	
 	@Autowired
 	WorkHistoryService workHistoryService;
-
-	@Autowired
-	ApplicantService applicantService;
 	
 	@PostMapping(value="/workHistory/{applicantid}")
 	public Response fillInWorkHistory(@PathVariable("applicantid") String applicantid, @RequestBody T_hr_workhistory t_hr_workhistory) throws Exception {
 		t_hr_workhistory.setApplicantid(applicantid);
 		workHistoryService.saveOrUpdate(t_hr_workhistory);
-		ExecutorService executor = Executors.newCachedThreadPool();
-		Future<T_hr_applicant> future = executor.submit(() -> {
-			return applicantService.findById(applicantid);
-		});
-		T_hr_applicant t_hr_applicant = future.get();
-		
 		return new Response();
 	}
 

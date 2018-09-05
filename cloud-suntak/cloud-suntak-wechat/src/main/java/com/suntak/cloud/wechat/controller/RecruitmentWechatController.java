@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.wechat.client.WechatServiceClient;
 import com.suntak.cloud.wechat.entity.MsgRequestBody;
+import com.suntak.cloud.wechat.service.TokenService;
 import com.suntak.exception.model.Response;
 import com.szmengran.admin.user.exception.BusinessException;
 
@@ -32,15 +32,18 @@ public class RecruitmentWechatController {
 	@Value("${wechat.corpid}")
 	private String corpid;
 	
-	@Value("${wechat.corpsecret.interview}")
-	private String corpsecret;
+	@Value("${wechat.recruitment.Secret}")
+	private String secret;
 	
 	@Autowired
 	private WechatServiceClient wechatServiceClient;
 	
+	@Autowired
+	private TokenService tokenService;
+	
 	@PostMapping("/textcard")
 	public Response sendTextcard(@RequestBody MsgRequestBody msgRequestBody) throws Exception {
-		JSONObject jsonObject = JSONObject.fromObject(wechatServiceClient.getToken(corpid, corpsecret));
+		JSONObject jsonObject = JSONObject.fromObject(tokenService.getToken(secret));
 		String access_token = jsonObject.getString("access_token");
 		String errormsg = jsonObject.getString("errmsg");
 		if ("ok".equalsIgnoreCase(errormsg)) {
