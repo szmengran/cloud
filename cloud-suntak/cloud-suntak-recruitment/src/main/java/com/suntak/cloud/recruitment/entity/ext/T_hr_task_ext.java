@@ -10,7 +10,8 @@ import com.suntak.cloud.recruitment.entity.T_hr_task;
  */
 public class T_hr_task_ext extends T_hr_task{
 	private String name;
-	private String nextrole;
+	private String subflowname;
+	private String nextflowid;
 	private String url;
 	public String getName() {
 		return name;
@@ -18,11 +19,17 @@ public class T_hr_task_ext extends T_hr_task{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getNextrole() {
-		return nextrole;
+	public String getSubflowname() {
+		return subflowname;
 	}
-	public void setNextrole(String nextrole) {
-		this.nextrole = nextrole;
+	public void setSubflowname(String subflowname) {
+		this.subflowname = subflowname;
+	}
+	public String getNextflowid() {
+		return nextflowid;
+	}
+	public void setNextflowid(String nextflowid) {
+		this.nextflowid = nextflowid;
 	}
 	public String getUrl() {
 		return url;
@@ -30,5 +37,4 @@ public class T_hr_task_ext extends T_hr_task{
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
 }

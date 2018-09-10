@@ -10,18 +10,18 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.wechat.client.WechatServiceClient;
-import com.suntak.cloud.wechat.service.TokenService;
+import com.suntak.cloud.wechat.service.WechatService;
 
 /**
- * @Package com.szmengran.wechat.token.service.impl
- * @Description: 企业微信
- * @date 2018年9月5日 上午9:38:08
+ * @Package com.suntak.cloud.wechat.service.impl
+ * @Description: 微信服务
+ * @date 2018年9月6日 下午2:14:29
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
-@Service("qyWechatTokenService")
-public class QyWechatTokenServiceImpl implements TokenService{
+@Service
+public class WechatServiceImpl implements WechatService{
 	
-	private static final Logger logger = LoggerFactory.getLogger(QyWechatTokenServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(WechatServiceImpl.class);
 	
 	@Value("${wechat.corpid}")
     private String appid;
@@ -40,4 +40,10 @@ public class QyWechatTokenServiceImpl implements TokenService{
 	public void qyWechatCacheEvict() {
 	      logger.info("remove qywechatToken cache");
 	}
+	
+	@Override
+	public Object getUserInfo(String access_token, String code) throws Exception {
+		return wechatServiceClient.getUserInfo(access_token, code);
+	}
+
 }

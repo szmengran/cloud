@@ -8,10 +8,11 @@ package com.suntak.cloud.recruitment.entity;
 public class T_hr_workflow_sub {
 	private Integer subflowid;
 	private Integer workflowid;
-	private String name;
-	private String currentrole;
-	private String nextrole;
+	private String subflowname;
+	private String role;
+	private String nextflowid;
 	private String url;
+	private Integer agree;
 	public Integer getSubflowid() {
 		return subflowid;
 	}
@@ -24,29 +25,35 @@ public class T_hr_workflow_sub {
 	public void setWorkflowid(Integer workflowid) {
 		this.workflowid = workflowid;
 	}
-	public String getName() {
-		return name;
+	public String getSubflowname() {
+		return subflowname;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setSubflowname(String subflowname) {
+		this.subflowname = subflowname;
 	}
-	public String getCurrentrole() {
-		return currentrole;
+	public String getRole() {
+		return role;
 	}
-	public void setCurrentrole(String currentrole) {
-		this.currentrole = currentrole;
+	public void setRole(String role) {
+		this.role = role;
 	}
-	public String getNextrole() {
-		return nextrole;
+	public String getNextflowid() {
+		return nextflowid;
 	}
-	public void setNextrole(String nextrole) {
-		this.nextrole = nextrole;
+	public void setNextflowid(String nextflowid) {
+		this.nextflowid = nextflowid;
 	}
 	public String getUrl() {
 		return url;
 	}
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	public Integer getAgree() {
+		return agree;
+	}
+	public void setAgree(Integer agree) {
+		this.agree = agree;
 	}
 	
 }

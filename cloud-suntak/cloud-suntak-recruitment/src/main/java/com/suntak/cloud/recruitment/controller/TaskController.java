@@ -3,6 +3,9 @@ package com.suntak.cloud.recruitment.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +52,12 @@ public class TaskController {
 	
 	@Value("${task.interview.url}")
 	private String tasklisturl;
-
+	
+	@Value("${task.interview.startrole}")
+	private String startrole;
+	@Value("${task.interview.workflowid}")
+	private Integer workflowid;
+	
 	@Autowired
 	TaskService taskService;
 
@@ -66,7 +74,7 @@ public class TaskController {
 	}
 	
 	@GetMapping("/task/{roles}/{userid}")
-	public Response find(@PathVariable("userid") Integer userid, @PathVariable("roles") String strRole) throws Exception {
+	public Response find(@PathVariable("userid") String userid, @PathVariable("roles") String strRole) throws Exception {
 		List<T_hr_task_ext> list = taskService.find(strRole.split(","), userid);
 		Response response = new Response();
 		response.setData(list);
@@ -83,42 +91,68 @@ public class TaskController {
 	@GetMapping(value="/step/finish/{applicantid}")
 	public Response finish(@PathVariable("applicantid") String applicantid) throws Exception {
 		T_hr_applicant t_hr_applicant = applicantService.findById(applicantid);
-		if (t_hr_applicant.getStatus() != 0) { //状态为0表示信息还没有提交过
-			return new Response();
-		}
-		MsgRequestBody msgRequestBody = new MsgRequestBody();
-		msgRequestBody.setTouser(t_hr_applicant.getOwnerid());
-		msgRequestBody.setMsgtype("textcard");
-		Textcard textcard = new Textcard();
-		textcard.setTitle("崇达招聘");
-		StringBuilder sb = new StringBuilder();
-		sb.append("<div class=\"gray\">")
-		  .append(new SimpleDateFormat("yyyy年MM月dd日").format(new Date()))
-		  .append("</div> <div class=\"normal\">")
-		  .append("你好，")
-		  .append(t_hr_applicant.getName())
-		  .append("提交了个人基本资料，请安排初试！</div>");
-		textcard.setDescription(sb.toString());
-		StringBuilder url = new StringBuilder();
-		url.append("https://open.weixin.qq.com/connect/oauth2/authorize?appid=")
-		   .append(appID)
-		   .append("&redirect_uri=")
-		   .append(tasklisturl) //跳转到员工的任务列表中
-		   .append("&response_type=code&scope=snsapi_base&agentid=")
-		   .append(agentId)
-		   .append("&state=STATE#wechat_redirect");
-		textcard.setUrl(url.toString());
-		textcard.setBtntxt("更多");
-		msgRequestBody.setTextcard(textcard);
-		msgRequestBody.setAgentid(agentId);
-		Response response = wechatServiceClient.sendTextcard(msgRequestBody);
-		if (response.getStatus() == 200) {
-			t_hr_applicant.setStatus(1); //更新状态
-			applicantService.update(t_hr_applicant);
-		} else {
-			logger.error(response.getMessage());
-			throw new BusinessException(1000001, "系统繁忙，请稍后再试！");
+		if (null == t_hr_applicant.getStatus() || t_hr_applicant.getStatus() == 0) { //状态为0表示信息还没有提交过
+			ExecutorService executor = Executors.newCachedThreadPool();
+			
+			Future<Boolean> createFuture = executor.submit(() -> {
+				return createTask(t_hr_applicant);
+			});
+			
+			Future<Response> sendFuture = executor.submit(() -> {
+				MsgRequestBody msgRequestBody = new MsgRequestBody();
+				msgRequestBody.setTouser(t_hr_applicant.getOwnerid());
+				msgRequestBody.setMsgtype("textcard");
+				Textcard textcard = new Textcard();
+				textcard.setTitle("崇达招聘");
+				StringBuilder sb = new StringBuilder();
+				sb.append("<div class=\"gray\">")
+				  .append(new SimpleDateFormat("yyyy年MM月dd日").format(new Date()))
+				  .append("</div> <div class=\"normal\">")
+				  .append("你好，")
+				  .append(t_hr_applicant.getName())
+				  .append("提交了个人基本资料，请安排初试！</div>");
+				textcard.setDescription(sb.toString());
+				StringBuilder url = new StringBuilder();
+				url.append("https://open.weixin.qq.com/connect/oauth2/authorize?appid=")
+				   .append(appID)
+				   .append("&redirect_uri=")
+				   .append(tasklisturl) //跳转到员工的任务列表中
+				   .append("&response_type=code&scope=snsapi_base&agentid=")
+				   .append(agentId)
+				   .append("&state=STATE#wechat_redirect");
+				textcard.setUrl(url.toString());
+				textcard.setBtntxt("更多");
+				msgRequestBody.setTextcard(textcard);
+				msgRequestBody.setAgentid(agentId);
+				return wechatServiceClient.sendTextcard(msgRequestBody);
+			});
+			Boolean createFlag = createFuture.get();
+			Response response = sendFuture.get();
+			
+			if (createFlag && response.getStatus() == 200) {
+				t_hr_applicant.setStatus(1); //更新状态
+				applicantService.update(t_hr_applicant);
+			} else {
+				logger.error(response.getMessage());
+				throw new BusinessException(1000001, "系统繁忙，请稍后再试！");
+			}
 		}
 		return new Response();
+	}
+	
+	/**
+	 * 创建任务
+	 * @param t_hr_applicant
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	private Boolean createTask(T_hr_applicant t_hr_applicant) throws Exception {
+		T_hr_task t_hr_task = new T_hr_task();
+		t_hr_task.setSubflowid(workflowid);
+		t_hr_task.setAssignrole(startrole);
+		t_hr_task.setAssign(t_hr_applicant.getOwnerid());
+		t_hr_task.setApplicantid(t_hr_applicant.getApplicantid());
+		taskService.insert(t_hr_task);
+		return true;
 	}
 }

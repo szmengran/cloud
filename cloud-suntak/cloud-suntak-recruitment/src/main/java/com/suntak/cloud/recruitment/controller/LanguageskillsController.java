@@ -53,9 +53,9 @@ public class LanguageskillsController {
 					t_hr_applicant = applicantService.findById(applicantid);
 					T_hr_task t_hr_task = new T_hr_task();
 					t_hr_task.setAssignrole(startrole);
-					t_hr_task.setWorkflowid(workflowid);
+					t_hr_task.setSubflowid(workflowid);
 					t_hr_task.setApplicantid(applicantid);
-					t_hr_task.setTitle(new StringBuilder(t_hr_applicant.getName()).append("-").append(t_hr_applicant.getPhone()).toString());
+					t_hr_task.setAssign(t_hr_applicant.getOwnerid());
 					taskService.insert(t_hr_task);
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -11,12 +11,14 @@ import java.sql.Timestamp;
 public class T_hr_task {
 	private String taskid;
 	private String applicantid;
-	private Integer workflowid;
-	private String title;
+	private Integer subflowid;
 	private String assignrole;
 	private String assign;
+	private String remark;
+	private String agree;
 	private Short status;
 	private Timestamp createstamp;
+	private Timestamp updatestamp;
 	public String getTaskid() {
 		return taskid;
 	}
@@ -28,18 +30,6 @@ public class T_hr_task {
 	}
 	public void setApplicantid(String applicantid) {
 		this.applicantid = applicantid;
-	}
-	public Integer getWorkflowid() {
-		return workflowid;
-	}
-	public void setWorkflowid(Integer workflowid) {
-		this.workflowid = workflowid;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
 	}
 	public String getAssignrole() {
 		return assignrole;
@@ -53,6 +43,18 @@ public class T_hr_task {
 	public void setAssign(String assign) {
 		this.assign = assign;
 	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public String getAgree() {
+		return agree;
+	}
+	public void setAgree(String agree) {
+		this.agree = agree;
+	}
 	public Short getStatus() {
 		return status;
 	}
@@ -64,5 +66,17 @@ public class T_hr_task {
 	}
 	public void setCreatestamp(Timestamp createstamp) {
 		this.createstamp = createstamp;
+	}
+	public Integer getSubflowid() {
+		return subflowid;
+	}
+	public void setSubflowid(Integer subflowid) {
+		this.subflowid = subflowid;
+	}
+	public Timestamp getUpdatestamp() {
+		return updatestamp;
+	}
+	public void setUpdatestamp(Timestamp updatestamp) {
+		this.updatestamp = updatestamp;
 	}
 }

@@ -21,4 +21,14 @@ public interface WechatServiceClient {
 	
 	@PostMapping(value = "/cgi-bin/message/send?access_token={access_token}")
 	Object send(@RequestBody MsgRequestBody msgRequestBody, @PathVariable("access_token") String access_token);
+	
+	/**
+	 * 企业微信通过授权码获取用户信息
+	 * @param access_token
+	 * @param code
+	 * @return 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@GetMapping(value="/cgi-bin/user/getuserinfo?access_token={access_token}&code={code}")
+	Object getUserInfo(@PathVariable("access_token") String access_token, @PathVariable("code") String code);
 }

@@ -30,11 +30,12 @@ public class TaskServiceImpl implements TaskService{
 	public void insert(T_hr_task t_hr_task) throws Exception {
 		t_hr_task.setStatus((short)1);
 		t_hr_task.setCreatestamp(new Timestamp(System.currentTimeMillis()));
+		t_hr_task.setUpdatestamp(new Timestamp(System.currentTimeMillis()));
 		abstractDao.insert(t_hr_task, DbPrimaryKeyType.SEQ, "SEQ_T_HR_TASK");
 	}
 
 	@Override
-	public List<T_hr_task_ext> find(String[] roles, Integer userid) throws Exception {
+	public List<T_hr_task_ext> find(String[] roles, String userid) throws Exception {
 		StringBuilder strRoles = new StringBuilder();
 		for (String role:roles) {
 			strRoles.append(",'").append(role).append("'");
@@ -42,14 +43,13 @@ public class TaskServiceImpl implements TaskService{
 		Object[] params = new Object[1];
 		params[0] = userid;
 		StringBuilder strSql = new StringBuilder();
-		strSql.append("SELECT a.*,b.name, c.nextrole, c.url FROM t_hr_task a ,t_hr_workflow_main b, t_hr_workflow_sub c")
-		.append(" where a.workflowid = b.workflowid")
-		.append(" and a.workflowid = c.workflowid")
-		.append(" and a.assignrole = c.currentrole")
+		strSql.append("SELECT a.*,c.name, b.subflowname, b.nextflowid, b.url FROM t_hr_task a ,t_hr_workflow_sub b, t_hr_workflow_main c")
+		.append(" where a.subflowid = b.subflowid")
+		.append(" and b.workflowid = c.workflowid")
 		.append(" and a.status=1")
-		.append(" and (assignrole in (")
+		.append(" and ((assignrole in (")
 		.append(strRoles.substring(1))
-		.append(" ) and assign is null) or assign =? ");
+		.append(" ) and assign is null) or assign =?) ");
 		return abstractDao.findBySql(T_hr_task_ext.class, strSql.toString(), params);
 	}
 

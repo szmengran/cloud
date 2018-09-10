@@ -29,5 +29,5 @@ public interface TaskService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public List<T_hr_task_ext> find(String[] roles, Integer userid) throws Exception;
+	public List<T_hr_task_ext> find(String[] roles, String userid) throws Exception;
 }
