@@ -28,7 +28,7 @@ public class ApplicantController {
 	@PostMapping(value="/applicant/{applicantid}")
 	public Response fillInBaseInfo(@PathVariable("applicantid") String applicantid, @RequestBody T_hr_applicant t_hr_applicant) throws Exception {
 		t_hr_applicant.setApplicantid(applicantid);
-		int num = applicantService.update(t_hr_applicant);
+		int num = applicantService.updateBaseInfo(t_hr_applicant);
 		if(num == 0) {
 			applicantService.insert(t_hr_applicant);
 		}

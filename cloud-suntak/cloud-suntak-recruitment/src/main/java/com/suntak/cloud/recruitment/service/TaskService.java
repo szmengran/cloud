@@ -22,6 +22,14 @@ public interface TaskService {
 	public void insert(T_hr_task t_hr_task) throws Exception;
 	
 	/**
+	 * 处理任务
+	 * @param t_hr_task
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	public void handlerTask(T_hr_task t_hr_task) throws Exception;
+	
+	/**
 	 * 查找任务
 	 * @param roles
 	 * @param userid

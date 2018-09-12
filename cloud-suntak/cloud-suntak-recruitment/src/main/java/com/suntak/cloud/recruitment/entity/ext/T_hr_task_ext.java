@@ -11,7 +11,7 @@ import com.suntak.cloud.recruitment.entity.T_hr_task;
 public class T_hr_task_ext extends T_hr_task{
 	private String name;
 	private String subflowname;
-	private String nextflowid;
+	private String preflowid;
 	private String url;
 	public String getName() {
 		return name;
@@ -25,11 +25,12 @@ public class T_hr_task_ext extends T_hr_task{
 	public void setSubflowname(String subflowname) {
 		this.subflowname = subflowname;
 	}
-	public String getNextflowid() {
-		return nextflowid;
+	
+	public String getPreflowid() {
+		return preflowid;
 	}
-	public void setNextflowid(String nextflowid) {
-		this.nextflowid = nextflowid;
+	public void setPreflowid(String preflowid) {
+		this.preflowid = preflowid;
 	}
 	public String getUrl() {
 		return url;

@@ -1,5 +1,6 @@
 package com.suntak.cloud.recruitment.controller;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +8,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,12 +71,6 @@ public class TaskController {
 	@Autowired
 	WechatServiceClient wechatServiceClient;
 	
-	@PostMapping("/task")
-	public Response insert(@RequestBody T_hr_task t_hr_task) throws Exception {
-		taskService.insert(t_hr_task);
-		return new Response();
-	}
-	
 	@GetMapping("/task/{roles}/{userid}")
 	public Response find(@PathVariable("userid") String userid, @PathVariable("roles") String strRole) throws Exception {
 		List<T_hr_task_ext> list = taskService.find(strRole.split(","), userid);
@@ -99,32 +97,7 @@ public class TaskController {
 			});
 			
 			Future<Response> sendFuture = executor.submit(() -> {
-				MsgRequestBody msgRequestBody = new MsgRequestBody();
-				msgRequestBody.setTouser(t_hr_applicant.getOwnerid());
-				msgRequestBody.setMsgtype("textcard");
-				Textcard textcard = new Textcard();
-				textcard.setTitle("崇达招聘");
-				StringBuilder sb = new StringBuilder();
-				sb.append("<div class=\"gray\">")
-				  .append(new SimpleDateFormat("yyyy年MM月dd日").format(new Date()))
-				  .append("</div> <div class=\"normal\">")
-				  .append("你好，")
-				  .append(t_hr_applicant.getName())
-				  .append("提交了个人基本资料，请安排初试！</div>");
-				textcard.setDescription(sb.toString());
-				StringBuilder url = new StringBuilder();
-				url.append("https://open.weixin.qq.com/connect/oauth2/authorize?appid=")
-				   .append(appID)
-				   .append("&redirect_uri=")
-				   .append(tasklisturl) //跳转到员工的任务列表中
-				   .append("&response_type=code&scope=snsapi_base&agentid=")
-				   .append(agentId)
-				   .append("&state=STATE#wechat_redirect");
-				textcard.setUrl(url.toString());
-				textcard.setBtntxt("更多");
-				msgRequestBody.setTextcard(textcard);
-				msgRequestBody.setAgentid(agentId);
-				return wechatServiceClient.sendTextcard(msgRequestBody);
+				return qywechatNotification(t_hr_applicant.getOwnerid(), t_hr_applicant.getName());
 			});
 			Boolean createFlag = createFuture.get();
 			Response response = sendFuture.get();
@@ -141,6 +114,44 @@ public class TaskController {
 	}
 	
 	/**
+	 * 崇达招聘企业微信通知
+	 * @param toUser
+	 * @param name
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	private Response qywechatNotification(String toUser, String name) throws Exception {
+		MsgRequestBody msgRequestBody = new MsgRequestBody();
+		msgRequestBody.setTouser(toUser);
+		msgRequestBody.setMsgtype("textcard");
+		Textcard textcard = new Textcard();
+		textcard.setTitle("崇达招聘");
+		StringBuilder sb = new StringBuilder();
+		sb.append("<div class=\"gray\">")
+		  .append(new SimpleDateFormat("yyyy年MM月dd日").format(new Date()))
+		  .append("</div> <div class=\"normal\">")
+		  .append("你好，")
+		  .append(name)
+		  .append("在等待你面试！")
+		  .append("</div>");
+		textcard.setDescription(sb.toString());
+		StringBuilder url = new StringBuilder();
+		url.append("https://open.weixin.qq.com/connect/oauth2/authorize?appid=")
+		   .append(appID)
+		   .append("&redirect_uri=")
+		   .append(tasklisturl) //跳转到员工的任务列表中
+		   .append("&response_type=code&scope=snsapi_base&agentid=")
+		   .append(agentId)
+		   .append("&state=STATE#wechat_redirect");
+		textcard.setUrl(url.toString());
+		textcard.setBtntxt("更多");
+		msgRequestBody.setTextcard(textcard);
+		msgRequestBody.setAgentid(agentId);
+		return wechatServiceClient.sendTextcard(msgRequestBody);
+	}
+	
+	/**
 	 * 创建任务
 	 * @param t_hr_applicant
 	 * @throws Exception 
@@ -154,5 +165,30 @@ public class TaskController {
 		t_hr_task.setApplicantid(t_hr_applicant.getApplicantid());
 		taskService.insert(t_hr_task);
 		return true;
+	}
+	
+	/**
+	 * 处理任务
+	 * @param t_hr_task
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@PostMapping(value="/task")
+	public Response handlerTask(@RequestBody T_hr_task_ext t_hr_task_ext) throws Exception {
+		T_hr_task t_hr_task = new T_hr_task();
+		ConvertUtils.register(new SqlTimestampConverter(null), Timestamp.class);  
+		BeanUtils.copyProperties(t_hr_task, t_hr_task_ext);
+		taskService.handlerTask(t_hr_task);
+		ExecutorService executor = Executors.newCachedThreadPool();
+		executor.submit(() -> {
+			try {
+				qywechatNotification(t_hr_task_ext.getAssign(), t_hr_task_ext.getName());
+			} catch (Exception e) {
+				e.printStackTrace();
+				logger.error("企业微信通知失败：", e);
+			}
+		});
+		return new Response();
 	}
 }

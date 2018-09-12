@@ -10,7 +10,7 @@ public class T_hr_workflow_sub {
 	private Integer workflowid;
 	private String subflowname;
 	private String role;
-	private String nextflowid;
+	private String preflowid;
 	private String url;
 	private Integer agree;
 	public Integer getSubflowid() {
@@ -37,11 +37,11 @@ public class T_hr_workflow_sub {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public String getNextflowid() {
-		return nextflowid;
+	public String getPreflowid() {
+		return preflowid;
 	}
-	public void setNextflowid(String nextflowid) {
-		this.nextflowid = nextflowid;
+	public void setPreflowid(String preflowid) {
+		this.preflowid = preflowid;
 	}
 	public String getUrl() {
 		return url;

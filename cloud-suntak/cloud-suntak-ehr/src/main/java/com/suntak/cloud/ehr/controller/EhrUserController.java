@@ -104,4 +104,19 @@ public class EhrUserController {
 		}
 		return response;
 	}
+	
+	@ApiOperation(value = "根据名字查找EHR用户的信息", response = Response.class)
+	@GetMapping(value = "/users/name/{name}")
+	public Response getEhrUserByName(@PathVariable("name") String name) throws Exception{
+		Response response = new Response();
+		StringBuffer conditions = new StringBuffer();
+		conditions.append("empstatusname='在职' and empname like '").append(name).append("%' and rownum <= 30");
+		List<EhrUser> list = ehrUserService.findByCondition(conditions.toString());
+		if (list != null && list.size() > 0) {
+			response.setData(list);
+		} else {
+			throw new BusinessException(4000);
+		}
+		return response;
+	}
 }

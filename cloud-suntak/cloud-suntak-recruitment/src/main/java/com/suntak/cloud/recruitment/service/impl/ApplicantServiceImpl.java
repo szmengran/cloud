@@ -38,6 +38,35 @@ public class ApplicantServiceImpl implements ApplicantService{
 		t_hr_applicant.setUpdatestamp(currentTime);
 		return abstractDao.update(t_hr_applicant);
 	}
+	
+	@Override
+	public int updateBaseInfo(T_hr_applicant t_hr_applicant) throws Exception {
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		t_hr_applicant.setUpdatestamp(currentTime);
+		StringBuilder strSql = new StringBuilder();
+		strSql.append("update t_hr_applicant set name=?,sex=?,birthday=?,address=?")
+		      .append(",phone=?,email=?")
+		      .append(",mandarin=?,english=?,japanese=?,other=?")
+		      .append(",relativesname=?,relativesdepartment=?,relativesposition=?,relativesrelationship=?")
+		      .append(" where applicantid=?");
+		Object[] params = new Object[15];
+		params[0] = t_hr_applicant.getName();
+		params[1] = t_hr_applicant.getSex();
+		params[2] = t_hr_applicant.getBirthday();
+		params[3] = t_hr_applicant.getAddress();
+		params[4] = t_hr_applicant.getPhone();
+		params[5] = t_hr_applicant.getEmail();
+		params[6] = t_hr_applicant.getMandarin();
+		params[7] = t_hr_applicant.getEnglish();
+		params[8] = t_hr_applicant.getJapanese();
+		params[9] = t_hr_applicant.getOther();
+		params[10] = t_hr_applicant.getRelativesname();
+		params[11] = t_hr_applicant.getRelativesdepartment();
+		params[12] = t_hr_applicant.getRelativesposition();
+		params[13] = t_hr_applicant.getRelativesrelationship();
+		params[14] = t_hr_applicant.getApplicantid();
+		return abstractDao.executeSql(strSql.toString(), params);
+	}
 
 	@Override
 	public T_hr_applicant findById(String applicantid) throws Exception {
