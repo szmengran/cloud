@@ -42,13 +42,12 @@ public class TaskServiceImpl implements TaskService{
 	}
 	
 	@Override
-	public void handlerTask(T_hr_task t_hr_task) throws Exception {
+	public T_hr_workflow_sub handlerTask(T_hr_task t_hr_task) throws Exception {
 		DBManager dbManager = null;
 		try{
 			dbManager = new DBManager(abstractDao.getWriteDataSource());
 			dbManager.openConnection();
 			dbManager.beginTransaction();
-			StringBuilder strSql = new StringBuilder();
 			ExecutorService executor = Executors.newCachedThreadPool();
 			Future<T_hr_workflow_sub> future = executor.submit(() -> {
 				Map<String, Object> params = new HashMap<String, Object>();
@@ -60,6 +59,8 @@ public class TaskServiceImpl implements TaskService{
 				}
 				return null;
 			});
+
+			StringBuilder strSql = new StringBuilder();
 			strSql.append("update t_hr_task set agree=?,remark=?, status=0 where taskid=?");
 			Object params[] = new Object[3];
 			params[0] = t_hr_task.getAgree();
@@ -72,7 +73,7 @@ public class TaskServiceImpl implements TaskService{
 				t_hr_task.setAgree(null);
 				t_hr_task.setRemark(null);
 				t_hr_task.setAssignrole(t_hr_workflow_sub.getRole());
-				t_hr_task.setSubflowid(t_hr_workflow_sub.getWorkflowid());
+				t_hr_task.setSubflowid(t_hr_workflow_sub.getSubflowid());
 				t_hr_task.setStatus((short)1);
 				t_hr_task.setCreatestamp(new Timestamp(System.currentTimeMillis()));
 				t_hr_task.setUpdatestamp(new Timestamp(System.currentTimeMillis()));
@@ -80,6 +81,7 @@ public class TaskServiceImpl implements TaskService{
 			}
 			
 			dbManager.commitTransaction();
+			return t_hr_workflow_sub;
 		} catch (Exception e) {
 			dbManager.rollbackTransaction();
 			throw e;

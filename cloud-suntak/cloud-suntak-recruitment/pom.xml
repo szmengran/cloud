@@ -24,6 +24,10 @@
 			<groupId>com.szmengran</groupId>
 			<artifactId>cloud-model-wechat</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.szmengran</groupId>
+			<artifactId>cloud-model-admin</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

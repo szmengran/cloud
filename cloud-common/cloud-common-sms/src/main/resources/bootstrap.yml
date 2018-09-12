@@ -8,8 +8,7 @@ eureka:
 server:
   port: 10004
 logging:
-  level:
-    org.springframework.security: DEBUG
+  config: ${CONFIG_SERVER_ADDRESS}/resources/logback-spring.xml
 spring:
   application:
     name: cloud-common-sms

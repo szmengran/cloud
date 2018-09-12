@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.suntak.cloud.FilterConfig
+com.szmengran.config.FilterConfig

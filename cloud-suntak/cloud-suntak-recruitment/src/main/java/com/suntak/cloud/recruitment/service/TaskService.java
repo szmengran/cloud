@@ -3,6 +3,7 @@ package com.suntak.cloud.recruitment.service;
 import java.util.List;
 
 import com.suntak.cloud.recruitment.entity.T_hr_task;
+import com.suntak.cloud.recruitment.entity.T_hr_workflow_sub;
 import com.suntak.cloud.recruitment.entity.ext.T_hr_task_ext;
 
 /**
@@ -22,12 +23,13 @@ public interface TaskService {
 	public void insert(T_hr_task t_hr_task) throws Exception;
 	
 	/**
-	 * 处理任务
+	 * 处理任务并返回下一流程节点
 	 * @param t_hr_task
+	 * @return
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void handlerTask(T_hr_task t_hr_task) throws Exception;
+	public T_hr_workflow_sub handlerTask(T_hr_task t_hr_task) throws Exception;
 	
 	/**
 	 * 查找任务

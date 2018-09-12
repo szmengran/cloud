@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -11,6 +12,7 @@ import java.util.concurrent.Future;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.suntak.cloud.recruitment.client.UserServiceClient;
 import com.suntak.cloud.recruitment.client.WechatServiceClient;
 import com.suntak.cloud.recruitment.entity.T_hr_applicant;
 import com.suntak.cloud.recruitment.entity.T_hr_task;
+import com.suntak.cloud.recruitment.entity.T_hr_workflow_sub;
 import com.suntak.cloud.recruitment.entity.ext.T_hr_task_ext;
 import com.suntak.cloud.recruitment.service.ApplicantService;
 import com.suntak.cloud.recruitment.service.TaskService;
@@ -71,6 +75,9 @@ public class TaskController {
 	@Autowired
 	WechatServiceClient wechatServiceClient;
 	
+	@Autowired
+	UserServiceClient userServiceClient;
+	
 	@GetMapping("/task/{roles}/{userid}")
 	public Response find(@PathVariable("userid") String userid, @PathVariable("roles") String strRole) throws Exception {
 		List<T_hr_task_ext> list = taskService.find(strRole.split(","), userid);
@@ -97,7 +104,7 @@ public class TaskController {
 			});
 			
 			Future<Response> sendFuture = executor.submit(() -> {
-				return qywechatNotification(t_hr_applicant.getOwnerid(), t_hr_applicant.getName());
+				return qywechatNotification(t_hr_applicant.getOwnerid(), t_hr_applicant.getName(), "提交了基本资料，请抓紧处理！");
 			});
 			Boolean createFlag = createFuture.get();
 			Response response = sendFuture.get();
@@ -121,7 +128,7 @@ public class TaskController {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	private Response qywechatNotification(String toUser, String name) throws Exception {
+	private Response qywechatNotification(String toUser, String name, String content) throws Exception {
 		MsgRequestBody msgRequestBody = new MsgRequestBody();
 		msgRequestBody.setTouser(toUser);
 		msgRequestBody.setMsgtype("textcard");
@@ -131,9 +138,10 @@ public class TaskController {
 		sb.append("<div class=\"gray\">")
 		  .append(new SimpleDateFormat("yyyy年MM月dd日").format(new Date()))
 		  .append("</div> <div class=\"normal\">")
-		  .append("你好，")
+		  .append("你好，【")
 		  .append(name)
-		  .append("在等待你面试！")
+		  .append("】")
+		  .append(content)
 		  .append("</div>");
 		textcard.setDescription(sb.toString());
 		StringBuilder url = new StringBuilder();
@@ -179,16 +187,32 @@ public class TaskController {
 		T_hr_task t_hr_task = new T_hr_task();
 		ConvertUtils.register(new SqlTimestampConverter(null), Timestamp.class);  
 		BeanUtils.copyProperties(t_hr_task, t_hr_task_ext);
-		taskService.handlerTask(t_hr_task);
+		T_hr_workflow_sub t_hr_workflow_sub = taskService.handlerTask(t_hr_task);
 		ExecutorService executor = Executors.newCachedThreadPool();
 		executor.submit(() -> {
 			try {
-				qywechatNotification(t_hr_task_ext.getAssign(), t_hr_task_ext.getName());
+				if (StringUtils.isBlank(t_hr_task.getAssign())) {
+					Response response = userServiceClient.findUserByRole(t_hr_task.getAssignrole());
+					@SuppressWarnings("unchecked")
+					List<Map<String, String>> list = (List<Map<String, String>>)response.getData();
+					if (list != null && list.size() > 0) {
+						StringBuilder toUser = new StringBuilder();
+						for (Map<String, String> map : list) {
+							toUser.append("|").append(map.get("username"));
+						}
+						qywechatNotification(toUser.substring(1), t_hr_task_ext.getName(), new StringBuilder().append("你有一个【").append(t_hr_workflow_sub.getSubflowname()).append("】任务待处理！").toString());
+					} else {
+						logger.error("企业微信通知失败,找不到该角色【{}】对应的用户",t_hr_task.getAssignrole());
+					}
+				} else {
+					qywechatNotification(t_hr_task.getAssign(), t_hr_task_ext.getName(), new StringBuilder().append("你有一个【").append(t_hr_workflow_sub.getSubflowname()).append("】任务待处理！").toString());
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.error("企业微信通知失败：", e);
 			}
 		});
+		
 		return new Response();
 	}
 }
