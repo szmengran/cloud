@@ -15,6 +15,6 @@ VERSION=$CLOUD_VERSION
 
 cd ../cloud-suntak/cloud-suntak-activity
 mvn -e package
-progress "Building cloud-suntak-ehr image ..."
+progress "Building cloud-suntak-activity image ..."
 docker tag $(docker build -t ${REGPREFIX}/cloud-suntak-activity -q .) ${REGPREFIX}/cloud-suntak-activity:${VERSION}
 cd -
