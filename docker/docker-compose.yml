@@ -5,6 +5,7 @@ services:
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
+      - ENVIRONMENT=$ENVIRONMENT
     ports:
      - "8761:8761"
   configserver:
