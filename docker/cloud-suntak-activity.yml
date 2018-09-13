@@ -1,4 +1,4 @@
-version: '3'
+version: '3.1'
 services:
   activity:
     image: szmengran/cloud-suntak-activity:$CLOUD_VERSION
@@ -7,7 +7,7 @@ services:
       - KAFKA_SERVER=$KAFKA_SERVER
       - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
       - CONFIG_SERVER_ADDRESS=http://configserver:10001
-      - ENVIRONMENT=$CLOUD_ENVIRONMENT
+      - ENVIRONMENT=$ENVIRONMENT
     ports:
      - 10008:10008
 networks:

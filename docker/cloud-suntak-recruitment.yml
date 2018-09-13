@@ -1,17 +1,15 @@
 version: '3.1'
 services:
-  sms:
-    image: szmengran/cloud-suntak-wechat:$CLOUD_VERSION
+  recruitment:
+    image: szmengran/cloud-suntak-recruitment:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
       - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
       - CONFIG_SERVER_ADDRESS=http://configserver:10001
       - ENVIRONMENT=$ENVIRONMENT
-      - SMS_ACCESSKEYID=$SMS_ACCESSKEYID
-      - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
     ports:
-     - 10014:10014
+     - 10011:10011
 networks:
   default:
     external:

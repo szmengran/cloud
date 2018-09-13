@@ -137,10 +137,13 @@ public class TaskController {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<div class=\"gray\">")
 		  .append(new SimpleDateFormat("yyyy年MM月dd日").format(new Date()))
-		  .append("</div> <div class=\"normal\">")
-		  .append("你好，【")
+		  .append("</div>")
+		  .append("<div class=\"highlight\">应聘人：【")
 		  .append(name)
-		  .append("】")
+		  .append("】</div>")
+		  .append("</div>")
+		  .append("<div class=\"normal\">")
+		  .append("你好，")
 		  .append(content)
 		  .append("</div>");
 		textcard.setDescription(sb.toString());

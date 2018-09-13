@@ -1,4 +1,4 @@
-version: '3'
+version: '3.1'
 services:
   discovery:
     image: szmengran/cloud-discovery-eureka:$CLOUD_VERSION
