@@ -2,6 +2,7 @@ package com.szmengran.cloud.user.service;
 
 import java.util.List;
 
+import com.szmengran.admin.entity.T_power_role;
 import com.szmengran.admin.entity.T_power_user;
 import com.szmengran.admin.entity.ext.T_power_user_ext;
 import com.szmengran.admin.user.exception.BusinessException;
@@ -63,4 +64,13 @@ public interface UserService {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	List<T_power_user> findUserByRole(String assignrole) throws Exception;
+	
+	/**
+	 * 根据用户名查找用户角色
+	 * @param username
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	List<T_power_role> findRoleByUsername(String username) throws Exception;
 }

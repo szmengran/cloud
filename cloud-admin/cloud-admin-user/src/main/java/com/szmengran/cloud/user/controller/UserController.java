@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.exception.model.Response;
+import com.szmengran.admin.entity.T_power_role;
 import com.szmengran.admin.entity.T_power_user;
 import com.szmengran.admin.entity.ext.T_power_user_ext;
 import com.szmengran.cloud.user.service.UserService;
@@ -47,6 +48,14 @@ public class UserController {
 	@GetMapping("/user/{assignrole}")
 	public Response findUserByRole(@PathVariable("assignrole") String assignrole) throws Exception {
 		List<T_power_user> list = userService.findUserByRole(assignrole);
+		Response response = new Response();
+		response.setData(list);
+		return response;
+	}
+	
+	@GetMapping("/role/{username}")
+	public Response findRoleByUsername(@PathVariable("username") String username) throws Exception {
+		List<T_power_role> list = userService.findRoleByUsername(username);
 		Response response = new Response();
 		response.setData(list);
 		return response;

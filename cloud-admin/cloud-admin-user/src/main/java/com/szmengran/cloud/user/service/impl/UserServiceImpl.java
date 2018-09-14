@@ -146,4 +146,12 @@ public class UserServiceImpl implements UserService{
 		.append("select roleid from t_power_role where rolename=?))");
 		return abstractDao.findBySql(T_power_user.class, strSql.toString(), new Object[] {assignrole});
 	}
+
+	@Override
+	public List<T_power_role> findRoleByUsername(String username) throws Exception {
+		StringBuffer strCondition = new StringBuffer();
+		strCondition.append(" and roleid in (select roleid from t_power_user_role_r where userid in (")
+				    .append(" select userid from t_power_user where username = ?))");
+		return abstractDao.findByConditions(T_power_role.class, strCondition, new Object[]{username});
+	}
 }
