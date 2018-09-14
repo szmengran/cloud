@@ -17,4 +17,7 @@ public interface UserServiceClient {
 	
 	@GetMapping("/api/v1/cloud-admin-user/user/{assignrole}")
 	public Response findUserByRole(@PathVariable("assignrole") String assignrole) throws Exception;
+	
+	@GetMapping("/api/v1/cloud-admin-user/role/{username}")
+	public Response findRoleByUsername(@PathVariable("username") String username) throws Exception;
 }

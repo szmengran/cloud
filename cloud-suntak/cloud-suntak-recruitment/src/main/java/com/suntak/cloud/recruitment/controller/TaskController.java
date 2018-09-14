@@ -80,7 +80,17 @@ public class TaskController {
 	
 	@GetMapping("/task/{roles}/{userid}")
 	public Response find(@PathVariable("userid") String userid, @PathVariable("roles") String strRole) throws Exception {
-		List<T_hr_task_ext> list = taskService.find(strRole.split(","), userid);
+		Response resp = userServiceClient.findRoleByUsername(userid);
+		@SuppressWarnings("unchecked")
+		List<Map<String, String>> roleList = (List<Map<String, String>>)resp.getData();
+		String[] roles = null;
+		if (roleList != null && roleList.size() > 0) {
+			roles = new String[roleList.size()];
+			for (int i = 0; i < roleList.size(); i++) {
+				roles[i] = roleList.get(i).get("rolename");
+			}
+		}
+		List<T_hr_task_ext> list = taskService.find(roles, userid);
 		Response response = new Response();
 		response.setData(list);
 		return response;
