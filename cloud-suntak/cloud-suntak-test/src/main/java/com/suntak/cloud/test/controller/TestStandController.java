@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping(path = "/api/v1/test", produces = { "application/json" })
 public class TestStandController {
 
-	private final static Logger logger = LoggerFactory.getLogger(WareHouseController.class);
+	private final static Logger logger = LoggerFactory.getLogger(TestStandController.class);
 	
 	@Autowired
 	@Qualifier("testStandService")

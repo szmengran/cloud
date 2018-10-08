@@ -25,4 +25,15 @@ public interface UseRecordService {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	void updateBackTime (String test_stand_code) throws Exception;
+	
+	/**
+	 * 查找最近的测试架操作记录
+	 * @param companycode
+	 * @param test_stand_code
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	T_oa_test_use_record findLastRecordByTestStandCode(String companycode, String test_stand_code) throws Exception;
+	
 }

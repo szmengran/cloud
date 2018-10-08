@@ -10,6 +10,7 @@ import java.sql.Timestamp;
  */
 public class T_oa_test_stand {
 	private String test_stand_code;
+	private String companycode;
 	private Integer num;
 	private String warehouse_code;
 	private String type;
@@ -21,6 +22,12 @@ public class T_oa_test_stand {
 	}
 	public void setTest_stand_code(String test_stand_code) {
 		this.test_stand_code = test_stand_code;
+	}
+	public String getCompanycode() {
+		return companycode;
+	}
+	public void setCompanycode(String companycode) {
+		this.companycode = companycode;
 	}
 	public Integer getNum() {
 		return num;
