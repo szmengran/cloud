@@ -3,6 +3,7 @@ package com.suntak.cloud.test.service;
 import java.util.List;
 
 import com.suntak.cloud.test.entity.T_oa_test_stand;
+import com.suntak.cloud.test.entity.ext.T_oa_test_stand_ext;
 
 /**
  * @Package com.suntak.cloud.test.service
@@ -22,6 +23,15 @@ public interface TestStandService {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	List<T_oa_test_stand> findByConditions(StringBuffer conditions, Object[] params) throws Exception;
+	
+	/**
+	 * 查找某个工厂的所有测试架
+	 * @param companyCode
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	List<T_oa_test_stand_ext> findByCompanyCode(String companyCode) throws Exception;
 	
 	/**
 	 * 领用测试架

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.test.entity.T_oa_test_use_record;
+import com.suntak.cloud.test.entity.ext.T_oa_test_use_record_ext;
 import com.suntak.cloud.test.service.UseRecordService;
 import com.szmengran.common.orm.dao.AbstractDao;
 
@@ -36,7 +37,7 @@ public class UseRecordServiceImpl implements UseRecordService{
 	}
 
 	@Override
-	public T_oa_test_use_record findLastRecordByTestStandCode(String companycode, String test_stand_code) throws Exception {
+	public T_oa_test_use_record_ext findLastRecordByTestStandCode(String companycode, String test_stand_code) throws Exception {
 		Object[] params = new Object[2];
 		params[0] = test_stand_code;
 		params[1] = companycode;
@@ -45,7 +46,7 @@ public class UseRecordServiceImpl implements UseRecordService{
 		.append(" where a.empcode = b.empcode")
 		.append(" and a.test_stand_code = ? and b.COMPANYCODE = ?")
 		.append(" order by use_time desc ) where rownum = 1");
-		List<T_oa_test_use_record> list = abstractDao.findBySql(T_oa_test_use_record.class, strSql.toString(), params);
+		List<T_oa_test_use_record_ext> list = abstractDao.findBySql(T_oa_test_use_record_ext.class, strSql.toString(), params);
 		if (list != null && list.size() > 0) {
 			return list.get(0);
 		}

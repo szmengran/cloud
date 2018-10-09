@@ -20,7 +20,7 @@ import io.swagger.annotations.Api;
  */
 @Api(value = "t_oa_test_stand")
 @RestController
-@RequestMapping(path = "/api/test", produces = { "application/json" })
+@RequestMapping(path = "/api/test")
 public class UseRecordController {
 	
 	@Autowired
@@ -28,9 +28,9 @@ public class UseRecordController {
 	
 	@GetMapping("/v1/useRecord/{companycode}/{test_stand_code}")
 	public Response findLastRecordByTestStandCode(@PathVariable("companycode") String companycode, @PathVariable("test_stand_code") String test_stand_code) throws Exception{
-		T_oa_test_use_record userRecord = useRecordService.findLastRecordByTestStandCode(companycode, test_stand_code);
+		T_oa_test_use_record useRecord = useRecordService.findLastRecordByTestStandCode(companycode, test_stand_code);
 		Response response = new Response();
-		response.setData(userRecord);
+		response.setData(useRecord);
 		return response;
 	}
 }

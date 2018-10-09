@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.test.entity.T_oa_test_stand;
 import com.suntak.cloud.test.entity.T_oa_test_use_record;
+import com.suntak.cloud.test.entity.ext.T_oa_test_stand_ext;
 import com.suntak.cloud.test.entity.ext.TestStandStatus;
 import com.suntak.cloud.test.service.TestStandService;
 import com.szmengran.admin.user.exception.BusinessException;
@@ -32,7 +33,20 @@ public class TestStandServiceImpl implements TestStandService{
 	public List<T_oa_test_stand> findByConditions(StringBuffer conditions, Object[] params) throws Exception {
 		return abstractDao.findByConditions(T_oa_test_stand.class, conditions, params);
 	}
-
+	
+	@Override
+	public List<T_oa_test_stand_ext> findByCompanyCode(String companyCode) throws Exception {
+		StringBuffer strSql = new StringBuffer();
+		strSql.append("SELECT a.test_stand_code,a.warehouse_code,a.num,")
+		.append(" decode(a.validstatus, 0, '作废', 1, '可用', 2, '被领用') status, a.createstamp, a.updatestamp,")
+		.append(" a.companycode FROM T_OA_TEST_STAND a where")
+		.append(" a.companycode = ?")
+		.append(" order by a.validstatus desc,a.warehouse_code,a.test_stand_code");
+		Object[] params = new Object[1];
+		params[0] = companyCode;
+		return abstractDao.findBySql(T_oa_test_stand_ext.class, strSql.toString(), params);
+	}
+	
 	@Override
 	public void inuse(String empcode, String test_stand_code, Integer num) throws Exception {
 		DBManager dbManager = null;
