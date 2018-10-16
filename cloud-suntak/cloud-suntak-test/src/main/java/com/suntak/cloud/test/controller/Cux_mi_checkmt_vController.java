@@ -27,10 +27,10 @@ public class Cux_mi_checkmt_vController {
 
 	@Autowired
 	Cux_mi_checkmt_vService cux_mi_checkmt_vService;
-	@GetMapping(value="/cux_mi_checkmt_v/{org_ig}/{item}")
+	@GetMapping(value="/cux_mi_checkmt_v/{compancode}/{item}")
 	
-	public Response findByConditions(@PathVariable("org_ig") String org_ig, @PathVariable("item") String item) throws Exception {
-		List<Cux_mi_checkmt_v> cux_mi_checkmt_vs = cux_mi_checkmt_vService.findByConditions(org_ig, item);
+	public Response findByConditions(@PathVariable("compancode") String compancode, @PathVariable("item") String item) throws Exception {
+		List<Cux_mi_checkmt_v> cux_mi_checkmt_vs = cux_mi_checkmt_vService.findByConditions(compancode, item);
 		Response response = new Response();
 		response.setData(cux_mi_checkmt_vs);
 		return response;

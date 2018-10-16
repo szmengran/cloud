@@ -10,24 +10,23 @@ import java.sql.Timestamp;
  */
 public class Cux_mi_checkmt_v {
 	private String organization_id;
-	private String Item_Rev;
-	private String check_type;
-	private String check_status;
-	private String check_stru;
-	private Timestamp make_date;
-	private String check_memo;
+	private String item_rev; //版本号
+	private String check_type; //治具类型
+	private String check_status; //治具状态
+	private String check_stru; //治具结构
+	private Timestamp make_date; //制作日期
+	private String check_memo; //备注
 	public String getOrganization_id() {
 		return organization_id;
 	}
 	public void setOrganization_id(String organization_id) {
 		this.organization_id = organization_id;
 	}
-	
-	public String getItem_Rev() {
-		return Item_Rev;
+	public String getItem_rev() {
+		return item_rev;
 	}
-	public void setItem_Rev(String item_Rev) {
-		Item_Rev = item_Rev;
+	public void setItem_rev(String item_rev) {
+		this.item_rev = item_rev;
 	}
 	public String getCheck_type() {
 		return check_type;
