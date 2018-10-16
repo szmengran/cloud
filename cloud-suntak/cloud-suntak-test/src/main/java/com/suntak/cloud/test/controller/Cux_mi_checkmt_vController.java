@@ -1,7 +1,5 @@
 package com.suntak.cloud.test.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +28,9 @@ public class Cux_mi_checkmt_vController {
 	@GetMapping(value="/cux_mi_checkmt_v/{compancode}/{item}")
 	
 	public Response findByConditions(@PathVariable("compancode") String compancode, @PathVariable("item") String item) throws Exception {
-		List<Cux_mi_checkmt_v> cux_mi_checkmt_vs = cux_mi_checkmt_vService.findByConditions(compancode, item);
+		Cux_mi_checkmt_v cux_mi_checkmt_v = cux_mi_checkmt_vService.findByConditions(compancode, item);
 		Response response = new Response();
-		response.setData(cux_mi_checkmt_vs);
+		response.setData(cux_mi_checkmt_v);
 		return response;
 	}
 }

@@ -22,21 +22,26 @@ public class Cux_mi_checkmt_vServiceImpl implements Cux_mi_checkmt_vService{
 	AbstractDao abstractDao;
 	
 	@Override
-	public List<Cux_mi_checkmt_v> findByConditions(String companycode, String item) throws Exception {
+	public Cux_mi_checkmt_v findByConditions(String companycode, String item) throws Exception {
 		String strSql = genSearchSql("100", item);
 		Object[] params = new Object[1];
 		params[0] = companycode;
 		List<Cux_mi_checkmt_v> list = abstractDao.findBySql(Cux_mi_checkmt_v.class, strSql, params);
 		if (list != null && list.size() > 0) {
-			return list;
+			return list.get(0);
 		} else {
 			strSql = genSearchSql("200", item);
 			list = abstractDao.findBySql(Cux_mi_checkmt_v.class, strSql, params);
 			if (list != null && list.size() > 0) {
-				return list;
+				return list.get(0);
 			} else {
 				strSql = genSearchSql("%", item);
-				return abstractDao.findBySql(Cux_mi_checkmt_v.class, strSql, params);
+				list = abstractDao.findBySql(Cux_mi_checkmt_v.class, strSql, params);
+				if (list != null && list.size() > 0) {
+					return list.get(0);
+				} else {
+					return null;
+				}
 			}
 		}
 	}
