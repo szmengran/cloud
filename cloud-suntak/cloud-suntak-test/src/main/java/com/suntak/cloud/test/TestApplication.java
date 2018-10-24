@@ -26,7 +26,8 @@ public class TestApplication {
 	@Bean
     public Jackson2ObjectMapperBuilder objectMapperBuilder() {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-        builder.serializationInclusion(JsonInclude.Include.NON_NULL);
+        builder.serializationInclusion(JsonInclude.Include.NON_NULL); //json字符串空值的处理
+        builder.simpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"); //日期格式处理
         return builder;
     }
 }

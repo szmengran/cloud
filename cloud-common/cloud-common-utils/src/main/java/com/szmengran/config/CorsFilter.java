@@ -1,4 +1,4 @@
-package com.szmengran.utils;
+package com.szmengran.config;
 
 import java.io.IOException;
 
