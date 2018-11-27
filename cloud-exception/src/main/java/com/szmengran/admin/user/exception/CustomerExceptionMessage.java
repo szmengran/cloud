@@ -39,7 +39,7 @@ public class CustomerExceptionMessage {
         
         messageMap.put("6000", "测试架已被领用，请先归还再领用");
         messageMap.put("6001", "归还测试架时，库位编号不能为空");
-        messageMap.put("6002", "该型号测试架不存在");
+        messageMap.put("6002", "该型号测试架当前状态不可用");
         messageMap.put("6003", "该库位号不存在");
     }
     

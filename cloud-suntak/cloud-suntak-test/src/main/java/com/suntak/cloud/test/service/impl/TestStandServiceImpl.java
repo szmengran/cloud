@@ -60,7 +60,7 @@ public class TestStandServiceImpl implements TestStandService{
 			params[1] = stamp;
 			params[2] = test_stand_code;
 			params[3] = num;
-			int number = abstractDao.executeSql(dbManager, "update t_oa_test_stand set validstatus=?,warehouse_code=null,updatestamp=? where test_stand_code=? and num=? and validstatus='1'", params);
+			int number = abstractDao.executeSql(dbManager, "update t_oa_test_stand set validstatus=?,updatestamp=? where test_stand_code=? and num=? and validstatus='1'", params);
 			//型号不存在，则新增一条
 			if (number == 0) {
 				throw new BusinessException(6002);
