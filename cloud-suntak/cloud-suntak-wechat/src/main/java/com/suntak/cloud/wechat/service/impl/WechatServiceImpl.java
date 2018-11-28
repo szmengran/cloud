@@ -9,7 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.suntak.cloud.wechat.client.WechatServiceClient;
+import com.suntak.cloud.wechat.client.WechatClient;
 import com.suntak.cloud.wechat.service.WechatService;
 
 /**
@@ -27,12 +27,12 @@ public class WechatServiceImpl implements WechatService{
     private String appid;
 	
 	@Autowired
-	private WechatServiceClient wechatServiceClient;
+	private WechatClient wechatClient;
 
 	@Cacheable(value = "qywechatToken", key = "#p0")
 	@Override
     public Object getToken(String secret) throws Exception {
-		return wechatServiceClient.getToken(appid, secret);
+		return wechatClient.getToken(appid, secret);
     }
 	
 	@CacheEvict(allEntries = true, value = "qywechatToken")
@@ -43,7 +43,7 @@ public class WechatServiceImpl implements WechatService{
 	
 	@Override
 	public Object getUserInfo(String access_token, String code) throws Exception {
-		return wechatServiceClient.getUserInfo(access_token, code);
+		return wechatClient.getUserInfo(access_token, code);
 	}
 
 }

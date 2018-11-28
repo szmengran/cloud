@@ -12,6 +12,8 @@ public class MsgRequestBody {
 	private String msgtype;
 	private String agentid;
 	private Textcard textcard;
+	private String text;
+	private String secret;
 	public String getTouser() {
 		return touser;
 	}
@@ -47,5 +49,17 @@ public class MsgRequestBody {
 	}
 	public void setTextcard(Textcard textcard) {
 		this.textcard = textcard;
+	}
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
+	public String getSecret() {
+		return secret;
+	}
+	public void setSecret(String secret) {
+		this.secret = secret;
 	}
 }

@@ -15,7 +15,7 @@ import com.suntak.cloud.wechat.entity.MsgRequestBody;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 @FeignClient(name = "wechat",url = "https://qyapi.weixin.qq.com")
-public interface WechatServiceClient {
+public interface WechatClient {
 	@GetMapping(value = "/cgi-bin/gettoken?corpid={corpid}&corpsecret={corpsecret}")
 	Object getToken(@PathVariable("corpid") String corpid, @PathVariable("corpsecret") String corpsecret);
 	
