@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+  sms:
+    image: suntak/microservices:$CLOUD_VERSION
+    restart: always
+    environment:
+      - KAFKA_SERVER=$KAFKA_SERVER
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
+      - ENVIRONMENT=$ENVIRONMENT
+      - SMS_ACCESSKEYID=$SMS_ACCESSKEYID
+      - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
+    ports:
+     - 10101:10101
+networks:
+  default:
+    external:
+      name: cloud
