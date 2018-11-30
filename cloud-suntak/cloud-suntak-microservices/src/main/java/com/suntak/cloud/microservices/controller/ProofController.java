@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +26,12 @@ import com.suntak.cloud.microservices.utils.WechatErrorNotification;
 import com.suntak.cloud.wechat.entity.MsgRequestBody;
 import com.suntak.cloud.wechat.entity.Textcard;
 import com.suntak.exception.model.Response;
+import com.szmengran.admin.user.exception.BusinessException;
+import com.szmengran.utils.JwtUtil;
 import com.szmengran.utils.MD5Util;
 
 import io.swagger.annotations.Api;
+import net.sf.json.JSONObject;
 
 /**
  * @Package com.suntak.cloud.microservices.controller
@@ -57,18 +61,24 @@ public class ProofController {
 	@Autowired
 	private WechatClient wechatClient;
 	
-	@PostMapping("/proofOfIncome")
-	public Response applyProofOfIncome(@RequestBody ProofOfIncome proofOfIncome) throws Exception {
+	@PostMapping("/proofOfIncome/{token}")
+	public Response applyProofOfIncome(@PathVariable("token") String token, @RequestBody ProofOfIncome proofOfIncome) throws Exception {
 		logger.info(new Gson().toJson(proofOfIncome));
+		String userJson = JwtUtil.parseToken(token);
+		if (userJson == null) {
+			throw new BusinessException(10007001);
+		}
+		JSONObject jsonObject = JSONObject.fromObject(userJson);
+		String userid = jsonObject.getString("UserId");
 		ExecutorService executor = Executors.newCachedThreadPool();
 		executor.submit(() -> {
 			try{
 				String code = "EMP_INCOME";
-				String sert = MD5Util.MD5Encode(code+"."+proofOfIncome.getEmp_code(), "utf-8");
-				String json = proofOfIncomeClient.apply(code, proofOfIncome.getEmp_code(), sert, proofOfIncome.getReason(), proofOfIncome.getTax_flag());
+				String sert = MD5Util.MD5Encode(code+"."+userid, "utf-8");
+				String json = proofOfIncomeClient.apply(code, userid, sert, proofOfIncome.getReason(), proofOfIncome.getTax_flag());
 				ProofOfIncomeResponse proofOfIncomeResponse = new Gson().fromJson(json, ProofOfIncomeResponse.class);
 				String url = proofOfIncomeResponse.getUrl();
-				qywechatNotification(proofOfIncome.getEmp_code(), url);
+				qywechatNotification(userid, url);
 			} catch (Exception e) {
 				e.printStackTrace();
 				logger.error(e.getMessage());
@@ -76,7 +86,7 @@ public class ProofController {
 				errorNotification.setAgentId(agentId);
 				errorNotification.setContent(Constants.ASSISTANT_NAME+"很遗憾通知你，你申请的收入证明文件没有通过，请重新申请！");
 				errorNotification.setTitle("收入证明");
-				errorNotification.setToUser(proofOfIncome.getEmp_code());
+				errorNotification.setToUser(userid);
 				errorNotification.setPrincipal(principal);
 				errorNotification.setError(e.getMessage());
 				try {

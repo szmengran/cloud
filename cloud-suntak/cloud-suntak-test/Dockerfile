@@ -1,7 +1,7 @@
 FROM java:8-jre
 MAINTAINER Joe <android_li@sina.cn>
 
-ENV JAR_FILE cloud-suntak-test-0.0.1.jar
+ENV JAR_FILE cloud-suntak-test.jar
 
 #Set Beijing time zone
 RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone 

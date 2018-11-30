@@ -41,6 +41,7 @@ public class CustomerExceptionMessage {
         messageMap.put("6001", "归还测试架时，库位编号不能为空");
         messageMap.put("6002", "该型号测试架当前状态不可用");
         messageMap.put("6003", "该库位号不存在");
+        messageMap.put("10007001", "很抱歉，你的token已经失效");
     }
     
     public static String getMessage(Integer status) {

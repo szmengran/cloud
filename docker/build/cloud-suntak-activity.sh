@@ -10,7 +10,7 @@ function progress() {
 set -e
 
 # Docker image prefix
-REGPREFIX=szmengran
+REGPREFIX=suntak
 VERSION=$CLOUD_VERSION
 
 cd ../cloud-suntak/cloud-suntak-activity

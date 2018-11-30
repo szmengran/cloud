@@ -152,43 +152,45 @@ public class QuestionnaireController {
 		}
 		Boolean flag = questionnaireService.updateAll(userid,yearmonth, t_questionnaire_evaluates);
 		if (flag) {
-			new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					try {
-						Boolean flag = questionnaireService.check(yearmonth);
-						if (flag) {
-							List<Questionnaire> questionnaireList = questionnaireService.findResult(yearmonth);
-							int size = questionnaireList.size();
-							for (int i=0; i<size; i++) {
-								Questionnaire questionnaire = questionnaireList.get(i);
-								try {
-									String year = yearmonth.substring(0,4);
-									String month = yearmonth.substring(5,6);
-									Questionnaire_sms questionnaire_sms = new Questionnaire_sms();
-									questionnaire_sms.setName(questionnaire.getEmpname());
-									questionnaire_sms.setYear(year);
-									questionnaire_sms.setMonth(month);
-									questionnaire_sms.setPhone(questionnaire.getPhone());
-									questionnaire_sms.setNum(size);
-									questionnaire_sms.setScore(questionnaire.getAvgscore());
-									questionnaire_sms.setRank((i+1));
-									questionnaireSmsServiceClient.sendQuestionnaireSmsCode(questionnaire_sms);
-								} catch (Exception e) {
-									e.printStackTrace();
-									logger.error(e.getMessage());
-								}
-							}
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}).start();
+			sendMsmNotification(yearmonth);
 		}
 		Response response = new Response();
 		return response;
+	}
+	
+	@ApiOperation(value = "发送短信通知", response = Response.class)
+	@GetMapping("/send/{yearmonth}")
+	public Response sendMsmNotification(@PathVariable("yearmonth") String yearmonth) throws Exception {
+		Boolean flag = questionnaireService.check(yearmonth);
+		if (flag) {
+			List<Questionnaire> questionnaireList = questionnaireService.findResult(yearmonth);
+			int size = questionnaireList.size();
+			ExecutorService executor = Executors.newCachedThreadPool();
+			for (int i=0; i<size; i++) {
+				final int index = i;
+				executor.submit(() -> {
+					Questionnaire questionnaire = questionnaireList.get(index);
+					try {
+						String year = yearmonth.substring(0,4);
+						String month = yearmonth.substring(4,6);
+						Questionnaire_sms questionnaire_sms = new Questionnaire_sms();
+						questionnaire_sms.setName(questionnaire.getEmpname());
+						questionnaire_sms.setYear(year);
+						questionnaire_sms.setMonth(month);
+						questionnaire_sms.setPhone(questionnaire.getPhone());
+						questionnaire_sms.setNum(size);
+						questionnaire_sms.setScore(questionnaire.getAvgscore());
+						questionnaire_sms.setRank((index+1));
+						logger.info(new Gson().toJson(questionnaire_sms));
+						questionnaireSmsServiceClient.sendQuestionnaireSmsCode(questionnaire_sms);
+					} catch (Exception e) {
+						e.printStackTrace();
+						logger.error(e.getMessage());
+					}
+				});
+			}
+		}
+		return new Response();
 	}
 	
 	@ApiOperation(value="问卷调查汇总结果查询")

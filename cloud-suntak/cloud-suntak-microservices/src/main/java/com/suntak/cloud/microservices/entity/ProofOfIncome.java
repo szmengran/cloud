@@ -7,7 +7,6 @@ package com.suntak.cloud.microservices.entity;
  */
 public class ProofOfIncome {
 	private String code;
-	private String emp_code;
 	private String sert;
 	private String reason;
 	private String tax_flag;
@@ -16,12 +15,6 @@ public class ProofOfIncome {
 	}
 	public void setCode(String code) {
 		this.code = code;
-	}
-	public String getEmp_code() {
-		return emp_code;
-	}
-	public void setEmp_code(String emp_code) {
-		this.emp_code = emp_code;
 	}
 	public String getSert() {
 		return sert;
