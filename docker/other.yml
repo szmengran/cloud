@@ -1,12 +1,12 @@
 version: '3.1'
 services:
   gateway:
-    image: szmengran/cloud-gateway-zuul:$CLOUD_VERSION
+    image: suntak/cloud-gateway-zuul:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
-      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
       - ENVIRONMENT=$ENVIRONMENT
     ports:
      - "10000:10000"
@@ -15,8 +15,8 @@ services:
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
-      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
       - ENVIRONMENT=$ENVIRONMENT
     ports:
      - 10002:10002
@@ -25,8 +25,8 @@ services:
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
-      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
       - ENVIRONMENT=$ENVIRONMENT
     ports:
      - 10003:10003
@@ -35,8 +35,8 @@ services:
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
-      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
       - ENVIRONMENT=$ENVIRONMENT
       - SMS_ACCESSKEYID=$SMS_ACCESSKEYID
       - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
@@ -47,8 +47,8 @@ services:
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
-      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
       - ENVIRONMENT=$ENVIRONMENT
       - SMS_ACCESSKEYID=$SMS_ACCESSKEYID
       - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
@@ -59,20 +59,20 @@ services:
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
-      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
       - ENVIRONMENT=$ENVIRONMENT
       - SMS_ACCESSKEYID=$SMS_ACCESSKEYID
       - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
     ports:
      - 10006:10006
   questionnaire:
-    image: szmengran/cloud-suntak-questionnaire:$CLOUD_VERSION
+    image: suntak/cloud-suntak-questionnaire:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
-      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
       - ENVIRONMENT=$ENVIRONMENT
     ports:
      - 10007:10007
@@ -81,8 +81,8 @@ services:
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
-      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
       - ENVIRONMENT=$ENVIRONMENT
     ports:
      - 10008:10008
@@ -91,8 +91,8 @@ services:
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
-      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
       - ENVIRONMENT=$ENVIRONMENT
     ports:
      - 10009:10009
@@ -101,21 +101,33 @@ services:
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
-      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
       - ENVIRONMENT=$ENVIRONMENT
     ports:
      - 10011:10011
   wechat:
-    image: szmengran/cloud-suntak-wechat:$CLOUD_VERSION
+    image: suntak/cloud-suntak-wechat:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
-      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
-      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
       - ENVIRONMENT=$ENVIRONMENT
     ports:
      - 10014:10014
+  microservices:
+    image: suntak/microservices:$CLOUD_VERSION
+    restart: always
+    environment:
+      - KAFKA_SERVER=$KAFKA_SERVER
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
+      - ENVIRONMENT=$ENVIRONMENT
+      - SMS_ACCESSKEYID=$SMS_ACCESSKEYID
+      - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
+    ports:
+     - 10101:10101
 networks:
   default:
     external:
