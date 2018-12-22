@@ -56,6 +56,33 @@ public class WechatController {
 		}
 	}
 	
+	/**
+	 * 发送企业微信信息
+	 * @param msgRequestBody
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@PostMapping("/message")
+	public Response send(@RequestBody MsgRequestBody msgRequestBody) throws Exception {
+		JSONObject jsonObject = JSONObject.fromObject(wechatService.getToken(msgRequestBody.getSecret()));
+		String access_token = jsonObject.getString("access_token");
+		String errormsg = jsonObject.getString("errmsg");
+		if ("ok".equalsIgnoreCase(errormsg)) {
+			JSONObject responseMsg = JSONObject.fromObject(wechatClient.send(msgRequestBody, access_token));
+			errormsg = responseMsg.getString("errmsg");
+			if ("ok".equalsIgnoreCase(errormsg)) {
+				return new Response();
+			} else {
+				logger.error(errormsg);
+				throw new BusinessException(10014001, "发送企业微信消息失败");
+			}
+		} else {
+			logger.error(errormsg);
+			throw new BusinessException(10014001, "获取企业微信TOKEN失败");
+		}
+	}
+	
 	@GetMapping("/getuserinfo/{code}/{secret}")
 	public Response getUserInfo(@PathVariable("code") String code, @PathVariable("secret") String secret) throws Exception {
 		JSONObject jsonObject = JSONObject.fromObject(wechatService.getToken(secret));
@@ -75,6 +102,22 @@ public class WechatController {
 				logger.error(errormsg);
 				throw new BusinessException(errcode, "获取企业微信用户信息失败");
 			}
+		} else {
+			logger.error(errormsg);
+			throw new BusinessException(errcode, "获取企业微信TOKEN失败");
+		}
+	}
+	
+	@GetMapping("/getQYToken/{secret}")
+	public Response getQYToken(@PathVariable("secret") String secret) throws Exception {
+		JSONObject jsonObject = JSONObject.fromObject(wechatService.getToken(secret));
+		String access_token = jsonObject.getString("access_token");
+		String errormsg = jsonObject.getString("errmsg");
+		Integer errcode = jsonObject.getInt("errcode");
+		Response response = new Response();
+		if ("ok".equalsIgnoreCase(errormsg)) {
+			response.setData(access_token);
+			return response;
 		} else {
 			logger.error(errormsg);
 			throw new BusinessException(errcode, "获取企业微信TOKEN失败");

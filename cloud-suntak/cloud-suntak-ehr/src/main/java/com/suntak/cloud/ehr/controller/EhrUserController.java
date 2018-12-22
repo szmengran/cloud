@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.suntak.cloud.ehr.service.ContactService;
 import com.suntak.cloud.ehr.service.EhrUserService;
 import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
@@ -36,6 +38,9 @@ public class EhrUserController {
 	@Autowired
 	@Qualifier("ehrUserService")
 	EhrUserService ehrUserService;
+	
+	@Autowired
+	ContactService contactService;
 	
 	@ApiOperation(value = "获取生日的员工信息", response = Response.class)
 	@GetMapping("birthdayusers/{monthdate}")
@@ -119,4 +124,12 @@ public class EhrUserController {
 		}
 		return response;
 	}
+	
+	@ApiOperation(value = "更新员工的信息到企业微信通讯录", response = Response.class)
+	@PutMapping(value = "/contact")
+	public Response synchContact() throws Exception {
+		contactService.synchContact();
+		return new Response();
+	}
+	
 }

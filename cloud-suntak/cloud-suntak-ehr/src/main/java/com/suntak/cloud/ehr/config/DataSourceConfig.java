@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
@@ -27,6 +28,7 @@ public class DataSourceConfig {
   
     @Bean(initMethod = "init", name = "writeDataSource")  
     @ConfigurationProperties(prefix = "spring.datasource.druid.cuxsoa.write")  
+    @Primary
     public DataSource writeDataSource(){  
             return DruidDataSourceBuilder.create().build();  
     } 

@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 import com.suntak.cloud.microservices.client.WechatClient;
 import com.suntak.cloud.microservices.entity.ErrorNotification;
 import com.suntak.cloud.wechat.entity.MsgRequestBody;
+import com.suntak.cloud.wechat.entity.Text;
 import com.suntak.cloud.wechat.entity.Textcard;
 import com.suntak.exception.model.Response;
 
@@ -36,10 +37,11 @@ public class WechatErrorNotification {
 		MsgRequestBody msgRequestBody = new MsgRequestBody();
 		msgRequestBody.setTouser(errorNotification.getToUser());
 		msgRequestBody.setMsgtype("text");
-		msgRequestBody.setText(errorNotification.getContent());
+		Text text = new Text(errorNotification.getContent());
+		msgRequestBody.setText(text);
 		msgRequestBody.setAgentid(errorNotification.getAgentId());
 		msgRequestBody.setSecret(errorNotification.getSecret());
-		return wechatClient.sendTextcard(msgRequestBody);
+		return wechatClient.sendMessage(msgRequestBody);
 	}
 	
 	/**

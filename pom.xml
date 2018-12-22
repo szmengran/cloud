@@ -7,7 +7,7 @@
 
 	<parent>
 		<groupId>com.szmengran</groupId>
-		<artifactId>microservices</artifactId>
+		<artifactId>spring-cloud-infrastructure</artifactId>
 		<version>0.0.1</version>
 	</parent>
 
@@ -92,6 +92,11 @@
 				<groupId>com.szmengran</groupId>
 				<artifactId>orm-oracle</artifactId>
 				<version>${orm.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc</artifactId>
+				<version>10.2.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>com.suntak</groupId>
@@ -200,7 +205,11 @@
 				<version>0.2.0-RC1</version>
 				<scope>runtime</scope>
 			</dependency>
-
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<version>3.0.6</version>
+			</dependency>
 			<dependency>
 				<groupId>com.szmengran</groupId>
 				<artifactId>cloud-model-common</artifactId>

@@ -46,4 +46,9 @@ public class WechatController {
 		}
 		return response;
 	}
+	
+	@GetMapping("/getQYToken")
+	public Response getQYToken() throws Exception {
+		return wechatClient.getQYToken(secret);
+	}
 }
