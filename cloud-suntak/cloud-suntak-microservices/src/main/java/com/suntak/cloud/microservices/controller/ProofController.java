@@ -26,6 +26,7 @@ import com.suntak.cloud.microservices.utils.Constants;
 import com.suntak.cloud.microservices.utils.WechatErrorNotification;
 import com.suntak.cloud.wechat.entity.MsgRequestBody;
 import com.suntak.cloud.wechat.entity.Textcard;
+import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
 import com.szmengran.admin.user.exception.BusinessException;
 import com.szmengran.utils.JwtUtil;
@@ -33,7 +34,6 @@ import com.szmengran.utils.MD5Util;
 
 import io.swagger.annotations.Api;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
-import net.sf.json.JSONObject;
 
 /**
  * @Package com.suntak.cloud.microservices.controller
@@ -70,8 +70,8 @@ public class ProofController {
 		if (userJson == null) {
 			throw new BusinessException(10007001);
 		}
-		JSONObject jsonObject = JSONObject.fromObject(userJson);
-		String userid = jsonObject.getString("UserId");
+		EhrUser ehrUser = new Gson().fromJson(userJson, EhrUser.class);
+		final String userid = ehrUser.getEmpcode();
 		ExecutorService executor = Executors.newCachedThreadPool();
 		executor.submit(() -> {
 			try{
@@ -112,8 +112,8 @@ public class ProofController {
 		if (userJson == null) {
 			throw new BusinessException(10007001);
 		}
-		JSONObject jsonObject = JSONObject.fromObject(userJson);
-		final String userid = jsonObject.getString("UserId");
+		EhrUser ehrUser = new Gson().fromJson(userJson, EhrUser.class);
+		final String userid = ehrUser.getEmpcode();
 		ExecutorService executor = Executors.newCachedThreadPool();
 		executor.submit(() -> {
 			try{
@@ -196,13 +196,13 @@ public class ProofController {
 		textcard.setTitle("居住证明");
 		StringBuilder sb = new StringBuilder();
 		sb.append("<div class=\"gray\">")
-		.append(new SimpleDateFormat("yyyy年MM月dd日").format(new Date()))
-		.append("</div>")
-		.append("<div class=\"normal\">")
-		.append("你好，你申请的居住证明文件已经生成，请下载！")
-		.append(Constants.ASSISTANT_NAME)
-		.append("很高兴为你服务！")
-		.append("</div>");
+		  .append(new SimpleDateFormat("yyyy年MM月dd日").format(new Date()))
+		  .append("</div>")
+		  .append("<div class=\"normal\">")
+		  .append("你好，你申请的居住证明文件已经生成，请下载！")
+		  .append(Constants.ASSISTANT_NAME)
+		  .append("很高兴为你服务！")
+		  .append("</div>");
 		textcard.setDescription(sb.toString());
 		textcard.setUrl(url);
 		textcard.setBtntxt("下载");
