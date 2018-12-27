@@ -26,12 +26,12 @@ public interface ContactMapper extends IMapper<ContactExt>{
 			StringBuilder strSql = new StringBuilder();
 			strSql.append("select a.empcode userid, a.empname name, a.c_mobile_tel mobile,")
 			      .append("b.id deptid, nvl(a.job_level,a.posname) position, decode(gender,'男','1','0') gender, 1 enable,")
-			      .append("labordate, operate_time, mobile_operate_time")
-			      .append(" from apps.tb_v_rpt_oa_emp_info a left join")
+			      .append("labordate, operate_time, mobile_operate_time,short_tel")
+			      .append(" from tb_v_rpt_oa_emp_info a left join")
 			      .append(" (select a.*,b.name pname from t_wechat_department a left join t_wechat_department b")
 			      .append(" on a.parentid = b.id ) b on (b.name = kename and b.pname = nvl(person_attr, companyname))")
 			      .append(" or (kename is null and b.name = nvl(person_attr, companyname))")
-			      .append(" where a.empcode='010823'");
+			      .append(" where a.empcode='001413'");
 //			      .append(" where a.labordate >= #{currentDate}")
 //			      .append(" or a.operate_time >= #{currentDate}")
 //			      .append(" or a.mobile_operate_time >= #{currentDate}");

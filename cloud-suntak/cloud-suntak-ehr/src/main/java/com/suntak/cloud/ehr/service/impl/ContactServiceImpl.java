@@ -10,17 +10,22 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
 import com.suntak.cloud.ehr.client.ConstactClient;
 import com.suntak.cloud.ehr.client.WechatClient;
+import com.suntak.cloud.ehr.entity.Attr;
 import com.suntak.cloud.ehr.entity.Contact;
 import com.suntak.cloud.ehr.entity.ContactExt;
 import com.suntak.cloud.ehr.entity.ContactResponse;
+import com.suntak.cloud.ehr.entity.Extattr;
+import com.suntak.cloud.ehr.entity.Text;
 import com.suntak.cloud.ehr.mapper.ContactMapper;
 import com.suntak.cloud.ehr.service.ContactService;
 import com.suntak.exception.model.Response;
@@ -67,6 +72,20 @@ public class ContactServiceImpl implements ContactService{
 				try {
 					Contact contact = new Contact();
 					BeanUtils.copyProperties(contact, contactExt);
+					
+					String short_tel = contactExt.getShort_tel();
+					if (StringUtils.isNotBlank(short_tel)) {
+						Extattr extattr = new Extattr();
+						Attr attr = new Attr();
+						attr.setName("短号");
+						attr.setType(0);
+						Text text = new Text();
+						text.setValue(short_tel);
+						attr.setText(text);
+						Attr[] attrs = {attr};
+						extattr.setAttrs(attrs);
+						contact.setExtattr(extattr);
+					}
 					Integer[] department = {contactExt.getDeptid()};
 					contact.setDepartment(department);
 					if (currentDate.before(contactExt.getLabordate())) {
@@ -75,6 +94,8 @@ public class ContactServiceImpl implements ContactService{
 							LOG.error(contactResponse.getErrmsg());
 						}
 					} else {
+						LOG.info(new Gson().toJson(contact));
+						LOG.info(new Gson().toJson(access_token));
 						ContactResponse contactResponse = constactClient.updateContact(access_token, contact);
 						if (contactResponse.getErrcode() != 0) {
 							LOG.error(contactResponse.getErrmsg());

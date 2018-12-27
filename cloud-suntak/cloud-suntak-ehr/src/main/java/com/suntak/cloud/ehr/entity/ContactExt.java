@@ -13,6 +13,7 @@ public class ContactExt extends Contact{
 	private Timestamp labordate;
 	private Timestamp operate_time;
 	private Timestamp mobile_operate_time;
+	private String short_tel;
 	
 	public Integer getDeptid() {
 		return deptid;
@@ -37,5 +38,11 @@ public class ContactExt extends Contact{
 	}
 	public void setMobile_operate_time(Timestamp mobile_operate_time) {
 		this.mobile_operate_time = mobile_operate_time;
+	}
+	public String getShort_tel() {
+		return short_tel;
+	}
+	public void setShort_tel(String short_tel) {
+		this.short_tel = short_tel;
 	}
 }

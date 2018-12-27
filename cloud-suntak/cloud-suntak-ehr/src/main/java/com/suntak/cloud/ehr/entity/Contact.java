@@ -23,7 +23,7 @@ public class Contact {
 	private String isleader; //上级字段
 	private String avatar_mediaid; //成员头像的mediaid
 	private Integer enable; //启用/禁用成员
-	private String extattr; //自定义字段
+	private Extattr extattr; //自定义字段
 	private String to_invite; //是否邀请该成员使用企业微信
 	private String external_profile; //成员对外属性
 	private String external_position; //对外职务
@@ -105,10 +105,10 @@ public class Contact {
 	public void setEnable(Integer enable) {
 		this.enable = enable;
 	}
-	public String getExtattr() {
+	public Extattr getExtattr() {
 		return extattr;
 	}
-	public void setExtattr(String extattr) {
+	public void setExtattr(Extattr extattr) {
 		this.extattr = extattr;
 	}
 	public String getTo_invite() {

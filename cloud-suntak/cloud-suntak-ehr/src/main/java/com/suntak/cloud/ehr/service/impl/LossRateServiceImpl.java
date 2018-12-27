@@ -44,7 +44,7 @@ public class LossRateServiceImpl implements LossRateService{
 		      .append(" and ? then 1")
 		      .append(" else 0 end")
 		      .append(" ) betweendaymonth")
-		      .append(" FROM Tb_v_Rpt_Emp_Info a where")
+		      .append(" FROM tb_v_rpt_emp_info a where")
 		      .append(" (a.EXITDATE is null or a.EXITDATE >= ")
 		      .append("'").append(startmonth).append("')")
 		      .append(" and a.companycode=?")
