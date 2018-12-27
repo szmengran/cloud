@@ -15,4 +15,11 @@ public interface ContactService {
 	 */
 	public void synchContact() throws Exception;
 	
+	/**
+	 * 删除企业微信中已经离职的员工信息
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	public void deleteContact() throws Exception;
+	
 }

@@ -95,12 +95,35 @@ public class ContactServiceImpl implements ContactService{
 						}
 					} else {
 						LOG.info(new Gson().toJson(contact));
-						LOG.info(new Gson().toJson(access_token));
 						ContactResponse contactResponse = constactClient.updateContact(access_token, contact);
-						if (contactResponse.getErrcode() != 0) {
+						if (60111 == contactResponse.getErrcode()) { //员工信息不存在时，需要创建员工信息
+							constactClient.createContact(access_token, contact);
+						} else if (contactResponse.getErrcode() != 0) {
 							LOG.error(contactResponse.getErrmsg());
 						}
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					LOG.error(e.getMessage());
+				}
+			});
+		}
+	}
+
+	@Override
+	public void deleteContact() throws Exception {
+		ExecutorService executor     = Executors.newFixedThreadPool(30);
+		Future<Response> futurn = executor.submit(() -> {
+			return wechatClient.getQYToken(secret);
+		});
+		List<ContactExt> contactExts = contactMapper.findDisableContact();
+		Response response = futurn.get();
+		final String access_token = (String)response.getData();
+		for (ContactExt contactExt: contactExts) {
+			executor.submit(() -> {
+				try {
+					LOG.info("delete contact:{},{}", access_token, contactExt.getUserid());
+					constactClient.deleteContact(access_token, contactExt.getUserid());
 				} catch (Exception e) {
 					e.printStackTrace();
 					LOG.error(e.getMessage());

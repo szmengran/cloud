@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -132,4 +133,10 @@ public class EhrUserController {
 		return new Response();
 	}
 	
+	@ApiOperation(value = "删除企业微信通讯录中已经离职的信息", response = Response.class)
+	@DeleteMapping(value = "/contact")
+	public Response deleteContact() throws Exception {
+		contactService.deleteContact();
+		return new Response();
+	}
 }
