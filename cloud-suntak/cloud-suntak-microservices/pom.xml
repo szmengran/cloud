@@ -61,6 +61,10 @@
 			<groupId>com.szmengran</groupId>
 			<artifactId>cloud-model-suntak</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
