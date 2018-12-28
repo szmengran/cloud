@@ -35,9 +35,11 @@ public class XfSum {
 	private Float xflingcankk; //凌晨餐扣款
 	private Float chshimoneycount; // 沙井超市
 	private Float chshimoneycount2; // 江门超市
+	private Float cs; // 大连超市
 	private Float kf9990; // 咖啡机
 	private Float kf9991; //
 	private Float kf9992; //
+	private Float kf; // 大连咖啡
 	//早餐补贴标准
 	private Float zaocanbt1; //沙井1号食堂
 	private Float zaocanbt2; //16号食堂
@@ -339,5 +341,17 @@ public class XfSum {
 	}
 	public void setLingcanbt3(Float lingcanbt3) {
 		this.lingcanbt3 = lingcanbt3;
+	}
+	public Float getCs() {
+		return cs;
+	}
+	public void setCs(Float cs) {
+		this.cs = cs;
+	}
+	public Float getKf() {
+		return kf;
+	}
+	public void setKf(Float kf) {
+		this.kf = kf;
 	}
 }

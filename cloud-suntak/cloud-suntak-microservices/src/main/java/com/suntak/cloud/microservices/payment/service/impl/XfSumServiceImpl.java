@@ -91,10 +91,12 @@ public class XfSumServiceImpl implements XfSumService{
 
 					xfSum.setChshimoneycount(rs.getFloat("chshimoneycount"));
 					xfSum.setChshimoneycount2(rs.getFloat("chshimoneycount2"));
+					xfSum.setCs(rs.getFloat("cs"));
 					
 					xfSum.setKf9990(rs.getFloat("kf9990"));
 					xfSum.setKf9991(rs.getFloat("kf9991"));
 					xfSum.setKf9992(rs.getFloat("kf9992"));
+					xfSum.setKf(rs.getFloat("kf"));
 					//早餐补贴标准
 					xfSum.setZaocanbt1(rs.getFloat("zaocanbt1"));
 					xfSum.setZaocanbt2(rs.getFloat("zaocanbt2"));
