@@ -32,4 +32,15 @@ public interface EhrUserService {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	public List<EhrUser> findByCondition(String conditions, Object[] params) throws Exception;
+	
+	/**
+	 * 根据身份证号码员工工号修改电话号码
+	 * @param empcode
+	 * @param phone
+	 * @param id_card
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	public Boolean updatePhone(String empcode, String phone, String id_card) throws Exception;
 }

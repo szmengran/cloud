@@ -6,6 +6,7 @@ package com.suntak.cloud.ehr.service.impl;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,27 @@ public class EhrUserServiceImpl implements EhrUserService{
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT EMPCODE,EMPNAME,COMPANYCODE,COMPANYNAME,DEPTNAME,KENAME,GENDER,C_MOBILE_TEL PHONE,TO_NUMBER(TO_CHAR(SYSDATE,'yyyy'))-TO_NUMBER(to_char(labordate, 'yyyy')) year FROM tb_v_rpt_emp_info WHERE ").append(conditions);
 		return abstractDao.findBySql(EhrUser.class, sql.toString(), params);
+	}
+	
+	@Override
+	public Boolean updatePhone(String empcode, String phone, String id_card) throws Exception {
+		String strSql = "SELECT EMPCODE FROM tb_v_rpt_emp_info where idcard=? and empcode=?";
+		Object[] params1 = new Object[3];
+		params1[0] = id_card;
+		params1[1] = empcode;
+		List<EhrUser> list = abstractDao.findBySql(EhrUser.class, strSql, params1);
+		if (list != null && list.size() > 0) {
+			Object[] params = new Object[3];
+			params[0] = phone;
+			params[1] = new Timestamp(System.currentTimeMillis());
+			params[2] = empcode;
+			int count = abstractDao.executeSql("update TB_STA_COMMUNICATION set c_mobile_tel=?, c_operate_time=? where c_employee_id in (select c_oid FROM tb_sta_emp where c_code=?)", params);
+			if (count > 0) {
+				return true;
+			}
+		} else {
+			throw new Exception("身份证号码和员工工号不匹配！");
+		}
+		return false;
 	}
 }

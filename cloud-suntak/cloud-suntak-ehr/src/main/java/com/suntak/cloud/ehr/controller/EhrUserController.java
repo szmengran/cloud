@@ -133,6 +133,13 @@ public class EhrUserController {
 		return new Response();
 	}
 	
+	@ApiOperation(value = "更新员工的电话号码", response = Response.class)
+	@PutMapping(value = "/contact/{id_card}/{empcode}/{phone}")
+	public Response updatePhone(@PathVariable("id_card") String id_card, @PathVariable("empcode") String empcode, @PathVariable("phone") String phone) throws Exception {
+		ehrUserService.updatePhone(empcode, phone, id_card);
+		return new Response();
+	}
+	
 	@ApiOperation(value = "删除企业微信通讯录中已经离职的信息", response = Response.class)
 	@DeleteMapping(value = "/contact")
 	public Response deleteContact() throws Exception {
