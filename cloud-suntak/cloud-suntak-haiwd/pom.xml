@@ -65,6 +65,10 @@
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.szmengran</groupId>
+			<artifactId>cloud-model-punch</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

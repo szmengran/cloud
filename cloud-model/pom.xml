@@ -14,5 +14,6 @@
   	<module>cloud-model-common</module>
   	<module>cloud-model-suntak</module>
   	<module>cloud-model-wechat</module>
+  	<module>cloud-model-punch</module>
   </modules>
 </project>

@@ -1,6 +1,6 @@
 package com.suntak.cloud.haiwd.service;
 
-import com.suntak.cloud.haiwd.entity.XfSum;
+import com.suntak.punch.entity.XfSum;
 
 /**
  * @Package com.suntak.cloud.microservices.payment.service

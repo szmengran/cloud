@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.suntak.cloud.haiwd.entity.Cux_xf_info;
 import com.suntak.cloud.haiwd.mapper.XfInfoMapper;
 import com.suntak.cloud.haiwd.service.XfInfoService;
 import com.suntak.cloud.haiwd.utils.DatabaseContextHolder;
 import com.suntak.cloud.haiwd.utils.DatabaseType;
+import com.suntak.punch.entity.Cux_xf_info;
 
 /**
  * @Package com.suntak.cloud.microservices.payment.service.impl

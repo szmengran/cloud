@@ -2,9 +2,10 @@ package com.suntak.cloud.recruitment.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.suntak.cloud.wechat.entity.MsgRequestBody;
+import com.suntak.cloud.wechat.entity.request.TextcardRequestBody;
 import com.suntak.exception.model.Response;
 
 /**
@@ -16,6 +17,6 @@ import com.suntak.exception.model.Response;
 @FeignClient(name = "cloud-suntak-wechat")
 public interface WechatServiceClient {
 	
-	@GetMapping("/api/v1/wechat/textcard")
-	Response sendTextcard(@RequestBody MsgRequestBody msgRequestBody) throws Exception;
+	@GetMapping("/api/v1/wechat/textcard/{secret}")
+	Response sendTextcard(@PathVariable("secret") String secret, @RequestBody TextcardRequestBody textcardRequestBody) throws Exception;
 }

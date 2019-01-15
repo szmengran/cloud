@@ -1,15 +1,17 @@
 package com.suntak.cloud.haiwd.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.suntak.cloud.haiwd.entity.Punch;
 import com.suntak.cloud.haiwd.mapper.PunchMapper;
 import com.suntak.cloud.haiwd.service.PunchService;
 import com.suntak.cloud.haiwd.utils.DatabaseContextHolder;
 import com.suntak.cloud.haiwd.utils.DatabaseType;
+import com.suntak.punch.entity.Punch;
 
 /**
  * @Package com.suntak.cloud.haiwd.service.impl
@@ -24,9 +26,17 @@ public class PunchServiceImpl implements PunchService {
 	private PunchMapper punchMapper;
 	
 	@Override
-	public List<Punch> findWorkPunch(String date, String yearmonth, String resultdate) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Punch> findPunch(int time, List<Punch> list, DatabaseType databaseType) throws Exception {
+		DatabaseContextHolder.setDatabaseType(databaseType);
+		StringBuilder strSql = new StringBuilder();
+		for (Punch punch: list) {
+			strSql.append(",'").append(punch.getRunno()).append("'");
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String dateFormat = sdf.format(new Date());
+		String date = dateFormat.substring(8, 10);
+		String yearmonth = dateFormat.substring(0, 7);
+		return punchMapper.findWorkPunch(time, date, yearmonth, dateFormat+" 00:00:00", strSql.deleteCharAt(0).toString());
 	}
 
 	@Override

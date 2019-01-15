@@ -1,4 +1,7 @@
 package com.suntak.cloud.wechat.service;
+
+import com.suntak.cloud.wechat.entity.response.TokenResponseBody;
+
 /**
  * @Package com.suntak.cloud.wechat.service
  * @Description: 微信授权
@@ -14,7 +17,7 @@ public interface WechatService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public Object getToken(String secret) throws Exception;
+	public TokenResponseBody getToken(String secret) throws Exception;
 	
 	/**
 	 * 根据授权码获取用户的信息

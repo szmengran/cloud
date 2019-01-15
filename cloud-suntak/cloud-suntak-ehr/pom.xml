@@ -73,6 +73,14 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.szmengran</groupId>
+			<artifactId>cloud-model-punch</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.szmengran</groupId>
+			<artifactId>cloud-model-wechat</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

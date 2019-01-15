@@ -2,7 +2,7 @@ package com.suntak.cloud.haiwd.service;
 
 import java.util.List;
 
-import com.suntak.cloud.haiwd.entity.Cux_xf_info;
+import com.suntak.punch.entity.Cux_xf_info;
 
 /**
  * @Package com.suntak.cloud.microservices.payment.service

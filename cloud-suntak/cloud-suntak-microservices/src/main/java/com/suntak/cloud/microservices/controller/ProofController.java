@@ -24,8 +24,8 @@ import com.suntak.cloud.microservices.entity.ProofOfIncome;
 import com.suntak.cloud.microservices.entity.ProofOfIncomeResponse;
 import com.suntak.cloud.microservices.utils.Constants;
 import com.suntak.cloud.microservices.utils.WechatErrorNotification;
-import com.suntak.cloud.wechat.entity.MsgRequestBody;
-import com.suntak.cloud.wechat.entity.Textcard;
+import com.suntak.cloud.wechat.entity.request.Textcard;
+import com.suntak.cloud.wechat.entity.request.TextcardRequestBody;
 import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
 import com.szmengran.admin.user.exception.BusinessException;
@@ -157,9 +157,9 @@ public class ProofController {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	private Response qywechatNotification(String toUser, String url) throws Exception {
-		MsgRequestBody msgRequestBody = new MsgRequestBody();
-		msgRequestBody.setTouser(toUser);
-		msgRequestBody.setMsgtype("textcard");
+		TextcardRequestBody textcardRequestBody = new TextcardRequestBody();
+		textcardRequestBody.setTouser(toUser);
+		textcardRequestBody.setMsgtype("textcard");
 		Textcard textcard = new Textcard();
 		textcard.setTitle("收入证明");
 		StringBuilder sb = new StringBuilder();
@@ -174,10 +174,9 @@ public class ProofController {
 		textcard.setDescription(sb.toString());
 		textcard.setUrl(url);
 		textcard.setBtntxt("下载");
-		msgRequestBody.setTextcard(textcard);
-		msgRequestBody.setAgentid(agentId);
-		msgRequestBody.setSecret(secret);
-		return wechatClient.sendTextcard(msgRequestBody);
+		textcardRequestBody.setTextcard(textcard);
+		textcardRequestBody.setAgentid(agentId);
+		return wechatClient.sendTextcard(secret, textcardRequestBody);
 	}
 	
 	/**
@@ -189,9 +188,9 @@ public class ProofController {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	private Response proofOfResidenceNotification(String toUser, String url) throws Exception {
-		MsgRequestBody msgRequestBody = new MsgRequestBody();
-		msgRequestBody.setTouser(toUser);
-		msgRequestBody.setMsgtype("textcard");
+		TextcardRequestBody textcardRequestBody = new TextcardRequestBody();
+		textcardRequestBody.setTouser(toUser);
+		textcardRequestBody.setMsgtype("textcard");
 		Textcard textcard = new Textcard();
 		textcard.setTitle("居住证明");
 		StringBuilder sb = new StringBuilder();
@@ -206,9 +205,8 @@ public class ProofController {
 		textcard.setDescription(sb.toString());
 		textcard.setUrl(url);
 		textcard.setBtntxt("下载");
-		msgRequestBody.setTextcard(textcard);
-		msgRequestBody.setAgentid(agentId);
-		msgRequestBody.setSecret(secret);
-		return wechatClient.sendTextcard(msgRequestBody);
+		textcardRequestBody.setTextcard(textcard);
+		textcardRequestBody.setAgentid(agentId);
+		return wechatClient.sendTextcard(secret, textcardRequestBody);
 	}
 }

@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.wechat.client.WechatClient;
+import com.suntak.cloud.wechat.entity.response.TokenResponseBody;
 import com.suntak.cloud.wechat.service.WechatService;
 
 /**
@@ -31,7 +32,7 @@ public class WechatServiceImpl implements WechatService{
 
 	@Cacheable(value = "qywechatToken", key = "#p0")
 	@Override
-    public Object getToken(String secret) throws Exception {
+    public TokenResponseBody getToken(String secret) throws Exception {
 		return wechatClient.getToken(appid, secret);
     }
 	

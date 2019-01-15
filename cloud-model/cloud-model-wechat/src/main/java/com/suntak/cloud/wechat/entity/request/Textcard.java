@@ -1,4 +1,4 @@
-package com.suntak.cloud.wechat.entity;
+package com.suntak.cloud.wechat.entity.request;
 /**
  * @Package com.suntak.cloud.wechat.entity
  * @Description: 卡片消息

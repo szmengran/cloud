@@ -7,9 +7,10 @@ import java.util.concurrent.Executors;
 
 import com.suntak.cloud.microservices.client.WechatClient;
 import com.suntak.cloud.microservices.entity.ErrorNotification;
-import com.suntak.cloud.wechat.entity.MsgRequestBody;
-import com.suntak.cloud.wechat.entity.Text;
-import com.suntak.cloud.wechat.entity.Textcard;
+import com.suntak.cloud.wechat.entity.request.Text;
+import com.suntak.cloud.wechat.entity.request.TextRequestBody;
+import com.suntak.cloud.wechat.entity.request.Textcard;
+import com.suntak.cloud.wechat.entity.request.TextcardRequestBody;
 import com.suntak.exception.model.Response;
 
 /**
@@ -34,14 +35,13 @@ public class WechatErrorNotification {
 			return notificationPrincipal(wechatClient, errorNotification);
 		});
 		
-		MsgRequestBody msgRequestBody = new MsgRequestBody();
-		msgRequestBody.setTouser(errorNotification.getToUser());
-		msgRequestBody.setMsgtype("text");
+		TextRequestBody textRequestBody = new TextRequestBody();
+		textRequestBody.setTouser(errorNotification.getToUser());
+		textRequestBody.setMsgtype("text");
 		Text text = new Text(errorNotification.getContent());
-		msgRequestBody.setText(text);
-		msgRequestBody.setAgentid(errorNotification.getAgentId());
-		msgRequestBody.setSecret(errorNotification.getSecret());
-		return wechatClient.sendMessage(msgRequestBody);
+		textRequestBody.setText(text);
+		textRequestBody.setAgentid(errorNotification.getAgentId());
+		return wechatClient.sendText(errorNotification.getSecret(), textRequestBody);
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public class WechatErrorNotification {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	public static Response notificationPrincipal(WechatClient wechatClient, ErrorNotification errorNotification) throws Exception {
-		MsgRequestBody msgRequestBody = new MsgRequestBody();
+		TextcardRequestBody msgRequestBody = new TextcardRequestBody();
 		msgRequestBody.setTouser(errorNotification.getPrincipal());
 		msgRequestBody.setMsgtype("textcard");
 		Textcard textcard = new Textcard();
@@ -69,7 +69,6 @@ public class WechatErrorNotification {
 		textcard.setUrl(errorNotification.getUrl());
 		msgRequestBody.setTextcard(textcard);
 		msgRequestBody.setAgentid(errorNotification.getAgentId());
-		msgRequestBody.setSecret(errorNotification.getSecret());
-		return wechatClient.sendTextcard(msgRequestBody);
+		return wechatClient.sendTextcard(errorNotification.getSecret(), msgRequestBody);
 	}
 }

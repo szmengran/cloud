@@ -32,8 +32,8 @@ import com.suntak.cloud.recruitment.entity.T_hr_workflow_sub;
 import com.suntak.cloud.recruitment.entity.ext.T_hr_task_ext;
 import com.suntak.cloud.recruitment.service.ApplicantService;
 import com.suntak.cloud.recruitment.service.TaskService;
-import com.suntak.cloud.wechat.entity.MsgRequestBody;
-import com.suntak.cloud.wechat.entity.Textcard;
+import com.suntak.cloud.wechat.entity.request.Textcard;
+import com.suntak.cloud.wechat.entity.request.TextcardRequestBody;
 import com.suntak.exception.model.Response;
 import com.szmengran.admin.user.exception.BusinessException;
 
@@ -63,8 +63,12 @@ public class TaskController {
 	
 	@Value("${task.interview.startrole}")
 	private String startrole;
+	
 	@Value("${task.interview.workflowid}")
 	private Integer workflowid;
+	
+	@Value("${wechat.recruitment.Secret}")
+	private String secret;
 	
 	@Autowired
 	TaskService taskService;
@@ -139,9 +143,9 @@ public class TaskController {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	private Response qywechatNotification(String toUser, String name, String content) throws Exception {
-		MsgRequestBody msgRequestBody = new MsgRequestBody();
-		msgRequestBody.setTouser(toUser);
-		msgRequestBody.setMsgtype("textcard");
+		TextcardRequestBody textcardRequestBody = new TextcardRequestBody();
+		textcardRequestBody.setTouser(toUser);
+		textcardRequestBody.setMsgtype("textcard");
 		Textcard textcard = new Textcard();
 		textcard.setTitle("崇达招聘");
 		StringBuilder sb = new StringBuilder();
@@ -167,9 +171,9 @@ public class TaskController {
 		   .append("&state=STATE#wechat_redirect");
 		textcard.setUrl(url.toString());
 		textcard.setBtntxt("更多");
-		msgRequestBody.setTextcard(textcard);
-		msgRequestBody.setAgentid(agentId);
-		return wechatServiceClient.sendTextcard(msgRequestBody);
+		textcardRequestBody.setTextcard(textcard);
+		textcardRequestBody.setAgentid(agentId);
+		return wechatServiceClient.sendTextcard(secret, textcardRequestBody);
 	}
 	
 	/**

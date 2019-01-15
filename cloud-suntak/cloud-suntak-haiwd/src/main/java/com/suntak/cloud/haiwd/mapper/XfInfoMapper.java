@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 
-import com.suntak.cloud.haiwd.entity.Cux_xf_info;
+import com.suntak.punch.entity.Cux_xf_info;
 import com.szmengran.mybatis.utils.mapper.IMapper;
 
 /**

@@ -12,10 +12,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.suntak.cloud.haiwd.entity.XfSum;
 import com.suntak.cloud.haiwd.service.XfSumService;
 import com.suntak.cloud.haiwd.utils.DatabaseContextHolder;
 import com.suntak.cloud.haiwd.utils.DatabaseType;
+import com.suntak.punch.entity.XfSum;
 
 /**
  * @Package com.suntak.cloud.microservices.payment.service.impl

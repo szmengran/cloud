@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.suntak.cloud.wechat.entity.MsgRequestBody;
+import com.suntak.cloud.wechat.entity.request.AbstractRequestBody;
+import com.suntak.cloud.wechat.entity.response.MsgResponseBody;
+import com.suntak.cloud.wechat.entity.response.TokenResponseBody;
 
 /**
  * @Package com.suntak.cloud.wechat.client
@@ -17,10 +19,20 @@ import com.suntak.cloud.wechat.entity.MsgRequestBody;
 @FeignClient(name = "wechat",url = "https://qyapi.weixin.qq.com")
 public interface WechatClient {
 	@GetMapping(value = "/cgi-bin/gettoken?corpid={corpid}&corpsecret={corpsecret}")
-	Object getToken(@PathVariable("corpid") String corpid, @PathVariable("corpsecret") String corpsecret);
-	
+	TokenResponseBody getToken(@PathVariable("corpid") String corpid, @PathVariable("corpsecret") String corpsecret);
+//	
+//	@PostMapping(value = "/cgi-bin/message/send?access_token={access_token}")
+//	MsgResponseBody send(@RequestBody MsgRequestBody msgRequestBody, @PathVariable("access_token") String access_token);
+//	
+	/**
+	 * 发送企业微信消息
+	 * @param abstractRequestBody
+	 * @param access_token
+	 * @return 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
 	@PostMapping(value = "/cgi-bin/message/send?access_token={access_token}")
-	Object send(@RequestBody MsgRequestBody msgRequestBody, @PathVariable("access_token") String access_token);
+	MsgResponseBody send(@RequestBody AbstractRequestBody abstractRequestBody, @PathVariable("access_token") String access_token);
 	
 	/**
 	 * 企业微信通过授权码获取用户信息

@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.google.gson.Gson;
-import com.suntak.cloud.haiwd.entity.Cux_xf_info;
 import com.suntak.cloud.haiwd.service.XfInfoService;
 import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
+import com.suntak.punch.entity.Cux_xf_info;
 import com.szmengran.admin.user.exception.BusinessException;
 import com.szmengran.utils.JwtUtil;
 

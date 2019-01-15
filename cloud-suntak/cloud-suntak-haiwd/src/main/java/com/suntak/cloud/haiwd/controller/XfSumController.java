@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-import com.suntak.cloud.haiwd.entity.XfSum;
 import com.suntak.cloud.haiwd.service.XfSumService;
 import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
+import com.suntak.punch.entity.XfSum;
 import com.szmengran.admin.user.exception.BusinessException;
 import com.szmengran.utils.JwtUtil;
 

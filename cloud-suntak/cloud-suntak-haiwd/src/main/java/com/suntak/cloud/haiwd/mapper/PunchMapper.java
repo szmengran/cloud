@@ -8,8 +8,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.jdbc.SQL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.suntak.cloud.haiwd.entity.Punch;
+import com.suntak.punch.entity.Punch;
 import com.szmengran.mybatis.utils.mapper.IMapper;
 
 /**
@@ -22,7 +24,7 @@ import com.szmengran.mybatis.utils.mapper.IMapper;
 public interface PunchMapper extends IMapper<Punch> {
 	
 	@SelectProvider(type = SqlProvider.class, method = "findWorkPunch")
-	List<Punch> findWorkPunch(String date, String yearmonth, String resultdate) throws Exception;
+	List<Punch> findWorkPunch(@Param("time") int time, @Param("date") String date, @Param("yearmonth") String yearmonth, @Param("resultdate") String resultdate, @Param("runnos") String runnos) throws Exception;
 	
 	/**
 	 * 上班时间提前N分钟执行提醒
@@ -53,8 +55,14 @@ public interface PunchMapper extends IMapper<Punch> {
 	List<Punch> findOffRunno4(@Param("afterMinute") int beforeMinute, @Param("scanSecond") int scanSecond) throws Exception;
 	
 	class SqlProvider {
+		
+		private static final Logger LOG = LoggerFactory.getLogger(PunchMapper.class);
+		
 		public String findWorkPunch(Map<String, Object> param){
-	        return new SQL(){
+			int time = (int) param.get("time");
+			String date = (String) param.get("date");
+			String runnos = (String) param.get("runnos");
+	        String sql = new SQL(){
 	            {
 //	            	SELECT a."第一次打卡" punch1,a."第二次打卡" punch2,a."第三次打卡" punch3,a."第四次打卡" punch4,a."第五次打卡" punch3,a."第六次打卡" punch4,b."EmpNo" empno,
 //	            	 c."Result2AdjustInTime" punchin1, c."Result2AdjustOutTime" punchout1, 
@@ -67,13 +75,30 @@ public interface PunchMapper extends IMapper<Punch> {
 //	            	   and c."ResultDate" = '2019-01-08 00:00:00';
 	                SELECT("b.EmpNo empno");
 	                FROM("emp_kq_paiban a, emp_kq_runs b left join VKQ_Result c on b.EmpSysID = c.EmpSysID");
-	                WHERE("b.D#{date}RunNo = a.RunNo");
+	                WHERE("b.D"+date+"RunNo = a.RunNo");
 	                WHERE("b.RunMonth = #{yearmonth}");
 	                WHERE("c.ResultDate = #{resultdate}");
-	                WHERE("(c.Result2AdjustInTime null or c.Result3AdjustInTime is null)");
-	                WHERE("a.RunNo in #{runnos}");
+	                switch(time) {
+		                case 1:
+		                	WHERE("c.Result2AdjustInTime is null");
+		                	break;
+		                case 2:
+		                	WHERE("c.Result2AdjustOutTime is null");
+		                	break;
+		                case 3:
+		                	WHERE("c.Result3AdjustInTime is null");
+		                	break;
+		                case 4:
+		                	WHERE("c.Result3AdjustOutTime is null");
+		                	break;
+	                }
+	                
+	                WHERE("a.RunNo in ( "+runnos+" )");
+	                WHERE("b.EmpNo in ('006124','001413' )");
 	            }
 	        }.toString();
+	        LOG.debug(sql);
+	        return sql;
 	    }
 		
 		public String findWorkRunno1(Map<String, Object> param){
@@ -82,7 +107,7 @@ public interface PunchMapper extends IMapper<Punch> {
 			calendar.add(Calendar.MINUTE, beforeMinute);
 			int hour = calendar.get(Calendar.HOUR);
 			int minute = calendar.get(Calendar.MINUTE);
-			String start = hour+":"+minute+":00";
+			String start = (hour > 9 ? hour : "0"+hour)+":"+(minute > 9 ? minute : "0"+minute)+":00";
 
 			Integer scanSecond = (Integer) param.get("scanSecond");
 			calendar.add(Calendar.SECOND, scanSecond);
@@ -90,9 +115,9 @@ public interface PunchMapper extends IMapper<Punch> {
 			hour = calendar.get(Calendar.HOUR);
 			minute = calendar.get(Calendar.MINUTE);
 			int second = calendar.get(Calendar.SECOND);
-			String end = hour+":"+minute+":"+second;
+			String end = (hour > 9 ? hour : "0"+hour)+":"+(minute > 9 ? minute : "0"+minute)+":"+(second > 9 ? second : "0"+second);
 			
-			return new SQL(){
+			String sql = new SQL(){
 				{
 					SELECT("RunNo runno");
 					FROM("emp_kq_paiban");
@@ -100,6 +125,8 @@ public interface PunchMapper extends IMapper<Punch> {
 					WHERE("第一次打卡 between '"+start+"' and '"+end+"'");
 				}
 			}.toString();
+	        LOG.debug(sql);
+	        return sql;
 		}
 		
 		public String findWorkRunno3(Map<String, Object> param){
@@ -108,7 +135,7 @@ public interface PunchMapper extends IMapper<Punch> {
 			calendar.add(Calendar.MINUTE, beforeMinute);
 			int hour = calendar.get(Calendar.HOUR);
 			int minute = calendar.get(Calendar.MINUTE);
-			String start = hour+":"+minute+":00";
+			String start = (hour > 9 ? hour : "0"+hour)+":"+(minute > 9 ? minute : "0"+minute)+":00";
 			
 			Integer scanSecond = (Integer) param.get("scanSecond");
 			calendar.add(Calendar.SECOND, scanSecond);
@@ -116,9 +143,9 @@ public interface PunchMapper extends IMapper<Punch> {
 			hour = calendar.get(Calendar.HOUR);
 			minute = calendar.get(Calendar.MINUTE);
 			int second = calendar.get(Calendar.SECOND);
-			String end = hour+":"+minute+":"+second;
+			String end = (hour > 9 ? hour : "0"+hour)+":"+(minute > 9 ? minute : "0"+minute)+":"+(second > 9 ? second : "0"+second);
 			
-			return new SQL(){
+			String sql = new SQL(){
 				{
 					SELECT("RunNo runno");
 					FROM("emp_kq_paiban");
@@ -126,6 +153,8 @@ public interface PunchMapper extends IMapper<Punch> {
 					WHERE("第三次打卡 between '"+start+"' and '"+end+"'");
 				}
 			}.toString();
+	        LOG.debug(sql);
+	        return sql;
 		}
 		
 		public String findOffRunno2(Map<String, Object> param){
@@ -134,17 +163,17 @@ public interface PunchMapper extends IMapper<Punch> {
 			calendar.add(Calendar.MINUTE, -1*afterMinute);
 			int hour = calendar.get(Calendar.HOUR);
 			int minute = calendar.get(Calendar.MINUTE);
-			String start = hour+":"+minute+":00";
+			String end = (hour > 9 ? hour : "0"+hour)+":"+(minute > 9 ? minute : "0"+minute)+":00";
 			
 			Integer scanSecond = (Integer) param.get("scanSecond");
-			calendar.add(Calendar.SECOND, scanSecond);
+			calendar.add(Calendar.SECOND, -1*scanSecond);
 			
 			hour = calendar.get(Calendar.HOUR);
 			minute = calendar.get(Calendar.MINUTE);
 			int second = calendar.get(Calendar.SECOND);
-			String end = hour+":"+minute+":"+second;
+			String start = (hour > 9 ? hour : "0"+hour)+":"+(minute > 9 ? minute : "0"+minute)+":"+(second > 9 ? second : "0"+second);
 			
-			return new SQL(){
+			String sql = new SQL(){
 				{
 					SELECT("RunNo runno");
 					FROM("emp_kq_paiban");
@@ -152,6 +181,8 @@ public interface PunchMapper extends IMapper<Punch> {
 					WHERE("第二次打卡 between '"+start+"' and '"+end+"'");
 				}
 			}.toString();
+	        LOG.debug(sql);
+	        return sql;
 		}
 		
 		public String findOffRunno4(Map<String, Object> param){
@@ -160,17 +191,17 @@ public interface PunchMapper extends IMapper<Punch> {
 			calendar.add(Calendar.MINUTE, -1*afterMinute);
 			int hour = calendar.get(Calendar.HOUR);
 			int minute = calendar.get(Calendar.MINUTE);
-			String start = hour+":"+minute+":00";
+			String end = (hour > 9 ? hour : "0"+hour)+":"+(minute > 9 ? minute : "0"+minute)+":00";
 			
 			Integer scanSecond = (Integer) param.get("scanSecond");
-			calendar.add(Calendar.SECOND, scanSecond);
+			calendar.add(Calendar.SECOND, -1*scanSecond);
 			
 			hour = calendar.get(Calendar.HOUR);
 			minute = calendar.get(Calendar.MINUTE);
 			int second = calendar.get(Calendar.SECOND);
-			String end = hour+":"+minute+":"+second;
+			String start = (hour > 9 ? hour : "0"+hour)+":"+(minute > 9 ? minute : "0"+minute)+":"+(second > 9 ? second : "0"+second);
 			
-			return new SQL(){
+			String sql = new SQL(){
 				{
 					SELECT("RunNo runno");
 					FROM("emp_kq_paiban");
@@ -178,6 +209,8 @@ public interface PunchMapper extends IMapper<Punch> {
 					WHERE("第四次打卡 between '"+start+"' and '"+end+"'");
 				}
 			}.toString();
+	        LOG.debug(sql);
+	        return sql;
 		}
 	}
 }

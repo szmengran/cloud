@@ -16,5 +16,6 @@
   	<module>cloud-suntak-test</module>
   	<module>cloud-suntak-wechat</module>
   	<module>cloud-suntak-microservices</module>
+  	<module>cloud-suntak-haiwd</module>
   </modules>
 </project>
