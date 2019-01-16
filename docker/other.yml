@@ -11,7 +11,7 @@ services:
     ports:
      - "10000:10000"
   oauth:
-    image: szmengran/cloud-security-oauth:$CLOUD_VERSION
+    image: suntak/cloud-security-oauth:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -21,7 +21,7 @@ services:
     ports:
      - 10002:10002
   user:
-    image: szmengran/cloud-admin-user:$CLOUD_VERSION
+    image: suntak/cloud-admin-user:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -31,7 +31,7 @@ services:
     ports:
      - 10003:10003
   sms:
-    image: szmengran/cloud-common-sms:$CLOUD_VERSION
+    image: suntak/cloud-common-sms:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -43,7 +43,7 @@ services:
     ports:
      - 10004:10004
   ehr:
-    image: szmengran/cloud-suntak-ehr:$CLOUD_VERSION
+    image: suntak/cloud-suntak-ehr:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -55,7 +55,7 @@ services:
     ports:
      - 10005:10005
   suntak-sms:
-    image: szmengran/cloud-suntak-sms:$CLOUD_VERSION
+    image: suntak/cloud-suntak-sms:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -77,7 +77,7 @@ services:
     ports:
      - 10007:10007
   activity:
-    image: szmengran/cloud-suntak-activity:$CLOUD_VERSION
+    image: suntak/cloud-suntak-activity:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -87,7 +87,7 @@ services:
     ports:
      - 10008:10008
   test:
-    image: szmengran/cloud-suntak-test:$CLOUD_VERSION
+    image: suntak/cloud-suntak-test:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -97,7 +97,7 @@ services:
     ports:
      - 10009:10009
   recruitment:
-    image: szmengran/cloud-suntak-recruitment:$CLOUD_VERSION
+    image: suntak/cloud-suntak-recruitment:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -128,6 +128,18 @@ services:
       - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
     ports:
      - 10101:10101
+  haiwd:
+    image: suntak/cloud-suntak-haiwd:$CLOUD_VERSION
+    restart: always
+    environment:
+      - KAFKA_SERVER=$KAFKA_SERVER
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$ENVIRONMENT
+      - SMS_ACCESSKEYID=$SMS_ACCESSKEYID
+      - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
+    ports:
+     - 10016:10016
 networks:
   default:
     external:

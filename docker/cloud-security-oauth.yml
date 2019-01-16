@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   oauth:
-    image: szmengran/cloud-security-oauth:$CLOUD_VERSION
+    image: suntak/cloud-security-oauth:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER

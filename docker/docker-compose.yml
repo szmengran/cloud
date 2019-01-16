@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   discovery:
-    image: szmengran/cloud-discovery-eureka:$CLOUD_VERSION
+    image: suntak/cloud-discovery-eureka:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -9,7 +9,7 @@ services:
     ports:
      - "8761:8761"
   configserver:
-    image: szmengran/cloud-config-server:$CLOUD_VERSION
+    image: suntak/cloud-config-server:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -20,7 +20,7 @@ services:
     ports:
      - "10001:10001"
   gateway:
-    image: szmengran/cloud-gateway-zuul:$CLOUD_VERSION
+    image: suntak/cloud-gateway-zuul:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -30,7 +30,7 @@ services:
     ports:
      - "10000:10000"
   oauth:
-    image: szmengran/cloud-security-oauth:$CLOUD_VERSION
+    image: suntak/cloud-security-oauth:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -40,7 +40,7 @@ services:
     ports:
      - 10002:10002
   user:
-    image: szmengran/cloud-admin-user:$CLOUD_VERSION
+    image: suntak/cloud-admin-user:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -50,7 +50,7 @@ services:
     ports:
      - 10003:10003
   sms:
-    image: szmengran/cloud-common-sms:$CLOUD_VERSION
+    image: suntak/cloud-common-sms:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -62,7 +62,7 @@ services:
     ports:
      - 10004:10004
   ehr:
-    image: szmengran/cloud-suntak-ehr:$CLOUD_VERSION
+    image: suntak/cloud-suntak-ehr:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -74,7 +74,7 @@ services:
     ports:
      - 10005:10005
   suntak-sms:
-    image: szmengran/cloud-suntak-sms:$CLOUD_VERSION
+    image: suntak/cloud-suntak-sms:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -86,7 +86,7 @@ services:
     ports:
      - 10006:10006
   questionnaire:
-    image: szmengran/cloud-suntak-questionnaire:$CLOUD_VERSION
+    image: suntak/cloud-suntak-questionnaire:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -96,7 +96,7 @@ services:
     ports:
      - 10007:10007
   activity:
-    image: szmengran/cloud-suntak-activity:$CLOUD_VERSION
+    image: suntak/cloud-suntak-activity:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -106,7 +106,7 @@ services:
     ports:
      - 10008:10008
   test:
-    image: szmengran/cloud-suntak-test:$CLOUD_VERSION
+    image: suntak/cloud-suntak-test:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -116,7 +116,7 @@ services:
     ports:
      - 10009:10009
   recruitment:
-    image: szmengran/cloud-suntak-recruitment:$CLOUD_VERSION
+    image: suntak/cloud-suntak-recruitment:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -126,7 +126,7 @@ services:
     ports:
      - 10011:10011
   wechat:
-    image: szmengran/cloud-suntak-wechat:$CLOUD_VERSION
+    image: suntak/cloud-suntak-wechat:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER
@@ -136,7 +136,7 @@ services:
     ports:
      - 10014:10014
   haiwd:
-    image: szmengran/cloud-suntak-haiwd:$CLOUD_VERSION
+    image: suntak/cloud-suntak-haiwd:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER

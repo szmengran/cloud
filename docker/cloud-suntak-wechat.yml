@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   sms:
-    image: szmengran/cloud-suntak-wechat:$CLOUD_VERSION
+    image: suntak/cloud-suntak-wechat:$CLOUD_VERSION
     restart: always
     environment:
       - KAFKA_SERVER=$KAFKA_SERVER

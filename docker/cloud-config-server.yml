@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   configserver:
-    image: szmengran/cloud-config-server:$CLOUD_VERSION
+    image: suntak/cloud-config-server:$CLOUD_VERSION
     restart: always
     environment:
       - ENVIRONMENT=$ENVIRONMENT
