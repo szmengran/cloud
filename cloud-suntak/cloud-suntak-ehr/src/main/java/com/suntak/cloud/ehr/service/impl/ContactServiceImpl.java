@@ -41,7 +41,7 @@ public class ContactServiceImpl implements ContactService{
 
 	private static final Logger LOG = LoggerFactory.getLogger(ContactServiceImpl.class);
 
-	@Value("${wechat.qy.Secret}")
+	@Value("${wechat.qy.contact.Secret}")
 	private String secret;
 	
 	@Autowired
@@ -126,7 +126,8 @@ public class ContactServiceImpl implements ContactService{
 			executor.submit(() -> {
 				try {
 					LOG.info("delete contact:{},{}", access_token, contactExt.getUserid());
-					constactClient.deleteContact(access_token, contactExt.getUserid());
+					ContactResponse contactResponse = constactClient.deleteContact(access_token, contactExt.getUserid());
+					LOG.info("删除结果：{},{}",contactExt.getUserid(), new Gson().toJson(contactResponse));
 				} catch (Exception e) {
 					e.printStackTrace();
 					LOG.error(e.getMessage());

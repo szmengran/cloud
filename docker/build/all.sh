@@ -12,4 +12,5 @@ sh ./build/cloud-suntak-test.sh
 sh ./build/cloud-suntak-activity.sh
 sh ./build/cloud-suntak-recruitment.sh
 sh ./build/cloud-suntak-wechat.sh
+sh ./build/cloud-suntak-haiwd.sh
 sh ./build/microservices.sh

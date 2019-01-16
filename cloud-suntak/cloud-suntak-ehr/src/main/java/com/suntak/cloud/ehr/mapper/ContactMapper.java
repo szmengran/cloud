@@ -46,7 +46,7 @@ public interface ContactMapper extends IMapper<ContactExt>{
 			strSql.append("select a.empcode userid, a.empname name, a.c_mobile_tel mobile")
 			.append(" from tb_v_rpt_emp_info a")
 			.append(" where a.empstatusname='离职'")
-			.append(" and to_date(a.exitDate, 'yyyy-mm-dd') > sysdate - 1");
+			.append(" and to_date(a.exitDate, 'yyyy-mm-dd') > sysdate - 7");
 			return strSql.toString();
 		}
 	}

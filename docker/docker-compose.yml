@@ -135,6 +135,18 @@ services:
       - ENVIRONMENT=$ENVIRONMENT
     ports:
      - 10014:10014
+  haiwd:
+    image: szmengran/cloud-suntak-haiwd:$CLOUD_VERSION
+    restart: always
+    environment:
+      - KAFKA_SERVER=$KAFKA_SERVER
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$ENVIRONMENT
+      - SMS_ACCESSKEYID=$SMS_ACCESSKEYID
+      - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
+    ports:
+     - 10016:10016
 networks:
   default:
     external:

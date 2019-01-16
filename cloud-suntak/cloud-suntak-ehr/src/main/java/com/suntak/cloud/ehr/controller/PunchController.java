@@ -59,9 +59,6 @@ public class PunchController {
 		Response response = punchClient.findPunch(time, minute, scanSecond);
 		@SuppressWarnings("unchecked")
 		List<Object> list = (List<Object>) response.getData();
-		Punch punchx = new Punch();
-		punchx.setEmpno("006124");
-		list.add(punchx);
 		EXECUTOR.submit(() -> {
 			if (list != null && list.size() > 0) {
 				try {

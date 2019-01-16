@@ -9,4 +9,4 @@ RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shang
 ADD ./target/$JAR_FILE /app/
 CMD java -Xmx200m -jar /app/$JAR_FILE
 
-EXPOSE 10106
+EXPOSE 10016
