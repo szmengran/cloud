@@ -27,6 +27,14 @@
 		</dependency>
 		<dependency>
 			<groupId>com.szmengran</groupId>
+			<artifactId>cloud-model-suntak</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.szmengran</groupId>
+			<artifactId>cloud-model-haiwd</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.szmengran</groupId>
 			<artifactId>mybatis</artifactId>
 		</dependency>
 		<dependency>
@@ -54,20 +62,12 @@
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
-			<artifactId>cloud-model-suntak</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc14</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.szmengran</groupId>
-			<artifactId>cloud-model-haiwd</artifactId>
 		</dependency>
 	</dependencies>
 	<build>
