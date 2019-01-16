@@ -67,7 +67,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.szmengran</groupId>
-			<artifactId>cloud-model-punch</artifactId>
+			<artifactId>cloud-model-haiwd</artifactId>
 		</dependency>
 	</dependencies>
 	<build>

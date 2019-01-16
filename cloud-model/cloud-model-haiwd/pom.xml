@@ -5,5 +5,5 @@
     <artifactId>cloud-model</artifactId>
     <version>0.0.1</version>
   </parent>
-  <artifactId>cloud-model-punch</artifactId>
+  <artifactId>cloud-model-haiwd</artifactId>
 </project>

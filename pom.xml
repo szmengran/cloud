@@ -114,7 +114,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.szmengran</groupId>
-				<artifactId>cloud-model-punch</artifactId>
+				<artifactId>cloud-model-haiwd</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
 			<dependency>
@@ -231,6 +231,5 @@
 		<module>cloud-admin</module>
 		<module>cloud-exception</module>
 		<module>cloud-suntak</module>
-		<module>cloud-trace</module>
 	</modules>
 </project>
