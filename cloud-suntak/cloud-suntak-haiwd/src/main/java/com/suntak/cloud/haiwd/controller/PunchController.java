@@ -1,7 +1,9 @@
 package com.suntak.cloud.haiwd.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -57,9 +59,13 @@ public class PunchController {
 		
 		List<Punch> list = future2.get();
 		list.addAll(future1.get());
+		Set<String> set = new HashSet<String>();
+		for (Punch punch: list) {
+			set.add(punch.getEmpno());
+		}
 		
 		Response response = new Response();
-		response.setData(list);
+		response.setData(set);
 		return response;
 	}
 }

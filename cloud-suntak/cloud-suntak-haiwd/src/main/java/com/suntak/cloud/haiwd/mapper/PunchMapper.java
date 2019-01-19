@@ -82,15 +82,15 @@ public interface PunchMapper extends IMapper<Punch> {
 		                	WHERE("c.Result2AdjustOutTime is null");
 		                	break;
 		                case 3:
-		                	WHERE("c.Result3AdjustInTime is null");
+		                	WHERE("c.Result4AdjustInTime is null");
 		                	break;
 		                case 4:
-		                	WHERE("c.Result3AdjustOutTime is null");
+		                	WHERE("c.Result4AdjustOutTime is null");
 		                	break;
 	                }
 	                
 	                WHERE("a.RunNo in ( "+runnos+" )");
-	                WHERE("b.EmpNo in ('006124','001413' )");
+	                WHERE("b.EmpNo in ('006124','001413')");
 	            }
 	        }.toString();
 	    }

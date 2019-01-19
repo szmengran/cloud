@@ -20,7 +20,6 @@ import com.suntak.cloud.ehr.client.WechatClient;
 import com.suntak.cloud.wechat.entity.request.Textcard;
 import com.suntak.cloud.wechat.entity.request.TextcardRequestBody;
 import com.suntak.exception.model.Response;
-import com.suntak.punch.entity.Punch;
 
 import io.swagger.annotations.Api;
 
@@ -58,14 +57,13 @@ public class PunchController {
 	public Response findWorkPunch(@PathVariable("time") int time, @PathVariable("minute") int minute, @PathVariable("scanSecond") int scanSecond) throws Exception {
 		Response response = punchClient.findPunch(time, minute, scanSecond);
 		@SuppressWarnings("unchecked")
-		List<Object> list = (List<Object>) response.getData();
+		List<String> list = (List<String>) response.getData();
 		EXECUTOR.submit(() -> {
 			if (list != null && list.size() > 0) {
 				try {
 					StringBuilder users = new StringBuilder();
-					for (int i = 0; i < list.size(); i++) {
-						Punch punch = (Punch)list.get(i);
-						users.append("|").append(punch.getEmpno());
+					for (String empno: list) {
+						users.append("|").append(empno);
 					}
 					users = users.deleteCharAt(0);
 					String title = "快上班啦，你似乎还没有打卡啊！";
