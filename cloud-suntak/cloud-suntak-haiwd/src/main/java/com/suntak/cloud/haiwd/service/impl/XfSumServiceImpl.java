@@ -33,7 +33,6 @@ public class XfSumServiceImpl implements XfSumService{
 		Connection conn = null;
 		if ("0071".equals(companycode)) {
 			DatabaseContextHolder.setDatabaseType(DatabaseType.dldb);
-			conn =  sqlSession.getConfiguration().getEnvironment().getDataSource().getConnection(); 
 		} else {
 			DatabaseContextHolder.setDatabaseType(DatabaseType.szdb);
 		}
