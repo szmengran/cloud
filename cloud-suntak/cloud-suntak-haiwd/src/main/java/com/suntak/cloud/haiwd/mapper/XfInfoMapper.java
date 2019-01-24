@@ -28,31 +28,19 @@ public interface XfInfoMapper extends IMapper<Cux_xf_info>{
 	
 	class SqlProvider {
 		public String findSTXFByConditions(Map<String, Object> param){
-			String companycode = (String) param.get("companycode");
 			StringBuilder strSql = new StringBuilder();
 			strSql.append("select xfposday,xfposmoney,devid,mealtypeid,xfcardmoney")
-			      .append(" from");
-			if ("0071".equals(companycode)) {
-				strSql.append(" cux_xf_info_dl"); //大连数据库
-			} else {
-				strSql.append(" cux_xf_info"); //深圳数据库
-			}
-			strSql.append(" where empno = #{empno} order by xfposday desc");
+			      .append(" from cux_xf_info")
+			      .append(" where empno = #{empno} order by xfposday desc");
 			
 			return strSql.toString();
 	    }
 		
 		public String findCSXFByConditions(Map<String, Object> param){
-			String companycode = (String) param.get("companycode");
 			StringBuilder strSql = new StringBuilder();
 			strSql.append("select xfposday,xfposmoney,devid,mealtypeid,xfcardmoney")
-			.append(" from");
-			if ("0071".equals(companycode)) {
-				strSql.append(" cux_xf_touzhi_info_dl"); //大连数据库
-			} else {
-				strSql.append(" cux_xf_touzhi_info"); //深圳数据库
-			}
-			strSql.append(" where empno = #{empno} order by xfposday desc");
+				  .append(" from cux_xf_touzhi_info")
+			      .append(" where empno = #{empno} order by xfposday desc");
 			return strSql.toString();
 		}
 	}
