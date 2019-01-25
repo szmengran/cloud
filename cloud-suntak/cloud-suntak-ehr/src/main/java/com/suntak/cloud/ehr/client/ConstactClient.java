@@ -26,4 +26,7 @@ public interface ConstactClient {
 	
 	@GetMapping("/cgi-bin/user/delete?access_token={access_token}&userid={userid}")
 	ContactResponse deleteContact(@PathVariable("access_token") String access_token, @PathVariable("userid") String userid) throws Exception;
+	
+	@GetMapping("/cgi-bin/user/get?access_token={access_token}&userid={userid}")
+	Contact getContact(@PathVariable("access_token") String access_token, @PathVariable("userid") String userid) throws Exception;
 }

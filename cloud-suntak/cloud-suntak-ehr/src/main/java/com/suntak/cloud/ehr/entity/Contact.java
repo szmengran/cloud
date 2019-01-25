@@ -14,6 +14,7 @@ public class Contact {
 	private String name; //成员名称
 	private String alias; //成员别名
 	private String mobile; //手机号码
+	private String avatar; //头像
 	private Integer[] department; //成员所属部门id列表,不超过20个
 	private Integer[] order; //部门内的排序值，默认为0，成员次序以创建时间从小到大排列。数量必须和department一致，数值越大排序越前面。有效的值范围是[0, 2^32)
 	private String position; //职务信息
@@ -44,6 +45,12 @@ public class Contact {
 	}
 	public void setAlias(String alias) {
 		this.alias = alias;
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 	public String getMobile() {
 		return mobile;

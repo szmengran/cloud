@@ -39,6 +39,7 @@ import com.suntak.exception.model.Response;
 @Service
 public class ContactServiceImpl implements ContactService{
 
+	private static final ExecutorService executor     = Executors.newFixedThreadPool(100);
 	private static final Logger LOG = LoggerFactory.getLogger(ContactServiceImpl.class);
 
 	@Value("${wechat.qy.contact.Secret}")
@@ -54,8 +55,14 @@ public class ContactServiceImpl implements ContactService{
 	WechatClient wechatClient;
 	
 	@Override
+	public Contact getContact(String userid) throws Exception {
+		Response response = wechatClient.getQYToken(secret);
+		final String access_token = (String)response.getData();
+		return constactClient.getContact(access_token, userid);
+	}
+	
+	@Override
 	public void synchContact() throws Exception {
-		ExecutorService executor     = Executors.newFixedThreadPool(20);
 		Future<Response> futurn = executor.submit(() -> {
 			return wechatClient.getQYToken(secret);
 		});
@@ -115,7 +122,6 @@ public class ContactServiceImpl implements ContactService{
 
 	@Override
 	public void deleteContact() throws Exception {
-		ExecutorService executor     = Executors.newFixedThreadPool(30);
 		Future<Response> futurn = executor.submit(() -> {
 			return wechatClient.getQYToken(secret);
 		});

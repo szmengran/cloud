@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.suntak.cloud.ehr.entity.Contact;
 import com.suntak.cloud.ehr.service.ContactService;
 import com.suntak.cloud.ehr.service.EhrUserService;
 import com.suntak.ehr.entity.EhrUser;
@@ -108,6 +109,15 @@ public class EhrUserController {
 		} else {
 			throw new BusinessException(4000);
 		}
+		return response;
+	}
+	
+	@ApiOperation(value = "根据工号获取企业微信中用户的信息", response = Response.class)
+	@GetMapping(value = "/contact/{userid}")
+	public Response getContact(@PathVariable("userid") String userid) throws Exception{
+		Response response = new Response();
+		Contact contact = contactService.getContact(userid);
+		response.setData(contact);
 		return response;
 	}
 	
