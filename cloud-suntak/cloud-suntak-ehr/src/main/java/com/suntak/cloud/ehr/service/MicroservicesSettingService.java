@@ -22,6 +22,15 @@ public interface MicroservicesSettingService {
 	public List<T_microservices_setting> findSettingByEmpno (String empno) throws Exception;
 	
 	/**
+	 * 根据类型查询设置情况
+	 * @param type
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	public List<String> findSettingByType(String type) throws Exception;
+	
+	/**
 	 * 新增配置
 	 * @param t_microservices_setting
 	 * @return

@@ -1,5 +1,6 @@
 package com.suntak.cloud.ehr.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,17 @@ public class MicroservicesSettingServiceImpl implements MicroservicesSettingServ
 	public List<T_microservices_setting> findSettingByEmpno (String empno) throws Exception {
 		return microservicesSettingMapper.findSettingByEmpno(empno);
 	}
-
+	
+	@Override
+	public List<String> findSettingByType(String type) throws Exception {
+		List<T_microservices_setting> list =  microservicesSettingMapper.findSettingByType(type);
+		List<String> settingList = new ArrayList<String>();
+		for (T_microservices_setting t_microservices_setting: list) {
+			settingList.add(t_microservices_setting.getEmpno());
+		}
+		return settingList;
+	}
+	
 	@Override
 	public Boolean insert(T_microservices_setting t_microservices_setting) throws Exception {
 		return microservicesSettingMapper.insert(t_microservices_setting) > 0;

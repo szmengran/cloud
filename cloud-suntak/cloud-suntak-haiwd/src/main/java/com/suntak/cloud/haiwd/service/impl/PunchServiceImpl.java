@@ -28,15 +28,15 @@ public class PunchServiceImpl implements PunchService {
 	@Override
 	public List<Punch> findPunch(int time, List<Punch> list, DatabaseType databaseType) throws Exception {
 		DatabaseContextHolder.setDatabaseType(databaseType);
-		StringBuilder strSql = new StringBuilder();
+		StringBuilder punchConditions = new StringBuilder();
 		for (Punch punch: list) {
-			strSql.append(",'").append(punch.getRunno()).append("'");
+			punchConditions.append(",'").append(punch.getRunno()).append("'");
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String dateFormat = sdf.format(new Date());
 		String date = dateFormat.substring(8, 10);
 		String yearmonth = dateFormat.substring(0, 7);
-		return punchMapper.findWorkPunch(time, date, yearmonth, dateFormat+" 00:00:00", strSql.deleteCharAt(0).toString());
+		return punchMapper.findWorkPunch(time, date, yearmonth, dateFormat+" 00:00:00", punchConditions.deleteCharAt(0).toString());
 	}
 
 	@Override

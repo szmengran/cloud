@@ -17,5 +17,6 @@
   	<module>cloud-suntak-wechat</module>
   	<module>cloud-suntak-microservices</module>
   	<module>cloud-suntak-haiwd</module>
+  	<module>cloud-suntak-oa</module>
   </modules>
 </project>

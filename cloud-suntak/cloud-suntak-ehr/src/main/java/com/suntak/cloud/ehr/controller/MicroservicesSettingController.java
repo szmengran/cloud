@@ -38,6 +38,15 @@ public class MicroservicesSettingController {
 		response.setData(list);
 		return response;
 	}
+//	
+//	@ApiOperation(value = "获取崇达小助手设置信息", response = Response.class)
+//	@GetMapping("setting/type/{type}")
+//	public Response findSettingByType(@PathVariable("type") String type) throws Exception {
+//		List<T_microservices_setting> list = MicroservicesSettingService.findSettingByType(type);
+//		Response response = new Response();
+//		response.setData(list);
+//		return response;
+//	}
 	
 	@ApiOperation(value = "获取崇达小助手新增设置信息", response = Response.class)
 	@PostMapping("setting")

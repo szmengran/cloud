@@ -1,10 +1,12 @@
 package com.suntak.cloud.ehr.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.ehr.client.PunchClient;
 import com.suntak.cloud.ehr.client.WechatClient;
+import com.suntak.cloud.ehr.service.MicroservicesSettingService;
+import com.suntak.cloud.ehr.utils.Constants;
 import com.suntak.cloud.wechat.entity.request.Textcard;
 import com.suntak.cloud.wechat.entity.request.TextcardRequestBody;
 import com.suntak.exception.model.Response;
@@ -52,48 +56,93 @@ public class PunchController {
 	
 	@Autowired
 	private WechatClient wechatClient;
+
+	@Autowired
+	private MicroservicesSettingService microservicesSettingService;
 	
 	@GetMapping("/punch/{time}/{minute}/{scanSecond}")
 	public Response findWorkPunch(@PathVariable("time") int time, @PathVariable("minute") int minute, @PathVariable("scanSecond") int scanSecond) throws Exception {
+		Future<List<String>> futureList = EXECUTOR.submit(() -> {
+			return microservicesSettingService.findSettingByType(Constants.SETTING_TYPE_PUNCH);
+		});
 		Response response = punchClient.findPunch(time, minute, scanSecond);
 		@SuppressWarnings("unchecked")
 		List<String> list = (List<String>) response.getData();
+		List<String> settingList = futureList.get();
+		list.removeAll(settingList);
 		EXECUTOR.submit(() -> {
 			if (list != null && list.size() > 0) {
 				try {
-					StringBuilder users = new StringBuilder();
-					for (String empno: list) {
-						users.append("|").append(empno);
+					if (list.size() <= 500) {
+						StringBuilder users = new StringBuilder();
+						for (String empno: list) {
+							users.append("|").append(empno);
+						}
+						users = users.deleteCharAt(0);
+						sendTextcard(users.toString(), time);
+					} else {
+						int part = list.size() / 500;//分批数
+						for (int i = 0; i < part; i++) {
+		                    List<String> listPage = list.subList(0, 500);
+		                    StringBuilder users = new StringBuilder();
+							for (String empno: listPage) {
+								users.append("|").append(empno);
+							}
+							users = users.deleteCharAt(0);
+							sendTextcard(users.toString(), time);
+							list.subList(0, 500).clear();
+		                }
 					}
-					users = users.deleteCharAt(0);
-					String title = "快上班啦，你似乎还没有打卡啊！";
-					if (time % 2 == 0) {
-						title = "下班啦，别忘了打卡啊！";
-					}
-					TextcardRequestBody textcardRequestBody = new TextcardRequestBody();
-					textcardRequestBody.setAgentid(agentId);
-					textcardRequestBody.setTouser(users.toString());
-					Textcard textcard = new Textcard();
-					textcard.setTitle(title);
-					StringBuilder sb = new StringBuilder();
-					sb.append("<div class=\"gray\">")
-					  .append(new SimpleDateFormat("yyyy年MM月dd日").format(new Date()))
-					  .append("</div>")
-					  .append("<div class=\"normal\">")
-					  .append("如需取消打卡提醒，请点击设置按钮！")
-					  .append(ASSISTANT_NAME)
-					  .append("很高兴为你服务！")
-					  .append("</div>");
-					textcard.setDescription(sb.toString());
-					textcard.setUrl(url);
-					textcard.setBtntxt("设置");
-					textcardRequestBody.setTextcard(textcard);
-					wechatClient.sendTextcard(secret, textcardRequestBody);
+					
 				} catch (Exception e) {
 					LOG.error(e.getMessage());
 				}
 			}
 		});
 		return new Response();
+	}
+	
+	public static void main(String args[]) {
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < 20; i++) {
+			list.add("index"+i);
+		}
+		int part = list.size() / 2;//分批数
+		for (int i = 0; i < part; i++) {
+            List<String> listPage = list.subList(0, 2);
+            StringBuilder users = new StringBuilder();
+			for (String empno: listPage) {
+				users.append("|").append(empno);
+			}
+			users = users.deleteCharAt(0);
+			System.out.println(users.toString());
+			list.subList(0, 2).clear();
+        }
+	}
+	
+	private void sendTextcard(String users, int time) {
+		String title = "快上班啦，你似乎还没有打卡啊！";
+		if (time % 2 == 0) {
+			title = "下班啦，别忘了打卡啊！";
+		}
+		TextcardRequestBody textcardRequestBody = new TextcardRequestBody();
+		textcardRequestBody.setAgentid(agentId);
+		textcardRequestBody.setTouser(users);
+		Textcard textcard = new Textcard();
+		textcard.setTitle(title);
+		StringBuilder sb = new StringBuilder();
+		sb.append("<div class=\"gray\">")
+		  .append(new SimpleDateFormat("yyyy年MM月dd日").format(new Date()))
+		  .append("</div>")
+		  .append("<div class=\"normal\">")
+		  .append("如需取消打卡提醒，请点击设置按钮！")
+		  .append(ASSISTANT_NAME)
+		  .append("很高兴为你服务！")
+		  .append("</div>");
+		textcard.setDescription(sb.toString());
+		textcard.setUrl(url);
+		textcard.setBtntxt("设置");
+		textcardRequestBody.setTextcard(textcard);
+		wechatClient.sendTextcard(secret, textcardRequestBody);
 	}
 }

@@ -24,4 +24,14 @@ public interface EhrUserClient {
 	 */
 	@GetMapping("/api/v1/ehr/users/{empcode}")
 	Response getUserInfo(@PathVariable("empcode") String empcode) throws Exception;
+	
+	/**
+	 * 获取企业微信的用户信息
+	 * @param userid
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@GetMapping("/api/v1/ehr/contact/{userid}")
+	Response getContact(@PathVariable("userid") String userid) throws Exception;
 }
