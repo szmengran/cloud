@@ -73,6 +73,35 @@ public class WechatController {
 		return response;
 	}
 	
+	@GetMapping("/getuserinfo/{code}/{secret}")
+	public Response getUserInfo(@PathVariable("code") String code, @PathVariable("secret") String secret) throws Exception {
+		Response response = wechatClient.getUserInfo(code, secret);
+//		response = new Response();
+		if (response.getStatus() == 200) {
+			JSONObject jsonObject = JSONObject.fromObject(response.getData());
+			String empcode = jsonObject.getString("UserId");
+//			String empcode = "006124";
+			Future<Response> contactResponse = EXECUTOR.submit(() -> {
+				return ehrUserClient.getContact(empcode);
+			});
+			Response ehrUserResponse = ehrUserClient.getUserInfo(empcode);
+			if (ehrUserResponse.getStatus() == 200) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("userinfo", ehrUserResponse.getData());
+				map.put("token", JwtUtil.generateToken(new Gson().toJson(ehrUserResponse.getData())));
+				Response resp = contactResponse.get();
+				JSONObject contactObject = JSONObject.fromObject(resp.getData());
+				String avatar = contactObject.getString("avatar");
+				map.put("avatar", avatar);
+				response.setData(map);
+			} else {
+				return ehrUserResponse;
+			}
+			
+		}
+		return response;
+	}
+	
 	@GetMapping("/getQYToken")
 	public Response getQYToken() throws Exception {
 		return wechatClient.getQYToken(secret);
