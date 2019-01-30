@@ -40,7 +40,7 @@ public class RemindController {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(JjjchzController.class);
 	private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(100);
-	public static final String ASSISTANT_NAME = "【崇达小助手】";
+	public static final String ASSISTANT_NAME = "【崇达技术】";
 	
 	@Value("${wechat.qy.AgentId}")
 	private String agentId;
@@ -95,7 +95,7 @@ public class RemindController {
 						Response response = sendTextcard("报废/返工/修理经济奖惩确认", cux_oa_qywx_jjjcmx_v.getL_code(), getOauthUrl(jjjcmxUrl+cux_oa_qywx_jjjcmx_v.getId()));
 						System.out.println(jjjcmxUrl);
 						if (response.getStatus() == 200) {
-//							jjjcmxService.updateById(cux_oa_qywx_jjjcmx_v.getId());
+							jjjcmxService.updateById(cux_oa_qywx_jjjcmx_v.getId());
 						} else {
 							LOG.error(response.getMessage());
 						}
