@@ -1,5 +1,7 @@
 package com.suntak.cloud.oa.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.oa.client.WechatClient;
 import com.suntak.cloud.oa.entity.Cux_oa_qywx_jjjchz_v;
+import com.suntak.cloud.oa.entity.Cux_oa_qywx_jjjcmx_v;
 import com.suntak.cloud.oa.service.JjjchzService;
+import com.suntak.cloud.oa.service.JjjcmxService;
 import com.suntak.cloud.wechat.entity.request.Textcard;
 import com.suntak.cloud.wechat.entity.request.TextcardRequestBody;
 import com.suntak.exception.model.Response;
@@ -50,30 +54,67 @@ public class RemindController {
 	@Value("${wechat.remind.url.jjjc}")
 	private String jjjcUrl;
 	
+	@Value("${wechat.remind.url.jjjcmx}")
+	private String jjjcmxUrl;
+	
 	@Autowired
 	private JjjchzService jjjchzService;
+	
+	@Autowired
+	private JjjcmxService jjjcmxService;
 	
 	@GetMapping(value="/remind")
 	public Response remind() throws Exception {
 		//发送经济奖惩通知
-		List<Cux_oa_qywx_jjjchz_v> list = jjjchzService.findJjjcByConditions();
-		for (Cux_oa_qywx_jjjchz_v cux_oa_qywx_jjjchz_v: list) {
-			EXECUTOR.submit(() -> {
-				try {
-					Response response = sendTextcard("经济奖惩确认", cux_oa_qywx_jjjchz_v.getL_code(), jjjcUrl+cux_oa_qywx_jjjchz_v.getId());
-					if (response.getStatus() == 200) {
-						jjjchzService.updateById(cux_oa_qywx_jjjchz_v.getId());
-					} else {
-						LOG.error(response.getMessage());
+		EXECUTOR.submit(() -> {
+			List<Cux_oa_qywx_jjjchz_v> list = jjjchzService.findJjjcByConditions();
+			for (Cux_oa_qywx_jjjchz_v cux_oa_qywx_jjjchz_v: list) {
+				EXECUTOR.submit(() -> {
+					try {
+						Response response = sendTextcard("经济奖惩确认", cux_oa_qywx_jjjchz_v.getL_code(), getOauthUrl(jjjcUrl+cux_oa_qywx_jjjchz_v.getId()));
+						if (response.getStatus() == 200) {
+							jjjchzService.updateById(cux_oa_qywx_jjjchz_v.getId());
+						} else {
+							LOG.error(response.getMessage());
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						LOG.error(e.getMessage());
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
-					LOG.error(e.getMessage());
-				}
-			});
-		}
+				});
+			}
+			return list;
+		});
+		
+		//发送报废/返工/修理经济奖惩通知
+		EXECUTOR.submit(() -> {
+			List<Cux_oa_qywx_jjjcmx_v> list = jjjcmxService.findJjjcmxByConditions();
+			for (Cux_oa_qywx_jjjcmx_v cux_oa_qywx_jjjcmx_v: list) {
+				EXECUTOR.submit(() -> {
+					try {
+						Response response = sendTextcard("报废/返工/修理经济奖惩确认", cux_oa_qywx_jjjcmx_v.getL_code(), getOauthUrl(jjjcmxUrl+cux_oa_qywx_jjjcmx_v.getId()));
+						System.out.println(jjjcmxUrl);
+						if (response.getStatus() == 200) {
+//							jjjcmxService.updateById(cux_oa_qywx_jjjcmx_v.getId());
+						} else {
+							LOG.error(response.getMessage());
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						LOG.error(e.getMessage());
+					}
+				});
+			}
+			return list;
+		});
 		
 		return new Response();
+	}
+	
+
+	private static String getOauthUrl(String url) throws UnsupportedEncodingException {
+		url = URLEncoder.encode(url, "UTF-8");
+		return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=ww8973695804b8d199&redirect_uri="+url+"&response_type=code&scope=snsapi_userinfo&agentid=1000028&state=STATE#wechat_redirect";
 	}
 	
 	private Response sendTextcard(String title, String users, String url) {
