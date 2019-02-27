@@ -2,30 +2,31 @@ package com.suntak.cloud.oa.entity;
 
 import com.szmengran.mybatis.utils.Table;
 
-/**
- * @Package com.suntak.cloud.oa.entity
- * @Description: 经济奖惩汇总表
- * @date Jan 28, 2019 9:00:10 AM
+/** 
+ * @Package com.suntak.cloud.oa.entity 
+ * @Description: 技能工资明细表
+ * @date Feb 25, 2019 11:34:03 AM 
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 @Table(id = "id")
-public class Cux_oa_qywx_jjjcmx_v {
+public class Cux_oa_qywx_jngzmx_v {
 	private String id;
 	private String l_factory;
 	private String l_dept;
 	private String l_cla;
 	private String l_date;
 	private String l_code;
-	private String l_name;
-	private String l_post;
-	private String l_bzgts; //不在岗天数
-	private String l_mbbfl;
-	private String l_sjbfl;
-	private String l_sjmj;
-	private String l_bfjcje;
-	private String l_xlmj;
-	private String l_xlpcje;
-	private String l_jjjcjehj;
+	private String l_name; //姓名
+	private String l_post; //职务
+	private String l_rzrq; //入职日期
+	private String l_zgts; //在岗天数
+	private String l_yjngz; //原技能等级
+	private String l_cldcl; //产量达成率
+	private String l_ysjxdj; //原始绩效等级
+	private String l_zzjxdj; //最终绩效登记
+	private String l_jxxs; //绩效系数
+	private String l_jngz; //技能工资
+	private String l_jndj; //技能等级
 	private String l_ygqz;
 	private String l_bz;
 	private String l_tezt;
@@ -77,53 +78,59 @@ public class Cux_oa_qywx_jjjcmx_v {
 	public void setL_post(String l_post) {
 		this.l_post = l_post;
 	}
-	public String getL_bzgts() {
-		return l_bzgts;
+	public String getL_rzrq() {
+		return l_rzrq;
 	}
-	public void setL_bzgts(String l_bzgts) {
-		this.l_bzgts = l_bzgts;
+	public void setL_rzrq(String l_rzrq) {
+		this.l_rzrq = l_rzrq;
 	}
-	public String getL_mbbfl() {
-		return l_mbbfl;
+	public String getL_zgts() {
+		return l_zgts;
 	}
-	public void setL_mbbfl(String l_mbbfl) {
-		this.l_mbbfl = l_mbbfl;
+	public void setL_zgts(String l_zgts) {
+		this.l_zgts = l_zgts;
 	}
-	public String getL_sjbfl() {
-		return l_sjbfl;
+	public String getL_yjngz() {
+		return l_yjngz;
 	}
-	public void setL_sjbfl(String l_sjbfl) {
-		this.l_sjbfl = l_sjbfl;
+	public void setL_yjngz(String l_yjngz) {
+		this.l_yjngz = l_yjngz;
 	}
-	public String getL_sjmj() {
-		return l_sjmj;
+	public String getL_cldcl() {
+		return l_cldcl;
 	}
-	public void setL_sjmj(String l_sjmj) {
-		this.l_sjmj = l_sjmj;
+	public void setL_cldcl(String l_cldcl) {
+		this.l_cldcl = l_cldcl;
 	}
-	public String getL_bfjcje() {
-		return l_bfjcje;
+	public String getL_ysjxdj() {
+		return l_ysjxdj;
 	}
-	public void setL_bfjcje(String l_bfjcje) {
-		this.l_bfjcje = l_bfjcje;
+	public void setL_ysjxdj(String l_ysjxdj) {
+		this.l_ysjxdj = l_ysjxdj;
 	}
-	public String getL_xlmj() {
-		return l_xlmj;
+	public String getL_zzjxdj() {
+		return l_zzjxdj;
 	}
-	public void setL_xlmj(String l_xlmj) {
-		this.l_xlmj = l_xlmj;
+	public void setL_zzjxdj(String l_zzjxdj) {
+		this.l_zzjxdj = l_zzjxdj;
 	}
-	public String getL_xlpcje() {
-		return l_xlpcje;
+	public String getL_jxxs() {
+		return l_jxxs;
 	}
-	public void setL_xlpcje(String l_xlpcje) {
-		this.l_xlpcje = l_xlpcje;
+	public void setL_jxxs(String l_jxxs) {
+		this.l_jxxs = l_jxxs;
 	}
-	public String getL_jjjcjehj() {
-		return l_jjjcjehj;
+	public String getL_jngz() {
+		return l_jngz;
 	}
-	public void setL_jjjcjehj(String l_jjjcjehj) {
-		this.l_jjjcjehj = l_jjjcjehj;
+	public void setL_jngz(String l_jngz) {
+		this.l_jngz = l_jngz;
+	}
+	public String getL_jndj() {
+		return l_jndj;
+	}
+	public void setL_jndj(String l_jndj) {
+		this.l_jndj = l_jndj;
 	}
 	public String getL_ygqz() {
 		return l_ygqz;
@@ -143,4 +150,5 @@ public class Cux_oa_qywx_jjjcmx_v {
 	public void setL_tezt(String l_tezt) {
 		this.l_tezt = l_tezt;
 	}
+	
 }

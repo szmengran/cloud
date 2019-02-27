@@ -1,6 +1,8 @@
 package com.suntak.cloud.oa.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -52,6 +54,7 @@ public class JjjchzServiceImpl implements JjjchzService {
 	
 	@Override
 	public Boolean signById(String id, String empno, String name) throws Exception {
-		return jjjchzMapper.signById(id, empno, name) > 0;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return jjjchzMapper.signById(id, empno, name+" "+sdf.format(new Date())) > 0;
 	}
 }

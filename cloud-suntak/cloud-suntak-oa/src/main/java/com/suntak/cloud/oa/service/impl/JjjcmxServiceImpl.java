@@ -1,5 +1,7 @@
 package com.suntak.cloud.oa.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +42,7 @@ public class JjjcmxServiceImpl implements JjjcmxService {
 	
 	@Override
 	public Boolean signById(String id, String empno, String name) throws Exception {
-		return jjjcmxMapper.signById(id, empno, name) > 0;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return jjjcmxMapper.signById(id, empno, name+" "+sdf.format(new Date())) > 0;
 	}
 }

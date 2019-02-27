@@ -11,16 +11,21 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.oa.client.WechatClient;
+import com.suntak.cloud.oa.entity.Cux_oa_qywx_grlhzhpj_v;
 import com.suntak.cloud.oa.entity.Cux_oa_qywx_jjjchz_v;
 import com.suntak.cloud.oa.entity.Cux_oa_qywx_jjjcmx_v;
+import com.suntak.cloud.oa.entity.Cux_oa_qywx_jngzmx_v;
+import com.suntak.cloud.oa.entity.Cux_oa_qywx_tdlhzhpj_v;
 import com.suntak.cloud.oa.service.JjjchzService;
 import com.suntak.cloud.oa.service.JjjcmxService;
+import com.suntak.cloud.oa.service.OaService;
 import com.suntak.cloud.wechat.entity.request.Textcard;
 import com.suntak.cloud.wechat.entity.request.TextcardRequestBody;
 import com.suntak.exception.model.Response;
@@ -57,11 +62,32 @@ public class RemindController {
 	@Value("${wechat.remind.url.jjjcmx}")
 	private String jjjcmxUrl;
 	
+	@Value("${wechat.remind.url.jngzmx}")
+	private String jngzmxUrl;
+	
+	@Value("${wechat.remind.url.tdlhzhpj}")
+	private String tdlhzhpjUrl;
+	
+	@Value("${wechat.remind.url.grlhzhpj}")
+	private String grlhzhpjUrl;
+	
 	@Autowired
 	private JjjchzService jjjchzService;
 	
 	@Autowired
 	private JjjcmxService jjjcmxService;
+	
+	@Autowired
+	@Qualifier("jngzmxService")
+	private OaService jngzmxService;
+	
+	@Autowired
+	@Qualifier("tdlhzhpjService")
+	private OaService tdlhzhpjService;
+	
+	@Autowired
+	@Qualifier("grlhzhpjService")
+	private OaService grlhzhpjService;
 	
 	@GetMapping(value="/remind")
 	public Response remind() throws Exception {
@@ -93,9 +119,71 @@ public class RemindController {
 				EXECUTOR.submit(() -> {
 					try {
 						Response response = sendTextcard("报废/返工/修理经济奖惩确认", cux_oa_qywx_jjjcmx_v.getL_code(), getOauthUrl(jjjcmxUrl+cux_oa_qywx_jjjcmx_v.getId()));
-						System.out.println(jjjcmxUrl);
 						if (response.getStatus() == 200) {
 							jjjcmxService.updateById(cux_oa_qywx_jjjcmx_v.getId());
+						} else {
+							LOG.error(response.getMessage());
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						LOG.error(e.getMessage());
+					}
+				});
+			}
+			return list;
+		});
+		
+		EXECUTOR.submit(() -> {
+			List<?> list = jngzmxService.findByConditions();
+			for (Object object: list) {
+				EXECUTOR.submit(() -> {
+					try {
+						Cux_oa_qywx_jngzmx_v cux_oa_qywx_jngzmx_v = (Cux_oa_qywx_jngzmx_v)object;
+						Response response = sendTextcard("技能工资明细确认", cux_oa_qywx_jngzmx_v.getL_code(), getOauthUrl(jngzmxUrl+cux_oa_qywx_jngzmx_v.getId()));
+						if (response.getStatus() == 200) {
+							jjjcmxService.updateById(cux_oa_qywx_jngzmx_v.getId());
+						} else {
+							LOG.error(response.getMessage());
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						LOG.error(e.getMessage());
+					}
+				});
+			}
+			return list;
+		});
+		
+		EXECUTOR.submit(() -> {
+			List<?> list = tdlhzhpjService.findByConditions();
+			for (Object object: list) {
+				EXECUTOR.submit(() -> {
+					try {
+						Cux_oa_qywx_tdlhzhpj_v cux_oa_qywx_tdlhzhpj_v = (Cux_oa_qywx_tdlhzhpj_v)object;
+						Response response = sendTextcard("团队量化综合评价确认", cux_oa_qywx_tdlhzhpj_v.getL_code(), getOauthUrl(tdlhzhpjUrl+cux_oa_qywx_tdlhzhpj_v.getId()));
+						if (response.getStatus() == 200) {
+							tdlhzhpjService.updateById(cux_oa_qywx_tdlhzhpj_v.getId());
+						} else {
+							LOG.error(response.getMessage());
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						LOG.error(e.getMessage());
+					}
+				});
+			}
+			return list;
+		});
+		
+		EXECUTOR.submit(() -> {
+			List<?> list = grlhzhpjService.findByConditions();
+			for (Object object: list) {
+				EXECUTOR.submit(() -> {
+					try {
+						Cux_oa_qywx_grlhzhpj_v cux_oa_qywx_grlhzhpj_v = (Cux_oa_qywx_grlhzhpj_v)object;
+						Response response = sendTextcard("个人量化综合评价确认", cux_oa_qywx_grlhzhpj_v.getL_code(), getOauthUrl(grlhzhpjUrl+cux_oa_qywx_grlhzhpj_v.getId()));
+						if (response.getStatus() == 200) {
+							grlhzhpjService.updateById(cux_oa_qywx_grlhzhpj_v.getId());
 						} else {
 							LOG.error(response.getMessage());
 						}
