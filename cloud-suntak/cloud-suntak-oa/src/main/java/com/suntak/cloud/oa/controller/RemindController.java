@@ -141,7 +141,7 @@ public class RemindController {
 						Cux_oa_qywx_jngzmx_v cux_oa_qywx_jngzmx_v = (Cux_oa_qywx_jngzmx_v)object;
 						Response response = sendTextcard("技能工资明细确认", cux_oa_qywx_jngzmx_v.getL_code(), getOauthUrl(jngzmxUrl+cux_oa_qywx_jngzmx_v.getId()));
 						if (response.getStatus() == 200) {
-							jjjcmxService.updateById(cux_oa_qywx_jngzmx_v.getId());
+							jngzmxService.updateById(cux_oa_qywx_jngzmx_v.getId());
 						} else {
 							LOG.error(response.getMessage());
 						}
