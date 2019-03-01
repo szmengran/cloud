@@ -93,7 +93,17 @@ public class ContactServiceImpl implements ContactService{
 						extattr.setAttrs(attrs);
 						contact.setExtattr(extattr);
 					}
-					Integer[] department = {contactExt.getDeptid()};
+					Integer[] department = null;
+					if (null == contactExt.getDeptid()) {
+						department = new Integer[] {1}; //找不到部门时，部门设置为“崇达技术”
+						if (StringUtils.isBlank(contact.getPosition())) {
+							contact.setPosition(contact.getDeptname());
+						} else {
+							contact.setPosition(contact.getDeptname()+contact.getPosition());
+						}
+					} else {
+						department = new Integer[]{contactExt.getDeptid()};
+					}
 					contact.setDepartment(department);
 					if (currentDate.before(contactExt.getLabordate())) {
 						ContactResponse contactResponse = constactClient.createContact(access_token, contact);
