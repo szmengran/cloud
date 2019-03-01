@@ -21,6 +21,7 @@ public class Cux_oa_qywx_jngzmx_v {
 	private String l_rzrq; //入职日期
 	private String l_zgts; //在岗天数
 	private String l_yjngz; //原技能等级
+	private String l_yjndj; //原技能等级
 	private String l_cldcl; //产量达成率
 	private String l_ysjxdj; //原始绩效等级
 	private String l_zzjxdj; //最终绩效登记
@@ -95,6 +96,12 @@ public class Cux_oa_qywx_jngzmx_v {
 	}
 	public void setL_yjngz(String l_yjngz) {
 		this.l_yjngz = l_yjngz;
+	}
+	public String getL_yjndj() {
+		return l_yjndj;
+	}
+	public void setL_yjndj(String l_yjndj) {
+		this.l_yjndj = l_yjndj;
 	}
 	public String getL_cldcl() {
 		return l_cldcl;
