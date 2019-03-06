@@ -32,6 +32,8 @@
 
 		<!-- 编译时的编码 -->
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		
+		<mysql.version>5.1.28</mysql.version>
 	</properties>
 
 	<dependencyManagement>
@@ -126,6 +128,16 @@
 				<groupId>com.github.pagehelper</groupId>
 				<artifactId>pagehelper-spring-boot-starter</artifactId>
 				<version>1.2.10</version>
+			</dependency>
+			<dependency>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc</artifactId>
+				<version>10.2.0.3</version>
+			</dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

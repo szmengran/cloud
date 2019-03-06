@@ -146,4 +146,12 @@ public class BlessingSmsController {
 			executor.shutdown();
 		}
 	}
+	
+	public static void main(String[] args) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("name", "李茂源");
+		map.put("year", "2019");
+		String json = SmsTool.transferMapToJson(map);
+		System.out.println(json);
+	}
 }

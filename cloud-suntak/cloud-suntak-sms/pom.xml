@@ -17,8 +17,8 @@
 			<artifactId>cloud-common-utils</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
-			<artifactId>orm-oracle</artifactId>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -55,6 +55,10 @@
 		<dependency>
 			<groupId>com.szmengran</groupId>
 			<artifactId>cloud-model-suntak</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.szmengran</groupId>
+			<artifactId>mybatis</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>

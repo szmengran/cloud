@@ -52,6 +52,7 @@ public class SmsCaptchaController {
 
 	@Autowired
 	private SmsCaptchaService smsCodeService;
+	
 	@Autowired
 	private SmsService smsService;
 	
