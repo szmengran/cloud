@@ -27,7 +27,6 @@ public class Contact {
 	private Integer enable; //启用/禁用成员
 	private Extattr extattr; //自定义字段
 	private String to_invite; //是否邀请该成员使用企业微信
-	private String external_profile; //成员对外属性
 	private String external_position; //对外职务
 	public String getUserid() {
 		return userid;
@@ -130,12 +129,6 @@ public class Contact {
 	}
 	public void setTo_invite(String to_invite) {
 		this.to_invite = to_invite;
-	}
-	public String getExternal_profile() {
-		return external_profile;
-	}
-	public void setExternal_profile(String external_profile) {
-		this.external_profile = external_profile;
 	}
 	public String getExternal_position() {
 		return external_position;
