@@ -22,7 +22,7 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-common-utils</artifactId>
 		</dependency>
 		<dependency>
@@ -54,11 +54,11 @@
 			<artifactId>aop-logging-service</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-exception</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-model-suntak</artifactId>
 		</dependency>
 		<dependency>
@@ -74,11 +74,11 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-model-haiwd</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-model-wechat</artifactId>
 		</dependency>
 	</dependencies>

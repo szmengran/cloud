@@ -4,8 +4,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.suntak.common.entity.T_common_sms_log;
 import com.suntak.exception.model.Response;
-import com.szmengran.common.entity.T_common_sms_log;
 
 /**
  * @Package com.szmengran.cloud.common.sms.client

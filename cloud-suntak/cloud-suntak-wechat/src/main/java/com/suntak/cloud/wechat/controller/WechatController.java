@@ -24,7 +24,7 @@ import com.suntak.cloud.wechat.entity.response.MsgResponseBody;
 import com.suntak.cloud.wechat.entity.response.TokenResponseBody;
 import com.suntak.cloud.wechat.service.WechatService;
 import com.suntak.exception.model.Response;
-import com.szmengran.admin.user.exception.BusinessException;
+import com.suntak.admin.user.exception.BusinessException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

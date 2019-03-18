@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.test.entity.ext.Cux_soa_ft_data_v_ext;
 import com.suntak.cloud.test.service.CuxSoaFtDataVService;
-import com.szmengran.admin.user.exception.BusinessException;
+import com.suntak.admin.user.exception.BusinessException;
 import com.szmengran.common.orm.DBManager;
 import com.szmengran.common.orm.dao.AbstractDao;
 

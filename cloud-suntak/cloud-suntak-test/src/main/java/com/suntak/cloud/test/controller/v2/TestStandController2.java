@@ -25,7 +25,7 @@ import com.suntak.cloud.test.service.TestStandService;
 import com.suntak.cloud.test.service.UseRecordService;
 import com.suntak.cloud.test.util.ExcelTool;
 import com.suntak.exception.model.Response;
-import com.szmengran.admin.user.exception.BusinessException;
+import com.suntak.admin.user.exception.BusinessException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

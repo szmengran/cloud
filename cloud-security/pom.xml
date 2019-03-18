@@ -4,7 +4,7 @@
 	<artifactId>cloud-security</artifactId>
 	<packaging>pom</packaging>
 	<parent>
-		<groupId>com.szmengran</groupId>
+		<groupId>com.suntak</groupId>
 		<artifactId>cloud</artifactId>
 		<version>0.0.3</version>
 	</parent>

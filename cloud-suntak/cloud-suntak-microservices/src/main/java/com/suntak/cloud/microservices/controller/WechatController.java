@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import com.suntak.cloud.microservices.client.EhrUserClient;
 import com.suntak.cloud.microservices.client.WechatClient;
 import com.suntak.exception.model.Response;
-import com.szmengran.utils.JwtUtil;
+import com.suntak.utils.JwtUtil;
 
 import io.swagger.annotations.Api;
 import net.sf.json.JSONObject;

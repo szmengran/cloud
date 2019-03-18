@@ -14,15 +14,15 @@
 			<artifactId>aop-logging-service</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-exception</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-common-utils</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-model-wechat</artifactId>
 		</dependency>
 		<dependency>
@@ -62,7 +62,7 @@
 			<artifactId>ojdbc14</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-model-suntak</artifactId>
 		</dependency>
 		<dependency>

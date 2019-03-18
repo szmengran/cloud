@@ -22,9 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suntak.cloud.sms.client.EhrUserServiceClient;
 import com.suntak.cloud.sms.client.SmsServiceClient;
 import com.suntak.cloud.sms.util.SmsTool;
+import com.suntak.common.entity.T_common_sms_log;
 import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
-import com.szmengran.common.entity.T_common_sms_log;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

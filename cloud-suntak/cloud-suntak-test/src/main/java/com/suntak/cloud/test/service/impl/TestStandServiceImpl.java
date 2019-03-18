@@ -12,7 +12,7 @@ import com.suntak.cloud.test.entity.T_oa_test_use_record;
 import com.suntak.cloud.test.entity.ext.T_oa_test_stand_ext;
 import com.suntak.cloud.test.entity.ext.TestStandStatus;
 import com.suntak.cloud.test.service.TestStandService;
-import com.szmengran.admin.user.exception.BusinessException;
+import com.suntak.admin.user.exception.BusinessException;
 import com.szmengran.common.orm.DBManager;
 import com.szmengran.common.orm.DbPrimaryKeyType;
 import com.szmengran.common.orm.dao.AbstractDao;

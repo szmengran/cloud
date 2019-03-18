@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.suntak.common.entity.T_common_sms_captcha;
 import com.suntak.exception.model.Response;
-import com.szmengran.common.entity.T_common_sms_captcha;
 
 /**
  * @Package com.szmengran.cloud.common.sms.client

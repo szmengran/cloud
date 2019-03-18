@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.suntak.admin.user.exception.BusinessException;
 import com.suntak.cloud.questionnaire.entity.T_questionnaire_user;
 import com.suntak.cloud.questionnaire.service.QuestionnaireService;
 import com.suntak.cloud.questionnaire.service.QuestionnaireUserService;
 import com.suntak.exception.model.Response;
-import com.szmengran.admin.user.exception.BusinessException;
-import com.szmengran.utils.JwtUtil;
-import com.szmengran.utils.RequestUtils;
+import com.suntak.utils.JwtUtil;
+import com.suntak.utils.RequestUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -4,7 +4,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.szmengran.config.CorsFilter;
+import com.suntak.config.CorsFilter;
 
 /**
  * @Package com.suntak.cloud.questionnaire.config

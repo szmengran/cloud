@@ -12,8 +12,8 @@ import com.google.gson.Gson;
 import com.suntak.cloud.oa.service.OaService;
 import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
-import com.szmengran.admin.user.exception.BusinessException;
-import com.szmengran.utils.JwtUtil;
+import com.suntak.utils.JwtUtil;
+import com.suntak.admin.user.exception.BusinessException;
 
 import io.swagger.annotations.Api;
 

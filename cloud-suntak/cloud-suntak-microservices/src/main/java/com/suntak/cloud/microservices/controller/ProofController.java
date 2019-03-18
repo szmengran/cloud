@@ -28,9 +28,9 @@ import com.suntak.cloud.wechat.entity.request.Textcard;
 import com.suntak.cloud.wechat.entity.request.TextcardRequestBody;
 import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
-import com.szmengran.admin.user.exception.BusinessException;
-import com.szmengran.utils.JwtUtil;
-import com.szmengran.utils.MD5Util;
+import com.suntak.utils.JwtUtil;
+import com.suntak.utils.MD5Util;
+import com.suntak.admin.user.exception.BusinessException;
 
 import io.swagger.annotations.Api;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;

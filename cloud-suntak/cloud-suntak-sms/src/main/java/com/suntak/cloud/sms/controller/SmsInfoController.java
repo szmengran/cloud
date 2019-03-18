@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.suntak.cloud.sms.client.SmsServiceClient;
 import com.suntak.cloud.sms.entity.T_sms_info;
 import com.suntak.cloud.sms.service.SmsInfoService;
+import com.suntak.common.entity.T_common_sms_log;
 import com.suntak.exception.model.Response;
-import com.szmengran.common.entity.T_common_sms_log;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
