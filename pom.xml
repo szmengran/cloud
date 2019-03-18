@@ -3,12 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>cloud</artifactId>
+	<version>0.0.3</version>
 	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>com.szmengran</groupId>
 		<artifactId>spring-cloud-infrastructure</artifactId>
-		<version>0.0.1</version>
+		<version>0.0.3</version>
 	</parent>
 
 	<properties>
@@ -23,7 +24,7 @@
 		<!-- Sonar -->
 		<aop.version>0.0.1</aop.version>
 		<jwt.version>0.7.0</jwt.version>
-		<springfox.version>2.8.0</springfox.version>
+		<springfox.version>2.9.2</springfox.version>
 		<surefire.plugin.version>2.19.1</surefire.plugin.version>
 
 		<!-- 文件拷贝时的编码 -->
@@ -48,6 +49,11 @@
 				<artifactId>orm-oracle</artifactId>
 				<version>${orm.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>com.szmengran</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
 			<dependency>
 				<groupId>com.suntak</groupId>
 				<artifactId>aop-exception</artifactId>

@@ -13,7 +13,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: bus-refresh
+        include: bus-refresh #消息总线配置
 spring:
   application:
     name: cloud-config-server

@@ -11,7 +11,7 @@ import com.suntak.exception.model.Response;
 
 /**
  * @Package com.suntak.cloud.microservices.client
- * @Description: TODO
+ * @Description: 微信调用API
  * @date 2018年9月5日 下午1:35:12
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */

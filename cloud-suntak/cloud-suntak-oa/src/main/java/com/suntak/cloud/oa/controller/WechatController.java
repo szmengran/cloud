@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
 import com.suntak.cloud.oa.client.WechatClient;
 import com.suntak.cloud.wechat.entity.request.FileRequestBody;
 import com.suntak.cloud.wechat.entity.request.ImgRequestBody;
@@ -80,7 +81,7 @@ public class WechatController {
 	@PostMapping("/text/{businessNo}")
 	public Response sendText(@PathVariable("businessNo") String businessNo, @RequestBody TextRequestBody textRequestBody, HttpServletResponse httpServletResponse) throws Exception {
 		textRequestBody.setAgentid(agentId);
-		LOG.info("发送企业微信文本消息:{},{}", businessNo, textRequestBody);
+		LOG.info("发送企业微信文本消息:{},{}", businessNo, new Gson().toJson(textRequestBody));
 		checkBusinessNo(businessNo);
 		return wechatClient.sendText(secret, textRequestBody);
 	}
@@ -97,7 +98,7 @@ public class WechatController {
 	@PostMapping("/image/{businessNo}")
 	public Response sendImage(@PathVariable("businessNo") String businessNo, @RequestBody ImgRequestBody imgRequestBody) throws Exception {
 		imgRequestBody.setAgentid(agentId);
-		LOG.info("发送企业微信图片消息:{},{}", businessNo, imgRequestBody);
+		LOG.info("发送企业微信图片消息:{},{}", businessNo, new Gson().toJson(imgRequestBody));
 		checkBusinessNo(businessNo);
 		return wechatClient.sendImage(secret, imgRequestBody);
 	}
@@ -114,7 +115,7 @@ public class WechatController {
 	@PostMapping("/voice/{businessNo}")
 	public Response sendVoice(@PathVariable("businessNo") String businessNo, @RequestBody VoiceRequestBody voiceRequestBody) throws Exception {
 		voiceRequestBody.setAgentid(agentId);
-		LOG.info("发送企业微信语音消息:{},{}", businessNo, voiceRequestBody);
+		LOG.info("发送企业微信语音消息:{},{}", businessNo, new Gson().toJson(voiceRequestBody));
 		checkBusinessNo(businessNo);
 		return wechatClient.sendVoice(secret, voiceRequestBody);
 	}
@@ -131,7 +132,7 @@ public class WechatController {
 	@PostMapping("/video/{businessNo}")
 	public Response sendFile(@PathVariable("businessNo") String businessNo, @RequestBody VideoRequestBody videoRequestBody) throws Exception {
 		videoRequestBody.setAgentid(agentId);
-		LOG.info("发送企业微信视频消息:{},{}", businessNo, videoRequestBody);
+		LOG.info("发送企业微信视频消息:{},{}", businessNo, new Gson().toJson(videoRequestBody));
 		checkBusinessNo(businessNo);
 		return wechatClient.sendVideo(secret, videoRequestBody);
 	}
@@ -148,7 +149,7 @@ public class WechatController {
 	@PostMapping("/file/{businessNo}")
 	public Response sendFile(@PathVariable("businessNo") String businessNo, @RequestBody FileRequestBody fileRequestBody) throws Exception {
 		fileRequestBody.setAgentid(agentId);
-		LOG.info("发送企业微信文件消息:{},{}", businessNo, fileRequestBody);
+		LOG.info("发送企业微信文件消息:{},{}", businessNo, new Gson().toJson(fileRequestBody));
 		checkBusinessNo(businessNo);
 		return wechatClient.sendFile(secret, fileRequestBody);
 	}
@@ -165,7 +166,7 @@ public class WechatController {
 	@PostMapping("/textcard/{businessNo}")
 	public Response sendTextcard(@PathVariable("businessNo") String businessNo, @RequestBody TextcardRequestBody textcardRequestBody) throws Exception {
 		textcardRequestBody.setAgentid(agentId);
-		LOG.info("发送企业微信卡片消息:{},{}", businessNo, textcardRequestBody);
+		LOG.info("发送企业微信卡片消息:{},{}", businessNo, new Gson().toJson(textcardRequestBody));
 		checkBusinessNo(businessNo);
 		return wechatClient.sendTextcard(secret, textcardRequestBody);
 	}

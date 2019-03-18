@@ -2,6 +2,7 @@ package com.suntak.cloud.activity;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @EnableFeignClients
 @SpringBootApplication
 @RefreshScope
+@EnableCircuitBreaker
 @RestController
 public class ActivityApplication {
 	public static void main(String[] args) {
