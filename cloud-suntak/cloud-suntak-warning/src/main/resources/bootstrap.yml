@@ -1,0 +1,17 @@
+server:
+  port: 10022
+spring:
+  application:
+    name: warning
+  cloud:
+    config:
+      uri: ${CONFIG_SERVER_ADDRESS}
+      fail-fast: false
+  profiles:
+    active: ${ENVIRONMENT}
+  sleuth:
+    traceId128: true
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+logging:
+  config: ${CONFIG_SERVER_ADDRESS}/resources/logback-spring.xml
