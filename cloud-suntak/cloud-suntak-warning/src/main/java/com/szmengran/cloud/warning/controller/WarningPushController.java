@@ -149,6 +149,7 @@ public class WarningPushController {
     private Response sendTextcardBody(T_warning_push_ext t_warning_push_ext) throws Exception {
         TextcardRequestBody textcardRequestBody = new TextcardRequestBody();
         textcardRequestBody.setMsgtype("textcard");
+        System.out.println(t_warning_push_ext.getMessage());
         Textcard textcard = new Gson().fromJson(t_warning_push_ext.getMessage(), Textcard.class);
         textcardRequestBody.setTextcard(textcard);
         setCommonMsg(textcardRequestBody, t_warning_push_ext);

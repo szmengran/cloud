@@ -23,7 +23,8 @@ public class T_warning_push_history {
     private String Attribute2;
     private String Attribute3;
     private Timestamp createstamp;
-    private Timestamp sendtime;
+    private Timestamp updatestamp;
+    private String validstatus;
     public Long getPushid() {
         return pushid;
     }
@@ -90,10 +91,16 @@ public class T_warning_push_history {
     public void setCreatestamp(Timestamp createstamp) {
         this.createstamp = createstamp;
     }
-    public Timestamp getSendtime() {
-        return sendtime;
+    public Timestamp getUpdatestamp() {
+        return updatestamp;
     }
-    public void setSendtime(Timestamp sendtime) {
-        this.sendtime = sendtime;
+    public void setUpdatestamp(Timestamp updatestamp) {
+        this.updatestamp = updatestamp;
+    }
+    public String getValidstatus() {
+        return validstatus;
+    }
+    public void setValidstatus(String validstatus) {
+        this.validstatus = validstatus;
     }
 }

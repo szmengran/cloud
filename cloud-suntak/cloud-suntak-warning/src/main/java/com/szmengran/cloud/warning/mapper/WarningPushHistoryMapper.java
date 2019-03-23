@@ -23,10 +23,10 @@ public interface WarningPushHistoryMapper extends IMapper<T_warning_push_history
         public String insertInto() {
             StringBuilder sql = new StringBuilder();
             sql.append("insert into t_warning_push_history(")
-               .append(" PUSHID,TYPEID,TOUSER,MSGTYPE,ORGID,WIPID,MESSAGE,ATTRIBUTE1,ATTRIBUTE2,")
-               .append(" ATTRIBUTE3,CREATESTAMP,SENDTIME)")
-               .append(" SELECT PUSHID,TYPEID,TOUSER,MSGTYPE,ORGID,WIPID,MESSAGE,ATTRIBUTE1,ATTRIBUTE2,")
-               .append(" ATTRIBUTE3,CREATESTAMP, sysdate")
+               .append(" PUSHID,TYPEID,TOUSER,MSGTYPE,ORGID,WIPID,MESSAGE,EXCEPTION,ATTRIBUTE1,ATTRIBUTE2,")
+               .append(" ATTRIBUTE3,CREATESTAMP,UPDATESTAMP,VALIDSTATUS)")
+               .append(" SELECT PUSHID,TYPEID,TOUSER,MSGTYPE,ORGID,WIPID,MESSAGE,EXCEPTION,ATTRIBUTE1,ATTRIBUTE2,")
+               .append(" ATTRIBUTE3,CREATESTAMP,sysdate,VALIDSTATUS")
                .append(" from t_warning_push ")
                .append(" WHERE PUSHID=#{pushid}");
             return sql.toString();
