@@ -62,7 +62,10 @@ public class WarningPushController {
         for (T_warning_push_ext t_warning_push_ext: list) {
             executor.submit(() -> {
                 try {
-                    send(t_warning_push_ext);
+                    Response response = send(t_warning_push_ext);
+                    if (200 != response.getStatus()) {
+                        throw new Exception(response.getMessage());
+                    }
                     warningPushService.move(t_warning_push_ext);
                 } catch (Exception e) {
                     logger.error("{}", e);
@@ -85,15 +88,14 @@ public class WarningPushController {
      * @throws   
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
-    private void send(T_warning_push_ext t_warning_push_ext) throws Exception {
+    private Response send(T_warning_push_ext t_warning_push_ext) throws Exception {
         switch (t_warning_push_ext.getMsgtype()) {
             case MsgTypeConstants.TEXT:
-                sendTextBody(t_warning_push_ext);
-                break;
+                return sendTextBody(t_warning_push_ext);
             case MsgTypeConstants.TEXTCARD:
-                sendTextcardBody(t_warning_push_ext);
-                break;
+                return sendTextcardBody(t_warning_push_ext);
         }
+        return null;
     }
     
     /**
@@ -120,36 +122,37 @@ public class WarningPushController {
     /**
      * 发送文本消息
      * @param t_warning_push_ext
+     * @return
      * @throws Exception      
-     * @return: void      
+     * @return: Response      
      * @throws   
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
-    private void sendTextBody(T_warning_push_ext t_warning_push_ext) throws Exception {
+    private Response sendTextBody(T_warning_push_ext t_warning_push_ext) throws Exception {
         TextRequestBody textRequestBody = new TextRequestBody();
         textRequestBody.setMsgtype("text");
         Text text = new Text();
         text.setContent(t_warning_push_ext.getMessage());
         textRequestBody.setText(text);
         setCommonMsg(textRequestBody, t_warning_push_ext);
-        wechatClient.sendText(secret, textRequestBody);
+        return wechatClient.sendText(secret, textRequestBody);
     }
     
     /**
      * 发送卡片消息
      * @param t_warning_push_ext
      * @throws Exception      
-     * @return: void      
+     * @return: Response      
      * @throws   
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
-    private void sendTextcardBody(T_warning_push_ext t_warning_push_ext) throws Exception {
+    private Response sendTextcardBody(T_warning_push_ext t_warning_push_ext) throws Exception {
         TextcardRequestBody textcardRequestBody = new TextcardRequestBody();
         textcardRequestBody.setMsgtype("textcard");
         Textcard textcard = new Gson().fromJson(t_warning_push_ext.getMessage(), Textcard.class);
         textcardRequestBody.setTextcard(textcard);
         setCommonMsg(textcardRequestBody, t_warning_push_ext);
-        wechatClient.sendTextcard(secret, textcardRequestBody);
+        return wechatClient.sendTextcard(secret, textcardRequestBody);
     }
     
 }

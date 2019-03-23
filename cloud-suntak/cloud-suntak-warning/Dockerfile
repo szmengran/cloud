@@ -1,4 +1,4 @@
-FROM openjdk: 8-jre-alpine
+FROM openjdk:8-jre-alpine
 MAINTAINER Joe <android_li@sina.cn>
 
 ENV JAR_FILE cloud-suntak-warning.jar
