@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.suntak.cloud.ehr.client.DepartmentClient;
+import com.suntak.cloud.ehr.client.EnterPriseWechatClient;
 import com.suntak.cloud.ehr.client.MicroservicesClient;
 import com.suntak.cloud.ehr.entity.DepartmentResponse;
 import com.suntak.cloud.ehr.entity.T_wechat_department;
@@ -33,7 +33,7 @@ public class DepartmentController {
 	DepartmentService departmentService;
 	
 	@Autowired
-	DepartmentClient departmentClient;
+	EnterPriseWechatClient enterPriseWechatClient;
 	
 	@Autowired
 	MicroservicesClient microservicesClient;
@@ -43,7 +43,7 @@ public class DepartmentController {
 		Response response = microservicesClient.getQYToken();
 		if (response.getStatus() == 200) {
 			String access_token = (String)response.getData();
-			DepartmentResponse departmentResponse = departmentClient.getDepartment(access_token);
+			DepartmentResponse departmentResponse = enterPriseWechatClient.getDepartment(access_token);
 			if (departmentResponse.getErrcode() == 0) {
 				T_wechat_department[] departments = departmentResponse.getDepartment();
 				ExecutorService executor = Executors.newCachedThreadPool();

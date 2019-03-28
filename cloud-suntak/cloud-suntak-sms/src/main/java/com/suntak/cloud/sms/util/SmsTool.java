@@ -2,7 +2,7 @@ package com.suntak.cloud.sms.util;
 
 import java.util.Map;
 
-import net.sf.json.JSONObject;
+import com.google.gson.Gson;
 
 /**
  * @Package com.suntak.cloud.sms.util
@@ -20,7 +20,6 @@ public class SmsTool {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	public static String transferMapToJson(Map<String, Object> map) throws Exception {
-		JSONObject jsonObject = JSONObject.fromObject(map);
-		return jsonObject.toString();
+		return new Gson().toJson(map);
 	}
 }

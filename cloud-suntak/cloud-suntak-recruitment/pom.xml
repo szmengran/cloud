@@ -4,16 +4,16 @@
 	<parent>
 		<groupId>com.suntak</groupId>
 		<artifactId>cloud-suntak</artifactId>
-		<version>0.0.1</version>
+		<version>0.0.3</version>
 	</parent>
 	<artifactId>cloud-suntak-recruitment</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-model-common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-common-utils</artifactId>
 		</dependency>
 		<dependency>
@@ -21,11 +21,11 @@
 			<artifactId>orm-oracle</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-model-wechat</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-model-admin</artifactId>
 		</dependency>
 		<dependency>
@@ -57,11 +57,11 @@
 			<artifactId>aop-logging-service</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-exception</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-model-suntak</artifactId>
 		</dependency>
 		<dependency>

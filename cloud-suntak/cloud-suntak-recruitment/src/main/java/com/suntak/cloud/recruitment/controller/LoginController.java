@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.recruitment.client.SmsCaptchaServiceClient;
 import com.suntak.exception.model.Response;
-import com.szmengran.common.entity.T_common_sms_captcha;
+import com.suntak.common.entity.T_common_sms_captcha;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

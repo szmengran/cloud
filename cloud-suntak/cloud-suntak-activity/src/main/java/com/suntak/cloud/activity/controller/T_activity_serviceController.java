@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suntak.cloud.activity.entity.T_activity_service;
 import com.suntak.cloud.activity.service.T_activity_serviceService;
 import com.suntak.exception.model.Response;
@@ -16,7 +17,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import net.sf.json.JSONObject;
 
 /**
  * @Package com.suntak.cloud.activity.controller
@@ -40,7 +40,7 @@ public class T_activity_serviceController {
 		T_activity_service t_activity_service = t_activity_serviceService.findById(service_id);
 		Response response = new Response();
 		response.setData(t_activity_service);
-		log.info(JSONObject.fromObject(t_activity_service).toString());
+		log.info(new ObjectMapper().writeValueAsString(t_activity_service));
 		return response;
 	}
 }

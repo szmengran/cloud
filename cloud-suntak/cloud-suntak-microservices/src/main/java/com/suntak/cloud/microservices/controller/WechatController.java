@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.suntak.cloud.microservices.client.EhrUserClient;
 import com.suntak.cloud.microservices.client.WechatClient;
@@ -20,7 +22,6 @@ import com.suntak.exception.model.Response;
 import com.suntak.utils.JwtUtil;
 
 import io.swagger.annotations.Api;
-import net.sf.json.JSONObject;
 
 /**
  * @Package com.suntak.cloud.microservices.controller
@@ -47,11 +48,12 @@ public class WechatController {
 	@GetMapping("/getuserinfo/{code}")
 	public Response getUserInfo(@PathVariable("code") String code) throws Exception {
 		Response response = wechatClient.getUserInfo(code, secret);
-//		response = new Response();
+		response = new Response();
 		if (response.getStatus() == 200) {
-			JSONObject jsonObject = JSONObject.fromObject(response.getData());
-			String empcode = jsonObject.getString("UserId");
-//			String empcode = "006124";
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(response.getData()));
+//			String empcode = jsonNode.get("UserId").asText();
+			String empcode = "006124";
 			Future<Response> contactResponse = EXECUTOR.submit(() -> {
 				return ehrUserClient.getContact(empcode);
 			});
@@ -61,8 +63,9 @@ public class WechatController {
 				map.put("userinfo", ehrUserResponse.getData());
 				map.put("token", JwtUtil.generateToken(new Gson().toJson(ehrUserResponse.getData())));
 				Response resp = contactResponse.get();
-				JSONObject contactObject = JSONObject.fromObject(resp.getData());
-				String avatar = contactObject.getString("avatar");
+				objectMapper = new ObjectMapper();
+	            jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(resp.getData()));
+				String avatar = jsonNode.get("avatar").asText();
 				map.put("avatar", avatar);
 				response.setData(map);
 			} else {
@@ -78,8 +81,9 @@ public class WechatController {
 		Response response = wechatClient.getUserInfo(code, secret);
 //		response = new Response();
 		if (response.getStatus() == 200) {
-			JSONObject jsonObject = JSONObject.fromObject(response.getData());
-			String empcode = jsonObject.getString("UserId");
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(response.getData()));
+            String empcode = jsonNode.get("UserId").asText();
 //			String empcode = "006124";
 			Future<Response> contactResponse = EXECUTOR.submit(() -> {
 				return ehrUserClient.getContact(empcode);
@@ -90,8 +94,9 @@ public class WechatController {
 				map.put("userinfo", ehrUserResponse.getData());
 				map.put("token", JwtUtil.generateToken(new Gson().toJson(ehrUserResponse.getData())));
 				Response resp = contactResponse.get();
-				JSONObject contactObject = JSONObject.fromObject(resp.getData());
-				String avatar = contactObject.getString("avatar");
+				objectMapper = new ObjectMapper();
+                jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(resp.getData()));
+                String avatar = jsonNode.get("avatar").asText();
 				map.put("avatar", avatar);
 				response.setData(map);
 			} else {

@@ -35,7 +35,7 @@ import com.suntak.cloud.recruitment.service.TaskService;
 import com.suntak.cloud.wechat.entity.request.Textcard;
 import com.suntak.cloud.wechat.entity.request.TextcardRequestBody;
 import com.suntak.exception.model.Response;
-import com.szmengran.admin.user.exception.BusinessException;
+import com.suntak.admin.user.exception.BusinessException;
 
 import io.swagger.annotations.Api;
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.suntak.cloud.ehr.entity.Contact;
 import com.suntak.cloud.ehr.entity.ContactResponse;
+import com.suntak.cloud.ehr.entity.DepartmentResponse;
 
 /**
  * @Package com.suntak.cloud.ehr.client
@@ -16,7 +17,7 @@ import com.suntak.cloud.ehr.entity.ContactResponse;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 @FeignClient(name = "qyapi", url = "https://qyapi.weixin.qq.com")
-public interface ConstactClient {
+public interface EnterPriseWechatClient {
 
 	@PostMapping("/cgi-bin/user/create?access_token={access_token}")
 	ContactResponse createContact(@PathVariable("access_token") String access_token, @RequestBody Contact contact) throws Exception;
@@ -29,4 +30,7 @@ public interface ConstactClient {
 	
 	@GetMapping("/cgi-bin/user/get?access_token={access_token}&userid={userid}")
 	Contact getContact(@PathVariable("access_token") String access_token, @PathVariable("userid") String userid) throws Exception;
+	
+	@GetMapping("/cgi-bin/department/list?access_token={access_token}")
+    DepartmentResponse getDepartment(@PathVariable("access_token") String access_token) throws Exception;
 }

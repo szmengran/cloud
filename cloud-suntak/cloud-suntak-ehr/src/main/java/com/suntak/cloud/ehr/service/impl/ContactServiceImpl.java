@@ -9,16 +9,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
-import com.suntak.cloud.ehr.client.ConstactClient;
+import com.suntak.cloud.ehr.client.EnterPriseWechatClient;
 import com.suntak.cloud.ehr.client.WechatClient;
 import com.suntak.cloud.ehr.entity.Attr;
 import com.suntak.cloud.ehr.entity.Contact;
@@ -32,7 +32,7 @@ import com.suntak.exception.model.Response;
 
 /**
  * @Package com.suntak.cloud.ehr.service.impl
- * @Description: TODO
+ * @Description: 通讯录管理服务
  * @date Dec 18, 2018 1:31:00 PM
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
@@ -49,7 +49,7 @@ public class ContactServiceImpl implements ContactService{
 	ContactMapper contactMapper;
 	
 	@Autowired
-	ConstactClient constactClient;
+	EnterPriseWechatClient constactClient;
 	
 	@Autowired
 	WechatClient wechatClient;
@@ -78,7 +78,7 @@ public class ContactServiceImpl implements ContactService{
 			executor.submit(() -> {
 				try {
 					Contact contact = new Contact();
-					BeanUtils.copyProperties(contact, contactExt);
+					BeanUtils.copyProperties(contactExt, contact);
 					
 					String short_tel = contactExt.getShort_tel();
 					if (StringUtils.isNotBlank(short_tel)) {

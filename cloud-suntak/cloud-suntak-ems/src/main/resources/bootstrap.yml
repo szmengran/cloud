@@ -6,12 +6,10 @@ spring:
   cloud:
     config:
       uri: ${CONFIG_SERVER_ADDRESS}
-      fail-fast: true
   profiles:
     active: ${ENVIRONMENT}
   sleuth:
-    traceId128:
-      true
+    traceId128: true
   kafka:
     bootstrap-servers: ${KAFKA_SERVER}
 logging:

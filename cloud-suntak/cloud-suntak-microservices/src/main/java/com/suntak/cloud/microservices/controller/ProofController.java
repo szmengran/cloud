@@ -65,7 +65,7 @@ public class ProofController {
 	
 	@PostMapping("/proofOfIncome/{token}")
 	public Response applyProofOfIncome(@PathVariable("token") String token, @RequestBody ProofOfIncome proofOfIncome) throws Exception {
-		logger.info(new Gson().toJson(proofOfIncome));
+		logger.info("{}", new Gson().toJson(proofOfIncome));
 		String userJson = JwtUtil.parseToken(token);
 		if (userJson == null) {
 			throw new BusinessException(10007001);
@@ -107,7 +107,7 @@ public class ProofController {
 	
 	@GetMapping("/proofOfResidence/{token}")
 	public Response applyProofOfResidence(@PathVariable("token") String token) throws Exception {
-		logger.info(new Gson().toJson(token));
+		logger.info("{}", new Gson().toJson(token));
 		String userJson = JwtUtil.parseToken(token);
 		if (userJson == null) {
 			throw new BusinessException(10007001);

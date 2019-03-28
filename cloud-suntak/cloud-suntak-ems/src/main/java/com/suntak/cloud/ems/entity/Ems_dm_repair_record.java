@@ -9,8 +9,8 @@ import java.sql.Timestamp;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 public class Ems_dm_repair_record {
-    private Integer id                      ;
-    private Integer equipment_id            ;
+    private Long id                      ;
+    private Long equipment_id            ;
     private String e_degree                ;
     private String maintenance_no          ;
     private String maintenance_apllicant   ;
@@ -54,16 +54,16 @@ public class Ems_dm_repair_record {
     private String service_pass            ;
     private String failure_cause           ;
     private String maintenance_plan        ;
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
-    public Integer getEquipment_id() {
+    public Long getEquipment_id() {
         return equipment_id;
     }
-    public void setEquipment_id(Integer equipment_id) {
+    public void setEquipment_id(Long equipment_id) {
         this.equipment_id = equipment_id;
     }
     public String getE_degree() {
