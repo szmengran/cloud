@@ -19,9 +19,29 @@ import com.szmengran.mybatis.utils.mapper.IMapper;
  */
 public interface JngzmxMapper extends IMapper<Cux_oa_qywx_jngzmx_v> {
 
+    /**
+     * 更新推送标志
+     * @param id
+     * @return
+     * @throws Exception      
+     * @return: int      
+     * @throws   
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
 	@Update("update formson_6176 set field0027=1 where id = #{id}")
 	public int updateById(@Param("id") String id) throws Exception;
 	
+	 /**
+     * 员工签名
+     * @param id
+     * @param empno
+     * @param name
+     * @return
+     * @throws Exception      
+     * @return: int      
+     * @throws   
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
 	@Update("update formson_6176 set field0025 = #{name} where id = #{id} and field0012 = #{empno}")
 	public int signById(@Param("id") String id, @Param("empno") String empno, @Param("name") String name) throws Exception;
 	

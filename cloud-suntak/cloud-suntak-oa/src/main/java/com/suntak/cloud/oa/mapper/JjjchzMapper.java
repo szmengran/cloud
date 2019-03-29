@@ -22,9 +22,29 @@ public interface JjjchzMapper extends IMapper<Cux_oa_qywx_jjjchz_v> {
 	@Update("update formson_5947 set field0027=1 where formmain_id in (#{formmain_ids})")
 	public int updateByFormmainIds(@Param("formmain_ids") String formmain_ids) throws Exception;
 	
+	/**
+     * 更新推送标志
+     * @param id
+     * @return
+     * @throws Exception      
+     * @return: int      
+     * @throws   
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
 	@Update("update formson_5947 set field0027=1 where id = #{id}")
 	public int updateById(@Param("id") String id) throws Exception;
 	
+	 /**
+     * 员工签名
+     * @param id
+     * @param empno
+     * @param name
+     * @return
+     * @throws Exception      
+     * @return: int      
+     * @throws   
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
 	@Update("update formson_5947 set field0025 = #{name} where id = #{id} and field0020 = #{empno}")
 	public int signById(@Param("id") String id, @Param("empno") String empno, @Param("name") String name) throws Exception;
 	

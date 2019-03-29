@@ -19,9 +19,29 @@ import com.szmengran.mybatis.utils.mapper.IMapper;
  */
 public interface GrlhzhpjMapper extends IMapper<Cux_oa_qywx_grlhzhpj_v> {
 
+    /**
+     * 更新推送标志
+     * @param id
+     * @return
+     * @throws Exception      
+     * @return: int      
+     * @throws   
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
 	@Update("update formson_5766 set field0093=1 where id = #{id}")
 	public int updateById(@Param("id") String id) throws Exception;
 	
+	 /**
+     * 员工签名
+     * @param id
+     * @param empno
+     * @param name
+     * @return
+     * @throws Exception      
+     * @return: int      
+     * @throws   
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
 	@Update("update formson_5766 set field0095 = #{name} where id = #{id} and field0081 = #{empno}")
 	public int signById(@Param("id") String id, @Param("empno") String empno, @Param("name") String name) throws Exception;
 	
