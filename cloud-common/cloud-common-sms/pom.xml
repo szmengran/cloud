@@ -1,8 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.szmengran</groupId>
+		<groupId>com.suntak</groupId>
 		<artifactId>cloud-common</artifactId>
 		<version>0.0.3</version>
 	</parent>
@@ -36,18 +37,18 @@
 		<!-- 阿里云短信SDK -->
 		<dependency>
 			<groupId>com.aliyun</groupId>
-			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+			<artifactId>aliyun-java-sdk-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.aliyun</groupId>
-			<artifactId>aliyun-java-sdk-core</artifactId>
+			<artifactId>aliyun-java-sdk-ecs</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.szmengran</groupId>
 			<artifactId>mybatis</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-common-utils</artifactId>
 		</dependency>
 		<dependency>
@@ -59,11 +60,11 @@
 			<artifactId>aop-logging-service</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-exception</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.szmengran</groupId>
+			<groupId>com.suntak</groupId>
 			<artifactId>cloud-model-common</artifactId>
 		</dependency>
 		<dependency>

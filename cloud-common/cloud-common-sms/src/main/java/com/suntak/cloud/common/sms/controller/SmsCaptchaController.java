@@ -18,18 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.suntak.admin.user.exception.BusinessException;
 import com.suntak.cloud.common.sms.service.SmsCaptchaService;
 import com.suntak.cloud.common.sms.service.SmsService;
 import com.suntak.common.entity.T_common_sms_captcha;
 import com.suntak.common.entity.T_common_sms_log;
 import com.suntak.exception.model.Response;
-import com.szmengran.admin.user.exception.BusinessException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import net.sf.json.JSONObject;
 
 /**
  * @Package com.szmengran.cloud.common.sms.controller
@@ -68,8 +67,7 @@ public class SmsCaptchaController {
 			String captcha = generateCode(4);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("captcha", captcha);
-			JSONObject jsonObject = JSONObject.fromObject(map);
-			t_common_sms_log.setTemplateparam(jsonObject.toString());
+			t_common_sms_log.setTemplateparam(new Gson().toJson(map));
 			smsService.send(t_common_sms_log);
 			T_common_sms_captcha t_common_sms_code = new T_common_sms_captcha();
 			t_common_sms_code.setCaptcha(captcha);
