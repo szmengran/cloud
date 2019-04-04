@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
 import com.suntak.cloud.sms.client.SmsServiceClient;
 import com.suntak.cloud.sms.entity.T_sms_info;
 import com.suntak.cloud.sms.service.SmsInfoService;
@@ -42,11 +43,11 @@ public class SmsInfoController {
 	@Autowired
 	private SmsServiceClient smsServiceClient;
 	
-	@ApiOperation(value = "定时发送生日祝福信息", response = Response.class)
+	@ApiOperation(value = "定时发送信息", response = Response.class)
 	@ApiResponses(value = {@ApiResponse(code = 405, message = "Invalid input", response = Response.class) })
 	@GetMapping("smsInfo")
 	public Response smsInfo() throws Exception {
-		List<T_sms_info> list = smsInfoService.findByConditions();
+		List<T_sms_info> list = smsInfoService.findAutoSendSms();
 		for(T_sms_info t_sms_info: list) {
 			EXECUTOR.submit(() -> {
 				T_common_sms_log t_common_sms_log = new T_common_sms_log();
@@ -60,9 +61,9 @@ public class SmsInfoController {
 					t_common_sms_log.setTemplateparam(t_sms_info.getTemplateparam());
 					Response resp = smsServiceClient.send(t_common_sms_log);
 					if (200 == resp.getStatus()) {
-						smsInfoService.updateStatus(id, "2");
+						smsInfoService.move(t_sms_info);
 					} else {
-						smsInfoService.updateStatus(id, "0");
+					    smsInfoService.updateException(id, new Gson().toJson(resp.getData()));
 					}
 				} catch (Exception e) {
 					LOG.error(e.getMessage());

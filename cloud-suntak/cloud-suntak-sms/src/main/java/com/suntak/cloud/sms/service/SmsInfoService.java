@@ -20,17 +20,28 @@ public interface SmsInfoService {
 	 * @throws   
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	List<T_sms_info> findByConditions() throws Exception;
+	List<T_sms_info> findAutoSendSms() throws Exception;
 	
 	/**
 	 * 更新短信的状态
 	 * @param id
-	 * @param validstatus
+	 * @param exception
 	 * @return
 	 * @throws Exception      
 	 * @return: Boolean      
 	 * @throws   
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	Boolean updateStatus(Integer id, String validstatus) throws Exception;
+	Boolean updateException(Integer id, String exception) throws Exception;
+	
+	/**
+	 * 发送成功的短信将转移到历史表中
+	 * @param t_sms_info
+	 * @return
+	 * @throws Exception      
+	 * @return: Boolean      
+	 * @throws   
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+    Boolean move(T_sms_info t_sms_info) throws Exception;
 }

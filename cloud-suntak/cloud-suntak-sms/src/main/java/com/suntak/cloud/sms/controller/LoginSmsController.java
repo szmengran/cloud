@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.sms.client.EhrUserServiceClient;
-import com.suntak.cloud.sms.client.SmsCodeServiceClient;
+import com.suntak.cloud.sms.client.SmsServiceClient;
 import com.suntak.exception.model.Response;
 
 import io.swagger.annotations.Api;
@@ -29,7 +29,7 @@ public class LoginSmsController {
 	@Autowired
 	private EhrUserServiceClient ehrUserServiceClient;
 	@Autowired
-	private SmsCodeServiceClient smsCodeServiceClient;
+	private SmsServiceClient smsServiceClient;
 	
 	@ApiOperation(value = "内部员工发送短信登录验证码", response = Response.class)
 	@ApiResponses(value = {@ApiResponse(code = 405, message = "Invalid input", response = Response.class) })
@@ -37,7 +37,7 @@ public class LoginSmsController {
 	public Response sendVerificationCode(@PathVariable("phone") String phone) throws Exception {
 		Response response = ehrUserServiceClient.findEhrUserByPhone(phone);
 		if (response.getData() != null) {
-			smsCodeServiceClient.sendCode(phone);
+		    smsServiceClient.sendCode(phone);
 		}
 		return response;
 	}

@@ -1,11 +1,10 @@
 package com.suntak.cloud.sms.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.suntak.cloud.sms.entity.T_sms_info;
 import com.suntak.cloud.sms.mapper.SmsInfoMapper;
@@ -24,15 +23,20 @@ public class SmsInfoServiceImpl implements SmsInfoService {
 	private SmsInfoMapper smsInfoMapper;
 	
 	@Override
-	public List<T_sms_info> findByConditions() throws Exception {
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("validstatus", "1");
-		return smsInfoMapper.findByConditions(T_sms_info.class, param, "createstamp desc");
+	public List<T_sms_info> findAutoSendSms() throws Exception {
+		return smsInfoMapper.findAutoSendSms();
 	}
 
 	@Override
-	public Boolean updateStatus(Integer id, String validstatus) throws Exception {
-		return smsInfoMapper.updateStatus(id, validstatus) > 0;
+	public Boolean updateException(Integer id, String exception) throws Exception {
+		return smsInfoMapper.updateException(id, exception) > 0;
 	}
 
+	@Transactional
+	@Override
+	public Boolean move(T_sms_info t_sms_info) throws Exception {
+	    smsInfoMapper.insertIntoHistory(t_sms_info.getId());
+	    smsInfoMapper.delete(t_sms_info);
+        return true;
+	}
 }

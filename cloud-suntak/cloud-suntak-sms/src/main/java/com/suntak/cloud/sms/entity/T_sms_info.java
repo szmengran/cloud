@@ -18,8 +18,10 @@ public class T_sms_info {
 	private String signname;
 	private String templateparam;
 	private String outid;
+	private Timestamp autosendtime;
 	private Timestamp createstamp;
 	private String validstatus;
+	private String exception;
 	public Integer getId() {
 		return id;
 	}
@@ -56,7 +58,13 @@ public class T_sms_info {
 	public void setOutid(String outid) {
 		this.outid = outid;
 	}
-	public Timestamp getCreatestamp() {
+	public Timestamp getAutosendtime() {
+        return autosendtime;
+    }
+    public void setAutosendtime(Timestamp autosendtime) {
+        this.autosendtime = autosendtime;
+    }
+    public Timestamp getCreatestamp() {
 		return createstamp;
 	}
 	public void setCreatestamp(Timestamp createstamp) {
@@ -68,4 +76,10 @@ public class T_sms_info {
 	public void setValidstatus(String validstatus) {
 		this.validstatus = validstatus;
 	}
+    public String getException() {
+        return exception;
+    }
+    public void setException(String exception) {
+        this.exception = exception;
+    }
 }
