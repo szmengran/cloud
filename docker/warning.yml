@@ -1,0 +1,16 @@
+version: '3.1'
+services:
+  warning:
+    image: suntak/warning:$CLOUD_VERSION
+    restart: always
+    environment:
+      - KAFKA_SERVER=$KAFKA_SERVER
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
+      - ENVIRONMENT=$ENVIRONMENT
+    ports:
+     - 10022:10022
+networks:
+  default:
+    external:
+      name: cloud

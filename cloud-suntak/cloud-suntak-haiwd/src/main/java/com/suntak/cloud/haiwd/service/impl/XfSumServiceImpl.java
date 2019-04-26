@@ -8,13 +8,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.apache.ibatis.session.SqlSession;
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.haiwd.service.XfSumService;
-import com.suntak.cloud.haiwd.utils.DatabaseContextHolder;
-import com.suntak.cloud.haiwd.utils.DatabaseType;
 import com.suntak.punch.entity.XfSum;
 
 /**
@@ -26,18 +26,20 @@ import com.suntak.punch.entity.XfSum;
 @Service
 public class XfSumServiceImpl implements XfSumService{
 	
-	@Autowired  
-    private SqlSession sqlSession;
+	@Autowired
+	@Qualifier("szdb")
+	private DataSource szdbDataSource;
+	
+	@Autowired
+	@Qualifier("dldb")
+	private DataSource dldbDataSource;
 	
 	public Connection getConnection(String companycode) throws Exception{
-		Connection conn = null;
 		if ("0071".equals(companycode)) {
-			DatabaseContextHolder.setDatabaseType(DatabaseType.dldb);
+			return dldbDataSource.getConnection();
 		} else {
-			DatabaseContextHolder.setDatabaseType(DatabaseType.szdb);
+			return szdbDataSource.getConnection();
 		}
-		conn =  sqlSession.getConfiguration().getEnvironment().getDataSource().getConnection(); 
-		return conn;
 	}
 	
 	@Override

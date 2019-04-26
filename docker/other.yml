@@ -140,6 +140,16 @@ services:
       - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
     ports:
      - 10016:10016
+  warning:
+    image: suntak/cloud-suntak-warning:$CLOUD_VERSION
+    restart: always
+    environment:
+      - KAFKA_SERVER=$KAFKA_SERVER
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$ENVIRONMENT
+    ports:
+     - 10022:10022
 networks:
   default:
     external:

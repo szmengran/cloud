@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
@@ -24,34 +23,31 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
  */
 @Configuration
 @Order(-100)
-@MapperScan(basePackages = "com.suntak.cloud.haiwd.mapper.sz", sqlSessionFactoryRef = "db1SqlSessionFactory")
-public class DataSourceConfig {
+@MapperScan(basePackages = "com.suntak.cloud.haiwd.mapper.dl", sqlSessionFactoryRef = "db2SqlSessionFactory")
+public class DLDataSourceConfig {
 	
-	public static final String SZDB_DATASOURCES = "szdb";
+	public static final String DLDB_DATASOURCES = "dldb";
+	
+	@Bean(initMethod = "init", name = DLDB_DATASOURCES)  
+    @ConfigurationProperties(prefix = "spring.datasource.druid.dldb")
+    public DataSource readDataSource(){  
+        return DruidDataSourceBuilder.create().build();  
+    }  
 
-	@Bean(initMethod = "init", name = SZDB_DATASOURCES)  
-    @ConfigurationProperties(prefix = "spring.datasource.druid.szdb")  
-    @Primary
-    public DataSource writeDataSource(){  
-            return DruidDataSourceBuilder.create().build();  
-    } 
-	
-    @Bean(name = "dataSource2TransactionManager")
-    public DataSourceTransactionManager dataSourceTransactionManager(@Qualifier(SZDB_DATASOURCES) DataSource ds) {
+	@Bean(name = "dataSourceTransactionManager")
+    public DataSourceTransactionManager dataSourceTransactionManager(@Qualifier(DLDB_DATASOURCES) DataSource ds) {
         return new DataSourceTransactionManager(ds);
     }
-    
-    @Bean(name = "db1SqlSessionFactory")
-    @Primary
-    public SqlSessionFactory db1SqlSessionFactory(@Qualifier(SZDB_DATASOURCES) DataSource dataSource) throws Exception {
+	
+	@Bean(name = "db2SqlSessionFactory")
+    public SqlSessionFactory testSqlSessionFactory(@Qualifier(DLDB_DATASOURCES) DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         return bean.getObject();
     }
     
-    @Bean(name = "db1SqlSessionTemplate")
-    @Primary
-    public SqlSessionTemplate db1SqlSessionTemplate(@Qualifier("db1SqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+    @Bean(name = "db2SqlSessionTemplate")
+    public SqlSessionTemplate testSqlSessionTemplate(@Qualifier("db2SqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 

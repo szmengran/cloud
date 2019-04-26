@@ -5,10 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.suntak.cloud.haiwd.mapper.XfInfoMapper;
+import com.suntak.cloud.haiwd.mapper.dl.DLXfInfoMapper;
+import com.suntak.cloud.haiwd.mapper.sz.XfInfoMapper;
 import com.suntak.cloud.haiwd.service.XfInfoService;
-import com.suntak.cloud.haiwd.utils.DatabaseContextHolder;
-import com.suntak.cloud.haiwd.utils.DatabaseType;
 import com.suntak.punch.entity.Cux_xf_info;
 
 /**
@@ -23,24 +22,26 @@ public class XfInfoServiceImpl implements XfInfoService{
 	@Autowired
 	private XfInfoMapper xfInfoMapper;
 	
+	@Autowired
+	private DLXfInfoMapper dlXfInfoMapper;
+	
 	@Override
 	public List<Cux_xf_info> findSTXFByConditions(String empno, String companycode) throws Exception {
 		if ("0071".equals(companycode)) {
-			DatabaseContextHolder.setDatabaseType(DatabaseType.dldb);
+			return dlXfInfoMapper.findSTXFByConditions(empno, companycode);
 		} else {
-			DatabaseContextHolder.setDatabaseType(DatabaseType.szdb);
+		    return xfInfoMapper.findSTXFByConditions(empno, companycode);
 		}
-		return xfInfoMapper.findSTXFByConditions(empno, companycode);
 	}
 
 	@Override
 	public List<Cux_xf_info> findCSXFByConditions(String empno, String companycode) throws Exception {
 		if ("0071".equals(companycode)) {
-			DatabaseContextHolder.setDatabaseType(DatabaseType.dldb);
+			return dlXfInfoMapper.findCSXFByConditions(empno, companycode);
 		} else {
-			DatabaseContextHolder.setDatabaseType(DatabaseType.szdb);
+		    return xfInfoMapper.findCSXFByConditions(empno, companycode);
 		}
-		return xfInfoMapper.findCSXFByConditions(empno, companycode);
+		
 	}
 
 }

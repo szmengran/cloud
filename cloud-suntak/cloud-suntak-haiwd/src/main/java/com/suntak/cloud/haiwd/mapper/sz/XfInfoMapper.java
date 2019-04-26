@@ -1,4 +1,4 @@
-package com.suntak.cloud.haiwd.mapper;
+package com.suntak.cloud.haiwd.mapper.sz;
 
 import java.util.List;
 import java.util.Map;

@@ -6,6 +6,7 @@ spring:
   cloud:
     config:
       uri: ${CONFIG_SERVER_ADDRESS}
+      fail-fast: true
   profiles:
     active: ${ENVIRONMENT}
   sleuth:

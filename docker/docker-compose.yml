@@ -135,6 +135,18 @@ services:
       - ENVIRONMENT=$ENVIRONMENT
     ports:
      - 10014:10014
+  microservices:
+    image: suntak/microservices:$CLOUD_VERSION
+    restart: always
+    environment:
+      - KAFKA_SERVER=$KAFKA_SERVER
+      - EUREKA_SERVER_ADDRESS=$EUREKA_SERVER_ADDRESS
+      - CONFIG_SERVER_ADDRESS=$CONFIG_SERVER_ADDRESS
+      - ENVIRONMENT=$ENVIRONMENT
+      - SMS_ACCESSKEYID=$SMS_ACCESSKEYID
+      - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
+    ports:
+     - 10101:10101
   haiwd:
     image: suntak/cloud-suntak-haiwd:$CLOUD_VERSION
     restart: always
@@ -147,6 +159,16 @@ services:
       - SMS_ACCESSKEYSECRET=$SMS_ACCESSKEYSECRET
     ports:
      - 10016:10016
+  warning:
+    image: suntak/cloud-suntak-warning:$CLOUD_VERSION
+    restart: always
+    environment:
+      - KAFKA_SERVER=$KAFKA_SERVER
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$ENVIRONMENT
+    ports:
+     - 10022:10022
 networks:
   default:
     external:

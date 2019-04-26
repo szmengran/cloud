@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.suntak.cloud.haiwd.mapper.PunchMapper;
+import com.suntak.cloud.haiwd.mapper.sz.PunchMapper;
 import com.suntak.cloud.haiwd.service.PunchService;
 import com.suntak.cloud.haiwd.utils.DatabaseContextHolder;
 import com.suntak.cloud.haiwd.utils.DatabaseType;

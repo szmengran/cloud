@@ -3,7 +3,7 @@ package com.suntak.cloud.ems.mapper;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
@@ -32,7 +32,7 @@ public interface EquipmentDetailsMapper extends IMapper<Ems_dm_equipment_details
             String keyword = (String)params.get("keyword");
             return new SQL() {
                 {
-                    SELECT("id,procedure,installation_location,equipment_name,equipment_alias,equipment_no,manufacturer");
+                    SELECT("id,procedure,installation_location,equipment_name,equipment_alias,equipment_no,manufacturer,start_time");
                     FROM("EMS_DM_EQUIPMENT_DETAILS");
                     if (StringUtils.isNotBlank(useD)) {
                         WHERE("use_d=#{useD}");
@@ -41,7 +41,7 @@ public interface EquipmentDetailsMapper extends IMapper<Ems_dm_equipment_details
                         WHERE("procedure=#{procedure}");
                     }
                     if (StringUtils.isNotBlank(keyword)) {
-                        WHERE("(equipment_no like '%"+keyword+"%' or equipment_alias like '%"+keyword+"%'");
+                        WHERE("(equipment_no like '%"+keyword+"%' or equipment_alias like '%"+keyword+"%')");
                     }
                 }
             }.toString();
