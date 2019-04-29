@@ -3,8 +3,10 @@ package com.suntak.cloud.microservices.controller;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +36,7 @@ import io.swagger.annotations.Api;
 @RequestMapping(path = "/api/v1/microservices", produces = { "application/json" })
 public class WechatController {
 
-	private static final ExecutorService EXECUTOR = Executors.newCachedThreadPool();
+	private static final ExecutorService EXECUTOR = new ThreadPoolExecutor(2, 50, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	
 	@Value("${wechat.qy.Secret}")
 	private String secret;
@@ -48,12 +50,10 @@ public class WechatController {
 	@GetMapping("/getuserinfo/{code}")
 	public Response getUserInfo(@PathVariable("code") String code) throws Exception {
 		Response response = wechatClient.getUserInfo(code, secret);
-		response = new Response();
 		if (response.getStatus() == 200) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(response.getData()));
-//			String empcode = jsonNode.get("UserId").asText();
-			String empcode = "006124";
+			String empcode = jsonNode.get("UserId").asText();
 			Future<Response> contactResponse = EXECUTOR.submit(() -> {
 				return ehrUserClient.getContact(empcode);
 			});
@@ -79,12 +79,10 @@ public class WechatController {
 	@GetMapping("/getuserinfo/{code}/{secret}")
 	public Response getUserInfo(@PathVariable("code") String code, @PathVariable("secret") String secret) throws Exception {
 		Response response = wechatClient.getUserInfo(code, secret);
-//		response = new Response();
 		if (response.getStatus() == 200) {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(response.getData()));
             String empcode = jsonNode.get("UserId").asText();
-//			String empcode = "006124";
 			Future<Response> contactResponse = EXECUTOR.submit(() -> {
 				return ehrUserClient.getContact(empcode);
 			});
