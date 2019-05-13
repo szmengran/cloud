@@ -33,7 +33,7 @@ import io.swagger.annotations.Api;
  */
 @Api(value = "microservices")
 @RestController
-@RequestMapping(path = "/api/v1/microservices", produces = { "application/json" })
+@RequestMapping(path = "/api/v1/ems", produces = { "application/json" })
 public class WechatController {
 
 	private static final ExecutorService EXECUTOR = new ThreadPoolExecutor(2, 50, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
@@ -50,12 +50,10 @@ public class WechatController {
 	@GetMapping("/getuserinfo/{code}")
 	public Response getUserInfo(@PathVariable("code") String code) throws Exception {
 		Response response = wechatClient.getUserInfo(code, secret);
-		response = new Response();
 		if (response.getStatus() == 200) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(response.getData()));
 			String empcode = jsonNode.get("UserId").asText();
-//			String empcode = "006124";
 			Future<Response> contactResponse = EXECUTOR.submit(() -> {
 				return ehrUserClient.getContact(empcode);
 			});
@@ -81,12 +79,10 @@ public class WechatController {
 	@GetMapping("/getuserinfo/{code}/{secret}")
 	public Response getUserInfo(@PathVariable("code") String code, @PathVariable("secret") String secret) throws Exception {
 		Response response = wechatClient.getUserInfo(code, secret);
-//		response = new Response();
 		if (response.getStatus() == 200) {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(response.getData()));
             String empcode = jsonNode.get("UserId").asText();
-//			String empcode = "006124";
 			Future<Response> contactResponse = EXECUTOR.submit(() -> {
 				return ehrUserClient.getContact(empcode);
 			});

@@ -1,5 +1,12 @@
 package com.suntak.cloud.ems.controller;
 
+import java.sql.Timestamp;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.suntak.admin.user.exception.BusinessException;
+import com.suntak.cloud.ems.client.MicroserviceClient;
 import com.suntak.cloud.ems.entity.Ems_dm_repair_record;
 import com.suntak.cloud.ems.entity.Oz_org_userinfo;
 import com.suntak.cloud.ems.entity.RepairRecordRequestBody;
@@ -35,9 +43,13 @@ import io.swagger.annotations.ApiOperation;
 public class RepairRecordController {
     
     private final static Logger logger = LoggerFactory.getLogger(RepairRecordController.class);
+    private final static ExecutorService executor = new ThreadPoolExecutor(2, 20, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
     
     @Autowired
     private RepairRecordService repairRecordService;
+    
+    @Autowired
+    private MicroserviceClient microserviceClient;
     
     @Autowired
     private UserinfoService userinfoService;
@@ -51,7 +63,15 @@ public class RepairRecordController {
             throw new BusinessException(10007001);
         }
         EhrUser ehrUser = new Gson().fromJson(userJson, EhrUser.class);
+        Future<Response> futureResponse = executor.submit(() -> {
+           return microserviceClient.getOrgIdByCompanyCode(ehrUser.getCompanycode()); 
+        });
         Oz_org_userinfo userinfo = userinfoService.findUserByEmployerId(ehrUser.getEmpcode());
+        Response response = new Response();
+        if (userinfo == null) {
+            response.setStatus(501);
+            response.setMessage("你的企业微信账号还没有和设备系统关联，请联系设备管理人员进行关联！");
+        }
         Ems_dm_repair_record ems_dm_repair_record = repairRecordRequestBody.getRepairRecord();
         Integer userid = userinfo.getId();
         String name = userinfo.getName();
@@ -59,8 +79,14 @@ public class RepairRecordController {
         ems_dm_repair_record.setMaintenance_apllicant(name);
         ems_dm_repair_record.setMaintenance_person_id(userid);
         ems_dm_repair_record.setMaintenance_person(name);
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        ems_dm_repair_record.setCreated_date(currentTime);
+        ems_dm_repair_record.setUpdated_date(currentTime);
+        ems_dm_repair_record.setCreated_by(userid+"");
+        ems_dm_repair_record.setUpdated_by(userid+"");
+        Response companyResponse = futureResponse.get();
+        ems_dm_repair_record.setOrganization_id((Integer)companyResponse.getData());
         Boolean flag = repairRecordService.insert(repairRecordRequestBody);
-        Response response = new Response();
         if (!flag) {
             response.setStatus(500);
             response.setMessage("保存维修记录失败！");

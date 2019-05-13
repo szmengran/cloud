@@ -1,6 +1,8 @@
 package com.suntak.cloud.ems.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +35,17 @@ public class RepairRecordServiceImpl implements RepairRecordService {
     public Boolean insert(RepairRecordRequestBody repairRecordRequestBody) throws Exception {
         Ems_dm_repair_record ems_dm_repair_record = repairRecordRequestBody.getRepairRecord();
         Ems_dm_part_replace[] ems_dm_part_replace = repairRecordRequestBody.getPartReplaces();
-        partReplaceMapper.insertBatch(Arrays.asList(ems_dm_part_replace));
+        if (ems_dm_part_replace != null) {
+            partReplaceMapper.insertBatch(Arrays.asList(ems_dm_part_replace));
+        }
+        ems_dm_repair_record.setStatus(3);
+        ems_dm_repair_record.setMaintenance_no(getMaintenanceNo());
         return repairRecordMapper.insert(ems_dm_repair_record) == 1;
+    }
+    
+    private String getMaintenanceNo() {
+        String date = new SimpleDateFormat("yyyyMMddHHmmSS").format(new Date());
+        return "WX"+date;
     }
     
 }

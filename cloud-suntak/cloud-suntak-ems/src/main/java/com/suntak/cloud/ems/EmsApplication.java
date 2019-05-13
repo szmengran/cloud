@@ -31,7 +31,7 @@ public class EmsApplication {
     public Jackson2ObjectMapperBuilder objectMapperBuilder() {
         Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
         builder.serializationInclusion(JsonInclude.Include.NON_NULL);
-        builder.simpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        builder.simpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
         return builder;
     }
 }

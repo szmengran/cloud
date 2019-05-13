@@ -1,5 +1,6 @@
 package com.suntak.cloud.ems.entity;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /** 
@@ -8,7 +9,11 @@ import java.sql.Timestamp;
  * @date Mar 26, 2019 3:06:01 PM 
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
-public class Oz_org_userinfo {
+public class Oz_org_userinfo implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7836141733328396525L;
     private Integer id            ;
     private Integer ouinfo_id     ;
     private String name          ;
