@@ -19,20 +19,20 @@ import io.swagger.annotations.Api;
 
 /**
  * @Package com.suntak.cloud.oa.controller
- * @Description: 技能工资明细
+ * @Description: 安全责任书API
  * @date Jan 28, 2019 11:41:19 AM
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
-@Api(value = "oa")
+@Api(value = "安全责任书API")
 @RestController
 @RequestMapping(path="/api/v1/oa", produces = { "application/json" })
-public class JngzmxController {
+public class AqscfxController {
 	
 	@Autowired
-	@Qualifier("jngzmxService")
+	@Qualifier("aqscfxService")
 	private OaService oaService;
 	
-	@PatchMapping("sign/jngzmx/{id}/{token}")
+	@PatchMapping("sign/aqscfx/{id}/{token}")
 	public Response signById(@PathVariable("id") String id, @PathVariable("token") String token) throws Exception {
 		String userJson = JwtUtil.parseToken(token);
 		if (userJson == null) {
@@ -43,7 +43,7 @@ public class JngzmxController {
 		return new Response();
 	}
 	
-	@GetMapping("jngzmx/{id}")
+	@GetMapping("aqscfx/{id}")
 	public Response findById(@PathVariable("id") String id) throws Exception {
 		Response response = new Response();
 		response.setData(oaService.findById(id));

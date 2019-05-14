@@ -51,6 +51,6 @@ public interface PersonalDevPlanMapper extends IMapper<Cux_oa_personal_dev_plan_
      * @throws   
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
-    @Select("select * from cux_oa_personal_dev_plan_v")
+    @Select("select * from cux_oa_personal_dev_plan_v where is_send_msg is null")
     public List<Cux_oa_personal_dev_plan_v> findInfoByConditions() throws Exception;
 }

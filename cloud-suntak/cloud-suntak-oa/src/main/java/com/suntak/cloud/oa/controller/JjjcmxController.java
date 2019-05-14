@@ -23,7 +23,7 @@ import io.swagger.annotations.Api;
  * @date Jan 28, 2019 11:41:19 AM
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
-@Api(value = "account")
+@Api(value = "oa")
 @RestController
 @RequestMapping(path="/api/v1/oa", produces = { "application/json" })
 public class JjjcmxController {
