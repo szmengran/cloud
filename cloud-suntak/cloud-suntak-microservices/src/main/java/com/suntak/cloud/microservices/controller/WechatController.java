@@ -36,7 +36,7 @@ import io.swagger.annotations.Api;
 @RequestMapping(path = "/api/v1/microservices", produces = { "application/json" })
 public class WechatController {
 
-	private static final ExecutorService EXECUTOR = new ThreadPoolExecutor(2, 50, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+	private static final ExecutorService executor = new ThreadPoolExecutor(2, 50, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	
 	@Value("${wechat.qy.Secret}")
 	private String secret;
@@ -54,7 +54,7 @@ public class WechatController {
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(response.getData()));
 			String empcode = jsonNode.get("UserId").asText();
-			Future<Response> contactResponse = EXECUTOR.submit(() -> {
+			Future<Response> contactResponse = executor.submit(() -> {
 				return ehrUserClient.getContact(empcode);
 			});
 			Response ehrUserResponse = ehrUserClient.getUserInfo(empcode);
@@ -83,7 +83,7 @@ public class WechatController {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(response.getData()));
             String empcode = jsonNode.get("UserId").asText();
-			Future<Response> contactResponse = EXECUTOR.submit(() -> {
+			Future<Response> contactResponse = executor.submit(() -> {
 				return ehrUserClient.getContact(empcode);
 			});
 			Response ehrUserResponse = ehrUserClient.getUserInfo(empcode);
