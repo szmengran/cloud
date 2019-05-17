@@ -2,8 +2,6 @@ package com.suntak.cloud.ems.entity;
 
 import java.sql.Timestamp;
 
-import com.szmengran.mybatis.utils.GeneratedValue;
-import com.szmengran.mybatis.utils.GenerationType;
 import com.szmengran.mybatis.utils.Table;
 
 /** 
@@ -15,7 +13,6 @@ import com.szmengran.mybatis.utils.Table;
 @Table(id="id")
 public class Ems_dm_repair_record {
     
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HIBERNATE_SEQUENCE")
     private Long id                      ;
     private Long equipment_id            ;
     private String e_degree                ;

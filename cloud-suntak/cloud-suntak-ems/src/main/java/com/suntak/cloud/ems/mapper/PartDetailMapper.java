@@ -36,12 +36,15 @@ public interface PartDetailMapper extends IMapper<Ems_partdetail_v> {
     class SqlProvider {
         public String findPartDetailInfo(Map<String, Object> params) {
             String keyword = (String)params.get("keyword");
+            Integer org_id = (Integer)params.get("org_id");
             return new SQL() {
                 {
                     SELECT("id, organization_id, organization_code, item_id, part_no, part_name, uom_code, price, onhand_qty, onroad_qty,total_onhand_qty");
                     FROM("ems_partdetail_v");
                     WHERE("(part_name like '%"+keyword+"%' or part_no like '%"+keyword+"%' )");
-                    WHERE("organization_id = #{org_id}");
+                    if (org_id != null && org_id != 0) {
+                        WHERE("organization_id = #{org_id}");
+                    }
                 }
             }.toString();
         }

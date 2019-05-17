@@ -2,13 +2,19 @@ package com.suntak.cloud.ems.entity;
 
 import java.sql.Timestamp;
 
+import com.szmengran.mybatis.utils.GeneratedValue;
+import com.szmengran.mybatis.utils.GenerationType;
+import com.szmengran.mybatis.utils.Table;
+
 /** 
  * @Package com.suntak.cloud.ems.entity 
  * @Description: 配件替换表
  * @date Mar 19, 2019 8:41:04 AM 
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
+@Table(id = "id")
 public class Ems_dm_part_replace {
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HIBERNATE_SEQUENCE")
     private Long id             ;
     private Long part_id        ;
     private String part_name      ;

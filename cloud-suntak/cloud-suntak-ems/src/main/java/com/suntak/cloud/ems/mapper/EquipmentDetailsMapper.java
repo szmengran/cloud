@@ -32,7 +32,7 @@ public interface EquipmentDetailsMapper extends IMapper<Ems_dm_equipment_details
             String keyword = (String)params.get("keyword");
             return new SQL() {
                 {
-                    SELECT("id,procedure,installation_location,use_d,equipment_name,equipment_alias,equipment_no,manufacturer,start_time");
+                    SELECT("id,procedure,installation_location,use_d,equipment_name,equipment_alias,equipment_no,asset_id,manufacturer,start_time");
                     FROM("EMS_DM_EQUIPMENT_DETAILS");
                     if (StringUtils.isNotBlank(useD)) {
                         WHERE("use_d=#{useD}");
@@ -41,7 +41,7 @@ public interface EquipmentDetailsMapper extends IMapper<Ems_dm_equipment_details
                         WHERE("procedure=#{procedure}");
                     }
                     if (StringUtils.isNotBlank(keyword)) {
-                        WHERE("(equipment_no like '%"+keyword+"%' or equipment_alias like '%"+keyword+"%' or equipment_name like '%"+keyword+"%')");
+                        WHERE("(equipment_no like '%"+keyword+"%' or asset_id like '%"+keyword+"%' or equipment_alias like '%"+keyword+"%' or equipment_name like '%"+keyword+"%')");
                     }
                 }
             }.toString();

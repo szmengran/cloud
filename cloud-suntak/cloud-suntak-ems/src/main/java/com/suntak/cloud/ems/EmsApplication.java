@@ -1,9 +1,7 @@
 package com.suntak.cloud.ems;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +17,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @EnableFeignClients
 @SpringBootApplication
 @RefreshScope
-@EnableCircuitBreaker
-@MapperScan("com.suntak.cloud.ems.mapper")
 public class EmsApplication {
 	
 	public static void main(String[] args) {

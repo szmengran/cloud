@@ -1,6 +1,9 @@
 package com.suntak.cloud.ems.service;
 
+import java.util.List;
+
 import com.suntak.cloud.ems.entity.RepairRecordRequestBody;
+import com.suntak.cloud.ems.entity.ext.Ems_dm_repair_record_ext;
 
 /** 
  * @Package com.suntak.cloud.ems.service 
@@ -20,4 +23,16 @@ public interface RepairRecordService {
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
     Boolean insert(RepairRecordRequestBody repairRecordRequestBody) throws Exception;
+    
+    /**
+     * 查找维修记录
+     * @param userid
+     * @param keyword
+     * @return
+     * @throws Exception      
+     * @return: List<Ems_dm_repair_record_ext>      
+     * @throws   
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
+    List<Ems_dm_repair_record_ext> findRepairRecord(Integer userid, String keyword) throws Exception;
 }

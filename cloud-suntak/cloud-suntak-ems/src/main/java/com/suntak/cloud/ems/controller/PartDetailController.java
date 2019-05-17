@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageHelper;
 import com.google.gson.Gson;
 import com.suntak.admin.user.exception.BusinessException;
-import com.suntak.cloud.ems.client.MicroserviceClient;
+import com.suntak.cloud.ems.entity.ext.Oz_org_userinfo_ext;
 import com.suntak.cloud.ems.entity.ext.PartDetailRequest;
 import com.suntak.cloud.ems.service.PartDetailService;
-import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
 import com.suntak.utils.JwtUtil;
 
@@ -32,9 +31,6 @@ public class PartDetailController {
     
     @Autowired
     private PartDetailService partDetailService;
-
-    @Autowired
-    private MicroserviceClient microserviceClient;
     
     /**
      * 配件信息查找
@@ -51,12 +47,7 @@ public class PartDetailController {
         if (userJson == null) {
             throw new BusinessException(10007001);
         }
-        EhrUser ehrUser = new Gson().fromJson(userJson, EhrUser.class);
-        Integer org_id = null;
-        if (!"0012".equals(ehrUser.getCompanycode())) {
-            Response companyResponse = microserviceClient.getOrgIdByCompanyCode(ehrUser.getCompanycode()); 
-            org_id = (Integer)companyResponse.getData();
-        }
+        Oz_org_userinfo_ext userinfo = new Gson().fromJson(userJson, Oz_org_userinfo_ext.class);
         Integer pageNum = partDetailRequest.getPageNum();
         Integer pageSize = partDetailRequest.getPageSize();
         if (pageNum == null) {
@@ -64,10 +55,9 @@ public class PartDetailController {
             pageSize = 10;
         }
         String keyword = partDetailRequest.getKeyword();
-//        Integer org_id = partDetailRequest.getOrg_id();
         PageHelper.startPage(pageNum, pageSize, "part_no desc");
         Response response = new Response();
-        response.setData(partDetailService.findPartInfo(keyword, org_id));
+        response.setData(partDetailService.findPartInfo(keyword, userinfo.getOrg_id()));
         return response;
     }
 }
