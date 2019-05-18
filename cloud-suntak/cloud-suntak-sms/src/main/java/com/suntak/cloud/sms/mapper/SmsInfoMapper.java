@@ -2,6 +2,7 @@ package com.suntak.cloud.sms.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -32,6 +33,17 @@ public interface SmsInfoMapper extends IMapper<T_sms_info>{
      */
 	@Update("update t_sms_info set validstatus=0, exception=#{exception} where id=#{id}")
 	int updateException(@Param("id") Integer id, @Param("exception") String exception) throws Exception;
+	
+	@Insert({
+        "<script>",
+        "insert all",
+        "<foreach collection='smsInfos' item='item'>",
+        "into t_sms_info(id, empcode, empname, phone, templatecode, signname, templateparam, outid, autosendtime, createstamp, validstatus) values ",
+        "(t_sms_info_seq.nextval, #{item.empcode}, #{item.empname}, #{item.phone}, #{item.templatecode}, #{item.signname}, #{item.templateparam}, #{item.outid}, #{item.autosendtime}, #{item.createstamp}, #{item.validstatus})",
+        "</foreach>",
+        "</script>"
+    })
+	int saveBatch(@Param(value="smsInfos") List<T_sms_info> smsInfos) throws Exception;
 	
 	/**
 	 * 查找小于当前日期的短信进行发送

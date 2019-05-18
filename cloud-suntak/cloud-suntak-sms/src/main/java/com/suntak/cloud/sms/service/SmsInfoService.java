@@ -2,6 +2,8 @@ package com.suntak.cloud.sms.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.suntak.cloud.sms.entity.T_sms_info;
 
 /** 
@@ -21,6 +23,17 @@ public interface SmsInfoService {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	List<T_sms_info> findAutoSendSms() throws Exception;
+	
+	/**
+	 * 存储要发的短信信息
+	 * @param smsInfos
+	 * @return
+	 * @throws Exception      
+	 * @return: Boolean      
+	 * @throws   
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	Boolean saveBatch(@Param(value="smsInfos") List<T_sms_info> smsInfos) throws Exception;
 	
 	/**
 	 * 更新短信的状态

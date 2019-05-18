@@ -61,7 +61,11 @@ public class SmsInfoController {
 					t_common_sms_log.setTemplateparam(t_sms_info.getTemplateparam());
 					Response resp = smsServiceClient.send(t_common_sms_log);
 					if (200 == resp.getStatus()) {
-						smsInfoService.move(t_sms_info);
+					    try {
+					        smsInfoService.move(t_sms_info);
+					    } catch (Exception e) {
+					        smsInfoService.updateException(id, "发送成功，信息转移失败："+e.getMessage());
+					    }
 					} else {
 					    smsInfoService.updateException(id, new Gson().toJson(resp.getData()));
 					}

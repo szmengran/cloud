@@ -39,4 +39,9 @@ public class SmsInfoServiceImpl implements SmsInfoService {
 	    smsInfoMapper.delete(t_sms_info);
         return true;
 	}
+
+    @Override
+    public Boolean saveBatch(List<T_sms_info> smsInfos) throws Exception {
+        return smsInfoMapper.saveBatch(smsInfos) > 0;
+    }
 }
