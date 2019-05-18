@@ -210,14 +210,20 @@ public class WechatController {
         if (!"ok".equalsIgnoreCase(msgResponseBody.getErrmsg())) {
             return false;
         }
-        if (!StringUtils.isEmpty(abstractRequestBody.getTouser()) && StringUtils.isEmpty(msgResponseBody.getInvaliduser())) {
-            return true;
+        if (!StringUtils.isEmpty(abstractRequestBody.getTouser())) {
+            if (StringUtils.isEmpty(msgResponseBody.getInvaliduser()) || abstractRequestBody.getTouser().length() > msgResponseBody.getInvaliduser().length()) {
+                return true;
+            }
         }
-        if (!StringUtils.isEmpty(abstractRequestBody.getToparty()) && StringUtils.isEmpty(msgResponseBody.getInvalidparty())) {
-            return true;
+        if (!StringUtils.isEmpty(abstractRequestBody.getToparty())) {
+            if (StringUtils.isEmpty(msgResponseBody.getInvalidparty()) || abstractRequestBody.getToparty().length() > msgResponseBody.getInvalidparty().length()) {
+                return true;
+            }
         }
-        if (!StringUtils.isEmpty(abstractRequestBody.getTotag()) && StringUtils.isEmpty(msgResponseBody.getInvalidtag())) {
-            return true;
+        if (!StringUtils.isEmpty(abstractRequestBody.getTotag())) {
+            if (StringUtils.isEmpty(msgResponseBody.getInvalidtag()) || abstractRequestBody.getTotag().length() > msgResponseBody.getInvalidtag().length()) {
+                return true;
+            }
         }
         return false;
     }
