@@ -87,28 +87,9 @@ public class BlessingSmsController {
 		return response;
 	}
 	
-	@Deprecated
 	@ApiOperation(value = "定时发送入职满整年通知信息", response = Response.class)
-	@ApiResponses(value = {@ApiResponse(code = 405, message = "Invalid input", response = Response.class) })
-	@GetMapping("onboardblessing/{monthdate}")
-	public Response autoSendOnboardBlessing(@PathVariable("monthdate") String monthdate) throws Exception {
-		Response response = null;
-		T_common_sms_log t_common_sms_log = new T_common_sms_log();
-		try {
-			t_common_sms_log.setTemplatecode("SMS_130929238");
-			t_common_sms_log.setSignname("崇达技术");
-			response = ehrUserServiceClient.getOnboardEhrUser(monthdate);
-			this.send(response, t_common_sms_log, MSG_TYPE_ONBOARD);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return response;
-	}
-	
-	
-	@ApiOperation(value = "定时发送入职满整年通知信息", response = Response.class)
-	@ApiResponses(value = {@ApiResponse(code = 405, message = "Invalid input", response = Response.class) })
-	@GetMapping("autoSendOnboard/{monthdate}")
+    @ApiResponses(value = {@ApiResponse(code = 405, message = "Invalid input", response = Response.class) })
+    @GetMapping("onboardblessing/{monthdate}")
 	public Response autoSendOnboard(@PathVariable("monthdate") String monthdate) throws Exception {
 	    Response response = null;
 	    try {
