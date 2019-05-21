@@ -29,12 +29,12 @@ public interface ContactMapper extends IMapper<ContactExt>{
 			StringBuilder strSql = new StringBuilder();
 			strSql.append("select a.empcode userid, a.empname name, a.c_mobile_tel mobile,")
 			      .append("b.id deptid, nvl(a.job_level,a.posname) position, decode(gender,'男','1','0') gender, 1 enable,")
-			      .append("nvl(a.person_attr, a.companyname)||decode(a.kename, null, '','/'||a.kename) deptname,")
+			      .append("nvl(a.person_attr, decode(a.companycode, '0012','深圳工厂', '0071','大连工厂', '0035','江门一厂', '0063','江门二厂',a.companyname))||decode(a.kename, null, '','/'||a.kename) deptname,")
 			      .append("labordate, operate_time, mobile_operate_time,short_tel")
 			      .append(" from tb_v_rpt_oa_emp_info a left join")
 			      .append(" (select a.*,b.name pname from t_wechat_department a left join t_wechat_department b")
-			      .append(" on a.parentid = b.id ) b on (b.name = kename and b.pname = nvl(person_attr, companyname))")
-			      .append(" or (kename is null and b.name = nvl(person_attr, companyname))")
+			      .append(" on a.parentid = b.id ) b on (b.name = kename and b.pname = nvl(person_attr, decode(a.companycode, '0012','深圳工厂', '0071','大连工厂', '0035','江门一厂', '0063','江门二厂',a.companyname)))")
+			      .append(" or (kename is null and b.name = nvl(person_attr, decode(a.companycode, '0012','深圳工厂', '0071','大连工厂', '0035','江门一厂', '0063','江门二厂',a.companyname)))")
 //			      .append(" where a.empcode = '011779'");
 			      .append(" where a.labordate >= #{currentDate}")
 			      .append(" or a.operate_time >= #{currentDate}")
