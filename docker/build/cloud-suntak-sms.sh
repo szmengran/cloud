@@ -18,3 +18,5 @@ mvn -e package
 progress "Building cloud-suntak-sms image ..."
 docker tag $(docker build -t ${REGPREFIX}/cloud-suntak-sms -q .) ${REGPREFIX}/cloud-suntak-sms:${VERSION}
 cd -
+
+docker push ${REGPREFIX}/cloud-suntak-sms:${VERSION}

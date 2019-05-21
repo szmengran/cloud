@@ -18,3 +18,5 @@ mvn package
 progress "Building cloud-config-server image ..."
 docker tag $(docker build -t ${REGPREFIX}/cloud-config-server -q .) ${REGPREFIX}/cloud-config-server:${VERSION}
 cd -
+
+docker push ${REGPREFIX}/cloud-config-server:${VERSION}

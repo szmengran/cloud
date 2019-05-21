@@ -18,3 +18,5 @@ mvn -e package
 progress "Building cloud-common-sms image ..."
 docker tag $(docker build -t ${REGPREFIX}/cloud-common-sms -q .) ${REGPREFIX}/cloud-common-sms:${VERSION}
 cd -
+
+docker push ${REGPREFIX}/cloud-common-sms:${VERSION}

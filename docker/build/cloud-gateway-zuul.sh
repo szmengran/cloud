@@ -18,3 +18,5 @@ mvn package
 progress "Building cloud-gateway-zuul image ..."
 docker tag $(docker build -t ${REGPREFIX}/cloud-gateway-zuul -q .) ${REGPREFIX}/cloud-gateway-zuul:${VERSION}
 cd -
+
+docker push ${REGPREFIX}/cloud-gateway-zuul:${VERSION}

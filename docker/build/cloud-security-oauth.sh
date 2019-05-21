@@ -18,3 +18,5 @@ mvn package
 progress "Building cloud-security-oauth image ..."
 docker tag $(docker build -t ${REGPREFIX}/cloud-security-oauth -q .) ${REGPREFIX}/cloud-security-oauth:${VERSION}
 cd -
+
+docker push ${REGPREFIX}/cloud-security-oauth:${VERSION}

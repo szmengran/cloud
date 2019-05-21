@@ -1,0 +1,16 @@
+version: '3.1'
+services:
+  ems:
+    image: suntak/cloud-suntak-ems:$CLOUD_VERSION
+    restart: always
+    environment:
+      - KAFKA_SERVER=$KAFKA_SERVER
+      - EUREKA_SERVER_ADDRESS=http://discovery:8761/eureka
+      - CONFIG_SERVER_ADDRESS=http://configserver:10001
+      - ENVIRONMENT=$ENVIRONMENT
+    ports:
+     - 10021:10021
+networks:
+  default:
+    external:
+      name: cloud

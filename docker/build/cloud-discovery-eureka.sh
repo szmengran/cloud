@@ -18,3 +18,5 @@ mvn package
 progress "Building cloud-discovery-eureka image ..."
 docker tag $(docker build -t ${REGPREFIX}/cloud-discovery-eureka -q .) ${REGPREFIX}/cloud-discovery-eureka:${VERSION}
 cd -
+
+docker push ${REGPREFIX}/cloud-discovery-eureka:${VERSION}

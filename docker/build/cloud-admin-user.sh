@@ -18,3 +18,5 @@ mvn -e package
 progress "Building cloud-admin-user image ..."
 docker tag $(docker build -t ${REGPREFIX}/cloud-admin-user -q .) ${REGPREFIX}/cloud-admin-user:${VERSION}
 cd -
+
+docker push ${REGPREFIX}/cloud-admin-user:${VERSION}

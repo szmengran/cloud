@@ -18,3 +18,5 @@ mvn -e package
 progress "Building cloud-suntak-activity image ..."
 docker tag $(docker build -t ${REGPREFIX}/cloud-suntak-activity -q .) ${REGPREFIX}/cloud-suntak-activity:${VERSION}
 cd -
+
+docker push ${REGPREFIX}/cloud-suntak-activity:${VERSION}

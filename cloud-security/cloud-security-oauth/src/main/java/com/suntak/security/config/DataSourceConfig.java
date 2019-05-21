@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
@@ -30,16 +31,11 @@ public class DataSourceConfig {
         filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*,swagger-ui.html*");
         return filterRegistrationBean;
     }
-    
-	@Bean(initMethod = "init", name = "readDataSource")  
-    @ConfigurationProperties(prefix = "spring.datasource.druid.common.read")  
-    public DataSource readDataSource(){  
-        return DruidDataSourceBuilder.create().build();  
-    }  
   
     @Bean(initMethod = "init", name = "writeDataSource")  
-    @ConfigurationProperties(prefix = "spring.datasource.druid.common.write")  
+    @ConfigurationProperties(prefix = "spring.datasource.druid.write")  
+    @Primary
     public DataSource writeDataSource(){  
-            return DruidDataSourceBuilder.create().build();  
+        return DruidDataSourceBuilder.create().build();  
     } 
 }

@@ -3,7 +3,6 @@
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
 //import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.data.redis.connection.RedisConnection;
 //import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -12,10 +11,9 @@
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 //import org.springframework.test.context.web.WebAppConfiguration;
 //
-//import com.szmengran.security.OauthApplication;
+//import com.suntak.security.OauthApplication;
 //
 //@RunWith(SpringJUnit4ClassRunner.class)  
-//@SpringBootTest(classes = OauthApplication.class)  
 //@WebAppConfiguration  
 //public class BCryptTest {
 //	@Autowired
@@ -51,7 +49,7 @@
 //		Long start = System.currentTimeMillis();
 //		String pw = bCryptPasswordEncoder.encode("12345");
 //		System.out.println(pw);
-//		boolean f = bCryptPasswordEncoder.matches("12345", pw);
+//		boolean f = bCryptPasswordEncoder.matches("12345", "$2a$10$A.6tA4COSuT1YTT9xTQlzenyD.aymSHKw1nmW51Y3MV2M7w6iCuFW");
 //		System.out.println(System.currentTimeMillis());
 //        System.out.println(f);
 //		System.out.println((System.currentTimeMillis()-start));
