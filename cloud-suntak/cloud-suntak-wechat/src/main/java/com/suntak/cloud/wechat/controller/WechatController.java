@@ -250,8 +250,8 @@ public class WechatController {
         MsgResponseBody msgResponseBody = wechatClient.send(abstractRequestBody, access_token);
         errormsg = msgResponseBody.getErrmsg();
         if (!checkSendResult(msgResponseBody, abstractRequestBody)) {
-            logger.error("发送企业微信文本消息失败：{}, {}", errormsg, new Gson().toJson(abstractRequestBody));
-            throw new BusinessException(10014001, "发送企业微信文本卡片消息失败");
+            logger.error("发送企业微信消息失败：{}, {}", errormsg, new Gson().toJson(abstractRequestBody));
+            throw new BusinessException(10014001, "发送企业微信消息失败");
         }
         return new Response();
         
