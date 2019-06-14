@@ -6,8 +6,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -24,8 +26,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.suntak.admin.user.exception.BusinessException;
 import com.suntak.cloud.recruitment.client.UserServiceClient;
-import com.suntak.cloud.recruitment.client.WechatServiceClient;
+import com.suntak.cloud.recruitment.client.WechatClient;
 import com.suntak.cloud.recruitment.entity.T_hr_applicant;
 import com.suntak.cloud.recruitment.entity.T_hr_task;
 import com.suntak.cloud.recruitment.entity.T_hr_workflow_sub;
@@ -35,7 +38,6 @@ import com.suntak.cloud.recruitment.service.TaskService;
 import com.suntak.cloud.wechat.entity.request.Textcard;
 import com.suntak.cloud.wechat.entity.request.TextcardRequestBody;
 import com.suntak.exception.model.Response;
-import com.suntak.admin.user.exception.BusinessException;
 
 import io.swagger.annotations.Api;
 
@@ -50,7 +52,8 @@ import io.swagger.annotations.Api;
 @RequestMapping(value="/api/v1/recruitment")
 public class TaskController {
 	
-	Logger logger = LoggerFactory.getLogger(TaskController.class);
+	private final static Logger logger = LoggerFactory.getLogger(TaskController.class);
+	private final static ExecutorService executor = new ThreadPoolExecutor(20, 200, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	
 	@Value("${wechat.qy.AppID}")
     private String appID;
@@ -71,16 +74,16 @@ public class TaskController {
 	private String secret;
 	
 	@Autowired
-	TaskService taskService;
+	private TaskService taskService;
 
 	@Autowired
-	ApplicantService applicantService;
+	private ApplicantService applicantService;
 	
 	@Autowired
-	WechatServiceClient wechatServiceClient;
+	private WechatClient wechatServiceClient;
 	
 	@Autowired
-	UserServiceClient userServiceClient;
+	private UserServiceClient userServiceClient;
 	
 	@GetMapping("/task/{roles}/{userid}")
 	public Response find(@PathVariable("userid") String userid, @PathVariable("roles") String strRole) throws Exception {
@@ -111,7 +114,6 @@ public class TaskController {
 	public Response finish(@PathVariable("applicantid") String applicantid) throws Exception {
 		T_hr_applicant t_hr_applicant = applicantService.findById(applicantid);
 		if (null == t_hr_applicant.getStatus() || t_hr_applicant.getStatus() == 0) { //状态为0表示信息还没有提交过
-			ExecutorService executor = Executors.newCachedThreadPool();
 			
 			Future<Boolean> createFuture = executor.submit(() -> {
 				return createTask(t_hr_applicant);
@@ -155,7 +157,6 @@ public class TaskController {
 		  .append("<div class=\"highlight\">应聘人：【")
 		  .append(name)
 		  .append("】</div>")
-		  .append("</div>")
 		  .append("<div class=\"normal\">")
 		  .append("你好，")
 		  .append(content)
@@ -205,7 +206,6 @@ public class TaskController {
 		ConvertUtils.register(new SqlTimestampConverter(null), Timestamp.class);  
 		BeanUtils.copyProperties(t_hr_task, t_hr_task_ext);
 		T_hr_workflow_sub t_hr_workflow_sub = taskService.handlerTask(t_hr_task);
-		ExecutorService executor = Executors.newCachedThreadPool();
 		executor.submit(() -> {
 			try {
 				if (StringUtils.isBlank(t_hr_task.getAssign())) {

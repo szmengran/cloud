@@ -22,6 +22,10 @@
 			<artifactId>orm-oracle</artifactId>
 		</dependency>
 		<dependency>
+            <groupId>com.szmengran</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
+		<dependency>
 			<groupId>com.suntak</groupId>
 			<artifactId>cloud-model-wechat</artifactId>
 		</dependency>
