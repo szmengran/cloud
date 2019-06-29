@@ -1,16 +1,13 @@
 package com.suntak.cloud.recruitment.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.recruitment.entity.T_hr_contact;
+import com.suntak.cloud.recruitment.mapper.ContactMapper;
 import com.suntak.cloud.recruitment.service.ContactService;
-import com.szmengran.common.orm.dao.AbstractDao;
 
 /**
  * @Package com.suntak.cloud.recruitment.service.impl
@@ -22,14 +19,13 @@ import com.szmengran.common.orm.dao.AbstractDao;
 public class ContactServiceImpl implements ContactService{
 
 	@Autowired
-	@Qualifier("oracleDao")
-	AbstractDao abstractDao;
+	private ContactMapper<T_hr_contact> contactMapper;
 	
 	@Override
 	public void saveOrUpdate(T_hr_contact t_hr_contact) throws Exception {
-		int num = abstractDao.update(t_hr_contact);
+		int num = contactMapper.update(t_hr_contact);
 		if (num == 0) {
-			abstractDao.insert(t_hr_contact);
+		    contactMapper.insert(t_hr_contact);
 		}
 	}
 	
@@ -42,9 +38,7 @@ public class ContactServiceImpl implements ContactService{
 	 */
 	@Override
 	public T_hr_contact findByApplicantid(String applicantid) throws Exception {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("applicantid", applicantid);
-		List<T_hr_contact> list = abstractDao.findByConditions(T_hr_contact.class, params);
+		List<T_hr_contact> list = contactMapper.findByApplicantid(applicantid);
 		if (list != null && list.size() > 0) {
 			return list.get(0);
 		}

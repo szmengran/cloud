@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.admin.user.exception.BusinessException;
+import com.suntak.cloud.recruitment.client.EhrClient;
 import com.suntak.cloud.recruitment.client.UserServiceClient;
 import com.suntak.cloud.recruitment.client.WechatClient;
 import com.suntak.cloud.recruitment.entity.T_hr_applicant;
@@ -75,6 +76,9 @@ public class TaskController {
 	
 	@Autowired
 	private TaskService taskService;
+	
+	@Autowired
+	private EhrClient ehrClient;
 
 	@Autowired
 	private ApplicantService applicantService;
@@ -191,6 +195,12 @@ public class TaskController {
 		t_hr_task.setApplicantid(t_hr_applicant.getApplicantid());
 		taskService.insert(t_hr_task);
 		return true;
+	}
+	
+	@GetMapping(value = "/{applicantid}")
+	public Response launchForm(@PathVariable("applicantid") String applicantid) throws Exception {
+	    taskService.launchForm(applicantid);
+	    return new Response();
 	}
 	
 	/**

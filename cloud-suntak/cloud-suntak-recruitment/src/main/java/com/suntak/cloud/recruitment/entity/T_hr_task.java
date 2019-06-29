@@ -39,6 +39,8 @@ public class T_hr_task {
 	private String attribute13;
 	private String attribute14;
 	private String attribute15;
+	private String handlercode;
+	private String handlername;
 	private Timestamp createstamp;
 	private Timestamp updatestamp;
 	public String getTaskid() {
@@ -185,7 +187,20 @@ public class T_hr_task {
 	public void setSubflowid(Integer subflowid) {
 		this.subflowid = subflowid;
 	}
-	public Timestamp getUpdatestamp() {
+	
+	public String getHandlercode() {
+        return handlercode;
+    }
+    public void setHandlercode(String handlercode) {
+        this.handlercode = handlercode;
+    }
+    public String getHandlername() {
+        return handlername;
+    }
+    public void setHandlername(String handlername) {
+        this.handlername = handlername;
+    }
+    public Timestamp getUpdatestamp() {
 		return updatestamp;
 	}
 	public void setUpdatestamp(Timestamp updatestamp) {

@@ -1,10 +1,14 @@
 package com.suntak.cloud.recruitment.entity;
+
+import com.szmengran.mybatis.utils.Table;
+
 /**
  * @Package com.suntak.cloud.interview.entity
  * @Description: 亲属
  * @date 2018年7月19日 上午9:24:01
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
+@Table(id = "applicantid")
 public class T_hr_relatives {
 	private String applicantid;
 	private String name        ;

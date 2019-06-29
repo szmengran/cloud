@@ -2,12 +2,15 @@ package com.suntak.cloud.recruitment.entity;
 
 import java.sql.Timestamp;
 
+import com.szmengran.mybatis.utils.Table;
+
 /**
  * @Package com.suntak.cloud.interview.entity
  * @Description: 应聘者基本信息
  * @date 2018年7月19日 上午8:50:17
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
+@Table(id = "applicantid")
 public class T_hr_applicant {
 	private String applicantid;
 	private String ownerid;

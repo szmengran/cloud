@@ -1,12 +1,11 @@
 package com.suntak.cloud.recruitment.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.recruitment.entity.T_hr_attachment;
+import com.suntak.cloud.recruitment.mapper.TaskMapper;
 import com.suntak.cloud.recruitment.service.AttachmentService;
-import com.szmengran.common.orm.dao.AbstractDao;
 
 /**
  * @Package com.suntak.cloud.recruitment.service.impl
@@ -18,12 +17,11 @@ import com.szmengran.common.orm.dao.AbstractDao;
 public class AttachmentServiceImpl implements AttachmentService{
 
 	@Autowired
-	@Qualifier("oracleDao")
-	AbstractDao abstractDao;
+	private TaskMapper<T_hr_attachment> taskMapper;
 	
 	@Override
 	public void insert(T_hr_attachment t_hr_attachment) throws Exception {
-		abstractDao.insert(t_hr_attachment);
+	    taskMapper.insert(t_hr_attachment);
 	}
 
 }

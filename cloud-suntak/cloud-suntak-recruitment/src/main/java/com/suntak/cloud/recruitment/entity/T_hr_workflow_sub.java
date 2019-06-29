@@ -1,10 +1,14 @@
 package com.suntak.cloud.recruitment.entity;
+
+import com.szmengran.mybatis.utils.Table;
+
 /**
  * @Package com.suntak.cloud.recruitment.entity
  * @Description: 子流程
  * @date 2018年8月22日 上午8:58:52
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
+@Table(id = "subflowid")
 public class T_hr_workflow_sub {
 	private Integer subflowid;
 	private Integer workflowid;

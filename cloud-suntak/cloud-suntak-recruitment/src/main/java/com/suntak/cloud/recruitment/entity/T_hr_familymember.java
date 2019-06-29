@@ -1,11 +1,18 @@
 package com.suntak.cloud.recruitment.entity;
+
+import com.szmengran.mybatis.utils.GeneratedValue;
+import com.szmengran.mybatis.utils.GenerationType;
+import com.szmengran.mybatis.utils.Table;
+
 /**
  * @Package com.suntak.cloud.interview.entity
  * @Description: 家庭成员
  * @date 2018年7月19日 上午9:15:21
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
+@Table(id = "familymemberid")
 public class T_hr_familymember {
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_t_hr_familymember")
 	private Integer familymemberid;
 	private String applicantid    ;
 	private String name           ;

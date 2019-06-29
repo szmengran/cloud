@@ -70,6 +70,10 @@
 			<artifactId>cloud-model-suntak</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.suntak</groupId>
+			<artifactId>cloud-common-oa</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
 		</dependency>

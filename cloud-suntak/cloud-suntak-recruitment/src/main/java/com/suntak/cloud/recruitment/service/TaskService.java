@@ -31,6 +31,8 @@ public interface TaskService {
 	 */
 	public T_hr_workflow_sub handlerTask(T_hr_task t_hr_task) throws Exception;
 	
+	public void launchForm(String applicantid) throws Exception;
+	
 	/**
 	 * 查找任务
 	 * @param roles
