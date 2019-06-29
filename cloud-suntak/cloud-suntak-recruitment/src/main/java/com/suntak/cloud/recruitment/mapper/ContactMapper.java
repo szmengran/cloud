@@ -16,7 +16,7 @@ import com.szmengran.mybatis.utils.mapper.IMapper;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 @Mapper
-public interface ContactMapper<T> extends IMapper<T> {
+public interface ContactMapper extends IMapper<T_hr_contact> {
 
     @Select("select * from t_hr_contact where applicantid=#{applicantid}")
     List<T_hr_contact> findByApplicantid(@Param("applicantid") String applicantid) throws Exception;

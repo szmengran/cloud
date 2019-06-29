@@ -19,7 +19,7 @@ import com.suntak.cloud.recruitment.service.ContactService;
 public class ContactServiceImpl implements ContactService{
 
 	@Autowired
-	private ContactMapper<T_hr_contact> contactMapper;
+	private ContactMapper contactMapper;
 	
 	@Override
 	public void saveOrUpdate(T_hr_contact t_hr_contact) throws Exception {

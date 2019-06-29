@@ -26,7 +26,7 @@ public interface ApplicantMapper extends IMapper<T_hr_applicant> {
             " ,phone=#{phone},email=#{email}" + 
             " ,mandarin=#{mandarin},english=#{english},japanese=#{japanese},other=#{other}" + 
             " ,relativesname=#{relativesname},relativesdepartment=#{relativesdepartment},relativesposition=#{relativesposition},relativesrelationship=#{relativesrelationship}" +
-            " ,updatestamp=#{updatestamp}" +
+            " ,medicalhistory=#{medicalhistory},crimehistory=#{crimehistory},pregnancy=#{pregnancy},medicalhistorydesc=#{medicalhistorydesc},updatestamp=#{updatestamp}" +
             "  where applicantid=#{applicantid}")
     public int updateBaseInfo(T_hr_applicant t_hr_applicant) throws Exception;
     

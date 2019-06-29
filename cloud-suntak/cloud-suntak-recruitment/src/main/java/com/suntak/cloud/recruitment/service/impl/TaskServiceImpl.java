@@ -2,8 +2,10 @@ package com.suntak.cloud.recruitment.service.impl;
 
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +24,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suntak.autotask.BPMService.BPMServiceStub;
 import com.suntak.autotask.bean.OaFormXmlBean;
 import com.suntak.autotask.utils.OaConfigInfo;
 import com.suntak.autotask.utils.OaInterfaceUtil;
 import com.suntak.autotask.utils.XmlUtil;
+import com.suntak.cloud.recruitment.client.EhrClient;
 import com.suntak.cloud.recruitment.entity.T_hr_applicant;
 import com.suntak.cloud.recruitment.entity.T_hr_contact;
 import com.suntak.cloud.recruitment.entity.T_hr_educationhistory;
@@ -43,6 +48,7 @@ import com.suntak.cloud.recruitment.mapper.TaskMapper;
 import com.suntak.cloud.recruitment.mapper.WorkHistoryMapper;
 import com.suntak.cloud.recruitment.mapper.WorkflowSubMapper;
 import com.suntak.cloud.recruitment.service.TaskService;
+import com.suntak.exception.model.Response;
 
 /**
  * @Package com.suntak.cloud.recruitment.service.impl
@@ -64,9 +70,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private ApplicantMapper applicantMapper;
+    
+    @Autowired
+    private EhrClient ehrClient;
 
     @Autowired
-    private ContactMapper<T_hr_contact> contactMapper;
+    private ContactMapper contactMapper;
 
     @Autowired
     private EducationHistoryMapper<T_hr_educationhistory> educationHistoryMapper;
@@ -87,7 +96,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Transactional
     @Override
-    public T_hr_workflow_sub handlerTask(T_hr_task t_hr_task) throws Exception {
+    public T_hr_workflow_sub handlerTask(T_hr_task t_hr_task, String userid) throws Exception {
         try {
             Future<T_hr_workflow_sub> future = executor.submit(() -> {
                 List<T_hr_workflow_sub> list = workflowSubMapper.findWorkflowSub(t_hr_task.getSubflowid(),
@@ -97,7 +106,12 @@ public class TaskServiceImpl implements TaskService {
                 }
                 return null;
             });
-
+            Response response = ehrClient.getEhrUser(userid);
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(response.getData()));
+            String name = jsonNode.get("empname").asText();
+            t_hr_task.setHandlercode(userid);
+            t_hr_task.setHandlername(name);
             taskMapper.updateTask(t_hr_task);
 
             T_hr_workflow_sub t_hr_workflow_sub = future.get();
@@ -159,12 +173,11 @@ public class TaskServiceImpl implements TaskService {
         OaFormXmlBean oaForm = new OaFormXmlBean();
         oaForm.setTableName("formmain_6902");
         oaForm.setTableHeaderDataMap(genTableHeaderDataMap(applicant.get(), firstViewFuture.get(),
-                secondViewFuture.get(), contact.get()));
+                secondViewFuture.get(), contact.get(), educationhistory.get()));
         oaForm.setTableLinesDataList(
                 genTableLinesDataList(educationhistory.get(), familymembers.get(), workhistorys.get()));
 
         String data = getOaFormXmlString(oaForm);
-        System.out.println(data);
         // 连接的环境信息
         try {
             OaConfigInfo conf = new OaConfigInfo("prod");
@@ -212,6 +225,27 @@ public class TaskServiceImpl implements TaskService {
         }
         return "-7563197266539297658"; // 女
     }
+    
+    private String getMedicalhistory(Integer medicalhistory) {
+        if (medicalhistory == 1) {
+            return "-3620634840999376943"; // 男
+        }
+        return "-3451440124422436818"; // 女
+    }
+    
+    private String getCrimehistory(Integer crimehistory) {
+        if (crimehistory == 1) {
+            return "-3620634840999376943"; // 男
+        }
+        return "-3451440124422436818"; // 女
+    }
+    
+    private String getPregnancy(Integer pregnancy) {
+        if (pregnancy == 1) {
+            return "-3620634840999376943"; // 男
+        }
+        return "-3451440124422436818"; // 女
+    }
 
     /**
      * 
@@ -220,10 +254,12 @@ public class TaskServiceImpl implements TaskService {
      * @param secondViewTask
      * @return
      * @return: Map<String,String>
+     * @throws ParseException 
      * @throws @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
     private Map<String, String> genTableHeaderDataMap(T_hr_applicant applicant, T_hr_task firstViewTask,
-            T_hr_task secondViewTask, T_hr_contact t_hr_contact) {
+            T_hr_task secondViewTask, T_hr_contact t_hr_contact, List<T_hr_educationhistory> educationhistorys) throws ParseException {
+        T_hr_educationhistory educationhistory = educationhistorys.get(0);
         Map<String, String> tableHeaderDataMap = new HashMap<String, String>();
         tableHeaderDataMap.put("公司logo", ""); // 公司logo
         tableHeaderDataMap.put("所属公司", "1"); // 所属公司
@@ -247,17 +283,17 @@ public class TaskServiceImpl implements TaskService {
         tableHeaderDataMap.put("深户", "0"); // 深户
         tableHeaderDataMap.put("非农户", "0"); // 非农户
         tableHeaderDataMap.put("农村户", "0"); // 农村户
-        tableHeaderDataMap.put("学历", applicant.getEducation()); // 学历
-        tableHeaderDataMap.put("专业", applicant.getProfession()); // 专业
+        tableHeaderDataMap.put("学历", educationhistory.getCertificate()); // 学历
+        tableHeaderDataMap.put("专业", educationhistory.getProfession()); // 专业
         tableHeaderDataMap.put("户籍所在地", ""); // 户籍所在地
         tableHeaderDataMap.put("目前住址", ""); // 目前住址
         tableHeaderDataMap.put("身高", applicant.getHeight() == null ? "" : applicant.getHeight() + ""); // 身高
         tableHeaderDataMap.put("体重", applicant.getWeight() == null ? "" : applicant.getWeight() + ""); // 体重
         tableHeaderDataMap.put("视力", applicant.getLeftvision() + "|" + applicant.getRightvision()); // 视力
-        tableHeaderDataMap.put("有无职业病史", ""); // 有无职业病史
-        tableHeaderDataMap.put("有无犯罪史", ""); // 有无犯罪史
-        tableHeaderDataMap.put("目前有无怀孕", ""); // 目前有无怀孕
-        tableHeaderDataMap.put("职业病史说明", ""); // 职业病史说明
+        tableHeaderDataMap.put("有无职业病史", getMedicalhistory(applicant.getMedicalhistory())); // 有无职业病史
+        tableHeaderDataMap.put("有无犯罪史", getCrimehistory(applicant.getCrimehistory())); // 有无犯罪史
+        tableHeaderDataMap.put("目前有无怀孕", getPregnancy(applicant.getPregnancy())); // 目前有无怀孕
+        tableHeaderDataMap.put("职业病史说明", applicant.getMedicalhistorydesc()); // 职业病史说明
         tableHeaderDataMap.put("普通话", applicant.getMandarin() == null ? "0" : "1"); // 普通话
         tableHeaderDataMap.put("英语级", applicant.getEnglish() == null ? "0" : "1"); // 英语级
         tableHeaderDataMap.put("日语级", applicant.getJapanese() == null ? "0" : "1"); // 日语级
@@ -294,7 +330,7 @@ public class TaskServiceImpl implements TaskService {
         tableHeaderDataMap.put("学位证", "true".equals(firstViewTask.getAttribute11()) ? "1" : "0"); // 学位证
         tableHeaderDataMap.put("其它证书", "true".equals(firstViewTask.getAttribute12()) ? "1" : "0"); // 其它证书
         tableHeaderDataMap.put("其它证书名称", ""); // 其它证书名称
-        tableHeaderDataMap.put("可到职日期", firstViewTask.getAttribute13()); // 可到职日期
+        tableHeaderDataMap.put("可到职日期", new SimpleDateFormat("yyyy-MM-dd").format(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(firstViewTask.getAttribute13()).getTime()))); // 可到职日期
         tableHeaderDataMap.put("初试综合评价", firstViewTask.getRemark()); // 初试综合评价
         tableHeaderDataMap.put("初试结果", "6431127814935300153"); // 初试结果，默认是通过
         tableHeaderDataMap.put("面试人", firstViewTask.getAssign()); // 面试人
@@ -310,7 +346,7 @@ public class TaskServiceImpl implements TaskService {
 //        tableHeaderDataMap.put("不录用意见", ""); //    不录用意见
 //        tableHeaderDataMap.put("其它意见", ""); //    其它意见
 //        tableHeaderDataMap.put("意见", ""); //    意见
-//        tableHeaderDataMap.put("复试人", ""); //    复试人
+        tableHeaderDataMap.put("复试人", secondViewTask.getHandlername()); //    复试人
         tableHeaderDataMap.put("复试日期", new SimpleDateFormat("yyyy-MM-dd").format(firstViewTask.getCreatestamp())); // 复试日期
 //        tableHeaderDataMap.put("录用公司", ""); //    录用公司
 //        tableHeaderDataMap.put("录用部门", ""); //    录用部门

@@ -210,12 +210,12 @@ public class TaskController {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	@PostMapping(value="/task")
-	public Response handlerTask(@RequestBody T_hr_task_ext t_hr_task_ext) throws Exception {
+	@PostMapping(value="/task/{userid}")
+	public Response handlerTask(@RequestBody T_hr_task_ext t_hr_task_ext, @PathVariable("userid") String userid) throws Exception {
 		T_hr_task t_hr_task = new T_hr_task();
 		ConvertUtils.register(new SqlTimestampConverter(null), Timestamp.class);  
 		BeanUtils.copyProperties(t_hr_task, t_hr_task_ext);
-		T_hr_workflow_sub t_hr_workflow_sub = taskService.handlerTask(t_hr_task);
+		T_hr_workflow_sub t_hr_workflow_sub = taskService.handlerTask(t_hr_task, userid);
 		executor.submit(() -> {
 			try {
 				if (StringUtils.isBlank(t_hr_task.getAssign())) {

@@ -35,6 +35,7 @@ public class T_hr_applicant {
 	private String education;
 	private String profession;
 	private Integer medicalhistory;
+	private String medicalhistorydesc;
 	private Integer crimehistory;
 	private Integer pregnancy;
 	private String jobtitle;
@@ -188,7 +189,13 @@ public class T_hr_applicant {
 	public void setMedicalhistory(Integer medicalhistory) {
 		this.medicalhistory = medicalhistory;
 	}
-	public Integer getCrimehistory() {
+	public String getMedicalhistorydesc() {
+        return medicalhistorydesc;
+    }
+    public void setMedicalhistorydesc(String medicalhistorydesc) {
+        this.medicalhistorydesc = medicalhistorydesc;
+    }
+    public Integer getCrimehistory() {
 		return crimehistory;
 	}
 	public void setCrimehistory(Integer crimehistory) {

@@ -12,7 +12,7 @@ import com.suntak.exception.model.Response;
  * @date Jun 25, 2019 4:41:04 PM 
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
-@FeignClient(name = "ehr")
+@FeignClient(name = "cloud-suntak-ehr")
 public interface EhrClient {
 
     @GetMapping(value = "/api/v1/ehr/users/{empcode}")

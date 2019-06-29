@@ -25,11 +25,12 @@ public interface TaskService {
 	/**
 	 * 处理任务并返回下一流程节点
 	 * @param t_hr_task
+	 * @param userid
 	 * @return
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public T_hr_workflow_sub handlerTask(T_hr_task t_hr_task) throws Exception;
+	public T_hr_workflow_sub handlerTask(T_hr_task t_hr_task, String userid) throws Exception;
 	
 	public void launchForm(String applicantid) throws Exception;
 	
