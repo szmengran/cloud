@@ -65,6 +65,29 @@ public class WechatController {
 	}
 	
 	/**
+	 * 设备系统通过企业微信接口发送信息
+	 * @param username
+	 * @param password
+	 * @param textRequestBody
+	 * @return
+	 * @throws Exception      
+	 * @return: Response      
+	 * @throws   
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@ApiOperation("发送企业微信文本消息")
+	@PostMapping("/text/{username}/{password}")
+	public Response sendText(@PathVariable("username") String username, @PathVariable("password") String password, @RequestBody TextRequestBody textRequestBody) throws Exception {
+	    logger.info("发送企业微信文本消息:{},{},{}", username, password, new Gson().toJson(textRequestBody));
+	    textRequestBody.setAgentid("1000030");
+	    if (!username.equals("shebei") || !password.equals("SFJ13SKFJIWEFSF28922SF77S")) {
+	        throw new Exception("用户名或密码不正确，不能调用企业微信消息接口！");
+	    }
+	    textRequestBody.setMsgtype("text");
+	    return send("oPsgPVWXn-h5S45GTdIvxitp7eJ-MGvt1P_SjGaVdeA", textRequestBody);
+	}
+	
+	/**
 	 * 发送企业微信图片消息
 	 * @param secret
 	 * @param imgRequestBody
