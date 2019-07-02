@@ -262,31 +262,31 @@ public class TaskServiceImpl implements TaskService {
         T_hr_educationhistory educationhistory = educationhistorys.get(0);
         Map<String, String> tableHeaderDataMap = new HashMap<String, String>();
         tableHeaderDataMap.put("公司logo", ""); // 公司logo
-        tableHeaderDataMap.put("所属公司", "1"); // 所属公司
+        tableHeaderDataMap.put("所属公司", firstViewTask.getAttribute14()); // 所属公司
         tableHeaderDataMap.put("编号", ""); // 编号
         tableHeaderDataMap.put("姓名", applicant.getName()); // 姓名
-        tableHeaderDataMap.put("曾用名", ""); // 曾用名
+        tableHeaderDataMap.put("曾用名", applicant.getFormername()); // 曾用名
         tableHeaderDataMap.put("性别", getSex(applicant.getSex())); // 性别
         tableHeaderDataMap.put("出生日期", new SimpleDateFormat("yyyy-MM-dd").format(applicant.getBirthday())); // 出生日期
         tableHeaderDataMap.put("身份证号", applicant.getIdcard()); // 身份证号
         tableHeaderDataMap.put("籍贯", applicant.getNativeplace()); // 籍贯
         tableHeaderDataMap.put("民族", applicant.getNation()); // 民族
         tableHeaderDataMap.put("电话", applicant.getPhone()); // 电话
-        tableHeaderDataMap.put("未婚", "0"); // 未婚
-        tableHeaderDataMap.put("已婚", "0"); // 已婚
-        tableHeaderDataMap.put("离婚", "0"); // 离婚
-        tableHeaderDataMap.put("丧偶", "0"); // 丧偶
-        tableHeaderDataMap.put("党员", "0"); // 党员
-        tableHeaderDataMap.put("团员", "0"); // 团员
-        tableHeaderDataMap.put("群众", "0"); // 群众
+//        tableHeaderDataMap.put("未婚", "0"); // 未婚
+//        tableHeaderDataMap.put("已婚", "0"); // 已婚
+//        tableHeaderDataMap.put("离婚", "0"); // 离婚
+//        tableHeaderDataMap.put("丧偶", "0"); // 丧偶
+//        tableHeaderDataMap.put("党员", "0"); // 党员
+//        tableHeaderDataMap.put("团员", "0"); // 团员
+//        tableHeaderDataMap.put("群众", "0"); // 群众
         tableHeaderDataMap.put("邮箱", applicant.getEmail()); // 邮箱
-        tableHeaderDataMap.put("深户", "0"); // 深户
-        tableHeaderDataMap.put("非农户", "0"); // 非农户
-        tableHeaderDataMap.put("农村户", "0"); // 农村户
+//        tableHeaderDataMap.put("深户", "0"); // 深户
+//        tableHeaderDataMap.put("非农户", "0"); // 非农户
+//        tableHeaderDataMap.put("农村户", "0"); // 农村户
         tableHeaderDataMap.put("学历", educationhistory.getCertificate()); // 学历
         tableHeaderDataMap.put("专业", educationhistory.getProfession()); // 专业
-        tableHeaderDataMap.put("户籍所在地", ""); // 户籍所在地
-        tableHeaderDataMap.put("目前住址", ""); // 目前住址
+        tableHeaderDataMap.put("户籍所在地", applicant.getNativeplace()); // 户籍所在地
+        tableHeaderDataMap.put("目前住址", applicant.getAddress()); // 目前住址
         tableHeaderDataMap.put("身高", applicant.getHeight() == null ? "" : applicant.getHeight() + ""); // 身高
         tableHeaderDataMap.put("体重", applicant.getWeight() == null ? "" : applicant.getWeight() + ""); // 体重
         tableHeaderDataMap.put("视力", applicant.getLeftvision() + "|" + applicant.getRightvision()); // 视力
@@ -299,13 +299,15 @@ public class TaskServiceImpl implements TaskService {
         tableHeaderDataMap.put("日语级", applicant.getJapanese() == null ? "0" : "1"); // 日语级
         tableHeaderDataMap.put("其它", applicant.getOther() == null ? "0" : "1"); // 其它
         tableHeaderDataMap.put("其他语言能力", ""); // 其他语言能力
-        tableHeaderDataMap.put("技术职称或职业资格", ""); // 技术职称或职业资格
-        tableHeaderDataMap.put("个人特长或爱好", ""); // 个人特长或爱好
-        tableHeaderDataMap.put("紧急联系人姓名", ""); // 紧急联系人姓名
-        tableHeaderDataMap.put("紧急联系人与本人关系", ""); // 紧急联系人与本人关系
-        tableHeaderDataMap.put("紧急联系人工作单位或部门", ""); // 紧急联系人工作单位或部门
-        tableHeaderDataMap.put("紧急联系人职务", ""); // 紧急联系人职务
-        tableHeaderDataMap.put("紧急联系人电话", ""); // 紧急联系人电话
+        tableHeaderDataMap.put("技术职称或职业资格", applicant.getJobtitle()); // 技术职称或职业资格
+        tableHeaderDataMap.put("个人特长或爱好", applicant.getHobby()); // 个人特长或爱好
+        if (t_hr_contact != null) {
+            tableHeaderDataMap.put("紧急联系人姓名", t_hr_contact.getName()); // 紧急联系人姓名
+            tableHeaderDataMap.put("紧急联系人与本人关系", t_hr_contact.getRelationship()); // 紧急联系人与本人关系
+            tableHeaderDataMap.put("紧急联系人工作单位或部门", t_hr_contact.getCompany()); // 紧急联系人工作单位或部门
+            tableHeaderDataMap.put("紧急联系人职务", t_hr_contact.getPosition()); // 紧急联系人职务
+            tableHeaderDataMap.put("紧急联系人电话", t_hr_contact.getPhone()); // 紧急联系人电话
+        }
         tableHeaderDataMap.put("亲属在本公司是否",
                 applicant.getRelativesname() == null ? "2958853362500325158" : "-5805300948442788403"); // 亲属在本公司是否
         tableHeaderDataMap.put("亲属在本公司姓名", applicant.getRelativesname()); // 亲属在本公司姓名
@@ -367,6 +369,9 @@ public class TaskServiceImpl implements TaskService {
 //        tableHeaderDataMap.put("高级副总裁", ""); //    高级副总裁
 //        tableHeaderDataMap.put("集团人力资源部", ""); //    集团人力资源部
 //        tableHeaderDataMap.put("董事长", ""); //    董事长
+        tableHeaderDataMap.put("户口类型", applicant.getResidencetype()); //    户口类型
+        tableHeaderDataMap.put("婚姻状况", applicant.getMarrystatus()); //    户口类型
+        tableHeaderDataMap.put("政治面貌", applicant.getPoliticalstatus()); //    户口类型
         return tableHeaderDataMap;
     }
 

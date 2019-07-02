@@ -20,17 +20,17 @@ public class Formmain_6902 {
     private String field0009;// 籍贯
     private String field0010;// 民族
     private String field0011;// 电话
-    private String field0012;// 未婚
-    private String field0013;// 已婚
-    private String field0014;// 离婚
-    private String field0015;// 丧偶
-    private String field0016;// 党员
-    private String field0017;// 团员
-    private String field0018;// 群众
-    private String field0019;// 深户
+//    private String field0012;// 未婚
+//    private String field0013;// 已婚
+//    private String field0014;// 离婚
+//    private String field0015;// 丧偶
+//    private String field0016;// 党员
+//    private String field0017;// 团员
+//    private String field0018;// 群众
+//    private String field0019;// 深户
     private String field0020;// 邮箱
-    private String field0021;// 非农户
-    private String field0022;// 农村户
+//    private String field0021;// 非农户
+//    private String field0022;// 农村户
     private String field0023;// 学历
     private String field0024;// 专业
     private String field0025;// 户籍所在地
@@ -113,6 +113,16 @@ public class Formmain_6902 {
     private String field0102;// 高级副总裁
     private String field0103;// 集团人力资源部
     private String field0104;// 董事长
+    private String field0012;// 空1
+    private String field0013;// 空2
+    private String field0014;// 空3
+    private String field0015;// 空4
+    private String field0016;// 空5
+    private String field0017;// 空6
+    private String field0018;// 空7
+    private String field0019;// 户口类型
+    private String field0021;// 婚姻状况
+    private String field0022;// 政治面貌
     public String getField0001() {
         return field0001;
     }
@@ -179,71 +189,11 @@ public class Formmain_6902 {
     public void setField0011(String field0011) {
         this.field0011 = field0011;
     }
-    public String getField0012() {
-        return field0012;
-    }
-    public void setField0012(String field0012) {
-        this.field0012 = field0012;
-    }
-    public String getField0013() {
-        return field0013;
-    }
-    public void setField0013(String field0013) {
-        this.field0013 = field0013;
-    }
-    public String getField0014() {
-        return field0014;
-    }
-    public void setField0014(String field0014) {
-        this.field0014 = field0014;
-    }
-    public String getField0015() {
-        return field0015;
-    }
-    public void setField0015(String field0015) {
-        this.field0015 = field0015;
-    }
-    public String getField0016() {
-        return field0016;
-    }
-    public void setField0016(String field0016) {
-        this.field0016 = field0016;
-    }
-    public String getField0017() {
-        return field0017;
-    }
-    public void setField0017(String field0017) {
-        this.field0017 = field0017;
-    }
-    public String getField0018() {
-        return field0018;
-    }
-    public void setField0018(String field0018) {
-        this.field0018 = field0018;
-    }
-    public String getField0019() {
-        return field0019;
-    }
-    public void setField0019(String field0019) {
-        this.field0019 = field0019;
-    }
     public String getField0020() {
         return field0020;
     }
     public void setField0020(String field0020) {
         this.field0020 = field0020;
-    }
-    public String getField0021() {
-        return field0021;
-    }
-    public void setField0021(String field0021) {
-        this.field0021 = field0021;
-    }
-    public String getField0022() {
-        return field0022;
-    }
-    public void setField0022(String field0022) {
-        this.field0022 = field0022;
     }
     public String getField0023() {
         return field0023;
@@ -737,5 +687,64 @@ public class Formmain_6902 {
     public void setField0104(String field0104) {
         this.field0104 = field0104;
     }
-
+    public String getField0012() {
+        return field0012;
+    }
+    public void setField0012(String field0012) {
+        this.field0012 = field0012;
+    }
+    public String getField0013() {
+        return field0013;
+    }
+    public void setField0013(String field0013) {
+        this.field0013 = field0013;
+    }
+    public String getField0014() {
+        return field0014;
+    }
+    public void setField0014(String field0014) {
+        this.field0014 = field0014;
+    }
+    public String getField0015() {
+        return field0015;
+    }
+    public void setField0015(String field0015) {
+        this.field0015 = field0015;
+    }
+    public String getField0016() {
+        return field0016;
+    }
+    public void setField0016(String field0016) {
+        this.field0016 = field0016;
+    }
+    public String getField0017() {
+        return field0017;
+    }
+    public void setField0017(String field0017) {
+        this.field0017 = field0017;
+    }
+    public String getField0018() {
+        return field0018;
+    }
+    public void setField0018(String field0018) {
+        this.field0018 = field0018;
+    }
+    public String getField0019() {
+        return field0019;
+    }
+    public void setField0019(String field0019) {
+        this.field0019 = field0019;
+    }
+    public String getField0021() {
+        return field0021;
+    }
+    public void setField0021(String field0021) {
+        this.field0021 = field0021;
+    }
+    public String getField0022() {
+        return field0022;
+    }
+    public void setField0022(String field0022) {
+        this.field0022 = field0022;
+    }
 }
