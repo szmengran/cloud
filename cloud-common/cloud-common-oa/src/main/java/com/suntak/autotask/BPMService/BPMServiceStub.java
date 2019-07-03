@@ -17,9 +17,9 @@ public class BPMServiceStub extends org.apache.axis2.client.Stub {
 	protected org.apache.axis2.description.AxisOperation[] _operations;
 
 	// hashmaps to keep the fault mapping
-	private java.util.HashMap faultExceptionNameMap = new java.util.HashMap();
-	private java.util.HashMap faultExceptionClassNameMap = new java.util.HashMap();
-	private java.util.HashMap faultMessageMap = new java.util.HashMap();
+	private java.util.Map<Object, Object> faultExceptionNameMap = new java.util.HashMap<>();
+	private java.util.Map<Object, Object> faultExceptionClassNameMap = new java.util.HashMap<>();
+	private java.util.Map<Object, Object> faultMessageMap = new java.util.HashMap<>();
 
 	private static int counter = 0;
 
@@ -96,7 +96,6 @@ public class BPMServiceStub extends org.apache.axis2.client.Stub {
 	
 
 	// populates the faults
-	@SuppressWarnings("unchecked")
 	private void populateFaults() {
 
 		faultExceptionNameMap.put(
@@ -3444,7 +3443,8 @@ public class BPMServiceStub extends org.apache.axis2.client.Stub {
 			 * element If this object is a complex type, the reader is
 			 * positioned at the end element of its outer element
 			 */
-			public static LaunchHtmlCollaboration parse(javax.xml.stream.XMLStreamReader reader)
+			@SuppressWarnings("unchecked")
+            public static LaunchHtmlCollaboration parse(javax.xml.stream.XMLStreamReader reader)
 					throws java.lang.Exception {
 				LaunchHtmlCollaboration object = new LaunchHtmlCollaboration();
 
@@ -3702,7 +3702,8 @@ public class BPMServiceStub extends org.apache.axis2.client.Stub {
 
 	}
 
-	public static class GetFormCollIdsByDateTimeRestResponse implements org.apache.axis2.databinding.ADBBean {
+	@SuppressWarnings("serial")
+    public static class GetFormCollIdsByDateTimeRestResponse implements org.apache.axis2.databinding.ADBBean {
 
 		public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName(
 				"http://impl.flow.services.v3x.seeyon.com", "getFormCollIdsByDateTimeRestResponse", "ns1");
@@ -3914,7 +3915,8 @@ public class BPMServiceStub extends org.apache.axis2.client.Stub {
 		/**
 		 * Util method to write an attribute without the ns prefix
 		 */
-		private void writeAttribute(java.lang.String namespace, java.lang.String attName, java.lang.String attValue,
+		@SuppressWarnings("unused")
+        private void writeAttribute(java.lang.String namespace, java.lang.String attName, java.lang.String attValue,
 				javax.xml.stream.XMLStreamWriter xmlWriter) throws javax.xml.stream.XMLStreamException {
 			if (namespace.equals("")) {
 				xmlWriter.writeAttribute(attName, attValue);
@@ -3927,7 +3929,8 @@ public class BPMServiceStub extends org.apache.axis2.client.Stub {
 		/**
 		 * Util method to write an attribute without the ns prefix
 		 */
-		private void writeQNameAttribute(java.lang.String namespace, java.lang.String attName,
+		@SuppressWarnings("unused")
+        private void writeQNameAttribute(java.lang.String namespace, java.lang.String attName,
 				javax.xml.namespace.QName qname, javax.xml.stream.XMLStreamWriter xmlWriter)
 				throws javax.xml.stream.XMLStreamException {
 
@@ -3955,7 +3958,8 @@ public class BPMServiceStub extends org.apache.axis2.client.Stub {
 		 * method to handle Qnames
 		 */
 
-		private void writeQName(javax.xml.namespace.QName qname, javax.xml.stream.XMLStreamWriter xmlWriter)
+		@SuppressWarnings("unused")
+        private void writeQName(javax.xml.namespace.QName qname, javax.xml.stream.XMLStreamWriter xmlWriter)
 				throws javax.xml.stream.XMLStreamException {
 			java.lang.String namespaceURI = qname.getNamespaceURI();
 			if (namespaceURI != null) {
@@ -3979,7 +3983,8 @@ public class BPMServiceStub extends org.apache.axis2.client.Stub {
 			}
 		}
 
-		private void writeQNames(javax.xml.namespace.QName[] qnames, javax.xml.stream.XMLStreamWriter xmlWriter)
+		@SuppressWarnings("unused")
+        private void writeQNames(javax.xml.namespace.QName[] qnames, javax.xml.stream.XMLStreamWriter xmlWriter)
 				throws javax.xml.stream.XMLStreamException {
 
 			if (qnames != null) {
@@ -4048,8 +4053,8 @@ public class BPMServiceStub extends org.apache.axis2.client.Stub {
 		public javax.xml.stream.XMLStreamReader getPullParser(javax.xml.namespace.QName qName)
 				throws org.apache.axis2.databinding.ADBException {
 
-			java.util.ArrayList elementList = new java.util.ArrayList();
-			java.util.ArrayList attribList = new java.util.ArrayList();
+			java.util.List<Object> elementList = new java.util.ArrayList<>();
+			java.util.List<Object> attribList = new java.util.ArrayList<>();
 
 			if (local_returnTracker) {
 				if (local_return != null) {

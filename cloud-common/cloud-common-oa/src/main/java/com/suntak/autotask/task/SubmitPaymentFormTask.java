@@ -1,6 +1,7 @@
 package com.suntak.autotask.task;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;
@@ -8,7 +9,6 @@ import java.util.TimerTask;
 import com.suntak.autotask.bean.OaFormXmlBean;
 import com.suntak.autotask.bean.OaPaymentFormXmlBean;
 import com.suntak.autotask.bean.PaymentConfigBean;
-import com.suntak.autotask.bean.PaymentInfoBean;
 import com.suntak.autotask.dbcon.OaDbCon;
 import com.suntak.autotask.utils.DateUtil;
 import com.suntak.autotask.utils.DbUtil;
@@ -60,8 +60,9 @@ public class SubmitPaymentFormTask extends TimerTask{
 				if(paymentLineDataList.size() == 0){
 					continue;//如果没有要提交的数据，则跳入下一个循环对象
 				}
-				
-				OaFormXmlBean oaPaymentFormXml = new OaPaymentFormXmlBean(paymentHeaderDataMap,paymentLineDataList);//构造xml数据
+				List<List<Map<String,String>>> list = new ArrayList<List<Map<String,String>>>();
+				list.add(paymentLineDataList);
+				OaFormXmlBean oaPaymentFormXml = new OaPaymentFormXmlBean(paymentHeaderDataMap, list);//构造xml数据
 				String oaPaymentFormXmlStr = XmlUtil.getOaFormXmlString(oaPaymentFormXml);//xml转xml字符串
 				System.out.println(oaPaymentFormXmlStr);
 				OaInterfaceUtil.sendFormDataGetProcess(paymentConfig.getSubmitMemberLoginName(), oaPaymentFormXmlStr,  paymentConfig.getTemplateNo(),attachments,attachmentIds);

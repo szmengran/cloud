@@ -1,19 +1,12 @@
 package com.suntak.autotask.utils;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.axis2.AxisFault;
-
-
-import com.suntak.autotask.BPMService.BPMServiceStub;
-import com.suntak.autotask.authorityService.AuthorityServiceStub;
 import com.suntak.autotask.bean.PaymentConfigBean;
 import com.suntak.autotask.bean.PaymentInfoBean;
-import com.suntak.autotask.documentService.DocumentServiceStub;
 
 /**
  * 付款辅助类 - 20190216

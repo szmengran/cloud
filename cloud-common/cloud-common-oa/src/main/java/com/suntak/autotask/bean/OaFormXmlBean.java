@@ -11,7 +11,7 @@ public class OaFormXmlBean {
 	
 	private Map<String,String> tableHeaderDataMap;
 	
-	private List<Map<String,String>> tableLinesDataList;
+	private List<List<Map<String,String>>> tableLinesDataList;
 
 	public String getFormExportVersion() {
 		return formExportVersion;
@@ -37,11 +37,11 @@ public class OaFormXmlBean {
 		this.tableHeaderDataMap = tableHeaderDataMap;
 	}
 
-	public List<Map<String, String>> getTableLinesDataList() {
+	public List<List<Map<String,String>>> getTableLinesDataList() {
 		return tableLinesDataList;
 	}
 
-	public void setTableLinesDataList(List<Map<String, String>> tableLinesDataList) {
+	public void setTableLinesDataList(List<List<Map<String,String>>> tableLinesDataList) {
 		this.tableLinesDataList = tableLinesDataList;
 	}
 

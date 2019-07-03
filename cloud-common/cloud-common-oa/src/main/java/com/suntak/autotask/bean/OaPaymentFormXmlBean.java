@@ -12,9 +12,9 @@ public class OaPaymentFormXmlBean extends OaFormXmlBean{
 	
 	private Map<String,String> tableHeaderDataMap;
 	
-	private List<Map<String,String>> tableLinesDataList;
+	private List<List<Map<String,String>>> tableLinesDataList;
 	
-	public OaPaymentFormXmlBean(Map<String,String> tableHeaderDataMap, List<Map<String,String>> tableLinesDataList){
+	public OaPaymentFormXmlBean(Map<String,String> tableHeaderDataMap, List<List<Map<String,String>>> tableLinesDataList){
 		this.tableHeaderDataMap = tableHeaderDataMap;
 		this.tableLinesDataList = tableLinesDataList;
 	}
@@ -43,11 +43,11 @@ public class OaPaymentFormXmlBean extends OaFormXmlBean{
 		this.tableHeaderDataMap = tableHeaderDataMap;
 	}
 
-	public List<Map<String,String>> getTableLinesDataList() {
+	public List<List<Map<String,String>>> getTableLinesDataList() {
 		return tableLinesDataList;
 	}
 
-	public void setTableLinesDataList(List<Map<String,String>> tableLinesDataList) {
+	public void setTableLinesDataList(List<List<Map<String,String>>> tableLinesDataList) {
 		this.tableLinesDataList = tableLinesDataList;
 	}
 	
