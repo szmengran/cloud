@@ -1,7 +1,9 @@
 package com.suntak.cloud.ehr.controller;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,7 @@ import com.suntak.exception.model.Response;
 public class DepartmentController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DepartmentController.class);
+	private static ExecutorService executor = new ThreadPoolExecutor(20, 2000, 3L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	
 	@Autowired
 	DepartmentService departmentService;
@@ -40,19 +43,24 @@ public class DepartmentController {
 	
 	@PutMapping("/department")
 	public Response updateAll() throws Exception {
+	    executor.submit(() -> {
+	        try {
+                departmentService.deleteAll();
+            } catch (Exception e) {
+                logger.error("删除企业微信所有部门失败：{}", e);
+            }
+	    });
 		Response response = microservicesClient.getQYToken();
 		if (response.getStatus() == 200) {
 			String access_token = (String)response.getData();
 			DepartmentResponse departmentResponse = enterPriseWechatClient.getDepartment(access_token);
 			if (departmentResponse.getErrcode() == 0) {
 				T_wechat_department[] departments = departmentResponse.getDepartment();
-				ExecutorService executor = Executors.newCachedThreadPool();
 				for (T_wechat_department department: departments) {
 					executor.submit(() -> {
 						try {
 							departmentService.update(department);
 						} catch (Exception e) {
-							e.printStackTrace();
 							logger.error(e.getMessage());
 						}
 					});

@@ -41,7 +41,7 @@ import com.suntak.exception.model.Response;
 @Service
 public class ContactServiceImpl implements ContactService{
 
-	private static final ExecutorService executor     = new ThreadPoolExecutor(20, 200, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+	private static final ExecutorService executor     = new ThreadPoolExecutor(20, 2000, 2L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	private static final Logger LOG = LoggerFactory.getLogger(ContactServiceImpl.class);
 
 	@Value("${wechat.qy.contact.Secret}")
@@ -70,7 +70,7 @@ public class ContactServiceImpl implements ContactService{
 		});
 
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DATE, -1);
+		calendar.add(Calendar.DATE, -2);
 		Date date                    = new SimpleDateFormat("yyyy-MM-dd").parse(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH)+1)+"-"+calendar.get(Calendar.DATE));
 		Timestamp currentDate        = new Timestamp(date.getTime());
 		List<ContactExt> contactExts = contactMapper.findContact(currentDate);

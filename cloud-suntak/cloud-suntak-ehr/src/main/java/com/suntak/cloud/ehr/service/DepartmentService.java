@@ -25,4 +25,14 @@ public interface DepartmentService {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	public void update(T_wechat_department t_wechat_department) throws Exception;
+	
+	/**
+	 * 删除所有的部门
+	 * @return
+	 * @throws Exception      
+	 * @return: Boolean      
+	 * @throws   
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	Boolean deleteAll() throws Exception;
 }

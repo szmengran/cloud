@@ -32,4 +32,8 @@ public class DepartmentServiceImpl implements DepartmentService{
 		}
 	}
 
+	@Override
+	public Boolean deleteAll() throws Exception {
+	    return departmentMapper.deleteAll() > 0;
+	}
 }
