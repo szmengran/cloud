@@ -1,10 +1,12 @@
 package com.suntak.cloud.recruitment.service.impl;
 
+import java.sql.Timestamp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.suntak.cloud.recruitment.entity.T_hr_attachment;
-import com.suntak.cloud.recruitment.mapper.TaskMapper;
+import com.suntak.cloud.recruitment.mapper.AttachmentMapper;
 import com.suntak.cloud.recruitment.service.AttachmentService;
 
 /**
@@ -17,11 +19,28 @@ import com.suntak.cloud.recruitment.service.AttachmentService;
 public class AttachmentServiceImpl implements AttachmentService{
 
 	@Autowired
-	private TaskMapper<T_hr_attachment> taskMapper;
+	private AttachmentMapper attachmentMapper;
 	
 	@Override
-	public void insert(T_hr_attachment t_hr_attachment) throws Exception {
-	    taskMapper.insert(t_hr_attachment);
+	public Boolean insert(T_hr_attachment t_hr_attachment) throws Exception {
+	    Timestamp current = new Timestamp(System.currentTimeMillis());
+	    t_hr_attachment.setCreatestamp(current);
+	    t_hr_attachment.setUpdatestamp(current);
+	    return attachmentMapper.insert(t_hr_attachment) > 0;
 	}
+
+    @Override
+    public Boolean update(T_hr_attachment t_hr_attachment) throws Exception {
+        Timestamp current = new Timestamp(System.currentTimeMillis());
+        t_hr_attachment.setUpdatestamp(current);
+        return attachmentMapper.update(t_hr_attachment) > 0;
+    }
+
+    @Override
+    public T_hr_attachment findById(String applicantid) throws Exception {
+        T_hr_attachment t_hr_attachment = new T_hr_attachment();
+        t_hr_attachment.setApplicantid(applicantid);
+        return attachmentMapper.findById(t_hr_attachment);
+    }
 
 }

@@ -16,9 +16,9 @@ public interface ApplicantService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void insert(T_hr_applicant t_hr_applicant) throws Exception;
+	void insert(T_hr_applicant t_hr_applicant) throws Exception;
 	
-	public int update(T_hr_applicant t_hr_applicant) throws Exception;
+	int update(T_hr_applicant t_hr_applicant) throws Exception;
 	
 	/**
 	 * 更新基本资料
@@ -27,7 +27,7 @@ public interface ApplicantService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public int updateBaseInfo(T_hr_applicant t_hr_applicant) throws Exception;
+	int updateBaseInfo(T_hr_applicant t_hr_applicant) throws Exception;
 	
 	/**
 	 * 根据主键查找基本信息
@@ -36,6 +36,6 @@ public interface ApplicantService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public T_hr_applicant findById(String applicantid) throws Exception;
+	T_hr_applicant findById(String applicantid) throws Exception;
 	
 }

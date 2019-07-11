@@ -22,9 +22,9 @@
 			<artifactId>orm-oracle</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>com.szmengran</groupId>
-            <artifactId>mybatis</artifactId>
-        </dependency>
+			<groupId>com.szmengran</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.suntak</groupId>
 			<artifactId>cloud-model-wechat</artifactId>
@@ -89,6 +89,10 @@
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 		</dependency>
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

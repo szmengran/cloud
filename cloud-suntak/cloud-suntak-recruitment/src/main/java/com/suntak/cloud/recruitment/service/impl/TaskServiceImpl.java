@@ -17,7 +17,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.axis2.AxisFault;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,20 +36,23 @@ import com.suntak.autotask.utils.OaInterfaceUtil;
 import com.suntak.autotask.utils.XmlUtil;
 import com.suntak.cloud.recruitment.client.EhrClient;
 import com.suntak.cloud.recruitment.entity.T_hr_applicant;
-import com.suntak.cloud.recruitment.entity.T_hr_contact;
+import com.suntak.cloud.recruitment.entity.T_hr_attachment;
 import com.suntak.cloud.recruitment.entity.T_hr_educationhistory;
 import com.suntak.cloud.recruitment.entity.T_hr_familymember;
+import com.suntak.cloud.recruitment.entity.T_hr_resume;
 import com.suntak.cloud.recruitment.entity.T_hr_task;
 import com.suntak.cloud.recruitment.entity.T_hr_workflow_sub;
 import com.suntak.cloud.recruitment.entity.T_hr_workhistory;
 import com.suntak.cloud.recruitment.entity.ext.T_hr_task_ext;
 import com.suntak.cloud.recruitment.mapper.ApplicantMapper;
-import com.suntak.cloud.recruitment.mapper.ContactMapper;
 import com.suntak.cloud.recruitment.mapper.EducationHistoryMapper;
 import com.suntak.cloud.recruitment.mapper.FamilyMemberMapper;
 import com.suntak.cloud.recruitment.mapper.TaskMapper;
 import com.suntak.cloud.recruitment.mapper.WorkHistoryMapper;
 import com.suntak.cloud.recruitment.mapper.WorkflowSubMapper;
+import com.suntak.cloud.recruitment.service.AttachmentService;
+import com.suntak.cloud.recruitment.service.OaService;
+import com.suntak.cloud.recruitment.service.ResumeService;
 import com.suntak.cloud.recruitment.service.TaskService;
 import com.suntak.exception.model.Response;
 
@@ -59,9 +65,13 @@ import com.suntak.exception.model.Response;
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    private final static ExecutorService executor = new ThreadPoolExecutor(20, 200, 0L, TimeUnit.SECONDS,
+    private final static ExecutorService executor = new ThreadPoolExecutor(20, 200, 3L, TimeUnit.SECONDS,
             new SynchronousQueue<Runnable>());
+    private final static Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 
+    @Value("${cloud.environment.oa}")
+    private String environment;
+    
     @Autowired
     private TaskMapper<T_hr_task> taskMapper;
 
@@ -73,9 +83,15 @@ public class TaskServiceImpl implements TaskService {
     
     @Autowired
     private EhrClient ehrClient;
-
+    
     @Autowired
-    private ContactMapper contactMapper;
+    private ResumeService resumeService;
+    
+    @Autowired
+    private OaService oaService;
+    
+    @Autowired
+    private AttachmentService attachmentService;
 
     @Autowired
     private EducationHistoryMapper<T_hr_educationhistory> educationHistoryMapper;
@@ -125,6 +141,8 @@ public class TaskServiceImpl implements TaskService {
                 task.setCreatestamp(new Timestamp(System.currentTimeMillis()));
                 task.setUpdatestamp(new Timestamp(System.currentTimeMillis()));
                 taskMapper.insert(task);
+            } else {
+                launchForm(t_hr_task.getApplicantid(), userid);
             }
 
             return t_hr_workflow_sub;
@@ -135,8 +153,34 @@ public class TaskServiceImpl implements TaskService {
         }
     }
 
+    private long[] getAttachment(T_hr_attachment t_hr_attachment, List<T_hr_resume> resumes) throws Exception{
+        int len = 6;
+        if (resumes != null && resumes.size() > 0) {
+            len = 6 + resumes.size();
+        }
+        long[] attactments = new long[len];
+        String avatar = t_hr_attachment.getAvatar();
+        String idcardpositive = t_hr_attachment.getIdcardpositive();
+        String idcardnegative = t_hr_attachment.getIdcardnegative();
+        String diploma = t_hr_attachment.getDiploma();
+        String othercertificate1 = t_hr_attachment.getOthercertificate1();
+        String othercertificate2 = t_hr_attachment.getOthercertificate2();
+        attactments[0] = avatar != null ? Long.parseLong(avatar) : 0;
+        attactments[1] = idcardpositive != null ? Long.parseLong(idcardpositive) : 0;
+        attactments[2] = idcardnegative != null ? Long.parseLong(idcardnegative) : 0;
+        attactments[3] = diploma != null ? Long.parseLong(diploma) : 0;
+        attactments[4] = othercertificate1 != null ? Long.parseLong(othercertificate1) : 0;
+        attactments[5] = othercertificate2 != null ? Long.parseLong(othercertificate2) : 0;
+        
+        int index = 6;
+        for (T_hr_resume t_hr_resume: resumes) {
+            String resumeid = t_hr_resume.getResume();
+            attactments[index++] = resumeid != null ? Long.parseLong(resumeid) : 0;
+        }
+        return attactments;
+    }
     @Override
-    public void launchForm(String applicantid) throws Exception {
+    public void launchForm(String applicantid, String empcode) throws Exception {
         Future<T_hr_applicant> applicant = executor.submit(() -> {
             T_hr_applicant t_hr_applicant = new T_hr_applicant();
             t_hr_applicant.setApplicantid(applicantid);
@@ -148,13 +192,17 @@ public class TaskServiceImpl implements TaskService {
         Future<List<T_hr_familymember>> familymembers = executor.submit(() -> {
             return familyMemberMapper.findByApplicantid(applicantid);
         });
-        Future<T_hr_contact> contact = executor.submit(() -> {
-            T_hr_contact t_hr_contact = new T_hr_contact();
-            t_hr_contact.setApplicantid(applicantid);
-            return contactMapper.findById(t_hr_contact);
-        });
         Future<List<T_hr_workhistory>> workhistorys = executor.submit(() -> {
             return workHistoryMapper.findByApplicantid(applicantid);
+        });
+        Future<List<T_hr_resume>> resumeFuture = executor.submit(() -> {
+            return resumeService.findByApplicantid(applicantid);
+        });
+        Future<T_hr_attachment> attachmentFuture = executor.submit(() -> {
+            return attachmentService.findById(applicantid);
+        });
+        Future<String> loginName = executor.submit(() -> {
+            return oaService.findLoginNameByCode(empcode);
         });
         Future<T_hr_task> firstViewFuture = executor.submit(() -> {
             List<T_hr_task> list = taskMapper.findTaskByApplicantid(applicantid, "1");
@@ -172,28 +220,31 @@ public class TaskServiceImpl implements TaskService {
         });
         OaFormXmlBean oaForm = new OaFormXmlBean();
         oaForm.setTableName("formmain_6902");
-        oaForm.setTableHeaderDataMap(genTableHeaderDataMap(applicant.get(), firstViewFuture.get(),
-                secondViewFuture.get(), contact.get(), educationhistory.get()));
+        T_hr_applicant t_hr_applicant = applicant.get();
+        T_hr_task firstTask = firstViewFuture.get();
+        oaForm.setTableHeaderDataMap(genTableHeaderDataMap(t_hr_applicant, firstTask,
+                secondViewFuture.get(), educationhistory.get()));
         oaForm.setTableLinesDataList(
                 genTableLinesDataList(educationhistory.get(), familymembers.get(), workhistorys.get()));
 
         String data = getOaFormXmlString(oaForm);
         // 连接的环境信息
         try {
-            OaConfigInfo conf = new OaConfigInfo("prod");
+            OaConfigInfo conf = new OaConfigInfo(environment);
 
             String token = OaInterfaceUtil.getOaToken(conf);
-
+            long[] attactments = getAttachment(attachmentFuture.get(), resumeFuture.get());
+            
             // 发起流程表单
             BPMServiceStub bpmServiceStub = new BPMServiceStub(conf);// new BPMServiceStub();
             BPMServiceStub.LaunchFormCollaboration launchFormCollaboration = new BPMServiceStub.LaunchFormCollaboration();
             launchFormCollaboration.setToken(token);
-            launchFormCollaboration.setSenderLoginName("myli1"); // 发起者的登录名（登录协同的登录名）
+            launchFormCollaboration.setSenderLoginName(loginName.get()); // 发起者的登录名（登录协同的登录名）
             launchFormCollaboration.setTemplateCode("OA_WXwork_01"); // 模板编号
-            launchFormCollaboration.setSubject("李茂源员工履历、面试评价及录用审批表"); // 协同的标题
+            launchFormCollaboration.setSubject(t_hr_applicant.getName()+"-"+firstTask.getAttribute14()+"-员工履历、面试评价及录用审批表"); // 协同的标题
             launchFormCollaboration.setData(data); // XML格式的表单数据
-            launchFormCollaboration.setAttachments(null);
-            launchFormCollaboration.setParam("0");
+            launchFormCollaboration.setAttachments(attactments);
+            launchFormCollaboration.setParam("1");
             launchFormCollaboration.setRelateDoc("");
 
             BPMServiceStub.LaunchFormCollaborationResponse launchFormCollaborationResp = bpmServiceStub
@@ -203,7 +254,7 @@ public class TaskServiceImpl implements TaskService {
             String errorMessage = serviceResp.getErrorMessage(); // 错误消息
             Long processId = serviceResp.getResult(); // 流程ID
 
-            System.out.println("错误代码：" + errorNumber + "错误消息：" + errorMessage + "流程ID：" + processId);
+            logger.info("错误代码：", errorNumber, "错误消息：", errorMessage, "流程ID：", processId);
         } catch (AxisFault e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -228,23 +279,23 @@ public class TaskServiceImpl implements TaskService {
     
     private String getMedicalhistory(Integer medicalhistory) {
         if (medicalhistory == 1) {
-            return "-3620634840999376943"; // 男
+            return "-3620634840999376943";
         }
-        return "-3451440124422436818"; // 女
+        return "-3451440124422436818";
     }
     
     private String getCrimehistory(Integer crimehistory) {
         if (crimehistory == 1) {
-            return "-3620634840999376943"; // 男
+            return "-3620634840999376943";
         }
-        return "-3451440124422436818"; // 女
+        return "-3451440124422436818";
     }
     
     private String getPregnancy(Integer pregnancy) {
         if (pregnancy == 1) {
-            return "-3620634840999376943"; // 男
+            return "-3620634840999376943"; 
         }
-        return "-3451440124422436818"; // 女
+        return "-3451440124422436818";
     }
 
     /**
@@ -258,7 +309,7 @@ public class TaskServiceImpl implements TaskService {
      * @throws @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
     private Map<String, String> genTableHeaderDataMap(T_hr_applicant applicant, T_hr_task firstViewTask,
-            T_hr_task secondViewTask, T_hr_contact t_hr_contact, List<T_hr_educationhistory> educationhistorys) throws ParseException {
+            T_hr_task secondViewTask, List<T_hr_educationhistory> educationhistorys) throws ParseException {
         T_hr_educationhistory educationhistory = educationhistorys.get(0);
         Map<String, String> tableHeaderDataMap = new HashMap<String, String>();
         tableHeaderDataMap.put("公司logo", ""); // 公司logo
@@ -301,13 +352,11 @@ public class TaskServiceImpl implements TaskService {
         tableHeaderDataMap.put("其他语言能力", ""); // 其他语言能力
         tableHeaderDataMap.put("技术职称或职业资格", applicant.getJobtitle()); // 技术职称或职业资格
         tableHeaderDataMap.put("个人特长或爱好", applicant.getHobby()); // 个人特长或爱好
-        if (t_hr_contact != null) {
-            tableHeaderDataMap.put("紧急联系人姓名", t_hr_contact.getName()); // 紧急联系人姓名
-            tableHeaderDataMap.put("紧急联系人与本人关系", t_hr_contact.getRelationship()); // 紧急联系人与本人关系
-            tableHeaderDataMap.put("紧急联系人工作单位或部门", t_hr_contact.getCompany()); // 紧急联系人工作单位或部门
-            tableHeaderDataMap.put("紧急联系人职务", t_hr_contact.getPosition()); // 紧急联系人职务
-            tableHeaderDataMap.put("紧急联系人电话", t_hr_contact.getPhone()); // 紧急联系人电话
-        }
+        tableHeaderDataMap.put("紧急联系人姓名", applicant.getContactname()); // 紧急联系人姓名
+        tableHeaderDataMap.put("紧急联系人与本人关系", applicant.getContactrelationship()); // 紧急联系人与本人关系
+        tableHeaderDataMap.put("紧急联系人工作单位或部门", applicant.getContactcompany()); // 紧急联系人工作单位或部门
+        tableHeaderDataMap.put("紧急联系人职务", applicant.getContactposition()); // 紧急联系人职务
+        tableHeaderDataMap.put("紧急联系人电话", applicant.getContactphone()); // 紧急联系人电话
         tableHeaderDataMap.put("亲属在本公司是否",
                 applicant.getRelativesname() == null ? "2958853362500325158" : "-5805300948442788403"); // 亲属在本公司是否
         tableHeaderDataMap.put("亲属在本公司姓名", applicant.getRelativesname()); // 亲属在本公司姓名

@@ -20,7 +20,7 @@ public interface TaskService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void insert(T_hr_task t_hr_task) throws Exception;
+	void insert(T_hr_task t_hr_task) throws Exception;
 	
 	/**
 	 * 处理任务并返回下一流程节点
@@ -30,9 +30,18 @@ public interface TaskService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public T_hr_workflow_sub handlerTask(T_hr_task t_hr_task, String userid) throws Exception;
+	T_hr_workflow_sub handlerTask(T_hr_task t_hr_task, String userid) throws Exception;
 	
-	public void launchForm(String applicantid) throws Exception;
+	/**
+	 * 发起表单
+	 * @param applicantid
+	 * @param empcode
+	 * @throws Exception      
+	 * @return: void      
+	 * @throws   
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	void launchForm(String applicantid, String empcode) throws Exception;
 	
 	/**
 	 * 查找任务
@@ -42,5 +51,5 @@ public interface TaskService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public List<T_hr_task_ext> find(String[] roles, String userid) throws Exception;
+	List<T_hr_task_ext> find(String[] roles, String userid) throws Exception;
 }

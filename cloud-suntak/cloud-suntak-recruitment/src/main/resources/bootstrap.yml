@@ -16,3 +16,6 @@ spring:
     bootstrap-servers: ${KAFKA_SERVER}
 logging:
   config: ${CONFIG_SERVER_ADDRESS}/resources/logback-spring.xml
+cloud:
+  environment:
+    oa: prod

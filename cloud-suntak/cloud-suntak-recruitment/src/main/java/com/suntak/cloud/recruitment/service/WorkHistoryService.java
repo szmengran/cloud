@@ -18,7 +18,7 @@ public interface WorkHistoryService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void saveOrUpdate(T_hr_workhistory t_hr_workhistory) throws Exception;
+	void saveOrUpdate(T_hr_workhistory t_hr_workhistory) throws Exception;
 	
 	/**
 	 * 根据应聘者id查找工作经历
@@ -27,7 +27,7 @@ public interface WorkHistoryService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public List<T_hr_workhistory> findByApplicantid(String applicantid) throws Exception;
+	List<T_hr_workhistory> findByApplicantid(String applicantid) throws Exception;
 	
 	/**
 	 * 删除工作经历
@@ -35,5 +35,5 @@ public interface WorkHistoryService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void delete(Integer workhistoryid) throws Exception;
+	void delete(Integer workhistoryid) throws Exception;
 }

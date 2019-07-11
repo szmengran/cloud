@@ -17,7 +17,7 @@ public interface EducationHistoryService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void saveOrUpdate(T_hr_educationhistory t_hr_educationhistory) throws Exception;
+	void saveOrUpdate(T_hr_educationhistory t_hr_educationhistory) throws Exception;
 	
 	/**
 	 * 根据主键查找学习经历
@@ -26,5 +26,5 @@ public interface EducationHistoryService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public T_hr_educationhistory findByApplicantid(String applicantid) throws Exception;
+	T_hr_educationhistory findByApplicantid(String applicantid) throws Exception;
 }

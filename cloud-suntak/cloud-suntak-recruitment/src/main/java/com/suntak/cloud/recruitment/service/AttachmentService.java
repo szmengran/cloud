@@ -16,5 +16,26 @@ public interface AttachmentService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void insert(T_hr_attachment t_hr_attachment) throws Exception;
+	Boolean insert(T_hr_attachment t_hr_attachment) throws Exception;
+	
+	/**
+	 * 更新附件
+	 * @param t_hr_attachment
+	 * @return
+	 * @throws Exception      
+	 * @return: Boolean      
+	 * @throws   
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	Boolean update(T_hr_attachment t_hr_attachment) throws Exception;
+	
+	/**
+	 * 根据ID查找附件信息
+	 * @param applicantid
+	 * @return      
+	 * @return: T_hr_attachment      
+	 * @throws   
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	T_hr_attachment findById(String applicantid) throws Exception; 
 }
