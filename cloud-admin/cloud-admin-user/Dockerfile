@@ -1,7 +1,7 @@
 FROM openjdk:8-jre-alpine
 MAINTAINER Joe <android_li@sina.cn>
 
-ENV JAR_FILE cloud-admin-user-0.0.1.jar
+ENV JAR_FILE cloud-admin-user.jar
 
 #Set Beijing time zone
 RUN echo 'Asia/Shanghai' >/etc/timezone 

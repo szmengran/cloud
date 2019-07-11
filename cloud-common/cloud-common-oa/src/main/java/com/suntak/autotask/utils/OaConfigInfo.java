@@ -5,6 +5,8 @@ public class OaConfigInfo {
     private String url;
     private String username;
     private String password;
+    private String restuser;
+    private String restpass;
 
     public OaConfigInfo(String env) {
 
@@ -13,12 +15,16 @@ public class OaConfigInfo {
             setUrl("http://oa.suntakpcb.com");
             setUsername("service-admin");
             setPassword("mustchange");
+            setRestuser("oasupport");
+            setRestpass("oasupport");
         }
         // 测试环境地址
         else {
             setUrl("http://10.1.100.158:5678");
             setUsername("service-admin");
             setPassword("mustchange");
+            setRestuser("oasupport");
+            setRestpass("oasupport");
         }
     }
 
@@ -44,6 +50,22 @@ public class OaConfigInfo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRestuser() {
+        return restuser;
+    }
+
+    public void setRestuser(String restuser) {
+        this.restuser = restuser;
+    }
+
+    public String getRestpass() {
+        return restpass;
+    }
+
+    public void setRestpass(String restpass) {
+        this.restpass = restpass;
     }
 
 }

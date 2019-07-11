@@ -11,5 +11,6 @@
 	<modules>
 		<module>cloud-common-sms</module>
 		<module>cloud-common-utils</module>
+		<module>cloud-common-oa</module>
 	</modules>
 </project>

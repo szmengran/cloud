@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.recruitment.entity.T_hr_applicant;
+import com.suntak.cloud.recruitment.entity.T_hr_attachment;
 import com.suntak.cloud.recruitment.entity.T_hr_educationhistory;
 import com.suntak.cloud.recruitment.entity.T_hr_familymember;
+import com.suntak.cloud.recruitment.entity.T_hr_resume;
 import com.suntak.cloud.recruitment.entity.T_hr_workhistory;
 import com.suntak.cloud.recruitment.service.ApplicantService;
+import com.suntak.cloud.recruitment.service.AttachmentService;
 import com.suntak.cloud.recruitment.service.EducationHistoryService;
 import com.suntak.cloud.recruitment.service.FamilyMemberService;
+import com.suntak.cloud.recruitment.service.ResumeService;
 import com.suntak.cloud.recruitment.service.WorkHistoryService;
 import com.suntak.exception.model.Response;
 
@@ -34,16 +38,22 @@ import com.suntak.exception.model.Response;
 public class CommonController {
 	
 	@Autowired
-	ApplicantService applicantService;
+	private ApplicantService applicantService;
 	
 	@Autowired
-	EducationHistoryService educationHistoryService;
+	private EducationHistoryService educationHistoryService;
 	
 	@Autowired
-	WorkHistoryService workHistoryService;
+	private WorkHistoryService workHistoryService;
 	
 	@Autowired
-	FamilyMemberService familyMemberService;
+	private FamilyMemberService familyMemberService;
+	
+	@Autowired
+	private ResumeService resumeService;
+	
+	@Autowired
+	private AttachmentService attachmentService;
 	
 	@GetMapping(value="/common/{applicantid}")
 	public Response findByApplicantid(@PathVariable("applicantid") final String applicantid) throws Exception {
@@ -60,6 +70,12 @@ public class CommonController {
 		Future<List<T_hr_familymember>> familymemebersFuture = executor.submit(() -> {
 			return familyMemberService.findByApplicantid(applicantid);
 		});
+		Future<List<T_hr_resume>> resumeFuture = executor.submit(() -> {
+            return resumeService.findByApplicantid(applicantid);
+        });
+        Future<T_hr_attachment> attachmentFuture = executor.submit(() -> {
+            return attachmentService.findById(applicantid);
+        });
 		T_hr_applicant t_hr_applicant = applicantFuture.get();
 		T_hr_educationhistory educationhistory =  educationhistoryFuture.get();
 		List<T_hr_workhistory> works =  worksFuture.get();
@@ -69,6 +85,8 @@ public class CommonController {
 		map.put("educationhistory", educationhistory);
 		map.put("works", works);
 		map.put("familymemebers", familymemebers);
+		map.put("resume", resumeFuture.get());
+		map.put("attachment", attachmentFuture.get());
 		Response response = new Response();
 		response.setData(map);
 		return response;

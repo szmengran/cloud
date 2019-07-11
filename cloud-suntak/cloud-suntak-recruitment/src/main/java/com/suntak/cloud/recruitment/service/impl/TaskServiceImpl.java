@@ -142,7 +142,9 @@ public class TaskServiceImpl implements TaskService {
                 task.setUpdatestamp(new Timestamp(System.currentTimeMillis()));
                 taskMapper.insert(task);
             } else {
-                launchForm(t_hr_task.getApplicantid(), userid);
+                if ("1".equals(t_hr_task.getAgree())) {
+                    launchForm(t_hr_task.getApplicantid(), userid);
+                }
             }
 
             return t_hr_workflow_sub;

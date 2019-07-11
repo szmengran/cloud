@@ -288,6 +288,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.suntak</groupId>
+				<artifactId>cloud-common-oa</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.suntak</groupId>
 				<artifactId>aop-exception</artifactId>
 				<version>${aop.version}</version>
 			</dependency>
@@ -314,48 +319,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-bus-kafka</artifactId>
-		</dependency>
-		<!-- *********************sleuth+zipkin+kafka+logback+elk repo begin*********************** -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-stream-kafka</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-zipkin</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.github.danielwegener</groupId>
-			<artifactId>logback-kafka-appender</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>net.logstash.logback</groupId>
-			<artifactId>logstash-logback-encoder</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.zipkin.reporter2</groupId>
-			<artifactId>zipkin-sender-kafka11</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-		</dependency>
-		<!-- *********************sleuth+zipkin+kafka+logback+elk repo end*********************** -->
-	</dependencies>
+
 	<repositories>
 		<repository>
 			<id>spring-milestones</id>
@@ -365,8 +329,18 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>nexus</id>
+			<name>nexus Milestones</name>
+			<url>http://192.168.14.75:8081/repository/3rd_part/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
-
 	<build>
 		<plugins>
 			<plugin>
