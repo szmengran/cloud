@@ -41,7 +41,7 @@ import com.suntak.exception.model.Response;
 @Service
 public class ContactServiceImpl implements ContactService{
 
-	private static final ExecutorService executor     = new ThreadPoolExecutor(20, 2000, 2L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+	private static final ExecutorService executor     = new ThreadPoolExecutor(50, 2000, 2L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	private static final Logger LOG = LoggerFactory.getLogger(ContactServiceImpl.class);
 
 	@Value("${wechat.qy.contact.Secret}")
@@ -139,6 +139,9 @@ public class ContactServiceImpl implements ContactService{
 		});
 		List<ContactExt> contactExts = contactMapper.findDisableContact();
 		Response response = futurn.get();
+		if (response.getStatus() != 200) {
+		    throw new Exception("获取token失败！");
+		}
 		final String access_token = (String)response.getData();
 		for (ContactExt contactExt: contactExts) {
 			executor.submit(() -> {
@@ -147,8 +150,7 @@ public class ContactServiceImpl implements ContactService{
 					ContactResponse contactResponse = constactClient.deleteContact(access_token, contactExt.getUserid());
 					LOG.info("删除结果：{},{}",contactExt.getUserid(), new Gson().toJson(contactResponse));
 				} catch (Exception e) {
-					e.printStackTrace();
-					LOG.error(e.getMessage());
+					LOG.error("删除失败:", e.getMessage());
 				}
 			});
 		}
