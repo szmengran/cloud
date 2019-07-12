@@ -110,7 +110,15 @@ public class ContactServiceImpl implements ContactService{
 					if (currentDate.before(contactExt.getLabordate())) {
 						ContactResponse contactResponse = constactClient.createContact(access_token, contact);
 						if (contactResponse.getErrcode() != 0) {
-							LOG.error("synchContact error:{}",contactResponse.getErrmsg());
+						    ContactResponse contactResponse1 = constactClient.updateContact(access_token, contact);
+	                        if (60111 == contactResponse1.getErrcode()) { //员工信息不存在时，需要创建员工信息
+	                            contactResponse1 = constactClient.createContact(access_token, contact);
+	                            if (contactResponse1.getErrcode() != 0) {
+	                                LOG.error("synchContact error:{}",contactResponse1.getErrmsg());
+	                            }
+	                        } else if (contactResponse1.getErrcode() != 0) {
+	                            LOG.error("synchContact error:{}",contactResponse1.getErrmsg());
+	                        }
 						}
 					} else {
 						LOG.info("synchContact:{}",new Gson().toJson(contact));

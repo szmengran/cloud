@@ -11,7 +11,7 @@ set -e
 
 # Docker image prefix
 REGPREFIX=suntak
-VERSION=$CLOUD_VERSION
+VERSION=0.0.3
 
 cd ../cloud-suntak/cloud-suntak-ehr
 mvn -e package

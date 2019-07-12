@@ -35,7 +35,7 @@ public interface ContactMapper extends IMapper<ContactExt>{
 			      .append(" (select a.*,b.name pname from t_wechat_department a left join t_wechat_department b")
 			      .append(" on a.parentid = b.id ) b on (b.name = kename and b.pname = nvl(person_attr, decode(a.companycode, '0012','深圳工厂', '0071','大连工厂', '0035','江门一厂', '0063','江门二厂','0592','大连崇达电子有限公司',a.companyname)))")
 			      .append(" or (kename is null and b.name = nvl(person_attr, decode(a.companycode, '0012','深圳工厂', '0071','大连工厂', '0035','江门一厂', '0063','江门二厂','0592','大连崇达电子有限公司',a.companyname)))")
-//			      .append(" where a.empcode = '009333'");
+//			      .append(" where a.empcode = '012453'");
 			      .append(" where a.labordate >= #{currentDate}")
 			      .append(" or a.operate_time >= #{currentDate}")
 			      .append(" or a.mobile_operate_time >= #{currentDate}")

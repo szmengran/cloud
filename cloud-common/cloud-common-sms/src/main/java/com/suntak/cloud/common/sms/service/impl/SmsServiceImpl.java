@@ -47,10 +47,10 @@ public class SmsServiceImpl implements SmsService{
 
         CommonRequest request = new CommonRequest();
         //request.setProtocol(ProtocolType.HTTPS);
-        request.setMethod(MethodType.POST);
-        request.setDomain("dysmsapi.aliyuncs.com");
-        request.setVersion("2017-05-25");
-        request.setAction("SendSms");
+        request.setSysMethod(MethodType.POST);
+        request.setSysDomain("dysmsapi.aliyuncs.com");
+        request.setSysVersion("2017-05-25");
+        request.setSysAction("SendSms");
         request.putQueryParameter("RegionId", "cn-hangzhou");
         request.putQueryParameter("PhoneNumbers", t_common_sms_log.getPhone());
         request.putQueryParameter("SignName", t_common_sms_log.getSignname());
