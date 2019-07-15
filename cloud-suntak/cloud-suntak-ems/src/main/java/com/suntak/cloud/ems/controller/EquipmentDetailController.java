@@ -38,7 +38,7 @@ public class EquipmentDetailController {
         pageSize = pageSize > 100 ? 100 : pageSize;
         PageHelper.startPage(pageNum, pageSize, "equipment_name");
         List<Ems_dm_equipment_details> list = equipmentDetailService.findEquipmentDetail(equipmentDetailRequest.getUseD(), 
-                equipmentDetailRequest.getProcedure(), equipmentDetailRequest.getKeyword());
+                equipmentDetailRequest.getProcedure(), equipmentDetailRequest.getKeyword(), equipmentDetailRequest.getOrg_id());
         Response response = new Response();
         response.setData(list);
         return response;

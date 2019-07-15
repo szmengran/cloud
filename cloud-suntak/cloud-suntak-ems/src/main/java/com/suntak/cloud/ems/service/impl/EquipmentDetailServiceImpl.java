@@ -22,9 +22,9 @@ public class EquipmentDetailServiceImpl implements EquipmentDetailService {
     private EquipmentDetailsMapper EquipmentDetailsMapper;
     
     @Override
-    public List<Ems_dm_equipment_details> findEquipmentDetail(String useD, String procedure, String keyword)
+    public List<Ems_dm_equipment_details> findEquipmentDetail(String useD, String procedure, String keyword, Integer org_id)
             throws Exception {
-        return EquipmentDetailsMapper.findEquipmentDetail(useD, procedure, keyword);
+        return EquipmentDetailsMapper.findEquipmentDetail(useD, procedure, keyword, org_id);
     }
 
 }

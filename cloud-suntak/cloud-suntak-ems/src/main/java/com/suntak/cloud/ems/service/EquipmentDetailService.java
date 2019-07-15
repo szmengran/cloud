@@ -17,6 +17,7 @@ public interface EquipmentDetailService {
      * @param useD
      * @param procedure
      * @param keyword
+     * @param org_id
      * @return
      * @throws Exception      
      * @return: List<Ems_dm_equipment_details>      
@@ -24,5 +25,5 @@ public interface EquipmentDetailService {
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
     List<Ems_dm_equipment_details> findEquipmentDetail(String useD, String procedure, 
-            String keyword) throws Exception;
+            String keyword, Integer org_id) throws Exception;
 }

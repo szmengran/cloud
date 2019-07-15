@@ -23,13 +23,14 @@ public interface EquipmentDetailsMapper extends IMapper<Ems_dm_equipment_details
     
     @SelectProvider(type = SqlProvider.class, method = "findEquipmentDetail")
     List<Ems_dm_equipment_details> findEquipmentDetail(@Param("useD") String useD, @Param("procedure") String procedure, 
-            @Param("keyword") String keyword) throws Exception;
+            @Param("keyword") String keyword, @Param("org_id") Integer org_id) throws Exception;
     
     class SqlProvider {
         public String findEquipmentDetail(Map<String, Object> params) {
             String useD = (String)params.get("useD");
             String procedure = (String)params.get("procedure");
             String keyword = (String)params.get("keyword");
+            Integer org_id = (Integer)params.get("org_id");
             return new SQL() {
                 {
                     SELECT("id,procedure,installation_location,use_d,equipment_name,equipment_alias,equipment_no,asset_id,manufacturer,start_time");
@@ -39,6 +40,9 @@ public interface EquipmentDetailsMapper extends IMapper<Ems_dm_equipment_details
                     }
                     if (StringUtils.isNotBlank(procedure)) {
                         WHERE("procedure=#{procedure}");
+                    }
+                    if (org_id != null && org_id != 0) {
+                        WHERE("organization_id=#{org_id}");
                     }
                     if (StringUtils.isNotBlank(keyword)) {
                         WHERE("(equipment_no like '%"+keyword+"%' or asset_id like '%"+keyword+"%' or equipment_alias like '%"+keyword+"%' or equipment_name like '%"+keyword+"%')");
