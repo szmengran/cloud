@@ -48,7 +48,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping(path = "/api/v1/suntaksms", produces = { "application/json" })
 public class BlessingSmsController {
 	
-    private final static ExecutorService executor = new ThreadPoolExecutor(20, 200, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+    private final static ExecutorService executor = new ThreadPoolExecutor(20, 2000, 3L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	private final static Logger logger = LoggerFactory.getLogger(BlessingSmsController.class);
 	private final static Integer MSG_TYPE_ONBOARD=1;
 	private final static Integer MSG_TYPE_BIRTHDAY=2;
@@ -151,34 +151,30 @@ public class BlessingSmsController {
 				if(StringUtils.isBlank(ehrUser.getPhone()) || ehrUser.getPhone().length() != 11) {
 					continue;
 				}
-				executor.submit(new Runnable() {
-					@Override
-	                public void run() {
-						T_common_sms_log t_common_sms_log = new T_common_sms_log();
-						BeanUtils.copyProperties(t_common_sms_log_tmp, t_common_sms_log);
-						t_common_sms_log.setPhone(ehrUser.getPhone());
-						try {
-							if (MSG_TYPE_ONBOARD == type) {
-								Map<String, Object> map = new HashMap<String, Object>();
-								map.put("name", ehrUser.getEmpname());
-								map.put("year", ehrUser.getYear());
-								map.put("year1", ehrUser.getYear());
-								map.put("year2", ehrUser.getYear());
-								t_common_sms_log.setTemplateparam(SmsTool.transferMapToJson(map));
-							} else if (MSG_TYPE_BIRTHDAY == type) {
-								Map<String, Object> map = new HashMap<String, Object>();
-								map.put("name", ehrUser.getEmpname());
-								t_common_sms_log.setTemplateparam(SmsTool.transferMapToJson(map));
-							}
-							smsServiceClient.send(t_common_sms_log);
-						} catch (Exception e) {
-							e.printStackTrace();
-							logger.error(e.getMessage());
-						}
-	                }
-				});
+				executor.submit(() -> {
+                    T_common_sms_log t_common_sms_log = new T_common_sms_log();
+                    BeanUtils.copyProperties(t_common_sms_log_tmp, t_common_sms_log);
+                    t_common_sms_log.setPhone(ehrUser.getPhone());
+                    try {
+                        if (MSG_TYPE_ONBOARD == type) {
+                            Map<String, Object> map = new HashMap<String, Object>();
+                            map.put("name", ehrUser.getEmpname());
+                            map.put("year", ehrUser.getYear());
+                            map.put("year1", ehrUser.getYear());
+                            map.put("year2", ehrUser.getYear());
+                            t_common_sms_log.setTemplateparam(SmsTool.transferMapToJson(map));
+                        } else if (MSG_TYPE_BIRTHDAY == type) {
+                            Map<String, Object> map = new HashMap<String, Object>();
+                            map.put("name", ehrUser.getEmpname());
+                            t_common_sms_log.setTemplateparam(SmsTool.transferMapToJson(map));
+                        }
+                        smsServiceClient.send(t_common_sms_log);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        logger.error(e.getMessage());
+                    }
+                });
 			}
-			executor.shutdown();
 		}
 	}
 	
