@@ -350,6 +350,9 @@ public class TaskServiceImpl implements TaskService {
         tableHeaderDataMap.put("普通话", applicant.getMandarin() == null ? "0" : "1"); // 普通话
         tableHeaderDataMap.put("英语级", applicant.getEnglish() == null ? "0" : "1"); // 英语级
         tableHeaderDataMap.put("日语级", applicant.getJapanese() == null ? "0" : "1"); // 日语级
+        tableHeaderDataMap.put("普通话级别", applicant.getMandarin()); // 普通话
+        tableHeaderDataMap.put("英语级级别", applicant.getEnglish()); // 英语级
+        tableHeaderDataMap.put("日语级级别", applicant.getJapanese()); // 日语级
         tableHeaderDataMap.put("其它", applicant.getOther() == null ? "0" : "1"); // 其它
         tableHeaderDataMap.put("其他语言能力", ""); // 其他语言能力
         tableHeaderDataMap.put("技术职称或职业资格", applicant.getJobtitle()); // 技术职称或职业资格
@@ -432,8 +435,8 @@ public class TaskServiceImpl implements TaskService {
         List<Map<String, String>> educationhistoryList = new ArrayList<>();
         for (T_hr_educationhistory t_hr_educationhistory : educationhistorys) {
             Map<String, String> map = new HashMap<>();
-            map.put("教育经历起止时间", new SimpleDateFormat("yyyy-MM-dd").format(t_hr_educationhistory.getStarttime()) + "~"
-                    + new SimpleDateFormat("yyyy-MM-dd").format(t_hr_educationhistory.getEndtime()));
+            map.put("教育经历起止时间", new SimpleDateFormat("yyyy.MM.dd").format(t_hr_educationhistory.getStarttime()) + "~"
+                    + new SimpleDateFormat("yyyy.MM.dd").format(t_hr_educationhistory.getEndtime()));
             map.put("教育经历毕业学校或培训机构", t_hr_educationhistory.getSchool());
             map.put("教育经历学习专业或培训项目", t_hr_educationhistory.getProfession());
             map.put("教育经历获得证书", t_hr_educationhistory.getCertificate());
@@ -442,8 +445,8 @@ public class TaskServiceImpl implements TaskService {
         List<Map<String, String>> workhistorysList = new ArrayList<>();
         for (T_hr_workhistory workhistory : workhistorys) {
             Map<String, String> map = new HashMap<>();
-            map.put("工作经历起止时间", new SimpleDateFormat("yyyy-MM-dd").format(workhistory.getStarttime()) + "~"
-                    + new SimpleDateFormat("yyyy-MM-dd").format(workhistory.getEndtime()));
+            map.put("工作经历起止时间", new SimpleDateFormat("yyyy.MM.dd").format(workhistory.getStarttime()) + "~"
+                    + new SimpleDateFormat("yyyy.MM.dd").format(workhistory.getEndtime()));
             map.put("工作经历工作单位", workhistory.getCompany());
             map.put("工作经历部门", workhistory.getDepartment());
             map.put("工作经历职位", workhistory.getPosition());
