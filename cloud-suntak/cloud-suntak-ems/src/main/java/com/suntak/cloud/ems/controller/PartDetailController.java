@@ -60,4 +60,24 @@ public class PartDetailController {
         response.setData(partDetailService.findPartInfo(keyword, userinfo.getOrg_id()));
         return response;
     }
+    
+    @PostMapping("/part2/{token}")
+    public Response findPartDetailInfoByNo(@PathVariable("token") String token, @RequestBody PartDetailRequest partDetailRequest) throws Exception {
+        String userJson = JwtUtil.parseToken(token);
+        if (userJson == null) {
+            throw new BusinessException(10007001);
+        }
+        Oz_org_userinfo_ext userinfo = new Gson().fromJson(userJson, Oz_org_userinfo_ext.class);
+        Integer pageNum = partDetailRequest.getPageNum();
+        Integer pageSize = partDetailRequest.getPageSize();
+        if (pageNum == null) {
+            pageNum = 1;
+            pageSize = 10;
+        }
+        String keyword = partDetailRequest.getKeyword();
+        PageHelper.startPage(pageNum, pageSize, "part_no desc");
+        Response response = new Response();
+        response.setData(partDetailService.findPartByNo(keyword, userinfo.getOrg_id()));
+        return response;
+    }
 }

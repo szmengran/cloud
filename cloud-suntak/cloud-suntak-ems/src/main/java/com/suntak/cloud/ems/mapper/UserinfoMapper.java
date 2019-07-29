@@ -27,6 +27,6 @@ public interface UserinfoMapper extends IMapper<Oz_org_userinfo> {
      * @throws   
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
-    @Select("select id, name, mobile, employer_id from oz_org_userinfo where employer_id=#{employerId}")
+    @Select("select id, name, mobile, employer_id from oz_org_userinfo where employer_id=#{employerId} order by id")
     List<Oz_org_userinfo> findUserinfo(@Param("employerId") String employerId) throws Exception;
 }

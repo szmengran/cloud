@@ -26,4 +26,9 @@ public class PartDetailServiceImpl implements PartDetailService {
         return partDetailMapper.findPartDetailInfo(keyword, org_id);
     }
 
+    @Override
+    public List<Ems_partdetail_v> findPartByNo(String part_no, Integer org_id) throws Exception {
+        return partDetailMapper.findPartByNo(part_no, org_id);
+    }
+
 }

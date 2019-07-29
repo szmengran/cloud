@@ -62,10 +62,10 @@ public class WechatController {
 	public Response getUserInfo(@PathVariable("code") String code) throws Exception {
 		Response response = wechatClient.getUserInfo(code, secret);
 		///
-//		response = new Response();
-//		Map<String, String> amap = new HashMap<String, String>();
-//		amap.put("UserId", "006124");
-//		response.setData(amap);
+		response = new Response();
+		Map<String, String> amap = new HashMap<String, String>();
+		amap.put("UserId", "000742");
+		response.setData(amap);
 		///
 		if (response.getStatus() == 200) {
 			ObjectMapper objectMapper = new ObjectMapper();

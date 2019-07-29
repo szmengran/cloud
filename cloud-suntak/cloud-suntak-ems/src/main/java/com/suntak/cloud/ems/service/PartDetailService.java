@@ -23,5 +23,16 @@ public interface PartDetailService {
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
     List<Ems_partdetail_v> findPartInfo(String keyword, Integer org_id) throws Exception;
+    /**
+     * 根据配件编号查配件信息
+     * @param part_no
+     * @param org_id
+     * @return
+     * @throws Exception      
+     * @return: List<Ems_partdetail_v>      
+     * @throws   
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
+    List<Ems_partdetail_v> findPartByNo(String part_no, Integer org_id) throws Exception;
     
 }

@@ -21,7 +21,10 @@ public class Ems_partdetail_v {
     private Float price            ;
     private Integer onhand_qty       ;
     private Integer onroad_qty       ;
+    private String last_buy_date;
+    private String last_buy_amount;
     private Integer total_onhand_qty ;
+    private String system_flag;
     public Long getId() {
         return id;
     }
@@ -112,11 +115,28 @@ public class Ems_partdetail_v {
     public void setOnroad_qty(Integer onroad_qty) {
         this.onroad_qty = onroad_qty;
     }
+    public String getLast_buy_date() {
+        return last_buy_date;
+    }
+    public void setLast_buy_date(String last_buy_date) {
+        this.last_buy_date = last_buy_date;
+    }
+    public String getLast_buy_amount() {
+        return last_buy_amount;
+    }
+    public void setLast_buy_amount(String last_buy_amount) {
+        this.last_buy_amount = last_buy_amount;
+    }
     public Integer getTotal_onhand_qty() {
         return total_onhand_qty;
     }
     public void setTotal_onhand_qty(Integer total_onhand_qty) {
         this.total_onhand_qty = total_onhand_qty;
     }
-
+    public String getSystem_flag() {
+        return system_flag;
+    }
+    public void setSystem_flag(String system_flag) {
+        this.system_flag = system_flag;
+    }
 }
