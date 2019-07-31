@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +14,7 @@ import com.github.pagehelper.PageHelper;
 import com.google.gson.Gson;
 import com.suntak.admin.user.exception.BusinessException;
 import com.suntak.cloud.ems.entity.Ems_dm_order_head;
+import com.suntak.cloud.ems.entity.ext.OrderRequest;
 import com.suntak.cloud.ems.entity.ext.Oz_org_userinfo_ext;
 import com.suntak.cloud.ems.service.EmsDmOrderHeadService;
 import com.suntak.exception.model.Response;
@@ -41,6 +44,14 @@ public class EmsDmOrderHeadController {
         List<Ems_dm_order_head> list = emsDmOrderHeadService.findOrders(userinfo.getId());
         Response response = new Response();
         response.setData(list);
+        return response;
+    }
+    
+    @PostMapping("/order")
+    public Response insert(@RequestBody OrderRequest request) throws Exception {
+        Integer id = emsDmOrderHeadService.insert(request.getOrder_head(), request.getOrder_lines());
+        Response response = new Response();
+        response.setData(id);
         return response;
     }
 }

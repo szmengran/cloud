@@ -2,14 +2,17 @@ package com.suntak.cloud.ems.entity;
 
 import java.sql.Timestamp;
 
+import com.szmengran.mybatis.utils.Table;
+
 /** 
  * @Package com.suntak.cloud.ems.entity 
  * @Description: 备件领用信息
  * @date Jul 23, 2019 8:21:43 AM 
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
+@Table(id = "id")
 public class Ems_dm_order_head {
-    private String id;
+    private Integer id;
     private Integer operation;
     private Timestamp date_time;
     private String order_no;
@@ -29,12 +32,10 @@ public class Ems_dm_order_head {
     private String txn_name;
     private String result_str;
     private String exe_time;
-    private String process_id;
-    private Integer status;
-    public String getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public Integer getOperation() {
@@ -151,17 +152,4 @@ public class Ems_dm_order_head {
     public void setExe_time(String exe_time) {
         this.exe_time = exe_time;
     }
-    public String getProcess_id() {
-        return process_id;
-    }
-    public void setProcess_id(String process_id) {
-        this.process_id = process_id;
-    }
-    public Integer getStatus() {
-        return status;
-    }
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-    
 }

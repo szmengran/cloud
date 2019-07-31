@@ -29,4 +29,15 @@ public interface EmsDmOrderHeadMapper extends IMapper<Ems_dm_order_head> {
      */
     @Select("select * from ems_dm_order_head where use_p_id = #{use_p_id}")
     List<Ems_dm_order_head> findOrders(@Param("use_p_id") Integer use_p_id) throws Exception;
+    
+    /**
+     * 查找序列号
+     * @return
+     * @throws Exception      
+     * @return: Integer      
+     * @throws   
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
+    @Select("SELECT HIBERNATE_SEQUENCE.Nextval from dual")
+    Integer findSeq() throws Exception;
 }

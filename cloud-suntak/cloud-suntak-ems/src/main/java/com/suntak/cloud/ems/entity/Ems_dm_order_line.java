@@ -1,11 +1,19 @@
 package com.suntak.cloud.ems.entity;
+
+import com.szmengran.mybatis.utils.GeneratedValue;
+import com.szmengran.mybatis.utils.GenerationType;
+import com.szmengran.mybatis.utils.Table;
+
 /** 
  * @Package com.suntak.cloud.ems.entity 
  * @Description: 订单行
  * @date Jul 26, 2019 1:23:08 PM 
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
+@Table(id = "id")
 public class Ems_dm_order_line {
+    
+    @GeneratedValue(generator="HIBERNATE_SEQUENCE", strategy=GenerationType.SEQUENCE)
     private Integer id;
     private Integer part_no;
     private String part_name;
