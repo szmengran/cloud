@@ -2,7 +2,6 @@ package com.suntak.cloud.recruitment.service.impl;
 
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +34,7 @@ import com.suntak.autotask.utils.OaConfigInfo;
 import com.suntak.autotask.utils.OaInterfaceUtil;
 import com.suntak.autotask.utils.XmlUtil;
 import com.suntak.cloud.recruitment.client.EhrClient;
+import com.suntak.cloud.recruitment.client.OaClient;
 import com.suntak.cloud.recruitment.entity.T_hr_applicant;
 import com.suntak.cloud.recruitment.entity.T_hr_attachment;
 import com.suntak.cloud.recruitment.entity.T_hr_educationhistory;
@@ -83,6 +83,9 @@ public class TaskServiceImpl implements TaskService {
     
     @Autowired
     private EhrClient ehrClient;
+    
+    @Autowired
+    private OaClient oaClient;
     
     @Autowired
     private ResumeService resumeService;
@@ -246,7 +249,7 @@ public class TaskServiceImpl implements TaskService {
             launchFormCollaboration.setSubject(t_hr_applicant.getName()+"-"+firstTask.getAttribute14()+"-员工履历、面试评价及录用审批表"); // 协同的标题
             launchFormCollaboration.setData(data); // XML格式的表单数据
             launchFormCollaboration.setAttachments(attactments);
-            launchFormCollaboration.setParam("1");
+            launchFormCollaboration.setParam("0"); //0-发起流程 1-待发
             launchFormCollaboration.setRelateDoc("");
 
             BPMServiceStub.LaunchFormCollaborationResponse launchFormCollaborationResp = bpmServiceStub
@@ -285,20 +288,20 @@ public class TaskServiceImpl implements TaskService {
         }
         return "-3451440124422436818";
     }
-    
-    private String getCrimehistory(Integer crimehistory) {
-        if (crimehistory == 1) {
-            return "-3620634840999376943";
-        }
-        return "-3451440124422436818";
-    }
-    
-    private String getPregnancy(Integer pregnancy) {
-        if (pregnancy == 1) {
-            return "-3620634840999376943"; 
-        }
-        return "-3451440124422436818";
-    }
+//    
+//    private String getCrimehistory(Integer crimehistory) {
+//        if (crimehistory == 1) {
+//            return "-3620634840999376943";
+//        }
+//        return "-3451440124422436818";
+//    }
+//    
+//    private String getPregnancy(Integer pregnancy) {
+//        if (pregnancy == 1) {
+//            return "-3620634840999376943"; 
+//        }
+//        return "-3451440124422436818";
+//    }
 
     /**
      * 
@@ -307,11 +310,19 @@ public class TaskServiceImpl implements TaskService {
      * @param secondViewTask
      * @return
      * @return: Map<String,String>
-     * @throws ParseException 
+     * @throws Exception 
      * @throws @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
     private Map<String, String> genTableHeaderDataMap(T_hr_applicant applicant, T_hr_task firstViewTask,
-            T_hr_task secondViewTask, List<T_hr_educationhistory> educationhistorys) throws ParseException {
+            T_hr_task secondViewTask, List<T_hr_educationhistory> educationhistorys) throws Exception {
+        Response resp = oaClient.findMemberByCode(firstViewTask.getAssign());
+        if (resp.getStatus() != 200) {
+            throw new Exception("获取不到招聘专员【"+firstViewTask.getAssign()+"】的信息");
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(resp.getData()));
+        String userid = jsonNode.get("id").asText();
+        
         T_hr_educationhistory educationhistory = educationhistorys.get(0);
         Map<String, String> tableHeaderDataMap = new HashMap<String, String>();
         tableHeaderDataMap.put("公司logo", ""); // 公司logo
@@ -342,10 +353,10 @@ public class TaskServiceImpl implements TaskService {
         tableHeaderDataMap.put("目前住址", applicant.getAddress()); // 目前住址
         tableHeaderDataMap.put("身高", applicant.getHeight() == null ? "" : applicant.getHeight() + ""); // 身高
         tableHeaderDataMap.put("体重", applicant.getWeight() == null ? "" : applicant.getWeight() + ""); // 体重
-        tableHeaderDataMap.put("视力", applicant.getLeftvision() + "|" + applicant.getRightvision()); // 视力
+        tableHeaderDataMap.put("视力", (applicant.getLeftvision() == null ? "" : applicant.getLeftvision() + "") + "|" + (applicant.getRightvision() == null ? "" : applicant.getRightvision() + "")); // 视力
         tableHeaderDataMap.put("有无职业病史", getMedicalhistory(applicant.getMedicalhistory())); // 有无职业病史
-        tableHeaderDataMap.put("有无犯罪史", getCrimehistory(applicant.getCrimehistory())); // 有无犯罪史
-        tableHeaderDataMap.put("目前有无怀孕", getPregnancy(applicant.getPregnancy())); // 目前有无怀孕
+//        tableHeaderDataMap.put("有无犯罪史", getCrimehistory(applicant.getCrimehistory())); // 有无犯罪史
+//        tableHeaderDataMap.put("目前有无怀孕", getPregnancy(applicant.getPregnancy())); // 目前有无怀孕
         tableHeaderDataMap.put("职业病史说明", applicant.getMedicalhistorydesc()); // 职业病史说明
         tableHeaderDataMap.put("普通话", applicant.getMandarin() == null ? "0" : "1"); // 普通话
         tableHeaderDataMap.put("英语级", applicant.getEnglish() == null ? "0" : "1"); // 英语级
@@ -389,7 +400,7 @@ public class TaskServiceImpl implements TaskService {
         tableHeaderDataMap.put("可到职日期", new SimpleDateFormat("yyyy-MM-dd").format(new Date(new SimpleDateFormat("yyyy-MM-dd").parse(firstViewTask.getAttribute13()).getTime()))); // 可到职日期
         tableHeaderDataMap.put("初试综合评价", firstViewTask.getRemark()); // 初试综合评价
         tableHeaderDataMap.put("初试结果", "6431127814935300153"); // 初试结果，默认是通过
-        tableHeaderDataMap.put("面试人", firstViewTask.getAssign()); // 面试人
+        tableHeaderDataMap.put("面试人", userid); // 面试人
         tableHeaderDataMap.put("面试日期", new SimpleDateFormat("yyyy-MM-dd").format(firstViewTask.getCreatestamp())); // 面试日期
 
         tableHeaderDataMap.put("复试评价1", secondViewTask.getAttribute1()); // field0074

@@ -26,4 +26,16 @@ public interface OaClient {
      */
     @GetMapping(path = "/api/v1/oa/user/{code}")
     Response findByCode(@PathVariable("code") String code) throws Exception;
+    
+    /**
+     * 根据工号查询用户信息
+     * @param code
+     * @return
+     * @throws Exception      
+     * @return: Response      
+     * @throws   
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
+    @GetMapping(path = "/api/v1/oa/member/{code}")
+    Response findMemberByCode(@PathVariable("code") String code) throws Exception;
 }

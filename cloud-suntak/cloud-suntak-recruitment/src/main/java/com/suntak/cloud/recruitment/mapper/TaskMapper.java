@@ -41,9 +41,9 @@ public interface TaskMapper<T> extends IMapper<T> {
             return new SQL(){
                 {
                     SELECT("a.*,c.name, b.subflowname, b.preflowid, b.url");
-                    FROM("t_hr_task a ,t_hr_workflow_sub b, t_hr_workflow_main c");
+                    FROM("t_hr_task a ,t_hr_workflow_sub b, t_hr_applicant c");
                     WHERE("a.subflowid = b.subflowid");
-                    WHERE("b.workflowid = c.workflowid");
+                    WHERE("a.applicantid = c.applicantid");
                     WHERE("a.status=1");
                     WHERE("((assignrole in ("+roles+") and assign is null) or assign =#{userid})");
                 }

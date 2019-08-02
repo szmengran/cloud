@@ -125,7 +125,7 @@ public class TaskController {
 			Boolean createFlag = createFuture.get();
 			Response response = sendFuture.get();
 			
-			if (createFlag && response.getStatus() == 200) {
+			if (createFlag) {
 				t_hr_applicant.setStatus(1); //更新状态
 				applicantService.update(t_hr_applicant);
 			} else {
@@ -212,10 +212,13 @@ public class TaskController {
 		ConvertUtils.register(new SqlTimestampConverter(null), Timestamp.class);  
 		BeanUtils.copyProperties(t_hr_task, t_hr_task_ext);
 		T_hr_workflow_sub t_hr_workflow_sub = taskService.handlerTask(t_hr_task, userid);
+		if (t_hr_workflow_sub == null) {
+		    return new Response();
+		}
 		executor.submit(() -> {
 			try {
 				if (StringUtils.isBlank(t_hr_task.getAssign())) {
-					Response response = userServiceClient.findUserByRole(t_hr_task.getAssignrole());
+					Response response = userServiceClient.findUserByRole(t_hr_workflow_sub.getRole());
 					@SuppressWarnings("unchecked")
 					List<Map<String, String>> list = (List<Map<String, String>>)response.getData();
 					if (list != null && list.size() > 0) {
@@ -223,7 +226,9 @@ public class TaskController {
 						for (Map<String, String> map : list) {
 							toUser.append("|").append(map.get("username"));
 						}
-						qywechatNotification(toUser.substring(1), t_hr_task_ext.getName(), new StringBuilder().append("你有一个【").append(t_hr_workflow_sub.getSubflowname()).append("】任务待处理！").toString());
+						if (toUser != null) {
+						    qywechatNotification(toUser.substring(1), t_hr_task_ext.getName(), new StringBuilder().append("你有一个【").append(t_hr_workflow_sub.getSubflowname()).append("】任务待处理！").toString());
+						}
 					} else {
 						logger.error("企业微信通知失败,找不到该角色【{}】对应的用户",t_hr_task.getAssignrole());
 					}
