@@ -29,7 +29,7 @@ public interface TaskMapper<T> extends IMapper<T> {
             + " attribute9=#{attribute9}, attribute10=#{attribute10}, attribute11=#{attribute11},"
             + " attribute12=#{attribute12}, attribute13=#{attribute13}, attribute14=#{attribute14},"
             + " attribute15=#{attribute15}, agree=#{agree}, remark=#{remark}, handlercode=#{handlercode}, handlername=#{handlername},"
-            + " status=0 where taskid=#{taskid}")
+            + " status=0, updatestamp=sysdate where taskid=#{taskid}")
     int updateTask(T_hr_task task) throws Exception;
     
     @SelectProvider(type = SqlProvider.class, method = "findTask")

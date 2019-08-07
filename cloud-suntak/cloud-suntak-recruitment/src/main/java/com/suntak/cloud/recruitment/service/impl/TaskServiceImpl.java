@@ -131,6 +131,7 @@ public class TaskServiceImpl implements TaskService {
             String name = jsonNode.get("empname").asText();
             t_hr_task.setHandlercode(userid);
             t_hr_task.setHandlername(name);
+            t_hr_task.setUpdatestamp(new Timestamp(System.currentTimeMillis()));
             taskMapper.updateTask(t_hr_task);
 
             T_hr_workflow_sub t_hr_workflow_sub = future.get();
@@ -184,8 +185,9 @@ public class TaskServiceImpl implements TaskService {
         }
         return attactments;
     }
-    @Override
-    public void launchForm(String applicantid, String empcode) throws Exception {
+    
+    private void launchForm(T_hr_task secondTask, String empcode) throws Exception {
+        String applicantid = secondTask.getApplicantid();
         Future<T_hr_applicant> applicant = executor.submit(() -> {
             T_hr_applicant t_hr_applicant = new T_hr_applicant();
             t_hr_applicant.setApplicantid(applicantid);
@@ -216,19 +218,12 @@ public class TaskServiceImpl implements TaskService {
             }
             return null;
         });
-        Future<T_hr_task> secondViewFuture = executor.submit(() -> {
-            List<T_hr_task> list = taskMapper.findTaskByApplicantid(applicantid, "2");
-            if (list != null && list.size() > 0) {
-                return list.get(0);
-            }
-            return null;
-        });
         OaFormXmlBean oaForm = new OaFormXmlBean();
         oaForm.setTableName("formmain_6902");
         T_hr_applicant t_hr_applicant = applicant.get();
         T_hr_task firstTask = firstViewFuture.get();
         oaForm.setTableHeaderDataMap(genTableHeaderDataMap(t_hr_applicant, firstTask,
-                secondViewFuture.get(), educationhistory.get()));
+                secondTask, educationhistory.get()));
         oaForm.setTableLinesDataList(
                 genTableLinesDataList(educationhistory.get(), familymembers.get(), workhistorys.get()));
 
@@ -273,6 +268,18 @@ public class TaskServiceImpl implements TaskService {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+    
+    @Override
+    public void launchForm(String applicantid, String empcode) throws Exception {
+        Future<T_hr_task> secondViewFuture = executor.submit(() -> {
+            List<T_hr_task> list = taskMapper.findTaskByApplicantid(applicantid, "2");
+            if (list != null && list.size() > 0) {
+                return list.get(0);
+            }
+            return null;
+        });
+        launchForm(secondViewFuture.get(), empcode);
     }
 
     private String getSex(Integer sex) {
@@ -414,7 +421,7 @@ public class TaskServiceImpl implements TaskService {
 //        tableHeaderDataMap.put("其它意见", ""); //    其它意见
 //        tableHeaderDataMap.put("意见", ""); //    意见
         tableHeaderDataMap.put("复试人", secondViewTask.getHandlername()); //    复试人
-        tableHeaderDataMap.put("复试日期", new SimpleDateFormat("yyyy-MM-dd").format(firstViewTask.getCreatestamp())); // 复试日期
+        tableHeaderDataMap.put("复试日期", new SimpleDateFormat("yyyy-MM-dd").format(new Timestamp(System.currentTimeMillis()))); // 复试日期
 //        tableHeaderDataMap.put("录用公司", ""); //    录用公司
 //        tableHeaderDataMap.put("录用部门", ""); //    录用部门
 //        tableHeaderDataMap.put("录用课别", ""); //    录用课别
