@@ -49,7 +49,7 @@ public class EmsDmOrderHeadController {
     
     @PostMapping("/order")
     public Response insert(@RequestBody OrderRequest request) throws Exception {
-        Integer id = emsDmOrderHeadService.insert(request.getOrder_head(), request.getOrder_lines());
+        Long id = emsDmOrderHeadService.insert(request.getOrder_head(), request.getOrder_lines());
         Response response = new Response();
         response.setData(id);
         return response;

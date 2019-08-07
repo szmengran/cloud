@@ -1,7 +1,6 @@
 package com.suntak.cloud.ems.service.impl;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,17 +35,15 @@ public class EmsDmOrderHeadServiceImpl implements EmsDmOrderHeadService {
 
     @Transactional
     @Override
-    public Integer insert(Ems_dm_order_head ems_dm_order_head, Ems_dm_order_line[] lines) throws Exception {
-        Integer id = emsDmOrderHeadMapper.findSeq();
+    public Long insert(Ems_dm_order_head ems_dm_order_head, Ems_dm_order_line[] lines) throws Exception {
+        Long id = emsDmOrderHeadMapper.findSeq();
         ems_dm_order_head.setId(id);
         ems_dm_order_head.setDate_time(new Timestamp(System.currentTimeMillis()));
-        List<Ems_dm_order_line> list = new ArrayList<>();
+        emsDmOrderHeadMapper.insert(ems_dm_order_head);
         for (Ems_dm_order_line order_line: lines) {
             order_line.setHead_id(id);
-            list.add(order_line);
+            emsDmOrderLineMapper.insert(order_line);
         }
-        emsDmOrderHeadMapper.insert(ems_dm_order_head);
-        emsDmOrderLineMapper.insertBatch(list);
         return id;
     }
 

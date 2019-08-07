@@ -34,5 +34,5 @@ public interface EmsDmOrderHeadService {
      * @throws   
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
-    Integer insert(Ems_dm_order_head ems_dm_order_head, Ems_dm_order_line[] line) throws Exception;
+    Long insert(Ems_dm_order_head ems_dm_order_head, Ems_dm_order_line[] line) throws Exception;
 }

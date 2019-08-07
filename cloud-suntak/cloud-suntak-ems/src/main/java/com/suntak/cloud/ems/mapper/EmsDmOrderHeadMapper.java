@@ -39,5 +39,5 @@ public interface EmsDmOrderHeadMapper extends IMapper<Ems_dm_order_head> {
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
     @Select("SELECT HIBERNATE_SEQUENCE.Nextval from dual")
-    Integer findSeq() throws Exception;
+    Long findSeq() throws Exception;
 }
