@@ -28,7 +28,7 @@ public interface ContactMapper extends IMapper<ContactExt>{
 		public String findContact(Map<String, Object> param){
 			StringBuilder strSql = new StringBuilder();
 			strSql.append("select a.empcode userid, a.empname name, a.c_mobile_tel mobile,")
-			      .append("b.id deptid, nvl(a.job_level,a.posname) position, decode(gender,'男','1','0') gender, 1 enable,")
+			      .append("b.id deptid, nvl(a.posname,a.job_level) position, decode(gender,'男','1','0') gender, 1 enable,")
 			      .append("nvl(a.person_attr, decode(a.companycode, '0012','深圳工厂', '0071','大连工厂', '0035','江门一厂', '0063','江门二厂','0592','大连崇达电子有限公司',a.companyname))||decode(a.kename, null, '','/'||a.kename) deptname,")
 			      .append("labordate, operate_time, mobile_operate_time,short_tel")
 			      .append(" from tb_v_rpt_oa_emp_info a left join")
