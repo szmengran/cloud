@@ -49,7 +49,7 @@ import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 public class RemindController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JjjchzController.class);
-	private static final ExecutorService executor = new ThreadPoolExecutor(10, 200, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+	private static final ExecutorService executor = new ThreadPoolExecutor(10, 2000, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	public static final String ASSISTANT_NAME = "【崇达技术】";
 	
 	@Value("${wechat.qy.AgentId}")
