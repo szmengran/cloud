@@ -24,11 +24,13 @@ public class Ems_dm_maintain {
     private String status;
     private String status_name;
     private String typename;
+    private String type;
     private Timestamp plan_date;
     private String before_img;
     private String after_img;
     private String area_person;
     private String maintain_person;
+    private Integer solo_person_id;
     private String solo_person_name;
     private String maintain_result;
     private String mlt_use_state;
@@ -104,7 +106,13 @@ public class Ems_dm_maintain {
     public void setTypename(String typename) {
         this.typename = typename;
     }
-    public Timestamp getPlan_date() {
+    public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public Timestamp getPlan_date() {
         return plan_date;
     }
     public void setPlan_date(Timestamp plan_date) {
@@ -134,7 +142,13 @@ public class Ems_dm_maintain {
     public void setMaintain_person(String maintain_person) {
         this.maintain_person = maintain_person;
     }
-    public String getSolo_person_name() {
+    public Integer getSolo_person_id() {
+		return solo_person_id;
+	}
+	public void setSolo_person_id(Integer solo_person_id) {
+		this.solo_person_id = solo_person_id;
+	}
+	public String getSolo_person_name() {
         return solo_person_name;
     }
     public void setSolo_person_name(String solo_person_name) {

@@ -10,6 +10,8 @@ import com.suntak.cloud.ems.entity.Ems_dm_maintain;
  */
 public class Ems_dm_maintainExt extends Ems_dm_maintain {
     private String keyword;
+    private Integer pageNum;
+    private Integer pageSize;
 
     public String getKeyword() {
         return keyword;
@@ -17,6 +19,22 @@ public class Ems_dm_maintainExt extends Ems_dm_maintain {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
     
 }

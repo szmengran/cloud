@@ -7,11 +7,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
 import com.suntak.cloud.ems.entity.Ems_dm_maintain;
 import com.suntak.cloud.ems.entity.Ems_dm_maintain_content;
 import com.suntak.cloud.ems.entity.Ems_dm_repair_term_line;
 import com.suntak.cloud.ems.mapper.EmsDmRepairTermLineMapper;
 import com.suntak.cloud.ems.mapper.MaintainContentMapper;
+import com.suntak.cloud.ems.mapper.MaintainMapper;
 import com.suntak.cloud.ems.service.MaintainContentService;
 
 /** 
@@ -24,6 +26,9 @@ import com.suntak.cloud.ems.service.MaintainContentService;
 public class MaintainContentServiceImpl implements MaintainContentService {
 
     @Autowired
+    private MaintainMapper maintainMapper;
+    
+    @Autowired
     private MaintainContentMapper maintainContentMapper;
     
     @Autowired
@@ -35,7 +40,12 @@ public class MaintainContentServiceImpl implements MaintainContentService {
         if (list != null && list.size() > 0) {
             return list;
         }
-        list = maintainContentMapper.findMaintainContentHistory(maintain.getEquipment_id(), maintain.getMaintain_level(), maintain.getStatus());
+        PageHelper.startPage(1, 1, "execute_time desc");
+        List<Ems_dm_maintain> maintainList = maintainMapper.findMaintainHistory(maintain);
+        if (maintainList != null && maintainList.size() > 0) {
+        	maintain = maintainList.get(0);
+        	list = maintainContentMapper.findMaintainContent(maintain.getId());
+        }
         if (list != null && list.size() > 0) {
             return list;
         }

@@ -85,6 +85,10 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
+		<dependency>
+			<groupId>com.suntak</groupId>
+			<artifactId>cloud-common-oa</artifactId>
+		</dependency>
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>

@@ -3,6 +3,7 @@ package com.suntak.cloud.ems.mapper;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.jdbc.SQL;
@@ -16,6 +17,7 @@ import com.szmengran.mybatis.utils.mapper.IMapper;
  * @date Aug 26, 2019 8:22:20 AM 
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
+@Mapper
 public interface EmsDmRepairTermLineMapper extends IMapper<Ems_dm_repair_term_line> {
     
     /**
