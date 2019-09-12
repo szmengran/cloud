@@ -162,7 +162,7 @@ public class EmsDmMaintainServiceImpl implements EmsDmMaintainService {
             BPMServiceStub bpmServiceStub = new BPMServiceStub(conf);// new BPMServiceStub();
             BPMServiceStub.LaunchFormCollaboration launchFormCollaboration = new BPMServiceStub.LaunchFormCollaboration();
             launchFormCollaboration.setToken(token);
-            launchFormCollaboration.setSenderLoginName(findLoginNameByCode(empcode)); // 发起者的登录名（登录协同的登录名）
+            launchFormCollaboration.setSenderLoginName(findLoginNameByCode("006124")); // 发起者的登录名（登录协同的登录名）
             if ("1".equals(maintain.getType())) {
             	launchFormCollaboration.setTemplateCode("WB_01"); // 模板编号
                 launchFormCollaboration.setSubject("设备定期维护和保养记录表-设备类"); // 协同的标题

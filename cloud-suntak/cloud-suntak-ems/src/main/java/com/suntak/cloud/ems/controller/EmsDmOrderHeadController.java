@@ -47,9 +47,14 @@ public class EmsDmOrderHeadController {
         return response;
     }
     
-    @PostMapping("/order")
-    public Response insert(@RequestBody OrderRequest request) throws Exception {
-        Long id = emsDmOrderHeadService.insert(request.getOrder_head(), request.getOrder_lines());
+    @PostMapping("/order/{token}")
+    public Response insert(@PathVariable("token") String token, @RequestBody OrderRequest request) throws Exception {
+    	String userJson = JwtUtil.parseToken(token);
+        if (userJson == null) {
+            throw new BusinessException(10007001);
+        }
+        Oz_org_userinfo_ext userinfo = new Gson().fromJson(userJson, Oz_org_userinfo_ext.class);
+        Long id = emsDmOrderHeadService.insert(userinfo.getEmployer_id(), request.getOrder_head(), request.getOrder_lines());
         Response response = new Response();
         response.setData(id);
         return response;

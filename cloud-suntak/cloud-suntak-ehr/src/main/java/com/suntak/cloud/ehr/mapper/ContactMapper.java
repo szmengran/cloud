@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 
@@ -16,6 +17,8 @@ import com.szmengran.mybatis.utils.mapper.IMapper;
  * @date Nov 2, 2018 8:10:28 PM
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
+
+@Mapper
 public interface ContactMapper extends IMapper<ContactExt>{
 	
 	@SelectProvider(type = SqlProvider.class, method = "findContact")

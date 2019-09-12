@@ -2,6 +2,7 @@ package com.suntak.cloud.ehr.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -14,6 +15,8 @@ import com.szmengran.mybatis.utils.mapper.IMapper;
  * @date Jan 24, 2019 11:25:14 AM
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
+
+@Mapper
 public interface MicroservicesSettingMapper extends IMapper<T_microservices_setting> {
 	
 	/**

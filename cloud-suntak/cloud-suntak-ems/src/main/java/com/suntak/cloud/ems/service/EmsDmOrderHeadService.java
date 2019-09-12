@@ -26,13 +26,14 @@ public interface EmsDmOrderHeadService {
     
     /**
      * 插入信息
-     * @param ems_dm_order_head
-     * @param line
+     * @param empcode
+     * @param orderHead
+     * @param lines
      * @return
      * @throws Exception      
      * @return: Boolean      
      * @throws   
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
-    Long insert(Ems_dm_order_head ems_dm_order_head, Ems_dm_order_line[] line) throws Exception;
+    Long insert(String empcode, Ems_dm_order_head orderHead, Ems_dm_order_line[] lines) throws Exception;
 }

@@ -7,10 +7,12 @@ package com.suntak.cloud.ehr.mapper;
  */
 
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
 
 import com.suntak.cloud.ehr.entity.T_wechat_department;
 import com.szmengran.mybatis.utils.mapper.IMapper;
 
+@Mapper
 public interface DepartmentMapper extends IMapper<T_wechat_department>{
 
     @Delete("delete from t_wechat_department")
