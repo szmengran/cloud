@@ -21,8 +21,10 @@ import com.suntak.autotask.utils.OaConfigInfo;
 import com.suntak.autotask.utils.OaInterfaceUtil;
 import com.suntak.autotask.utils.XmlUtil;
 import com.suntak.cloud.ems.client.OaClient;
+import com.suntak.cloud.ems.entity.Cux_oa_org_info_v;
 import com.suntak.cloud.ems.entity.Ems_dm_order_head;
 import com.suntak.cloud.ems.entity.Ems_dm_order_line;
+import com.suntak.cloud.ems.mapper.Cux_oa_org_info_vMapper;
 import com.suntak.cloud.ems.mapper.EmsDmOrderHeadMapper;
 import com.suntak.cloud.ems.mapper.EmsDmOrderLineMapper;
 import com.suntak.cloud.ems.service.EmsDmOrderHeadService;
@@ -46,6 +48,9 @@ public class EmsDmOrderHeadServiceImpl implements EmsDmOrderHeadService {
     private EmsDmOrderLineMapper emsDmOrderLineMapper;
     
     @Autowired
+    private Cux_oa_org_info_vMapper cux_oa_org_info_vMapper;
+    
+    @Autowired
     private OaClient oaClient;
     
     @Override
@@ -59,6 +64,7 @@ public class EmsDmOrderHeadServiceImpl implements EmsDmOrderHeadService {
         Long id = emsDmOrderHeadMapper.findSeq();
         orderHead.setId(id);
         orderHead.setDate_time(new Timestamp(System.currentTimeMillis()));
+        orderHead.setEbs_state(-1);
         emsDmOrderHeadMapper.insert(orderHead);
         for (Ems_dm_order_line order_line: lines) {
             order_line.setHead_id(id);
@@ -71,7 +77,10 @@ public class EmsDmOrderHeadServiceImpl implements EmsDmOrderHeadService {
     private Map<String, String> genTableHeaderDataMap(Ems_dm_order_head orderHead) {
         Map<String, String> tableHeaderDataMap = new HashMap<String, String>();
         tableHeaderDataMap.put("数据来源", "企业微信"); 
-        tableHeaderDataMap.put("工厂ID", orderHead.getOrganization_id()+""); 
+        List<Cux_oa_org_info_v> infos = cux_oa_org_info_vMapper.findByOrg_id(orderHead.getOrganization_id());
+        if (infos != null && infos.size() > 0) {
+        	tableHeaderDataMap.put("工厂ID", infos.get(0).getOrg_code()); 
+        }
         return tableHeaderDataMap;
     }
     
