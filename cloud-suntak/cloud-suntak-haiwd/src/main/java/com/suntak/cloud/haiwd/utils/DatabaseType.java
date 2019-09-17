@@ -6,5 +6,5 @@ package com.suntak.cloud.haiwd.utils;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 public enum DatabaseType {
-	szdb, dldb;
+	szdb, dldb, cux_soa;
 }
