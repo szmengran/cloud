@@ -18,13 +18,14 @@ public interface EmsDmMaintainService {
      * @param organization_id
      * @param keyword
      * @param userid
+     * @param id
      * @return
      * @throws Exception      
      * @return: List<Ems_dm_maintain>      
      * @throws   
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
-    List<Ems_dm_maintain> findMaintain(Integer organization_id, String keyword, Integer userid) throws Exception;
+    List<Ems_dm_maintain> findMaintain(Integer organization_id, String keyword, Integer userid, Integer id) throws Exception;
     
     /**
      * 保存或更新保养单信息

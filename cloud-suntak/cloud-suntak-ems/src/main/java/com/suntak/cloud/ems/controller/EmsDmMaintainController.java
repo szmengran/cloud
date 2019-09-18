@@ -34,22 +34,31 @@ public class EmsDmMaintainController {
     @Autowired
     private EmsDmMaintainService emsDmMaintainService;
     
-    @PostMapping("/maintains")
-    public Response findMaintain(@RequestBody Ems_dm_maintainExt maintain) throws Exception {
-        Integer pageNum = maintain.getPageNum();
+    @PostMapping("/maintains/{token}")
+    public Response findMaintain(@RequestBody Ems_dm_maintainExt maintain, @PathVariable("token") String token) throws Exception {
+    	String userJson = JwtUtil.parseToken(token);
+        if (userJson == null) {
+            throw new BusinessException(10007001);
+        }
+        Oz_org_userinfo_ext userinfo = new Gson().fromJson(userJson, Oz_org_userinfo_ext.class);
+    	Integer pageNum = maintain.getPageNum();
         Integer pageSize = maintain.getPageSize();
         if (pageNum == null) {
             pageNum = 1;
             pageSize = 50;
         }
+        Integer id = userinfo.getId();
+        if (userinfo.getName().indexOf("管理员") != -1) {
+        	id = null;
+        }
         PageHelper.startPage(pageNum, pageSize, "plan_date desc");
-        List<Ems_dm_maintain> list = emsDmMaintainService.findMaintain(maintain.getOrganization_id(), maintain.getKeyword(), null);
+        List<Ems_dm_maintain> list = emsDmMaintainService.findMaintain(maintain.getOrganization_id(), maintain.getKeyword(), null, id);
         Response response = new Response();
         response.setData(list);
         return response;
     }
     
-    @PostMapping("/maintains/{token}")
+    @PostMapping("/myMaintains/{token}")
     public Response findMyMaintain(@RequestBody Ems_dm_maintainExt maintain, @PathVariable("token") String token) throws Exception {
         String userJson = JwtUtil.parseToken(token);
         if (userJson == null) {
@@ -69,7 +78,7 @@ public class EmsDmMaintainController {
             pageSize = 50;
         }
         PageHelper.startPage(pageNum, pageSize, "plan_date desc");
-        List<Ems_dm_maintain> list = emsDmMaintainService.findMaintain(maintain.getOrganization_id(), maintain.getKeyword(), userinfo.getId());
+        List<Ems_dm_maintain> list = emsDmMaintainService.findMaintain(maintain.getOrganization_id(), maintain.getKeyword(), userinfo.getId(), null);
         response.setData(list);
         return response;
     }

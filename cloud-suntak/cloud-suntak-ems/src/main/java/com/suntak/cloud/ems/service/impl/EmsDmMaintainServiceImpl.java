@@ -49,8 +49,8 @@ public class EmsDmMaintainServiceImpl implements EmsDmMaintainService {
     private OaClient oaClient;
     
     @Override
-    public List<Ems_dm_maintain> findMaintain(Integer organization_id, String keyword, Integer userid) throws Exception {
-        return maintainMapper.findMaintain(organization_id, keyword, userid);
+    public List<Ems_dm_maintain> findMaintain(Integer organization_id, String keyword, Integer userid, Integer id) throws Exception {
+        return maintainMapper.findMaintain(organization_id, keyword, userid, id);
     }
 
     @Transactional

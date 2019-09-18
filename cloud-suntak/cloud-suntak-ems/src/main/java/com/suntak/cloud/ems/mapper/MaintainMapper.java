@@ -24,7 +24,7 @@ import com.szmengran.mybatis.utils.mapper.IMapper;
 public interface MaintainMapper extends IMapper<Ems_dm_maintain> {
     
     @SelectProvider(type = SqlProvider.class, method = "findMaintain")
-    List<Ems_dm_maintain> findMaintain(@Param("organization_id") Integer organization_id, @Param("keyword") String keyword, @Param("userid") Integer userid) throws Exception;
+    List<Ems_dm_maintain> findMaintain(@Param("organization_id") Integer organization_id, @Param("keyword") String keyword, @Param("userid") Integer userid, @Param("id") Integer id) throws Exception;
     
     @Select("select id from ems_dm_maintain where equipment_id=#{equipment_id} and maintain_level=#{maintain_level} and status>#{status}")
     List<Ems_dm_maintain> findMaintainHistory(Ems_dm_maintain maintain) throws Exception;
@@ -42,6 +42,7 @@ public interface MaintainMapper extends IMapper<Ems_dm_maintain> {
         public String findMaintain(Map<String, Object> params) {
             Integer organization_id = (Integer)params.get("organization_id");
             Integer userid = (Integer)params.get("userid");
+            Integer id = (Integer)params.get("id");
             String keyword = (String)params.get("keyword");
             return new SQL() {
                 {
@@ -57,6 +58,12 @@ public interface MaintainMapper extends IMapper<Ems_dm_maintain> {
                     }
                     if (userid != null && userid != 0) {
                         WHERE("a.solo_person_id=#{userid}");
+                    } else if (id != null && id != 0) {
+                    	WHERE("a.maintenance_area in (" + 
+                    			" SELECT distinct d.area_person_id FROM oz_org_userinfo e, OZ_SEC_USER f, ems_md_person_details d" + 
+                    			" where e.login_name=f.login_name" + 
+                    			" and d.person_id=f.id" + 
+                    			" and e.id=#{id})");
                     }
                     if (StringUtils.isNotBlank(keyword)) {
                         WHERE("(c.equipment_name like '%"+keyword+"%' or c.equipment_alias like '%"+keyword+"%' or " + 
