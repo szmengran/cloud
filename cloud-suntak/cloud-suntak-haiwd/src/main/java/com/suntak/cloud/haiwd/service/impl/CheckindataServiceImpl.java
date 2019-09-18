@@ -70,6 +70,60 @@ public class CheckindataServiceImpl implements CheckindataService {
 	@Value("${wechat.qy.Secret}")
 	private String secret;
 	
+	/**
+	 * 同步企业微信打卡数据到海威达
+	 * @param checkindata
+	 * @param userMap
+	 */
+	private void sync(T_haiwd_checkindata checkindata, Map<String, String> userMap) {
+		try {
+			int count = checkindataMapper.insert(checkindata);
+			if (count == 1) {
+				Map<String, Object> params = new HashMap<String, Object>();
+				String userid = checkindata.getUserid();
+				params.put("empsysid", userid);
+				String type = userMap.get(userid);
+				List<Tx_empcard> empcardList = null;
+				if ("0".equals(type)) {
+					empcardList = dlEmpcardMapper.findByConditions(Tx_empcard.class, params, "cardstatuschgday desc");
+				} else {
+					empcardList = empcardMapper.findByConditions(Tx_empcard.class, params, "cardstatuschgday desc");
+				}
+				Kq_kqdata kqdata = new Kq_kqdata();
+				kqdata.setGuid(UUID.randomUUID().toString());
+				kqdata.setEmpsysid(checkindata.getUserid());
+				Long checkin_time = checkindata.getCheckin_time();
+				Timestamp time = new Timestamp(checkin_time * 1000);
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(time);
+				kqdata.setKqdate(new SimpleDateFormat("yyyy-MM-dd").format(time));
+				kqdata.setKqtime(calendar.get(Calendar.SECOND)*60+calendar.get(Calendar.MINUTE)*60+calendar.get(Calendar.HOUR_OF_DAY)*60*60);
+				kqdata.setIskeyin("N");
+				kqdata.setIskoukuan("N");
+				kqdata.setIsmodified("N");
+				kqdata.setDevid(0);
+				kqdata.setKeyinday(time);
+				if (empcardList != null && empcardList.size() > 0) {
+					kqdata.setCardid(empcardList.get(0).getCardid());
+				} else {
+					kqdata.setCardid(0);
+				}
+				kqdata.setSynchflagid(0);
+				kqdata.setKqdatetime(time);
+				if ("0".equals(type)) {
+					dlKqdataMapper.insert(kqdata);
+				} else {
+					kqdataMapper.insert(kqdata);
+				}
+				checkindataMapper.updateStatus(userid, checkin_time);
+			}
+		} catch (DuplicateKeyException e) {
+			
+		} catch (Exception e) {
+			logger.error("企业微信打卡记录保存失败：{}", e);
+		}
+	}
+	
 	@Override
 	public void load(CheckindataRequest checkindataRequest) throws Exception {
 		Future<List<T_haiwd_user>> userListFuture = executor.submit(() -> {
@@ -98,51 +152,7 @@ public class CheckindataServiceImpl implements CheckindataService {
 					executor.submit(() -> {
 						checkindata.setCreatestamp(new Timestamp(System.currentTimeMillis()));
 						checkindata.setStatus("1");
-						try {
-							int count = checkindataMapper.insert(checkindata);
-							if (count == 1) {
-								Map<String, Object> params = new HashMap<String, Object>();
-								String userid = checkindata.getUserid();
-								params.put("empsysid", userid);
-								String type = userMap.get(userid);
-								List<Tx_empcard> empcardList = null;
-								if ("0".equals(type)) {
-									empcardList = dlEmpcardMapper.findByConditions(Tx_empcard.class, params, "cardstatuschgday desc");
-								} else {
-									empcardList = empcardMapper.findByConditions(Tx_empcard.class, params, "cardstatuschgday desc");
-								}
-								Kq_kqdata kqdata = new Kq_kqdata();
-								kqdata.setGuid(UUID.randomUUID().toString());
-								kqdata.setEmpsysid(checkindata.getUserid());
-								Long checkin_time = checkindata.getCheckin_time();
-								Timestamp time = new Timestamp(checkin_time * 1000);
-								Calendar calendar = Calendar.getInstance();
-								calendar.setTime(time);
-								kqdata.setKqdate(new SimpleDateFormat("yyyy-MM-dd").format(time));
-								kqdata.setKqtime(calendar.get(Calendar.SECOND)*60+calendar.get(Calendar.MINUTE)*60+calendar.get(Calendar.HOUR_OF_DAY)*60*60);
-								kqdata.setIskeyin("N");
-								kqdata.setIskoukuan("N");
-								kqdata.setIsmodified("N");
-								kqdata.setDevid(0);
-								kqdata.setKeyinday(time);
-								if (empcardList != null && empcardList.size() > 0) {
-									kqdata.setCardid(empcardList.get(0).getCardid());
-								} else {
-									kqdata.setCardid(0);
-								}
-								kqdata.setSynchflagid(0);
-								kqdata.setKqdatetime(time);
-								if ("0".equals(type)) {
-									dlKqdataMapper.insert(kqdata);
-								} else {
-									kqdataMapper.insert(kqdata);
-								}
-							}
-						} catch (DuplicateKeyException e) {
-							
-						} catch (Exception e) {
-							logger.error("企业微信打卡记录保存失败：{}", e);
-						}
+						sync(checkindata, userMap);
 					});
 				}
 			}
