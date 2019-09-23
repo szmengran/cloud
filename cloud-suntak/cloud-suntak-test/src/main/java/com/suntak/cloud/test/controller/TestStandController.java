@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiResponses;
  * @date 2018年6月11日 下午4:23:08
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
-@Api(value = "t_oa_test_stand")
+@Api(value = "测试架管理")
 @RestController
 @RequestMapping(path = "/api/v1/test", produces = { "application/json" })
 public class TestStandController {
@@ -82,7 +82,8 @@ public class TestStandController {
 		testStandService.inuse(empcode, test_stand_code, num);
 		return new Response();
 	}
-	
+
+	@ApiOperation(value = "归还测试架", response = Response.class)
 	@PutMapping(value = "/t_oa_test_stands/{empcode}/{test_stand_code}/{warehouse_code}/{num}")
 	public Response giveback(@PathVariable("empcode") String empcode, @PathVariable("test_stand_code") String test_stand_code, @PathVariable("warehouse_code") String warehouse_code, @PathVariable("num") Integer num) throws Exception {
 		logger.info("giveback:{}, {}, {}, {}", empcode, test_stand_code, warehouse_code, num);
@@ -97,6 +98,7 @@ public class TestStandController {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
+	@ApiOperation(value = "新增一套测试架", response = Response.class)
 	@PostMapping(value = "/t_oa_test_stands/{empcode}")
 	public Response insert(@RequestBody T_oa_test_stand t_oa_test_stand, @PathVariable("empcode") String empcode) throws Exception {
 		logger.info("insert:{}, empcode:{}", t_oa_test_stand, empcode);
@@ -111,6 +113,7 @@ public class TestStandController {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
+	@ApiOperation(value = "作废一套测试架", response = Response.class)
 	@DeleteMapping(value = "/t_oa_test_stands/{empcode}/{test_stand_code}/{num}")
 	public Response invalid(@PathVariable("test_stand_code") String test_stand_code, @PathVariable("empcode") String empcode, @PathVariable("num") Integer num) throws Exception {
 		logger.info("invalid:{}, empcode:{}", test_stand_code, empcode);
