@@ -1,0 +1,19 @@
+server:
+  port: 10026
+spring:
+  application:
+    name: push
+  cloud:
+    config:
+      uri: ${CONFIG_SERVER_ADDRESS}
+      fail-fast: true
+  profiles:
+    active: ${ENVIRONMENT}
+  sleuth:
+    traceId128: true
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+
+logging:
+  config: ${CONFIG_SERVER_ADDRESS}/resources/logback-spring.xml
+    

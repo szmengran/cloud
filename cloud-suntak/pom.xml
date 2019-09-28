@@ -68,5 +68,6 @@
 		<module>cloud-suntak-oa</module>
 		<module>cloud-suntak-ems</module>
 		<module>cloud-suntak-warning</module>
+		<module>cloud-suntak-push</module>
 	</modules>
 </project>
