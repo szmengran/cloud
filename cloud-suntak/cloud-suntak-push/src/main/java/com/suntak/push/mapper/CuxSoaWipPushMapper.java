@@ -3,6 +3,7 @@ package com.suntak.push.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -22,7 +23,7 @@ public interface CuxSoaWipPushMapper extends IMapper<CuxSoaWipPush> {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	@Select("select * from cux.cux_soa_wip_push where attribute30=#{attribute30}")
-	List<CuxSoaWipPush> queryBySeq(String attribute30);
+	List<CuxSoaWipPush> findBySeq(@Param("attribute30") String attribute30);
 	
 	/**
 	 * 
@@ -42,6 +43,6 @@ public interface CuxSoaWipPushMapper extends IMapper<CuxSoaWipPush> {
 	 * @date Sep 27, 2019 1:53:11 PM
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	@Select("select distinct b.* from cux.cux_soa_wip_push a, t_push_robot b where a.department_name=b.name and b.type='WIP' and a.push_date is null")
+	@Select("select distinct a.organization_id,b.* from cux.cux_soa_wip_push a, t_push_robot b where a.department_name=b.name and b.type='WIP' and a.stop_time between b.range_start and b.range_end and a.data_type = b.status and b.validstatus=1 and a.push_date is null")
 	List<TPushRobot> findRobot();
 }

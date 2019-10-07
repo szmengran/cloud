@@ -22,7 +22,7 @@ public interface CuxSoaMiPushMapper extends IMapper<CuxSoaMiPush> {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	@Select("select * from cux.cux_soa_mi_push where attribute30=#{attribute30}")
-	List<CuxSoaMiPush> queryBySeq(String attribute30);
+	List<CuxSoaMiPush> findBySeq(String attribute30);
 	
 	/**
 	 * 
@@ -42,6 +42,6 @@ public interface CuxSoaMiPushMapper extends IMapper<CuxSoaMiPush> {
 	 * @date Sep 27, 2019 1:53:11 PM
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	@Select("select distinct b.* from cux.cux_soa_mi_push a, t_push_robot b where a.mi_status=b.name and b.type='MI' and a.push_date is null")
+	@Select("select distinct a.organization_id,b.* from cux.cux_soa_mi_push a, t_push_robot b where a.mi_status=b.name and b.type='MI' and a.stop_time between b.range_start and b.range_end and b.validstatus=1 and a.push_date is null")
 	List<TPushRobot> findRobot();
 }

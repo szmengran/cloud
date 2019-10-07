@@ -15,10 +15,10 @@ import com.suntak.push.client.WechatClient;
 import com.suntak.push.entity.CuxSoaWipPush;
 import com.suntak.push.entity.TPushRobot;
 import com.suntak.push.mapper.CuxSoaWipPushMapper;
-import com.suntak.push.service.PushService;
+import com.suntak.push.service.WipPushService;
 
-@Service("wipPushService")
-public class WipPushServiceImpl implements PushService {
+@Service
+public class WipPushServiceImpl implements WipPushService {
 
 	@Autowired
 	private CuxSoaWipPushMapper CuxSoaWipPushMapper;
@@ -52,14 +52,19 @@ public class WipPushServiceImpl implements PushService {
 		News news = new News();
 		Articles[] articles = new Articles[1];
 		Articles article = new Articles();
-		article.setTitle("【"+robot.getName()+"】工单停留通知");
+		article.setTitle("【"+robot.getName()+"】工单停留异常通知");
 		String date = new SimpleDateFormat("yyyy年MM月dd日").format(new Date());
-		article.setDescription(date + "【"+robot.getName()+"】工单停留通知");
+		article.setDescription(date + "【"+robot.getName()+"】工单停留异常通知");
 		article.setUrl(robot.getUrl()+"?attribute30="+attribute30);
 		article.setPicurl(robot.getPicurl());
 		articles[0] = article;
 		news.setArticles(articles);
 		newsRequestBody.setNews(news);
 		return newsRequestBody;
+	}
+
+	@Override
+	public List<CuxSoaWipPush> findBySeq(String attribute30) {
+		return CuxSoaWipPushMapper.findBySeq(attribute30);
 	}
 }
