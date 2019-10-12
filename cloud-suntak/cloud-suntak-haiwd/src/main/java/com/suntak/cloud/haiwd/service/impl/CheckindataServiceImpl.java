@@ -40,7 +40,7 @@ import com.suntak.exception.model.Response;
 @Service
 public class CheckindataServiceImpl implements CheckindataService {
 
-	private ExecutorService executor = new ThreadPoolExecutor(10, 3000, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+	private ExecutorService executor = new ThreadPoolExecutor(20, 3000, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	private Logger logger = LoggerFactory.getLogger(CheckindataServiceImpl.class);
 	
 	@Autowired
@@ -134,12 +134,11 @@ public class CheckindataServiceImpl implements CheckindataService {
 			String access_token = (String)response.getData();
 			final List<T_haiwd_user> users = userListFuture.get();
 			Map<String, String> userMap = new HashMap<>();
+			String[] useridlist = new String[users.size()];
+			int index = 0;
 			for (T_haiwd_user user: users) {
 				userMap.put(user.getUserid(), user.getType());
-			}
-			String[] useridlist = new String[users.size()];
-			for (int i=0; i<useridlist.length; i++) {
-				useridlist[i] = users.get(i).getUserid();
+				useridlist[index++] = user.getUserid();
 			}
 			checkindataRequest.setUseridlist(useridlist);
 			CheckindataResponse checkindataResponse = qyapiClient.query(checkindataRequest, access_token);

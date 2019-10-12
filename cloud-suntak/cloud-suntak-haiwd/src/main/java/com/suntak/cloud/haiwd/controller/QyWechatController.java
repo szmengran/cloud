@@ -23,6 +23,15 @@ public class QyWechatController {
 	@Autowired
 	private CheckindataService checkindataService;
 	
+	/**
+	 * 
+	 * @description 同步企业微信打卡数据到海威达
+	 * @param checkindataRequest
+	 * @return
+	 * @throws Exception
+	 * @date Oct 11, 2019 8:50:44 AM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
 	@PostMapping("/sync")
 	public Response sync(@RequestBody CheckindataRequest checkindataRequest) throws Exception {
 		if (checkindataRequest.getStarttime() == null || checkindataRequest.getEndtime() == null) {
