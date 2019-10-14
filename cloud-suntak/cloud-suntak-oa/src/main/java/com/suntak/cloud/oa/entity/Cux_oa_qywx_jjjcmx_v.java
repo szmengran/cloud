@@ -22,6 +22,8 @@ public class Cux_oa_qywx_jjjcmx_v {
 	private String l_mbbfl;
 	private String l_sjbfl;
 	private String l_sjmj;
+	private String l_fgmj;
+	private String l_fgpcje;
 	private String l_bfjcje;
 	private String l_xlmj;
 	private String l_xlpcje;
@@ -100,6 +102,18 @@ public class Cux_oa_qywx_jjjcmx_v {
 	}
 	public void setL_sjmj(String l_sjmj) {
 		this.l_sjmj = l_sjmj;
+	}
+	public String getL_fgmj() {
+		return l_fgmj;
+	}
+	public void setL_fgmj(String l_fgmj) {
+		this.l_fgmj = l_fgmj;
+	}
+	public String getL_fgpcje() {
+		return l_fgpcje;
+	}
+	public void setL_fgpcje(String l_fgpcje) {
+		this.l_fgpcje = l_fgpcje;
 	}
 	public String getL_bfjcje() {
 		return l_bfjcje;

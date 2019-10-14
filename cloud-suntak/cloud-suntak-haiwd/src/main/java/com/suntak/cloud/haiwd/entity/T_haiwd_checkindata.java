@@ -18,6 +18,7 @@ public class T_haiwd_checkindata {
 	private String wifimac;
 	private String status;
 	private Timestamp createstamp;
+	private Timestamp push_time;
 	public String getUserid() {
 		return userid;
 	}
@@ -89,5 +90,11 @@ public class T_haiwd_checkindata {
 	}
 	public void setCreatestamp(Timestamp createstamp) {
 		this.createstamp = createstamp;
+	}
+	public Timestamp getPush_time() {
+		return push_time;
+	}
+	public void setPush_time(Timestamp push_time) {
+		this.push_time = push_time;
 	}
 }

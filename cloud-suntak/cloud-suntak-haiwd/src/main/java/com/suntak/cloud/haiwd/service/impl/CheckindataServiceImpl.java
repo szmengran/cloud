@@ -97,7 +97,7 @@ public class CheckindataServiceImpl implements CheckindataService {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(time);
 				kqdata.setKqdate(new SimpleDateFormat("yyyy-MM-dd").format(time));
-				kqdata.setKqtime(calendar.get(Calendar.SECOND)*60+calendar.get(Calendar.MINUTE)*60+calendar.get(Calendar.HOUR_OF_DAY)*60*60);
+				kqdata.setKqtime(calendar.get(Calendar.SECOND)+calendar.get(Calendar.MINUTE)*60+calendar.get(Calendar.HOUR_OF_DAY)*60*60);
 				kqdata.setIskeyin("N");
 				kqdata.setIskoukuan("N");
 				kqdata.setIsmodified("N");
@@ -150,6 +150,7 @@ public class CheckindataServiceImpl implements CheckindataService {
 					}
 					executor.submit(() -> {
 						checkindata.setCreatestamp(new Timestamp(System.currentTimeMillis()));
+						checkindata.setPush_time(new Timestamp(checkindata.getCheckin_time() * 1000));
 						checkindata.setStatus("1");
 						sync(checkindata, userMap);
 					});

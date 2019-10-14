@@ -2,7 +2,7 @@ server:
   port: 10026
 spring:
   application:
-    name: push
+    name: cloud-suntak-push
   cloud:
     config:
       uri: ${CONFIG_SERVER_ADDRESS}

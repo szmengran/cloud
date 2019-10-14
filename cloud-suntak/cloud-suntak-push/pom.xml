@@ -43,6 +43,10 @@
             <groupId>com.suntak</groupId>
             <artifactId>aop-exception</artifactId>
         </dependency>
+		<dependency>
+			<groupId>com.suntak</groupId>
+			<artifactId>cloud-common-utils</artifactId>
+		</dependency>
         <dependency>
             <groupId>com.suntak</groupId>
             <artifactId>aop-logging-service</artifactId>
@@ -88,4 +92,13 @@
 			<artifactId>cloud-model-wechat</artifactId>
 		</dependency>
     </dependencies>
+    <build>
+    	<finalName>${project.artifactId}</finalName>
+    	<plugins>
+    		<plugin>
+    			<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+    		</plugin>
+    	</plugins>
+    </build>
 </project>
