@@ -272,14 +272,8 @@ public class TaskServiceImpl implements TaskService {
     
     @Override
     public void launchForm(String applicantid, String empcode) throws Exception {
-        Future<T_hr_task> secondViewFuture = executor.submit(() -> {
-            List<T_hr_task> list = taskMapper.findTaskByApplicantid(applicantid, "2");
-            if (list != null && list.size() > 0) {
-                return list.get(0);
-            }
-            return null;
-        });
-        launchForm(secondViewFuture.get(), empcode);
+    	List<T_hr_task> list = taskMapper.findTaskByApplicantid(applicantid, "2");
+        launchForm(list.get(0), empcode);
     }
 
     private String getSex(Integer sex) {
