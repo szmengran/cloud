@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.suntak.push.entity.CuxSoaWipPush;
 import com.suntak.push.entity.TPushRobot;
+import com.suntak.push.entity.ext.CuxSoaWipPushExt;
 import com.szmengran.mybatis.utils.mapper.IMapper;
 
 @Mapper
@@ -28,13 +29,13 @@ public interface CuxSoaWipPushMapper extends IMapper<CuxSoaWipPush> {
 	/**
 	 * 
 	 * @description 更新推送状态
-	 * @param cuxSoaWipPush
+	 * @param cuxSoaWipPushExt
 	 * @return
 	 * @date Sep 27, 2019 1:54:00 PM
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	@Update("update cux.cux_soa_wip_push set push_mark='Y',push_date=#{push_date},attribute30=#{attribute30},last_update_date=#{last_update_date} where push_date is null and department_name=#{department_name}")
-	int updatePush(CuxSoaWipPush cuxSoaWipPush);
+	@Update("update cux.cux_soa_wip_push set push_mark='Y',push_date=#{push_date},attribute30=#{attribute30},last_update_date=#{last_update_date} where push_date is null and stop_time between #{range_start} and #{range_end} and attribute30 is null and department_name=#{department_name}")
+	int updatePush(CuxSoaWipPushExt cuxSoaWipPushExt);
 	
 	/**
 	 * 
@@ -43,6 +44,6 @@ public interface CuxSoaWipPushMapper extends IMapper<CuxSoaWipPush> {
 	 * @date Sep 27, 2019 1:53:11 PM
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	@Select("select distinct a.organization_id,b.* from cux.cux_soa_wip_push a, t_push_robot b where a.department_name=b.name and b.type='WIP' and a.stop_time between b.range_start and b.range_end and a.data_type = b.status and b.validstatus=1 and a.push_date is null")
+	@Select("select distinct a.organization_id,b.* from cux.cux_soa_wip_push a, t_push_robot b where a.department_name=b.name and b.type='WIP' and a.stop_time between b.range_start and b.range_end and a.data_type = b.status and a.organization_id = b.org_id and b.validstatus=1 and a.push_date is null")
 	List<TPushRobot> findRobot();
 }

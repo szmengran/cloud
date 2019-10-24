@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.suntak.cloud.wechat.entity.request.NewsRequestBody;
-import com.suntak.exception.model.Response;
+import com.suntak.push.entity.RobotResponse;
 
 /**
  * @Package com.suntak.cloud.microservices.client
@@ -28,6 +28,6 @@ public interface WechatClient {
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
 	@PostMapping("/cgi-bin/webhook/send?key={robotid}")
-	Response sendNews(@PathVariable("robotid") String robotid, @RequestBody NewsRequestBody newsRequestBody);
+	RobotResponse sendNews(@PathVariable("robotid") String robotid, @RequestBody NewsRequestBody newsRequestBody);
 	
 }

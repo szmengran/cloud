@@ -17,6 +17,8 @@ public class TPushRobot implements Serializable {
 	private String robotid;
 	private String url;
 	private String picurl;
+	private Integer range_start;
+	private Integer range_end;
 	private Timestamp createstamp;
 	private Integer validstatus;
 	public String getType() {
@@ -49,8 +51,17 @@ public class TPushRobot implements Serializable {
 	public void setPicurl(String picurl) {
 		this.picurl = picurl;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Integer getRange_start() {
+		return range_start;
+	}
+	public void setRange_start(Integer range_start) {
+		this.range_start = range_start;
+	}
+	public Integer getRange_end() {
+		return range_end;
+	}
+	public void setRange_end(Integer range_end) {
+		this.range_end = range_end;
 	}
 	public Timestamp getCreatestamp() {
 		return createstamp;

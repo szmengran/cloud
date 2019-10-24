@@ -5,21 +5,29 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
 import com.suntak.cloud.wechat.entity.request.Articles;
 import com.suntak.cloud.wechat.entity.request.News;
 import com.suntak.cloud.wechat.entity.request.NewsRequestBody;
 import com.suntak.push.client.WechatClient;
 import com.suntak.push.entity.CuxSoaWipPush;
+import com.suntak.push.entity.RobotResponse;
 import com.suntak.push.entity.TPushRobot;
+import com.suntak.push.entity.ext.CuxSoaWipPushExt;
 import com.suntak.push.mapper.CuxSoaWipPushMapper;
 import com.suntak.push.service.WipPushService;
 
 @Service
 public class WipPushServiceImpl implements WipPushService {
 
+	private static final Logger logger = LoggerFactory.getLogger(MiPushServiceImpl.class);
+	
 	@Autowired
 	private CuxSoaWipPushMapper CuxSoaWipPushMapper;
 	
@@ -37,10 +45,16 @@ public class WipPushServiceImpl implements WipPushService {
 			String attribute30 = "wip_"+System.currentTimeMillis();
 			cuxSoaWipPush.setAttribute30(attribute30);
 			cuxSoaWipPush.setLast_update_date(currentTime);
-			Boolean flag = CuxSoaWipPushMapper.updatePush(cuxSoaWipPush) > 0;
+			CuxSoaWipPushExt cuxSoaWipPushExt = new CuxSoaWipPushExt();
+			BeanUtils.copyProperties(cuxSoaWipPush, cuxSoaWipPushExt);
+			cuxSoaWipPushExt.setRange_start(robot.getRange_start());
+			cuxSoaWipPushExt.setRange_end(robot.getRange_end());
+			Boolean flag = CuxSoaWipPushMapper.updatePush(cuxSoaWipPushExt) > 0;
 			if (flag) {
 				NewsRequestBody newsRequestBody = generateRequestBody(robot, attribute30);
-				wechatClient.sendNews(robot.getRobotid(), newsRequestBody);
+				logger.info("机器人请求：{},{}", robot.getRobotid(), new Gson().toJson(newsRequestBody));
+				RobotResponse robotResponse = wechatClient.sendNews(robot.getRobotid(), newsRequestBody);
+				logger.info("机器人响应：{}", new Gson().toJson(robotResponse));
 			}
 		}
 		
