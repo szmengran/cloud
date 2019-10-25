@@ -45,7 +45,7 @@ public class EmsDmMaintainController {
         Integer pageSize = maintain.getPageSize();
         if (pageNum == null) {
             pageNum = 1;
-            pageSize = 50;
+            pageSize = 100;
         }
         Integer id = userinfo.getId();
         if (userinfo.getName().indexOf("管理员") != -1) {
@@ -75,7 +75,7 @@ public class EmsDmMaintainController {
         Integer pageSize = maintain.getPageSize();
         if (pageNum == null) {
             pageNum = 1;
-            pageSize = 50;
+            pageSize = 100;
         }
         PageHelper.startPage(pageNum, pageSize, "plan_date desc");
         List<Ems_dm_maintain> list = emsDmMaintainService.findMaintain(maintain.getOrganization_id(), maintain.getKeyword(), userinfo.getId(), null);
