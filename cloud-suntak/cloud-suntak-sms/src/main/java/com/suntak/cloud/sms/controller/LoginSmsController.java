@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiResponses;
  * @date 2018年4月6日 下午3:10:00
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
-@Api(value = "ehr")
+@Api(value = "短信服务")
 @RestController
 @RequestMapping(path = "/api/v1/suntaksms", produces = { "application/json" })
 public class LoginSmsController {
