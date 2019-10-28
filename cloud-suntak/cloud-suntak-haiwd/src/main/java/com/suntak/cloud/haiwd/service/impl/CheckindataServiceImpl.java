@@ -13,6 +13,7 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,15 +76,16 @@ public class CheckindataServiceImpl implements CheckindataService {
 	 * @param checkindata
 	 * @param userMap
 	 */
-	private void sync(T_haiwd_checkindata checkindata, Map<String, String> userMap) {
+	private void sync(T_haiwd_checkindata checkindata, Map<String, T_haiwd_user> userMap) {
 		try {
 			int count = checkindataMapper.insert(checkindata);
 			if (count == 1) {
 				Map<String, Object> params = new HashMap<String, Object>();
-				String userid = checkindata.getUserid();
+				T_haiwd_user user = userMap.get(checkindata.getUserid());
+				String userid = StringUtils.isNotEmpty(user.getUserid2()) ? user.getUserid2() : user.getUserid();
 				params.put("empsysid", userid);
-				String type = userMap.get(userid);
 				List<Tx_empcard> empcardList = null;
+				String type = user.getType();
 				if ("0".equals(type)) {
 					empcardList = dlEmpcardMapper.findByConditions(Tx_empcard.class, params, "cardstatuschgday desc");
 				} else {
@@ -91,7 +93,7 @@ public class CheckindataServiceImpl implements CheckindataService {
 				}
 				Kq_kqdata kqdata = new Kq_kqdata();
 				kqdata.setGuid(UUID.randomUUID().toString());
-				kqdata.setEmpsysid(checkindata.getUserid());
+				kqdata.setEmpsysid(userid);
 				Long checkin_time = checkindata.getCheckin_time();
 				Timestamp time = new Timestamp(checkin_time * 1000);
 				Calendar calendar = Calendar.getInstance();
@@ -133,11 +135,11 @@ public class CheckindataServiceImpl implements CheckindataService {
 		if (response.getStatus() == 200) {
 			String access_token = (String)response.getData();
 			final List<T_haiwd_user> users = userListFuture.get();
-			Map<String, String> userMap = new HashMap<>();
+			Map<String, T_haiwd_user> userMap = new HashMap<>();
 			String[] useridlist = new String[users.size()];
 			int index = 0;
 			for (T_haiwd_user user: users) {
-				userMap.put(user.getUserid(), user.getType());
+				userMap.put(user.getUserid(), user);
 				useridlist[index++] = user.getUserid();
 			}
 			checkindataRequest.setUseridlist(useridlist);
