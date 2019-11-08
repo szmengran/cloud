@@ -1,5 +1,5 @@
 server:
-  port: 10022
+  port: 10023
 spring:
   application:
     name: cloud-suntak-reserve

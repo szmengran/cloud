@@ -8,4 +8,4 @@ RUN echo 'Asia/shanghai' > /etc/timezone
 ADD ./target/$JAR_FILE /app/
 CMD java -Xmx200 -jar /app/$JAR_FILE
 
-EXPOSE 10022
+EXPOSE 10023
