@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 
+import com.suntak.cloud.ehr.entity.Contact;
 import com.suntak.cloud.ehr.entity.ContactExt;
 import com.szmengran.mybatis.utils.mapper.IMapper;
 
@@ -22,10 +23,29 @@ import com.szmengran.mybatis.utils.mapper.IMapper;
 public interface ContactMapper extends IMapper<ContactExt>{
 	
 	@SelectProvider(type = SqlProvider.class, method = "findContact")
-	public List<ContactExt> findContact(@Param("currentDate") Timestamp currentDate) throws Exception;
+	List<ContactExt> findContact(@Param("currentDate") Timestamp currentDate) throws Exception;
 	
+	/**
+	 * 
+	 * @description 查找7天内离职的人员
+	 * @return
+	 * @throws Exception
+	 * @date Nov 6, 2019 3:44:38 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
 	@SelectProvider(type = SqlProvider.class, method = "findDisableContact")
-	public List<ContactExt> findDisableContact() throws Exception;
+	List<ContactExt> findDisableContact() throws Exception;
+	
+	/**
+	 * 
+	 * @description 根据电话号码查找员工信息
+	 * @param phone
+	 * @return
+	 * @date Nov 6, 2019 3:45:40 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@SelectProvider(type = SqlProvider.class, method = "findContactByPhone")
+	List<Contact> findContactByPhone(@Param("phone") String phone);
 	
 	class SqlProvider {
 		public String findContact(Map<String, Object> param){
@@ -52,6 +72,15 @@ public interface ContactMapper extends IMapper<ContactExt>{
 			.append(" from tb_v_rpt_emp_info a")
 			.append(" where a.empstatusname='离职'")
 			.append(" and to_date(a.exitDate, 'yyyy-mm-dd') > sysdate - 7");
+			return strSql.toString();
+		}
+		
+		public String findContactByPhone(Map<String, Object> param){
+			StringBuilder strSql = new StringBuilder();
+			strSql.append("select a.empcode userid, a.empname name, a.c_mobile_tel mobile")
+			.append(" from tb_v_rpt_emp_info a")
+			.append(" where a.empstatusname='在职'")
+			.append(" and a.c_mobile_tel=#{phone}");
 			return strSql.toString();
 		}
 	}

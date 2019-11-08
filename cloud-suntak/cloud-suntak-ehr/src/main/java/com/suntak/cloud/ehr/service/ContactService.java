@@ -15,7 +15,7 @@ public interface ContactService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void synchContact() throws Exception;
+	void synchContact() throws Exception;
 	
 	/**
 	 * 从企业微信中获取员工信息
@@ -24,13 +24,23 @@ public interface ContactService {
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public Contact getContact(String userid) throws Exception;
+	Contact getContact(String userid) throws Exception;
+	
+	/**
+	 * 
+	 * @description 根据电话号码查找员工信息
+	 * @param phone
+	 * @return
+	 * @date Nov 6, 2019 3:49:03 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	Contact findContactByPhone(String phone);
 	
 	/**
 	 * 删除企业微信中已经离职的员工信息
 	 * @throws Exception 
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	public void deleteContact() throws Exception;
+	void deleteContact() throws Exception;
 	
 }

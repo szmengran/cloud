@@ -163,4 +163,13 @@ public class ContactServiceImpl implements ContactService{
 			});
 		}
 	}
+
+	@Override
+	public Contact findContactByPhone(String phone) {
+		List<Contact> list = contactMapper.findContactByPhone(phone);
+		if (list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
 }

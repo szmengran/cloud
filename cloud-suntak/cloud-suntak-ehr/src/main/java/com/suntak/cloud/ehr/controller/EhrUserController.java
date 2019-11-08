@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.suntak.admin.user.exception.BusinessException;
 import com.suntak.cloud.ehr.entity.Contact;
 import com.suntak.cloud.ehr.service.ContactService;
 import com.suntak.cloud.ehr.service.EhrUserService;
 import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
-import com.suntak.admin.user.exception.BusinessException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -155,5 +155,14 @@ public class EhrUserController {
 	public Response deleteContact() throws Exception {
 		contactService.deleteContact();
 		return new Response();
+	}
+	
+	@ApiOperation(value = "根据电话号码查找员工信息", response = Response.class)
+	@GetMapping("/contact/phone/{phone}")
+	public Response findContactByPhone(@PathVariable("phone") String phone) {
+		Contact contact = contactService.findContactByPhone(phone);
+		Response response = new Response();
+		response.setData(contact);
+		return response;
 	}
 }
