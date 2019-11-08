@@ -1,6 +1,5 @@
 package com.suntak.cloud.recruitment.service.impl;
 
-import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.axis2.AxisFault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,7 +111,7 @@ public class TaskServiceImpl implements TaskService {
         taskMapper.insert(t_hr_task);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public T_hr_workflow_sub handlerTask(T_hr_task t_hr_task, String userid) throws Exception {
         try {
@@ -208,9 +206,6 @@ public class TaskServiceImpl implements TaskService {
         Future<T_hr_attachment> attachmentFuture = executor.submit(() -> {
             return attachmentService.findById(applicantid);
         });
-        Future<String> loginName = executor.submit(() -> {
-            return oaService.findLoginNameByCode(empcode);
-        });
         Future<T_hr_task> firstViewFuture = executor.submit(() -> {
             List<T_hr_task> list = taskMapper.findTaskByApplicantid(applicantid, "1");
             if (list != null && list.size() > 0) {
@@ -218,9 +213,12 @@ public class TaskServiceImpl implements TaskService {
             }
             return null;
         });
+        T_hr_applicant t_hr_applicant = applicant.get();
+        Future<String> loginName = executor.submit(() -> {
+            return oaService.findLoginNameByCode(t_hr_applicant.getOwnerid()); //使用该人员归属的招聘专员作为OA发起人
+        });
         OaFormXmlBean oaForm = new OaFormXmlBean();
         oaForm.setTableName("formmain_6902");
-        T_hr_applicant t_hr_applicant = applicant.get();
         T_hr_task firstTask = firstViewFuture.get();
         oaForm.setTableHeaderDataMap(genTableHeaderDataMap(t_hr_applicant, firstTask,
                 secondTask, educationhistory.get()));
@@ -228,45 +226,34 @@ public class TaskServiceImpl implements TaskService {
                 genTableLinesDataList(educationhistory.get(), familymembers.get(), workhistorys.get()));
 
         String data = getOaFormXmlString(oaForm);
+        logger.info(data);
         // 连接的环境信息
-        try {
-            OaConfigInfo conf = new OaConfigInfo(environment);
+        OaConfigInfo conf = new OaConfigInfo(environment);
 
-            String token = OaInterfaceUtil.getOaToken(conf);
-            long[] attactments = getAttachment(attachmentFuture.get(), resumeFuture.get());
-            
-            // 发起流程表单
-            BPMServiceStub bpmServiceStub = new BPMServiceStub(conf);// new BPMServiceStub();
-            BPMServiceStub.LaunchFormCollaboration launchFormCollaboration = new BPMServiceStub.LaunchFormCollaboration();
-            launchFormCollaboration.setToken(token);
-            launchFormCollaboration.setSenderLoginName(loginName.get()); // 发起者的登录名（登录协同的登录名）
-            launchFormCollaboration.setTemplateCode("OA_WXwork_01"); // 模板编号
-            launchFormCollaboration.setSubject(t_hr_applicant.getName()+"-"+firstTask.getAttribute14()+"-员工履历、面试评价及录用审批表"); // 协同的标题
-            launchFormCollaboration.setData(data); // XML格式的表单数据
-            launchFormCollaboration.setAttachments(attactments);
-            launchFormCollaboration.setParam("0"); //0-发起流程 1-待发
-            launchFormCollaboration.setRelateDoc("");
+        String token = OaInterfaceUtil.getOaToken(conf);
+        long[] attactments = getAttachment(attachmentFuture.get(), resumeFuture.get());
+        
+        // 发起流程表单
+        BPMServiceStub bpmServiceStub = new BPMServiceStub(conf);// new BPMServiceStub();
+        BPMServiceStub.LaunchFormCollaboration launchFormCollaboration = new BPMServiceStub.LaunchFormCollaboration();
+        launchFormCollaboration.setToken(token);
+        launchFormCollaboration.setSenderLoginName(loginName.get()); // 发起者的登录名（登录协同的登录名）
+        launchFormCollaboration.setTemplateCode("OA_WXwork_01"); // 模板编号
+        launchFormCollaboration.setSubject(t_hr_applicant.getName()+"-"+firstTask.getAttribute14()+"-员工履历、面试评价及录用审批表"); // 协同的标题
+        launchFormCollaboration.setData(data); // XML格式的表单数据
+        launchFormCollaboration.setAttachments(attactments);
+        launchFormCollaboration.setParam("0"); //0-发起流程 1-待发
+        launchFormCollaboration.setRelateDoc("");
 
-            BPMServiceStub.LaunchFormCollaborationResponse launchFormCollaborationResp = bpmServiceStub
-                    .launchFormCollaboration(launchFormCollaboration);
-            BPMServiceStub.ServiceResponse serviceResp = launchFormCollaborationResp.get_return();
-            Long errorNumber = serviceResp.getErrorNumber(); // 错误代码
-            String errorMessage = serviceResp.getErrorMessage(); // 错误消息
-            Long processId = serviceResp.getResult(); // 流程ID
+        BPMServiceStub.LaunchFormCollaborationResponse launchFormCollaborationResp = bpmServiceStub
+                .launchFormCollaboration(launchFormCollaboration);
+        BPMServiceStub.ServiceResponse serviceResp = launchFormCollaborationResp.get_return();
+        Long errorNumber = serviceResp.getErrorNumber(); // 错误代码
+        String errorMessage = serviceResp.getErrorMessage(); // 错误消息
+        Long processId = serviceResp.getResult(); // 流程ID
 
-            logger.info("错误代码：", errorNumber, "错误消息：", errorMessage, "流程ID：", processId);
-        } catch (AxisFault e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (com.suntak.autotask.authorityService.ServiceException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        if (errorNumber != 0) {
+        	logger.info("错误代码：{}，错误消息：{}， 流程ID：{}", errorNumber , errorMessage, processId);
         }
     }
     
@@ -289,20 +276,6 @@ public class TaskServiceImpl implements TaskService {
         }
         return "-3451440124422436818";
     }
-//    
-//    private String getCrimehistory(Integer crimehistory) {
-//        if (crimehistory == 1) {
-//            return "-3620634840999376943";
-//        }
-//        return "-3451440124422436818";
-//    }
-//    
-//    private String getPregnancy(Integer pregnancy) {
-//        if (pregnancy == 1) {
-//            return "-3620634840999376943"; 
-//        }
-//        return "-3451440124422436818";
-//    }
 
     /**
      * 
@@ -462,7 +435,8 @@ public class TaskServiceImpl implements TaskService {
             map.put("工作经历工作单位", workhistory.getCompany());
             map.put("工作经历部门", workhistory.getDepartment());
             map.put("工作经历职位", workhistory.getPosition());
-            map.put("工作经历薪资", workhistory.getSalary() + "");
+            Float salary = workhistory.getSalary();
+            map.put("工作经历薪资", salary == null ? "" : (salary  + ""));
             map.put("工作经历离职原因", workhistory.getResignationreason());
             workhistorysList.add(map);
         }
