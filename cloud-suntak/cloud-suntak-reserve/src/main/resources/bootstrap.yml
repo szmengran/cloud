@@ -1,0 +1,18 @@
+server:
+  port: 10022
+spring:
+  application:
+    name: cloud-suntak-reserve
+  cloud:
+    config:
+      uri: ${CONFIG_SERVER_ADDRESS}
+      fail-fast: true
+  profiles:
+    active: ${ENVIRONMENT}
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+logging:
+  config: ${CONFIG_SERVER_ADDRESS}/resources/logback-spring.xml
+cloud:
+  environment:
+    oa: prod
