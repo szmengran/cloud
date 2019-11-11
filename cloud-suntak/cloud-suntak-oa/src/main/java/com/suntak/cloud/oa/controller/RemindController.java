@@ -112,7 +112,12 @@ public class RemindController {
 	public Response remind() throws Exception {
 		//发送经济奖惩通知
 		executor.submit(() -> {
-			List<Cux_oa_qywx_jjjchz_v> list = jjjchzService.findJjjcByConditions();
+			List<Cux_oa_qywx_jjjchz_v> list = null;
+			try {
+				list = jjjchzService.findJjjcByConditions();
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
 			for (Cux_oa_qywx_jjjchz_v cux_oa_qywx_jjjchz_v: list) {
 			    if (StringUtils.isBlank(cux_oa_qywx_jjjchz_v.getId())) {
 			        continue;
@@ -126,7 +131,6 @@ public class RemindController {
 							logger.error(response.getMessage());
 						}
 					} catch (Exception e) {
-						e.printStackTrace();
 						logger.error(e.getMessage());
 					}
 				});
@@ -136,7 +140,12 @@ public class RemindController {
 		
 		//发送报废/返工/修理经济奖惩通知
 		executor.submit(() -> {
-			List<Cux_oa_qywx_jjjcmx_v> list = jjjcmxService.findJjjcmxByConditions();
+			List<Cux_oa_qywx_jjjcmx_v> list = null;
+			try {
+				list = jjjcmxService.findJjjcmxByConditions();
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
 			for (Cux_oa_qywx_jjjcmx_v cux_oa_qywx_jjjcmx_v: list) {
 			    if (StringUtils.isBlank(cux_oa_qywx_jjjcmx_v.getId())) {
 			        continue;
@@ -159,7 +168,12 @@ public class RemindController {
 		});
 		
 		executor.submit(() -> {
-			List<?> list = jngzmxService.findByConditions();
+			List<?> list = null;
+			try {
+				list = jngzmxService.findByConditions();
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
 			for (Object object: list) {
 			    Cux_oa_qywx_jngzmx_v cux_oa_qywx_jngzmx_v = (Cux_oa_qywx_jngzmx_v)object;
 			    if (StringUtils.isBlank(cux_oa_qywx_jngzmx_v.getId())) {
@@ -183,7 +197,12 @@ public class RemindController {
 		});
 		
 		executor.submit(() -> {
-			List<?> list = tdlhzhpjService.findByConditions();
+			List<?> list = null;
+			try {
+				list = tdlhzhpjService.findByConditions();
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
 			for (Object object: list) {
 			    Cux_oa_qywx_tdlhzhpj_v cux_oa_qywx_tdlhzhpj_v = (Cux_oa_qywx_tdlhzhpj_v)object;
 			    if (StringUtils.isBlank(cux_oa_qywx_tdlhzhpj_v.getId())) {
@@ -207,7 +226,12 @@ public class RemindController {
 		});
 		
 		executor.submit(() -> {
-			List<?> list = grlhzhpjService.findByConditions();
+			List<?> list = null;
+			try {
+				list = grlhzhpjService.findByConditions();
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
 			for (Object object: list) {
 			    Cux_oa_qywx_grlhzhpj_v cux_oa_qywx_grlhzhpj_v = (Cux_oa_qywx_grlhzhpj_v)object;
 			    if (StringUtils.isBlank(cux_oa_qywx_grlhzhpj_v.getId())) {
@@ -231,7 +255,12 @@ public class RemindController {
 		});
 		
 		executor.submit(() -> {
-		    List<?> list = personalDevPlanService.findByConditions();
+		    List<?> list = null;
+			try {
+				list = personalDevPlanService.findByConditions();
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
 		    for (Object object: list) {
 		        Cux_oa_personal_dev_plan_v cux_oa_personal_dev_plan_v = (Cux_oa_personal_dev_plan_v)object;
 		        if (StringUtils.isBlank(cux_oa_personal_dev_plan_v.getForm_id())) {
@@ -255,7 +284,12 @@ public class RemindController {
 		});
 		
 		executor.submit(() -> {
-            List<?> list = aqscfxService.findByConditions();
+            List<?> list = null;
+			try {
+				list = aqscfxService.findByConditions();
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
             for (Object object: list) {
                 Cux_oa_qywx_aqscfx_v cux_oa_qywx_aqscfx_v = (Cux_oa_qywx_aqscfx_v)object;
                 if (StringUtils.isBlank(cux_oa_qywx_aqscfx_v.getId())) {

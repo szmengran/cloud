@@ -19,13 +19,13 @@ public class Cux_oa_qywx_grlhzhpj_v {
 	private String l_name; //姓名
 	private String l_post; //职务
 	private String l_rzrq; //入职日期
-	private String l_cldcljjjj; //产量达成率计件奖金
-	private String l_pmqk; //排名情况
-	private String l_qzpxhpjdj; //强制排序后评价等级
-	private String l_dyzgjbgs; //对应最高加班工时
-	private String l_ygqz;
-	private String l_bz;
-	private String l_tezt;
+	private String l_zpljcs; //个人产量达成率计件奖金
+	private String l_xldcl; //个人排名情况
+	private String l_jcljcs; //个人强制排序后评价等级
+	private String l_wgwjljcs; //个人对应最高加班工时
+	private String l_hzysljcs; //个人备注
+	private String l_tezt; //企业微信发送标志
+	private String l_ygqz; //签名
 	public String getId() {
 		return id;
 	}
@@ -80,41 +80,35 @@ public class Cux_oa_qywx_grlhzhpj_v {
 	public void setL_rzrq(String l_rzrq) {
 		this.l_rzrq = l_rzrq;
 	}
-	public String getL_cldcljjjj() {
-		return l_cldcljjjj;
+	public String getL_zpljcs() {
+		return l_zpljcs;
 	}
-	public void setL_cldcljjjj(String l_cldcljjjj) {
-		this.l_cldcljjjj = l_cldcljjjj;
+	public void setL_zpljcs(String l_zpljcs) {
+		this.l_zpljcs = l_zpljcs;
 	}
-	public String getL_pmqk() {
-		return l_pmqk;
+	public String getL_xldcl() {
+		return l_xldcl;
 	}
-	public void setL_pmqk(String l_pmqk) {
-		this.l_pmqk = l_pmqk;
+	public void setL_xldcl(String l_xldcl) {
+		this.l_xldcl = l_xldcl;
 	}
-	public String getL_qzpxhpjdj() {
-		return l_qzpxhpjdj;
+	public String getL_jcljcs() {
+		return l_jcljcs;
 	}
-	public void setL_qzpxhpjdj(String l_qzpxhpjdj) {
-		this.l_qzpxhpjdj = l_qzpxhpjdj;
+	public void setL_jcljcs(String l_jcljcs) {
+		this.l_jcljcs = l_jcljcs;
 	}
-	public String getL_dyzgjbgs() {
-		return l_dyzgjbgs;
+	public String getL_wgwjljcs() {
+		return l_wgwjljcs;
 	}
-	public void setL_dyzgjbgs(String l_dyzgjbgs) {
-		this.l_dyzgjbgs = l_dyzgjbgs;
+	public void setL_wgwjljcs(String l_wgwjljcs) {
+		this.l_wgwjljcs = l_wgwjljcs;
 	}
-	public String getL_ygqz() {
-		return l_ygqz;
+	public String getL_hzysljcs() {
+		return l_hzysljcs;
 	}
-	public void setL_ygqz(String l_ygqz) {
-		this.l_ygqz = l_ygqz;
-	}
-	public String getL_bz() {
-		return l_bz;
-	}
-	public void setL_bz(String l_bz) {
-		this.l_bz = l_bz;
+	public void setL_hzysljcs(String l_hzysljcs) {
+		this.l_hzysljcs = l_hzysljcs;
 	}
 	public String getL_tezt() {
 		return l_tezt;
@@ -122,5 +116,10 @@ public class Cux_oa_qywx_grlhzhpj_v {
 	public void setL_tezt(String l_tezt) {
 		this.l_tezt = l_tezt;
 	}
-	
+	public String getL_ygqz() {
+		return l_ygqz;
+	}
+	public void setL_ygqz(String l_ygqz) {
+		this.l_ygqz = l_ygqz;
+	}
 }
