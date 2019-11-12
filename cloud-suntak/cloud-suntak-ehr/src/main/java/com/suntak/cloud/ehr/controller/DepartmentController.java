@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.ehr.client.EnterPriseWechatClient;
@@ -27,7 +26,6 @@ import com.suntak.exception.model.Response;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 @RestController
-@RequestMapping("/api/v1/ehr")
 public class DepartmentController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DepartmentController.class);

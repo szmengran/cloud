@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.ehr.client.PunchClient;
@@ -35,11 +34,10 @@ import io.swagger.annotations.Api;
  */
 @Api(value = "ehr")
 @RestController
-@RequestMapping(path = "/api/v1/ehr", produces = { "application/json" })
 public class PunchController {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(PunchController.class);
-	private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(100);
+	private static final Logger logger = LoggerFactory.getLogger(PunchController.class);
+	private static final ExecutorService executor = Executors.newFixedThreadPool(100);
 	public static final String ASSISTANT_NAME = "【崇达小助手】";
 	
 	@Value("${wechat.qy.AgentId}")
@@ -62,7 +60,7 @@ public class PunchController {
 	
 	@GetMapping("/punch/{time}/{minute}/{scanSecond}")
 	public Response findWorkPunch(@PathVariable("time") int time, @PathVariable("minute") int minute, @PathVariable("scanSecond") int scanSecond) throws Exception {
-		Future<List<String>> futureList = EXECUTOR.submit(() -> {
+		Future<List<String>> futureList = executor.submit(() -> {
 			return microservicesSettingService.findSettingByType(Constants.SETTING_TYPE_PUNCH);
 		});
 		Response response = punchClient.findPunch(time, minute, scanSecond);
@@ -70,7 +68,7 @@ public class PunchController {
 		List<String> list = (List<String>) response.getData();
 		List<String> settingList = futureList.get();
 		list.removeAll(settingList);
-		EXECUTOR.submit(() -> {
+		executor.submit(() -> {
 			if (list != null && list.size() > 0) {
 				try {
 					if (list.size() <= 500) {
@@ -95,7 +93,7 @@ public class PunchController {
 					}
 					
 				} catch (Exception e) {
-					LOG.error(e.getMessage());
+					logger.error(e.getMessage());
 				}
 			}
 		});

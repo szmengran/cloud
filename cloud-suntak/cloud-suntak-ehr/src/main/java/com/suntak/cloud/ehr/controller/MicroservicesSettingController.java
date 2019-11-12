@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.ehr.entity.T_microservices_setting;
@@ -24,7 +23,6 @@ import io.swagger.annotations.ApiOperation;
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
 @RestController
-@RequestMapping(path = "/api/v1/ehr", produces = { "application/json" })
 public class MicroservicesSettingController {
 	
 	@Autowired

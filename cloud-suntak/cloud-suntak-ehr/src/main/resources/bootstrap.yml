@@ -1,5 +1,7 @@
 server:
   port: 10005
+  servlet:
+    context-path: /api/v1/ehr
 spring:
   application:
     name: cloud-suntak-ehr
@@ -14,5 +16,6 @@ spring:
       true
   kafka:
     bootstrap-servers: ${KAFKA_SERVER}
+
 logging:
   config: ${CONFIG_SERVER_ADDRESS}/resources/logback-spring.xml
