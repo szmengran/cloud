@@ -56,14 +56,23 @@ public class WechatController {
 	@Autowired
 	private UserinfoService userinfoService;
 	
+	/**
+	 * 
+	 * @description 设备部员工授权登录信息
+	 * @param code
+	 * @return
+	 * @throws Exception
+	 * @date Nov 13, 2019 2:23:16 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
 	@GetMapping("/getuserinfo/{code}")
 	public Response getUserInfo(@PathVariable("code") String code) throws Exception {
 		Response response = wechatClient.getUserInfo(code, secret);
 		///
-		response = new Response();
-		Map<String, String> amap = new HashMap<String, String>();
-		amap.put("UserId", "000742");
-		response.setData(amap);
+//		response = new Response();
+//		Map<String, String> amap = new HashMap<String, String>();
+//		amap.put("UserId", "000742");
+//		response.setData(amap);
 		///
 		if (response.getStatus() == 200) {
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -80,6 +89,7 @@ public class WechatController {
 			if (userinfo != null) {
 			    Oz_org_userinfo_ext oz_org_userinfo_ext = new Oz_org_userinfo_ext();
 			    BeanUtils.copyProperties(userinfo, oz_org_userinfo_ext);
+			    oz_org_userinfo_ext.setEmployer_id(empcode);
 			    Response resp = furure.get();
 			    oz_org_userinfo_ext.setOrg_id((Integer)resp.getData());
 				Map<String, Object> map = new HashMap<String, Object>();
@@ -94,6 +104,16 @@ public class WechatController {
 		return response;
 	}
 	
+	/**
+	 * 
+	 * @description 设备部员工授权登录信息
+	 * @param code
+	 * @param secret
+	 * @return
+	 * @throws Exception
+	 * @date Nov 13, 2019 2:22:51 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
 	@GetMapping("/getuserinfo/{code}/{secret}")
 	public Response getUserInfo(@PathVariable("code") String code, @PathVariable("secret") String secret) throws Exception {
 		Response response = wechatClient.getUserInfo(code, secret);
@@ -112,6 +132,7 @@ public class WechatController {
             if (userinfo != null) {
                 Oz_org_userinfo_ext oz_org_userinfo_ext = new Oz_org_userinfo_ext();
                 BeanUtils.copyProperties(userinfo, oz_org_userinfo_ext);
+                oz_org_userinfo_ext.setEmployer_id(empcode);
                 Response resp = furure.get();
                 oz_org_userinfo_ext.setOrg_id((Integer)resp.getData());
                 Map<String, Object> map = new HashMap<String, Object>();
@@ -122,6 +143,49 @@ public class WechatController {
             } else {
                 throw new Exception("登录失败，你的账号还没有在设备系统中绑定！");
             }
+		}
+		return response;
+	}
+	
+	/**
+	 * 
+	 * @description 面向所有员工的登录授权信息
+	 * @param code
+	 * @param secret
+	 * @return
+	 * @throws Exception
+	 * @date Nov 13, 2019 2:22:15 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@GetMapping("/getuserinfo2/{code}/{secret}")
+	public Response getUserInfo2(@PathVariable("code") String code, @PathVariable("secret") String secret) throws Exception {
+		Response response = wechatClient.getUserInfo(code, secret);
+		///
+//		response = new Response();
+//		Map<String, String> amap = new HashMap<String, String>();
+//		amap.put("UserId", "000742");
+//		response.setData(amap);
+		///
+		if (response.getStatus() == 200) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(response.getData()));
+			String empcode = jsonNode.get("UserId").asText();
+			
+			Response resp = ehrUserClient.getUserInfo(empcode);
+			ObjectMapper objectMapper1 = new ObjectMapper();
+			JsonNode jsonNode1 = objectMapper1.readTree(objectMapper1.writeValueAsBytes(resp.getData()));
+			String companycode = jsonNode1.get("companycode").asText();
+			String name = jsonNode1.get("empname").asText();
+			Response res = microserviceClient.getOrgIdByCompanyCode(companycode); 
+			
+			Oz_org_userinfo_ext oz_org_userinfo_ext = new Oz_org_userinfo_ext();
+			oz_org_userinfo_ext.setEmployer_id(empcode);
+			oz_org_userinfo_ext.setName(name);
+			oz_org_userinfo_ext.setOrg_id((Integer)res.getData());
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("userinfo", oz_org_userinfo_ext);
+			map.put("token", JwtUtil.generateToken(new Gson().toJson(oz_org_userinfo_ext)));
+			response.setData(map);
 		}
 		return response;
 	}

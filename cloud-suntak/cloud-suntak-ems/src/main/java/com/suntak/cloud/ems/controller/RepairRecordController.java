@@ -60,18 +60,17 @@ public class RepairRecordController {
         String name = userinfo.getName();
         ems_dm_repair_record.setMaintenance_apllicant_id(userid);
         ems_dm_repair_record.setMaintenance_apllicant(name);
+        ems_dm_repair_record.setMaintenance_person_id(userid);
+        ems_dm_repair_record.setMaintenance_person(name);
+        ems_dm_repair_record.setDistribution_id(userid);
+        ems_dm_repair_record.setDistribution_by(name);
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        if (null == ems_dm_repair_record.getStatus()) {
-        	ems_dm_repair_record.setMaintenance_person_id(userid);
-        	ems_dm_repair_record.setMaintenance_person(name);
-        	ems_dm_repair_record.setDistribution_id(userid);
-        	ems_dm_repair_record.setDistribution_by(name);
-        	ems_dm_repair_record.setDistribution_date(currentTime);;
-        }
+        ems_dm_repair_record.setDistribution_date(currentTime);;
         ems_dm_repair_record.setCreated_date(currentTime);
         ems_dm_repair_record.setUpdated_date(currentTime);
-        ems_dm_repair_record.setCreated_by(userid+"");
-        ems_dm_repair_record.setUpdated_by(userid+"");
+        String employerId = userinfo.getEmployer_id();
+    	ems_dm_repair_record.setCreated_by(employerId);
+    	ems_dm_repair_record.setUpdated_by(employerId);
         ems_dm_repair_record.setOrganization_id(userinfo.getOrg_id());
         Boolean flag = repairRecordService.insert(repairRecordRequestBody);
         if (!flag) {
@@ -106,20 +105,15 @@ public class RepairRecordController {
     		response.setMessage("你的企业微信账号还没有和设备系统关联，请联系设备管理人员进行关联！");
     	}
     	Ems_dm_repair_record ems_dm_repair_record = repairRecordRequestBody.getRepairRecord();
-    	Integer userid = userinfo.getId();
+    	String employerId = userinfo.getEmployer_id();
     	String name = userinfo.getName();
-    	ems_dm_repair_record.setMaintenance_apllicant_id(userid);
     	ems_dm_repair_record.setMaintenance_apllicant(name);
-    	ems_dm_repair_record.setMaintenance_person_id(userid);
-    	ems_dm_repair_record.setMaintenance_person(name);
-    	ems_dm_repair_record.setDistribution_id(userid);
-    	ems_dm_repair_record.setDistribution_by(name);
     	Timestamp currentTime = new Timestamp(System.currentTimeMillis());
     	ems_dm_repair_record.setDistribution_date(currentTime);;
     	ems_dm_repair_record.setCreated_date(currentTime);
     	ems_dm_repair_record.setUpdated_date(currentTime);
-    	ems_dm_repair_record.setCreated_by(userid+"");
-    	ems_dm_repair_record.setUpdated_by(userid+"");
+    	ems_dm_repair_record.setCreated_by(employerId);
+    	ems_dm_repair_record.setUpdated_by(employerId);
     	ems_dm_repair_record.setOrganization_id(userinfo.getOrg_id());
     	Boolean flag = repairRecordService.insert(repairRecordRequestBody);
     	if (!flag) {
@@ -156,5 +150,43 @@ public class RepairRecordController {
         Response response = new Response();
         response.setData(list);
         return response;
+    }
+    
+    /**
+     * 
+     * @description 查找用户的生产维修申报记录
+     * @param token
+     * @param repairRequest
+     * @return
+     * @throws Exception
+     * @date Nov 13, 2019 1:41:16 PM
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
+    @PostMapping("repairRecords/prod/{token}")
+    public Response findRepairRecordProd(@PathVariable("token") String token, @RequestBody RepairRequest repairRequest) throws Exception {
+    	logger.info("{}", new Gson().toJson(token));
+    	String userJson = JwtUtil.parseToken(token);
+    	if (userJson == null) {
+    		throw new BusinessException(10007001);
+    	}
+    	Oz_org_userinfo_ext userinfo = new Gson().fromJson(userJson, Oz_org_userinfo_ext.class);
+    	if (userinfo == null) {
+    		Response response = new Response();
+    		response.setStatus(501);
+    		response.setMessage("你的企业微信账号不存在！");
+    		return response;
+    	}
+    	Integer pageNum = repairRequest.getPageNum();
+    	Integer pageSize = repairRequest.getPageSize();
+    	if (pageNum == null) {
+    		pageNum = 1;
+    		pageSize = 10;
+    	}
+    	PageHelper.startPage(pageNum, pageSize, "a.maintenance_time desc");
+    	String empcode = userinfo.getEmployer_id();
+    	List<Ems_dm_repair_record_ext> list = repairRecordService.findRepairRecordProd(empcode, repairRequest.getKeyword());
+    	Response response = new Response();
+    	response.setData(list);
+    	return response;
     }
 }

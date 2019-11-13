@@ -35,4 +35,16 @@ public interface RepairRecordService {
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
     List<Ems_dm_repair_record_ext> findRepairRecord(Integer userid, String keyword) throws Exception;
+    
+    /**
+     * 查找生产维修申报记录
+     * @param empcode
+     * @param keyword
+     * @return
+     * @throws Exception      
+     * @return: List<Ems_dm_repair_record_ext>      
+     * @throws   
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
+    List<Ems_dm_repair_record_ext> findRepairRecordProd(String empcode, String keyword) throws Exception;
 }

@@ -24,6 +24,10 @@ public interface RepairRecordExtMapper extends IMapper<Ems_dm_repair_record_ext>
     @SelectProvider(type = SqlProvider.class, method = "findRepairRecord")
     List<Ems_dm_repair_record_ext> findRepairRecord(@Param("userid") Integer userid, @Param("keyword") String keyword) throws Exception;
     
+    
+    @SelectProvider(type = SqlProvider.class, method = "findRepairRecordProd")
+    List<Ems_dm_repair_record_ext> findRepairRecordProd(@Param("empcode") String empcode, @Param("keyword") String keyword) throws Exception;
+    
     class SqlProvider {
         public String findRepairRecord(Map<String, Object> params) throws Exception {
             String keyword = (String)params.get("keyword");
@@ -37,6 +41,19 @@ public interface RepairRecordExtMapper extends IMapper<Ems_dm_repair_record_ext>
                     }
                 }
             }.toString();
+        }
+        public String findRepairRecordProd(Map<String, Object> params) throws Exception {
+        	String keyword = (String)params.get("keyword");
+        	return new SQL() {
+        		{
+        			SELECT("a.*,b.equipment_alias,b.equipment_no,b.use_d,b.procedure,b.equipment_name");
+        			FROM("EMS_DM_REPAIR_RECORD a left join EMS_DM_EQUIPMENT_DETAILS b on a.equipment_id=b.id");
+        			WHERE("a.created_by=#{empcode}");
+        			if (StringUtils.isNotBlank(keyword)) {
+        				WHERE("(b.equipment_no like '%"+keyword+"%' or b.equipment_alias like '%"+keyword+"%' or b.equipment_name like '%"+keyword+"%')");
+        			}
+        		}
+        	}.toString();
         }
     }
 }

@@ -68,4 +68,9 @@ public class RepairRecordServiceImpl implements RepairRecordService {
         return repairRecordExtMapper.findRepairRecord(userid, keyword);
     }
     
+    @Override
+    public List<Ems_dm_repair_record_ext> findRepairRecordProd(String empcode, String keyword) throws Exception {
+    	return repairRecordExtMapper.findRepairRecordProd(empcode, keyword);
+    }
+    
 }
