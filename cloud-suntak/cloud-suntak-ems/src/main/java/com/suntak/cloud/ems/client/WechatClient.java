@@ -15,6 +15,16 @@ import com.suntak.exception.model.Response;
 @FeignClient(name = "cloud-suntak-wechat")
 public interface WechatClient {
 
+	/**
+	 * 获取企业微信token
+	 * @param secret
+	 * @return
+	 * @throws Exception 
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@GetMapping("/api/v1/wechat/getQYToken/{secret}")
+	public Response getQYToken(@PathVariable("secret") String secret) throws Exception;
+
     /**
 	 * 获取用户信息
 	 * @param code
@@ -25,14 +35,4 @@ public interface WechatClient {
 	 */
 	@GetMapping("/api/v1/wechat/getuserinfo/{code}/{secret}")
 	public Response getUserInfo(@PathVariable("code") String code, @PathVariable("secret") String secret) throws Exception;
-	
-	/**
-	 * 获取企业微信token
-	 * @param secret
-	 * @return
-	 * @throws Exception 
-	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
-	 */
-	@GetMapping("/api/v1/wechat/getQYToken/{secret}")
-	public Response getQYToken(@PathVariable("secret") String secret) throws Exception;
 }

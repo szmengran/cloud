@@ -34,4 +34,6 @@ public interface EhrUserClient {
 	 */
 	@GetMapping("/api/v1/ehr/contact/{userid}")
 	Response getContact(@PathVariable("userid") String userid) throws Exception;
+
+	
 }

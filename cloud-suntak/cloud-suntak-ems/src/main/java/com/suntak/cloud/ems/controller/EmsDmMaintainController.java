@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
@@ -28,7 +27,6 @@ import com.suntak.exception.model.Response;
 import com.suntak.utils.JwtUtil;
 
 @RestController
-@RequestMapping("/api/v1/ems")
 public class EmsDmMaintainController {
 
     @Autowired
@@ -51,7 +49,7 @@ public class EmsDmMaintainController {
         if (userinfo.getName().indexOf("管理员") != -1) {
         	id = null;
         }
-        PageHelper.startPage(pageNum, pageSize, "plan_date desc");
+        PageHelper.startPage(pageNum, pageSize, "plan_date asc");
         List<Ems_dm_maintain> list = emsDmMaintainService.findMaintain(maintain.getOrganization_id(), maintain.getKeyword(), null, id);
         Response response = new Response();
         response.setData(list);

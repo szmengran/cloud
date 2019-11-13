@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -36,36 +35,35 @@ import io.swagger.annotations.Api;
  * @date Nov 29, 2018 8:40:33 AM
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
-@Api(value = "microservices")
+@Api(value = "企业微信服务")
 @RestController
-@RequestMapping(path = "/api/v1/ems", produces = { "application/json" })
 public class WechatController {
 
-    private final static ExecutorService executor = new ThreadPoolExecutor(20, 200, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
-	
-    @Value("${wechat.qy.Secret}")
+	private final static ExecutorService executor = new ThreadPoolExecutor(20, 2000, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+
+	@Value("${wechat.qy.Secret}")
 	private String secret;
+	
+	@Autowired
+	private EhrUserClient ehrUserClient;
 	
 	@Autowired
 	private WechatClient wechatClient;
 	
 	@Autowired
-	private EhrUserClient ehrUserClient;
-
-    @Autowired
-    private MicroserviceClient microserviceClient;
-    
-    @Autowired
-    private UserinfoService userinfoService;
+	private MicroserviceClient microserviceClient;
+	
+	@Autowired
+	private UserinfoService userinfoService;
 	
 	@GetMapping("/getuserinfo/{code}")
 	public Response getUserInfo(@PathVariable("code") String code) throws Exception {
 		Response response = wechatClient.getUserInfo(code, secret);
 		///
-//		response = new Response();
-//		Map<String, String> amap = new HashMap<String, String>();
-//		amap.put("UserId", "000742");
-//		response.setData(amap);
+		response = new Response();
+		Map<String, String> amap = new HashMap<String, String>();
+		amap.put("UserId", "000742");
+		response.setData(amap);
 		///
 		if (response.getStatus() == 200) {
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -126,10 +124,5 @@ public class WechatController {
             }
 		}
 		return response;
-	}
-	
-	@GetMapping("/getQYToken")
-	public Response getQYToken() throws Exception {
-		return wechatClient.getQYToken(secret);
 	}
 }

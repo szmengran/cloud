@@ -11,7 +11,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
@@ -21,7 +20,6 @@ import com.suntak.cloud.ems.service.EmsSecondaryInventoriesService;
 import com.suntak.exception.model.Response;
 
 @RestController
-@RequestMapping("/api/v1/ems")
 public class EmsSecondaryInventoriesController {
 
     @Autowired

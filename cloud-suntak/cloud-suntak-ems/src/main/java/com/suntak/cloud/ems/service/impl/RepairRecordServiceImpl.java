@@ -51,7 +51,8 @@ public class RepairRecordServiceImpl implements RepairRecordService {
             partReplace.setReplace_date(currentTime);
             partReplaceMapper.insert(partReplace);
         }
-        ems_dm_repair_record.setStatus(3);
+        Integer status = ems_dm_repair_record.getStatus();
+        ems_dm_repair_record.setStatus(status== null ? 3 : status);
         ems_dm_repair_record.setMaintenance_no(getMaintenanceNo());
         ems_dm_repair_record.setId(id);
         return repairRecordMapper.insert(ems_dm_repair_record) == 1;

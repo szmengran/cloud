@@ -11,7 +11,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.cloud.ems.entity.Ems_dm_maintain;
@@ -20,7 +19,6 @@ import com.suntak.cloud.ems.service.MaintainContentService;
 import com.suntak.exception.model.Response;
 
 @RestController
-@RequestMapping("/api/v1/ems")
 public class EmsDmMaintainContentController {
 
     @Autowired

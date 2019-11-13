@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
@@ -35,7 +34,6 @@ import io.swagger.annotations.ApiOperation;
  */
 @Api("维修记录API")
 @RestController
-@RequestMapping(path="/api/v1/ems", produces = { "application/json" })
 public class RepairRecordController {
     
     private final static Logger logger = LoggerFactory.getLogger(RepairRecordController.class);
@@ -62,12 +60,14 @@ public class RepairRecordController {
         String name = userinfo.getName();
         ems_dm_repair_record.setMaintenance_apllicant_id(userid);
         ems_dm_repair_record.setMaintenance_apllicant(name);
-        ems_dm_repair_record.setMaintenance_person_id(userid);
-        ems_dm_repair_record.setMaintenance_person(name);
-        ems_dm_repair_record.setDistribution_id(userid);
-        ems_dm_repair_record.setDistribution_by(name);
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        ems_dm_repair_record.setDistribution_date(currentTime);;
+        if (null == ems_dm_repair_record.getStatus()) {
+        	ems_dm_repair_record.setMaintenance_person_id(userid);
+        	ems_dm_repair_record.setMaintenance_person(name);
+        	ems_dm_repair_record.setDistribution_id(userid);
+        	ems_dm_repair_record.setDistribution_by(name);
+        	ems_dm_repair_record.setDistribution_date(currentTime);;
+        }
         ems_dm_repair_record.setCreated_date(currentTime);
         ems_dm_repair_record.setUpdated_date(currentTime);
         ems_dm_repair_record.setCreated_by(userid+"");
@@ -79,6 +79,54 @@ public class RepairRecordController {
             response.setMessage("保存维修记录失败！");
         }
         return response;
+    }
+    
+    /**
+     * 
+     * @description 生产维修申请
+     * @param token
+     * @param repairRecordRequestBody
+     * @return
+     * @throws Exception
+     * @date Nov 12, 2019 11:23:55 AM
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
+    @ApiOperation("生产维修申请")
+    @PostMapping("repairRecord/prod/{token}")
+    public Response insertProd(@PathVariable("token") String token, @RequestBody RepairRecordRequestBody repairRecordRequestBody) throws Exception {
+    	logger.info("{}", new Gson().toJson(token));
+    	String userJson = JwtUtil.parseToken(token);
+    	if (userJson == null) {
+    		throw new BusinessException(10007001);
+    	}
+    	Oz_org_userinfo_ext userinfo = new Gson().fromJson(userJson, Oz_org_userinfo_ext.class);
+    	Response response = new Response();
+    	if (userinfo == null) {
+    		response.setStatus(501);
+    		response.setMessage("你的企业微信账号还没有和设备系统关联，请联系设备管理人员进行关联！");
+    	}
+    	Ems_dm_repair_record ems_dm_repair_record = repairRecordRequestBody.getRepairRecord();
+    	Integer userid = userinfo.getId();
+    	String name = userinfo.getName();
+    	ems_dm_repair_record.setMaintenance_apllicant_id(userid);
+    	ems_dm_repair_record.setMaintenance_apllicant(name);
+    	ems_dm_repair_record.setMaintenance_person_id(userid);
+    	ems_dm_repair_record.setMaintenance_person(name);
+    	ems_dm_repair_record.setDistribution_id(userid);
+    	ems_dm_repair_record.setDistribution_by(name);
+    	Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+    	ems_dm_repair_record.setDistribution_date(currentTime);;
+    	ems_dm_repair_record.setCreated_date(currentTime);
+    	ems_dm_repair_record.setUpdated_date(currentTime);
+    	ems_dm_repair_record.setCreated_by(userid+"");
+    	ems_dm_repair_record.setUpdated_by(userid+"");
+    	ems_dm_repair_record.setOrganization_id(userinfo.getOrg_id());
+    	Boolean flag = repairRecordService.insert(repairRecordRequestBody);
+    	if (!flag) {
+    		response.setStatus(500);
+    		response.setMessage("维修申请失败！");
+    	}
+    	return response;
     }
     
     @PostMapping("repairRecords/{token}")
