@@ -6,6 +6,6 @@ ENV JAR_FILE cloud-suntak-reserve.jar
 RUN echo 'Asia/shanghai' > /etc/timezone
 
 ADD ./target/$JAR_FILE /app/
-CMD java -Xmx200 -jar /app/$JAR_FILE
+CMD java -Xmx200m -jar /app/$JAR_FILE
 
 EXPOSE 10023

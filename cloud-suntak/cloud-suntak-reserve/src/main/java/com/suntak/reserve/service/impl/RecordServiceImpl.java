@@ -126,7 +126,7 @@ public class RecordServiceImpl implements RecordService {
         tableHeaderDataMap.put("到访公司", tReserveRecord.getOrg_name());
         tableHeaderDataMap.put("来访车牌号", tReserveRecord.getNumber_plate());
         tableHeaderDataMap.put("备注", tReserveRecord.getRemark());
-        tableHeaderDataMap.put("来访人数", tReserveRecord.getNum() == null ? "" : (tReserveRecord.getNum() +""));
+        tableHeaderDataMap.put("随访人数", tReserveRecord.getNum() == null ? "0" : (tReserveRecord.getNum() +""));
         tableHeaderDataMap.put("来访人", tReserveRecord.getVisitor());
         tableHeaderDataMap.put("来访人电话", tReserveRecord.getPhone());
         tableHeaderDataMap.put("随访人姓名", tReserveRecord.getOther_visitor());
