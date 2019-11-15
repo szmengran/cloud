@@ -33,7 +33,7 @@ public interface ApplicantMapper extends IMapper<T_hr_applicant> {
             " ,contactname=#{contactname},contactrelationship=#{contactrelationship},contactcompany=#{contactcompany}" +
             " ,contactposition=#{contactposition},contactaddress=#{contactaddress},contactphone=#{contactphone}" +
             " ,leftvision=#{leftvision},rightvision=#{rightvision},jobtitle=#{jobtitle}" +
-            " ,hobby=#{hobby}" +
+            " ,hobby=#{hobby},country=#{country},province=#{province},city=#{city},city_code=#{city_code}" +
             "  where applicantid=#{applicantid}")
     public int updateBaseInfo(T_hr_applicant t_hr_applicant) throws Exception;
     

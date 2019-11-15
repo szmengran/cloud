@@ -307,20 +307,9 @@ public class TaskServiceImpl implements TaskService {
         tableHeaderDataMap.put("性别", getSex(applicant.getSex())); // 性别
         tableHeaderDataMap.put("出生日期", new SimpleDateFormat("yyyy-MM-dd").format(applicant.getBirthday())); // 出生日期
         tableHeaderDataMap.put("身份证号", applicant.getIdcard()); // 身份证号
-        tableHeaderDataMap.put("籍贯", applicant.getNativeplace()); // 籍贯
         tableHeaderDataMap.put("民族", applicant.getNation()); // 民族
         tableHeaderDataMap.put("电话", applicant.getPhone()); // 电话
-//        tableHeaderDataMap.put("未婚", "0"); // 未婚
-//        tableHeaderDataMap.put("已婚", "0"); // 已婚
-//        tableHeaderDataMap.put("离婚", "0"); // 离婚
-//        tableHeaderDataMap.put("丧偶", "0"); // 丧偶
-//        tableHeaderDataMap.put("党员", "0"); // 党员
-//        tableHeaderDataMap.put("团员", "0"); // 团员
-//        tableHeaderDataMap.put("群众", "0"); // 群众
         tableHeaderDataMap.put("邮箱", applicant.getEmail()); // 邮箱
-//        tableHeaderDataMap.put("深户", "0"); // 深户
-//        tableHeaderDataMap.put("非农户", "0"); // 非农户
-//        tableHeaderDataMap.put("农村户", "0"); // 农村户
         tableHeaderDataMap.put("学历", educationhistory.getCertificate()); // 学历
         tableHeaderDataMap.put("专业", educationhistory.getProfession()); // 专业
         tableHeaderDataMap.put("户籍所在地", applicant.getNativeplace()); // 户籍所在地
@@ -329,8 +318,6 @@ public class TaskServiceImpl implements TaskService {
         tableHeaderDataMap.put("体重", applicant.getWeight() == null ? "" : applicant.getWeight() + ""); // 体重
         tableHeaderDataMap.put("视力", (applicant.getLeftvision() == null ? "" : applicant.getLeftvision() + "") + "|" + (applicant.getRightvision() == null ? "" : applicant.getRightvision() + "")); // 视力
         tableHeaderDataMap.put("有无职业病史", getMedicalhistory(applicant.getMedicalhistory())); // 有无职业病史
-//        tableHeaderDataMap.put("有无犯罪史", getCrimehistory(applicant.getCrimehistory())); // 有无犯罪史
-//        tableHeaderDataMap.put("目前有无怀孕", getPregnancy(applicant.getPregnancy())); // 目前有无怀孕
         tableHeaderDataMap.put("职业病史说明", applicant.getMedicalhistorydesc()); // 职业病史说明
         tableHeaderDataMap.put("普通话", applicant.getMandarin() == null ? "0" : "1"); // 普通话
         tableHeaderDataMap.put("英语级", applicant.getEnglish() == null ? "0" : "1"); // 英语级
@@ -384,33 +371,14 @@ public class TaskServiceImpl implements TaskService {
         tableHeaderDataMap.put("复试评价5", secondViewTask.getAttribute5()); // field0078
         tableHeaderDataMap.put("复试综合评价", secondViewTask.getRemark()); // field0079
         tableHeaderDataMap.put("是否录用", "-976858712531973633"); // 是否录用
-//        tableHeaderDataMap.put("不录用意见", ""); //    不录用意见
-//        tableHeaderDataMap.put("其它意见", ""); //    其它意见
-//        tableHeaderDataMap.put("意见", ""); //    意见
         tableHeaderDataMap.put("复试人", secondViewTask.getHandlername()); //    复试人
         tableHeaderDataMap.put("复试日期", new SimpleDateFormat("yyyy-MM-dd").format(new Timestamp(System.currentTimeMillis()))); // 复试日期
-//        tableHeaderDataMap.put("录用公司", ""); //    录用公司
-//        tableHeaderDataMap.put("录用部门", ""); //    录用部门
-//        tableHeaderDataMap.put("录用课别", ""); //    录用课别
-//        tableHeaderDataMap.put("职务工种", ""); //    职务工种
-//        tableHeaderDataMap.put("是否录用", ""); //    是否录用
-//        tableHeaderDataMap.put("职级", ""); //    职级
-//        tableHeaderDataMap.put("包月固定工资", ""); //    包月固定工资
-//        tableHeaderDataMap.put("基本工资制", ""); //    基本工资制
-//        tableHeaderDataMap.put("底薪", ""); //    底薪
-//        tableHeaderDataMap.put("岗位津贴", ""); //    岗位津贴
-//        tableHeaderDataMap.put("技能工资", ""); //    技能工资
-//        tableHeaderDataMap.put("部门主管", ""); //    部门主管
-//        tableHeaderDataMap.put("部门经理", ""); //    部门经理
-//        tableHeaderDataMap.put("部门总监", ""); //    部门总监
-//        tableHeaderDataMap.put("工厂总经理", ""); //    工厂总经理
-//        tableHeaderDataMap.put("副总裁", ""); //    副总裁
-//        tableHeaderDataMap.put("高级副总裁", ""); //    高级副总裁
-//        tableHeaderDataMap.put("集团人力资源部", ""); //    集团人力资源部
-//        tableHeaderDataMap.put("董事长", ""); //    董事长
         tableHeaderDataMap.put("户口类型", applicant.getResidencetype()); //    户口类型
         tableHeaderDataMap.put("婚姻状况", applicant.getMarrystatus()); //    户口类型
         tableHeaderDataMap.put("政治面貌", applicant.getPoliticalstatus()); //    户口类型
+        tableHeaderDataMap.put("国籍", applicant.getCountry()); //    国籍
+        tableHeaderDataMap.put("籍贯", applicant.getProvince()+applicant.getCity()); // 籍贯
+        tableHeaderDataMap.put("籍贯code", applicant.getCity_code()); // 籍贯
         return tableHeaderDataMap;
     }
 
