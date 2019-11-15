@@ -60,7 +60,7 @@ public class T_hr_applicant {
 	private String country;
 	private String province;
 	private String city;
-	private String city_code;
+	private String citycode;
     public String getApplicantid() {
         return applicantid;
     }
@@ -349,10 +349,10 @@ public class T_hr_applicant {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getCity_code() {
-		return city_code;
+	public String getCitycode() {
+		return citycode;
 	}
-	public void setCity_code(String city_code) {
-		this.city_code = city_code;
+	public void setCitycode(String citycode) {
+		this.citycode = citycode;
 	}
 }

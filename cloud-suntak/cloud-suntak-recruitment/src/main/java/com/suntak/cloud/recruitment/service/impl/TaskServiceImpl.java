@@ -378,7 +378,7 @@ public class TaskServiceImpl implements TaskService {
         tableHeaderDataMap.put("政治面貌", applicant.getPoliticalstatus()); //    户口类型
         tableHeaderDataMap.put("国籍", applicant.getCountry()); //    国籍
         tableHeaderDataMap.put("籍贯", applicant.getProvince()+applicant.getCity()); // 籍贯
-        tableHeaderDataMap.put("籍贯code", applicant.getCity_code()); // 籍贯
+        tableHeaderDataMap.put("籍贯code", applicant.getCitycode()); // 籍贯
         return tableHeaderDataMap;
     }
 
