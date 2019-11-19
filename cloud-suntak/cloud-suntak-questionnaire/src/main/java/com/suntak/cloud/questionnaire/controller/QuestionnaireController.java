@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -31,6 +33,7 @@ import com.suntak.cloud.questionnaire.entity.T_questionnaire_evaluate;
 import com.suntak.cloud.questionnaire.entity.T_questionnaire_user;
 import com.suntak.cloud.questionnaire.entity.ext.T_questionnaire_evaluate_ext;
 import com.suntak.cloud.questionnaire.entity.other.Questionnaire;
+import com.suntak.cloud.questionnaire.service.NotificationService;
 import com.suntak.cloud.questionnaire.service.QuestionnaireService;
 import com.suntak.cloud.questionnaire.service.QuestionnaireUserService;
 import com.suntak.ehr.entity.Questionnaire_sms;
@@ -53,21 +56,22 @@ import io.swagger.annotations.ApiOperation;
 public class QuestionnaireController {
 	
 	private final static Logger logger = LoggerFactory.getLogger(QuestionnaireController.class);
+	private final static ExecutorService executor = new ThreadPoolExecutor(50, 1000, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	
 	@Autowired
-	QuestionnaireService questionnaireService;
+	private QuestionnaireService questionnaireService;
 	
 	@Autowired
-	QuestionnaireSmsServiceClient questionnaireSmsServiceClient;
+	private QuestionnaireSmsServiceClient questionnaireSmsServiceClient;
+
+	@Autowired
+	private NotificationService notificationService;
 	
 	@Autowired
-	QuestionnaireUserService questionnaireUserService;
+	private QuestionnaireUserService questionnaireUserService;
 	
 	@Autowired
-	HttpServletRequest httpServletRequest;
-	
-	@Autowired
-	HttpServletResponse httpServletResponse;
+	private HttpServletRequest httpServletRequest;
 	
 	@ApiOperation(value = "根据用户查询对应的被评价人", response = Response.class)
 	@PostMapping("/")
@@ -152,10 +156,17 @@ public class QuestionnaireController {
 		}
 		Boolean flag = questionnaireService.updateAll(userid,yearmonth, t_questionnaire_evaluates);
 		if (flag) {
-			sendMsmNotification(yearmonth);
+			notificationService.send(yearmonth);
 		}
 		Response response = new Response();
 		return response;
+	}
+	
+	@ApiOperation(value = "发送企业微信通知", response = Response.class)
+	@GetMapping("/sendWechat/{yearmonth}")
+	public Response sendWechatNotification(@PathVariable("yearmonth") String yearmonth) throws Exception {
+		notificationService.send(yearmonth);
+		return new Response();
 	}
 	
 	@ApiOperation(value = "发送短信通知", response = Response.class)
@@ -165,7 +176,6 @@ public class QuestionnaireController {
 		if (flag) {
 			List<Questionnaire> questionnaireList = questionnaireService.findResult(yearmonth);
 			int size = questionnaireList.size();
-			ExecutorService executor = Executors.newCachedThreadPool();
 			for (int i=0; i<size; i++) {
 				final int index = i;
 				executor.submit(() -> {

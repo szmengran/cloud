@@ -92,6 +92,17 @@ public interface QuestionnaireService {
 	List<T_questionnaire_evaluate> findByConditions(Map<String, Object> params) throws Exception;
 	
 	/**
+	 * 
+	 * @description 查找问题
+	 * @param params
+	 * @return
+	 * @throws Exception
+	 * @date Nov 19, 2019 2:15:35 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	List<T_questionnaire_evaluate> findQuestion(Object[] params) throws Exception;
+	
+	/**
 	 * 根据月度查询问卷调查结果
 	 * @param yearmonth
 	 * @return

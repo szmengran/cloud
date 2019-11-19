@@ -28,6 +28,7 @@ public class T_questionnaire_evaluate implements Serializable {
 	private Integer status;
 	private Timestamp createstamp;
 	private Timestamp updatestamp;
+	private String question;
 	private String remark;
 	
 	public Integer getEvaluateid() {
@@ -107,6 +108,12 @@ public class T_questionnaire_evaluate implements Serializable {
 	}
 	public void setUpdatestamp(Timestamp updatestamp) {
 		this.updatestamp = updatestamp;
+	}
+	public String getQuestion() {
+		return question;
+	}
+	public void setQuestion(String question) {
+		this.question = question;
 	}
 	public String getRemark() {
 		return remark;

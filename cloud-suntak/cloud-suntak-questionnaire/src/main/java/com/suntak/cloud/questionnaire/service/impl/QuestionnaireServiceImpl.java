@@ -100,8 +100,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
 
 	@Override
 	public void update(T_questionnaire_evaluate t_questionnaire_evaluate) throws Exception {
-		String strSql = "update t_questionnaire_evaluate set attribute_1=?,attribute_2=?,attribute_3=?,attribute_4=?,attribute_5=?,status=1,updatestamp=?,remark=? where evaluateid=? and userid=?";
-		Object params[] = new Object[10];
+		String strSql = "update t_questionnaire_evaluate set attribute_1=?,attribute_2=?,attribute_3=?,attribute_4=?,attribute_5=?,status=1,updatestamp=?,question=?,remark=? where evaluateid=? and userid=?";
+		Object params[] = new Object[11];
 		params[0] = t_questionnaire_evaluate.getAttribute_1();
 		params[1] = t_questionnaire_evaluate.getAttribute_2();
 		params[2] = t_questionnaire_evaluate.getAttribute_3();
@@ -109,9 +109,10 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
 		params[4] = t_questionnaire_evaluate.getAttribute_5();
 		params[5] = t_questionnaire_evaluate.getAttribute_1()+t_questionnaire_evaluate.getAttribute_2()+t_questionnaire_evaluate.getAttribute_3()+t_questionnaire_evaluate.getAttribute_4()+t_questionnaire_evaluate.getAttribute_5();
 		params[6] = new Timestamp(System.currentTimeMillis());
-		params[7] = t_questionnaire_evaluate.getRemark();
-		params[8] = t_questionnaire_evaluate.getEvaluateid();
-		params[9] = t_questionnaire_evaluate.getUserid();
+		params[7] = t_questionnaire_evaluate.getQuestion();
+		params[8] = t_questionnaire_evaluate.getRemark();
+		params[9] = t_questionnaire_evaluate.getEvaluateid();
+		params[10] = t_questionnaire_evaluate.getUserid();
 		abstractDao.executeSql(strSql, params);
 	}
 	
@@ -123,8 +124,8 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
 			dbManager = new DBManager(abstractDao.getWriteDataSource());
 			dbManager.openConnection();
 			dbManager.beginTransaction();
-			String strSql = "update t_questionnaire_evaluate set attribute_1=?,attribute_2=?,attribute_3=?,attribute_4=?,attribute_5=?,total=?,status=1,updatestamp=?,remark=? where evaluateid=? and userid=? and yearmonth=?";
-			Object params[] = new Object[11];
+			String strSql = "update t_questionnaire_evaluate set attribute_1=?,attribute_2=?,attribute_3=?,attribute_4=?,attribute_5=?,total=?,status=1,updatestamp=?,question=?,remark=? where evaluateid=? and userid=? and yearmonth=?";
+			Object params[] = new Object[12];
 			for (int i=0; i<t_questionnaire_evaluates.length; i++) {
 				T_questionnaire_evaluate t_questionnaire_evaluate = t_questionnaire_evaluates[i];
 				if (t_questionnaire_evaluate.getAttribute_1() == null || t_questionnaire_evaluate.getAttribute_2() == null || t_questionnaire_evaluate.getAttribute_3() == null || t_questionnaire_evaluate.getAttribute_4() == null || t_questionnaire_evaluate.getAttribute_5() == null) {
@@ -137,10 +138,11 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
 				params[4] = t_questionnaire_evaluate.getAttribute_5();
 				params[5] = t_questionnaire_evaluate.getAttribute_1()+t_questionnaire_evaluate.getAttribute_2()+t_questionnaire_evaluate.getAttribute_3()+t_questionnaire_evaluate.getAttribute_4()+t_questionnaire_evaluate.getAttribute_5();
 				params[6] = new Timestamp(System.currentTimeMillis());
-				params[7] = t_questionnaire_evaluate.getRemark();
-				params[8] = t_questionnaire_evaluate.getEvaluateid();
-				params[9] = userid;
-				params[10] = yearmonth;
+				params[7] = t_questionnaire_evaluate.getQuestion();
+				params[8] = t_questionnaire_evaluate.getRemark();
+				params[9] = t_questionnaire_evaluate.getEvaluateid();
+				params[10] = userid;
+				params[11] = yearmonth;
 				int count = abstractDao.executeSql(dbManager, strSql, params);
 				if (count == 0) {
 					flag = false;
@@ -164,7 +166,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
 	@Override
 	public List<Questionnaire> findResult(String yearmonth) throws Exception {
 		StringBuffer strSql = new StringBuffer();
-		strSql.append("select a.userid,a.empcode,b.EMPNAME,b.DEPTNAME,b.posname JOB_LEVEL,b.C_MOBILE_TEL phone,t.yearmonth,t.totalcount,t.alreadycount,t.avgscore")
+		strSql.append("select a.userid,a.empcode,b.EMPNAME,nvl(a.DEPTNAME, b.DEPTNAME) DEPTNAME,nvl(a.posname,b.posname) JOB_LEVEL,b.C_MOBILE_TEL phone,t.yearmonth,t.totalcount,t.alreadycount,t.avgscore")
 		      .append(" from T_QUESTIONNAIRE_USER a left join tb_v_rpt_emp_info b on a.empcode=b.EMPCODE,(")
 		      .append(" SELECT customerid,yearmonth,count(*) totalcount,sum(decode(status,1,1,0)) alreadycount,round(avg(total),2) avgscore FROM T_QUESTIONNAIRE_EVALUATE")
 		      .append(" where yearmonth = ? group by customerid,yearmonth) t")
@@ -196,6 +198,16 @@ public class QuestionnaireServiceImpl implements QuestionnaireService{
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<T_questionnaire_evaluate> findQuestion(Object[] params) throws Exception {
+		StringBuffer strSql = new StringBuffer();
+		strSql.append("SELECT * FROM t_questionnaire_evaluate a")
+			  .append(" where a.yearmonth=?")
+			  .append(" and a.customerid=?")
+			  .append(" and (a.remark is not null or a.question is not null)");
+		return abstractDao.findBySql(T_questionnaire_evaluate.class, strSql.toString(), params);
 	}
 	
 	
