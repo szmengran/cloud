@@ -41,7 +41,7 @@ import com.suntak.exception.model.Response;
 @Service
 public class ContactServiceImpl implements ContactService{
 
-	private static final ExecutorService executor     = new ThreadPoolExecutor(50, 2000, 2L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+	private static final ExecutorService executor = new ThreadPoolExecutor(500, 2000, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	private static final Logger LOG = LoggerFactory.getLogger(ContactServiceImpl.class);
 
 	@Value("${wechat.qy.contact.Secret}")
