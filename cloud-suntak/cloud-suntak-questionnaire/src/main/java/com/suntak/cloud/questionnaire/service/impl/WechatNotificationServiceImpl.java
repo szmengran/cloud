@@ -57,35 +57,45 @@ public class WechatNotificationServiceImpl implements NotificationService {
 						   .append("：您好，您")
 						   .append(year).append("年").append(month).append("月内部客户服务评价结果为")
 						   .append(questionnaire.getAvgscore()).append("分，本次参与评价的人员共").append(size).append("人，您的得分排名为")
-						   .append(no+1).append("名，请将此项结果直接用于")
-						   .append(year).append("年").append(month).append("月的绩效考评中，感谢您对我们工作的支持。 集团人力资源部绩效组\n");
+						   .append(no+1).append("名，您收到的评价反馈如下。评价结果将直接用于")
+						   .append(year).append("年").append(month).append("月的绩效考评中，感谢您对集团绩效组的工作支持。\n");
 						Object[] params = new Object[2];
 						params[0] = yearmonth;
 						params[1] = questionnaire.getUserid();
 						List<T_questionnaire_evaluate> list = questionnaireService.findQuestion(params);
 						if (list != null) {
 							int index = 1;
+							StringBuilder remarkSb = new StringBuilder();
+							for (T_questionnaire_evaluate evaluate: list) {
+								if (StringUtils.isNotBlank(evaluate.getRemark())) {
+									remarkSb.append(index++).append(".").append(evaluate.getRemark()).append("\n");
+								}
+							}
+							msg.append("一、1-5项评分反馈\n");
+							if (remarkSb.length() > 0) {
+								msg.append(remarkSb);
+							} else {
+								msg.append("无\n");
+							}
+							
+							index = 1;
 							StringBuilder questionSb = new StringBuilder();
 							for (T_questionnaire_evaluate evaluate: list) {
 								if (StringUtils.isNotBlank(evaluate.getQuestion())) {
 									questionSb.append(index++).append(".").append(evaluate.getQuestion()).append("\n");
 								}
 							}
+							msg.append("二、开放式问题反馈（问题：您认为被评价人本月工作中是否有需要调整或改进的部分？）\n");
 							if (questionSb.length() > 0) {
-								msg.append("需要改进的地方：\n");
 								msg.append(questionSb);
+							} else {
+								msg.append("无\n");
 							}
-							StringBuilder remarkSb = new StringBuilder();
-							index = 1;
-							for (T_questionnaire_evaluate evaluate: list) {
-								if (StringUtils.isNotBlank(evaluate.getRemark())) {
-									remarkSb.append(index++).append(".").append(evaluate.getRemark()).append("\n");
-								}
-							}
-							if (remarkSb.length() > 0) {
-								msg.append("备注：\n");
-								msg.append(remarkSb);
-							}
+						} else {
+							msg.append("一、1-5项评分反馈\n");
+							msg.append("无\n");
+							msg.append("二、开放式问题反馈（问题：您认为被评价人本月工作中是否有需要调整或改进的部分？）\n");
+							msg.append("无\n");
 						}
 						TextRequestBody textRequestBody = new TextRequestBody();
 						textRequestBody.setMsgtype("text");
