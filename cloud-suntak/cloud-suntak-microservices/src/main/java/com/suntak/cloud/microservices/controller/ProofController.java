@@ -81,6 +81,7 @@ public class ProofController {
 				ProofOfIncomeResponse proofOfIncomeResponse = new Gson().fromJson(json, ProofOfIncomeResponse.class);
 				String url = proofOfIncomeResponse.getUrl();
 				if (StringUtils.isBlank(url)) {
+					logger.error(json);
 					throw new Exception("申请收入证明出错，请稍后再试！");
 				}
 				qywechatNotification(userid, url);
