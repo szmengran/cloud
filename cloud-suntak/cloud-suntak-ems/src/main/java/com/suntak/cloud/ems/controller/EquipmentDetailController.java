@@ -13,18 +13,23 @@ import com.suntak.cloud.ems.entity.ext.EquipmentDetailRequest;
 import com.suntak.cloud.ems.service.EquipmentDetailService;
 import com.suntak.exception.model.Response;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /** 
  * @Package com.suntak.cloud.ems.controller 
  * @Description: 设备明细服务
  * @date Mar 26, 2019 5:18:47 PM 
  * @author <a href="mailto:android_li@sina.cn">Joe</a>
  */
+@Api(value = "设备明细服务")
 @RestController
 public class EquipmentDetailController {
 
     @Autowired
     private EquipmentDetailService equipmentDetailService;
     
+    @ApiOperation("查找设备明细信息")
     @PostMapping("/equipment")
     public Response findEquipmentDetail(@RequestBody EquipmentDetailRequest equipmentDetailRequest) throws Exception {
         Integer pageNum = equipmentDetailRequest.getPageNum();

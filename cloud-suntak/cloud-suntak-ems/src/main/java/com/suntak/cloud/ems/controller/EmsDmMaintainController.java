@@ -26,12 +26,17 @@ import com.suntak.cloud.ems.service.EmsDmMaintainService;
 import com.suntak.exception.model.Response;
 import com.suntak.utils.JwtUtil;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api("维修记录")
 @RestController
 public class EmsDmMaintainController {
 
     @Autowired
     private EmsDmMaintainService emsDmMaintainService;
     
+    @ApiOperation("维修记录查找")
     @PostMapping("/maintains/{token}")
     public Response findMaintain(@RequestBody Ems_dm_maintainExt maintain, @PathVariable("token") String token) throws Exception {
     	String userJson = JwtUtil.parseToken(token);
@@ -49,13 +54,14 @@ public class EmsDmMaintainController {
         if (userinfo.getName().indexOf("管理员") != -1) {
         	id = null;
         }
-        PageHelper.startPage(pageNum, pageSize, "plan_date asc");
+        PageHelper.startPage(pageNum, pageSize, "plan_date desc");
         List<Ems_dm_maintain> list = emsDmMaintainService.findMaintain(maintain.getOrganization_id(), maintain.getKeyword(), null, id);
         Response response = new Response();
         response.setData(list);
         return response;
     }
     
+    @ApiOperation(value = "查找我的维修单")
     @PostMapping("/myMaintains/{token}")
     public Response findMyMaintain(@RequestBody Ems_dm_maintainExt maintain, @PathVariable("token") String token) throws Exception {
         String userJson = JwtUtil.parseToken(token);
@@ -88,6 +94,7 @@ public class EmsDmMaintainController {
      * @return
      * @throws Exception
      */
+    @ApiOperation(value = "保存保养单信息并同步OA")
     @PostMapping("/maintain/{token}")
     public Response saveOrUpdate(@RequestBody MaintainRequest maintainRequest, @PathVariable("token") String token) throws Exception {
     	Ems_dm_maintain maintain = maintainRequest.getEms_dm_maintain();

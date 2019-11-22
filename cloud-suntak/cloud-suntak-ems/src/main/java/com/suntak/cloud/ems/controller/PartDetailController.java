@@ -16,6 +16,7 @@ import com.suntak.exception.model.Response;
 import com.suntak.utils.JwtUtil;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /** 
  * @Package com.suntak.cloud.ems.controller 
@@ -39,6 +40,7 @@ public class PartDetailController {
      * @throws   
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
+    @ApiOperation(value = "配件明细信息查询")
     @PostMapping("/part/{token}")
     public Response findPartDetailInfo(@PathVariable("token") String token, @RequestBody PartDetailRequest partDetailRequest) throws Exception {
         String userJson = JwtUtil.parseToken(token);
@@ -59,6 +61,7 @@ public class PartDetailController {
         return response;
     }
     
+    @ApiOperation(value = "根据号码查询配件明细信息")
     @PostMapping("/part2/{token}")
     public Response findPartDetailInfoByNo(@PathVariable("token") String token, @RequestBody PartDetailRequest partDetailRequest) throws Exception {
         String userJson = JwtUtil.parseToken(token);

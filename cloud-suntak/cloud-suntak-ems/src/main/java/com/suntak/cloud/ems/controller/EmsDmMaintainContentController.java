@@ -18,12 +18,17 @@ import com.suntak.cloud.ems.entity.Ems_dm_maintain_content;
 import com.suntak.cloud.ems.service.MaintainContentService;
 import com.suntak.exception.model.Response;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value="保养单")
 @RestController
 public class EmsDmMaintainContentController {
 
     @Autowired
     private MaintainContentService maintainContentService;
     
+    @ApiOperation("保养单信息查找")
     @PostMapping("/maintainContent")
     public Response findEmsDmMaintainContent(@RequestBody Ems_dm_maintain maintain) throws Exception {
         List<Ems_dm_maintain_content> list = maintainContentService.findMaintainContent(maintain);
