@@ -15,6 +15,7 @@ public class Oz_org_userinfo_ext extends Oz_org_userinfo{
      */
     private static final long serialVersionUID = -5291913271549123949L;
     private Integer org_id;
+    private String shortPhone;
 
     public Integer getOrg_id() {
         return org_id;
@@ -23,5 +24,13 @@ public class Oz_org_userinfo_ext extends Oz_org_userinfo{
     public void setOrg_id(Integer org_id) {
         this.org_id = org_id;
     }
+
+	public String getShortPhone() {
+		return shortPhone;
+	}
+
+	public void setShortPhone(String shortPhone) {
+		this.shortPhone = shortPhone;
+	}
     
 }

@@ -19,8 +19,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.suntak.cloud.ems.client.EhrUserClient;
+import com.suntak.cloud.ems.client.EnterPriseWechatClient;
 import com.suntak.cloud.ems.client.MicroserviceClient;
 import com.suntak.cloud.ems.client.WechatClient;
+import com.suntak.cloud.ems.entity.Attr;
+import com.suntak.cloud.ems.entity.Contact;
+import com.suntak.cloud.ems.entity.Extattr;
 import com.suntak.cloud.ems.entity.Oz_org_userinfo;
 import com.suntak.cloud.ems.entity.ext.Oz_org_userinfo_ext;
 import com.suntak.cloud.ems.service.UserinfoService;
@@ -52,6 +56,9 @@ public class WechatController {
 	
 	@Autowired
 	private MicroserviceClient microserviceClient;
+	
+	@Autowired
+	private EnterPriseWechatClient enterPriseWechatClient;
 	
 	@Autowired
 	private UserinfoService userinfoService;
@@ -159,6 +166,9 @@ public class WechatController {
 	 */
 	@GetMapping("/getuserinfo2/{code}/{secret}")
 	public Response getUserInfo2(@PathVariable("code") String code, @PathVariable("secret") String secret) throws Exception {
+		Future<Response> futurnResponse = executor.submit(() -> {
+			return wechatClient.getQYToken(secret);
+		});
 		Response response = wechatClient.getUserInfo(code, secret);
 		///
 //		response = new Response();
@@ -167,18 +177,35 @@ public class WechatController {
 //		response.setData(amap);
 		///
 		if (response.getStatus() == 200) {
+			Oz_org_userinfo_ext oz_org_userinfo_ext = new Oz_org_userinfo_ext();
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(response.getData()));
 			String empcode = jsonNode.get("UserId").asText();
-			
-			Response resp = ehrUserClient.getUserInfo(empcode);
 			ObjectMapper objectMapper1 = new ObjectMapper();
+			Response resp = ehrUserClient.getUserInfo(empcode);
+			
+			Future<Contact> contactResponse = executor.submit(() -> {
+				return enterPriseWechatClient.getContact((String)futurnResponse.get().getData(), empcode);
+			});
 			JsonNode jsonNode1 = objectMapper1.readTree(objectMapper1.writeValueAsBytes(resp.getData()));
 			String companycode = jsonNode1.get("companycode").asText();
 			String name = jsonNode1.get("empname").asText();
 			Response res = microserviceClient.getOrgIdByCompanyCode(companycode); 
 			
-			Oz_org_userinfo_ext oz_org_userinfo_ext = new Oz_org_userinfo_ext();
+			Contact contact = contactResponse.get();
+			Extattr extattr = contact.getExtattr();
+			if (extattr != null) {
+				Attr[] attrs = extattr.getAttrs();
+				if (attrs != null) {
+					for (Attr attr: attrs) {
+						if ("短号".equals(attr.getName())) {
+							oz_org_userinfo_ext.setShortPhone(attr.getValue());
+						}
+					}
+				}
+			}
+			oz_org_userinfo_ext.setMobile(contact.getMobile());
+			
 			oz_org_userinfo_ext.setEmployer_id(empcode);
 			oz_org_userinfo_ext.setName(name);
 			oz_org_userinfo_ext.setOrg_id((Integer)res.getData());
