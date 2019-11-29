@@ -1,0 +1,17 @@
+server:
+  port: 10024
+  servlet:
+    context-path: /api/v1/monitor
+spring:
+  application:
+    name: cloud-suntak-report
+  cloud:
+    config:
+      uri: ${CONFIG_SERVER_ADDRESS}
+  profiles:
+    active: ${ENVIRONMENT}
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+logging:
+  config: ${CONFIG_SERVER_ADDRESS}/resources/logback-spring.xml
+  
