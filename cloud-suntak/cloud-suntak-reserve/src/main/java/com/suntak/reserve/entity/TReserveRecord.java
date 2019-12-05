@@ -17,7 +17,9 @@ public class TReserveRecord {
 	private String org_name;
 	private String visitor;
 	private String phone;
-	private Timestamp visitor_time;
+	private Timestamp visitor_time; //弃用
+	private String visitor_times; 
+	private Timestamp visitor_date;
 	private String idcard;
 	private String company;
 	private String type;
@@ -128,6 +130,18 @@ public class TReserveRecord {
 	}
 	public void setCreatestamp(Timestamp createstamp) {
 		this.createstamp = createstamp;
+	}
+	public Timestamp getVisitor_date() {
+		return visitor_date;
+	}
+	public void setVisitor_date(Timestamp visitor_date) {
+		this.visitor_date = visitor_date;
+	}
+	public String getVisitor_times() {
+		return visitor_times;
+	}
+	public void setVisitor_times(String visitor_times) {
+		this.visitor_times = visitor_times;
 	}
 	
 }

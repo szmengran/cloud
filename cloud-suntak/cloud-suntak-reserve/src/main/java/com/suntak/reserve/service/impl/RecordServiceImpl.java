@@ -31,6 +31,25 @@ import com.suntak.reserve.service.RecordService;
 public class RecordServiceImpl implements RecordService {
 
     private final static Logger logger = LoggerFactory.getLogger(RecordServiceImpl.class);
+    private final static Map<String, String> valueMap;
+    static
+    {
+    	valueMap = new HashMap<>();
+    	valueMap.put("客户", "-8371153456677172738");
+    	valueMap.put("供应商", "3374083860620397179");
+    	valueMap.put("面试", "-4038728341160180610");
+    	valueMap.put("其他", "7153142958563937952");
+    	
+    	valueMap.put("股份公司", "8163545834096379752");
+    	valueMap.put("深圳崇达", "-8853867940050089820");
+    	valueMap.put("江门一厂", "7822342995263704355");
+    	valueMap.put("江门二厂", "-1951120998846214957");
+    	valueMap.put("大连工厂", "2553468865221708210");
+    	valueMap.put("珠海崇达", "-1655071850535237631");
+    	valueMap.put("大连电子", "-8846783729634230161");
+    	valueMap.put("南通崇达", "-218053470321359033");
+    }
+
     
     @Value("${cloud.environment.oa}")
     private String environment;
@@ -121,9 +140,9 @@ public class RecordServiceImpl implements RecordService {
         Map<String, String> tableHeaderDataMap = new HashMap<String, String>();
         tableHeaderDataMap.put("接待联系人", id);
         tableHeaderDataMap.put("来访单位", tReserveRecord.getCompany());
-        tableHeaderDataMap.put("来访时间", new SimpleDateFormat("yyyy-MM-dd HH:mm").format(tReserveRecord.getVisitor_time()));
-        tableHeaderDataMap.put("来访类型", tReserveRecord.getType());
-        tableHeaderDataMap.put("到访公司", tReserveRecord.getOrg_name());
+        tableHeaderDataMap.put("来访时间", new SimpleDateFormat("yyyy-MM-dd").format(tReserveRecord.getVisitor_date())+" "+tReserveRecord.getVisitor_times());
+        tableHeaderDataMap.put("来访类型", valueMap.get(tReserveRecord.getType()));
+        tableHeaderDataMap.put("到访公司", valueMap.get(tReserveRecord.getOrg_name()));
         tableHeaderDataMap.put("来访车牌号", tReserveRecord.getNumber_plate());
         tableHeaderDataMap.put("备注", tReserveRecord.getRemark());
         tableHeaderDataMap.put("随访人数", tReserveRecord.getNum() == null ? "0" : (tReserveRecord.getNum() +""));
@@ -133,5 +152,5 @@ public class RecordServiceImpl implements RecordService {
         tableHeaderDataMap.put("随身重要物品", tReserveRecord.getBelongings());
         return tableHeaderDataMap;
     }
-    
+	
 }
