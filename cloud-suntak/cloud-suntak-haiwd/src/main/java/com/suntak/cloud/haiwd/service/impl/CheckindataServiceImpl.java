@@ -82,7 +82,7 @@ public class CheckindataServiceImpl implements CheckindataService {
 			if (count == 1) {
 				Map<String, Object> params = new HashMap<String, Object>();
 				T_haiwd_user user = userMap.get(checkindata.getUserid());
-				String userid = StringUtils.isNotEmpty(user.getUserid2()) ? user.getUserid2() : user.getUserid();
+				String userid = StringUtils.isNotEmpty(user.getUserid2()) ? user.getUserid2() : checkindata.getUserid();
 				params.put("empsysid", userid);
 				List<Tx_empcard> empcardList = null;
 				String type = user.getType();
@@ -134,7 +134,7 @@ public class CheckindataServiceImpl implements CheckindataService {
 		Response response = wechatClient.getQYToken(secret);
 		if (response.getStatus() == 200) {
 			String access_token = (String)response.getData();
-			final List<T_haiwd_user> users = userListFuture.get();
+			List<T_haiwd_user> users = userListFuture.get();
 			Map<String, T_haiwd_user> userMap = new HashMap<>();
 			String[] useridlist = new String[users.size()];
 			int index = 0;
