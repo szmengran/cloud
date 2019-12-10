@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageHelper;
 import com.suntak.autotask.BPMService.BPMServiceStub;
 import com.suntak.autotask.bean.OaFormXmlBean;
 import com.suntak.autotask.utils.OaConfigInfo;
@@ -148,9 +149,20 @@ public class RecordServiceImpl implements RecordService {
         tableHeaderDataMap.put("随访人数", tReserveRecord.getNum() == null ? "0" : (tReserveRecord.getNum() +""));
         tableHeaderDataMap.put("来访人", tReserveRecord.getVisitor());
         tableHeaderDataMap.put("来访人电话", tReserveRecord.getPhone());
-        tableHeaderDataMap.put("随访人姓名", tReserveRecord.getOther_visitor());
+        tableHeaderDataMap.put("随访人姓名", tReserveRecord.getOther_vistor());
         tableHeaderDataMap.put("随身重要物品", tReserveRecord.getBelongings());
+        tableHeaderDataMap.put("主来访人证件号", tReserveRecord.getIdcard());
         return tableHeaderDataMap;
     }
+
+	@Override
+	public TReserveRecord findLastRecodeByOpenid(String openid) {
+		PageHelper.startPage(1, 1, "createstamp desc");
+		List<TReserveRecord> list = recordMapper.findRecordByOpenid(openid);
+		if (list != null && list.size() > 0) {
+			return list.get(0);
+		}
+		return null;
+	}
 	
 }

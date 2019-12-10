@@ -27,4 +27,14 @@ public interface RecordService {
 	 */
 	Boolean insert(TReserveRecord tReserveRecord) throws Exception;
 	
+	/**
+	 * 
+	 * @description 获取上一次来访登记信息
+	 * @param openid
+	 * @return
+	 * @date Dec 6, 2019 8:23:20 AM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	TReserveRecord findLastRecodeByOpenid(String openid);
+	
 }

@@ -44,6 +44,14 @@ public class RecordController {
 		return response;
 	}
 	
+	@GetMapping("/record/{openid}")
+	public Response findLastRecodeByOpenid(@PathVariable("openid") String openid) throws Exception {
+		TReserveRecord tReserveRecord = recordService.findLastRecodeByOpenid(openid);
+		Response response = new Response();
+		response.setData(tReserveRecord);
+		return response;
+	}
+	
 	@PostMapping("/record/{openid}")
 	public Response insert(@RequestBody TReserveRecord tReserveRecord) throws IllegalArgumentException, JsonProcessingException, IOException, Exception {
 		if (tReserveRecord.getContact_phone() == null || tReserveRecord.getContact_phone().length() != 11) {

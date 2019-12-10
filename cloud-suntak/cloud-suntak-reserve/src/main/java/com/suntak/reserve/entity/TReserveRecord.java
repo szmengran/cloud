@@ -24,7 +24,7 @@ public class TReserveRecord {
 	private String company;
 	private String type;
 	private String number_plate;
-	private String other_visitor;
+	private String other_vistor;
 	private String belongings;
 	private Integer num;
 	private String remark;
@@ -101,11 +101,11 @@ public class TReserveRecord {
 	public void setNumber_plate(String number_plate) {
 		this.number_plate = number_plate;
 	}
-	public String getOther_visitor() {
-		return other_visitor;
+	public String getOther_vistor() {
+		return other_vistor;
 	}
-	public void setOther_visitor(String other_visitor) {
-		this.other_visitor = other_visitor;
+	public void setOther_vistor(String other_vistor) {
+		this.other_vistor = other_vistor;
 	}
 	public String getBelongings() {
 		return belongings;
