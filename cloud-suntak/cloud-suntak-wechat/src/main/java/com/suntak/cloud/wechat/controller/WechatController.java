@@ -19,6 +19,7 @@ import com.suntak.cloud.wechat.client.WechatClient;
 import com.suntak.cloud.wechat.entity.request.AbstractRequestBody;
 import com.suntak.cloud.wechat.entity.request.FileRequestBody;
 import com.suntak.cloud.wechat.entity.request.ImgRequestBody;
+import com.suntak.cloud.wechat.entity.request.NewsRequestBody;
 import com.suntak.cloud.wechat.entity.request.TextRequestBody;
 import com.suntak.cloud.wechat.entity.request.TextcardRequestBody;
 import com.suntak.cloud.wechat.entity.request.VideoRequestBody;
@@ -160,6 +161,13 @@ public class WechatController {
 	public Response sendTextcard(@PathVariable("secret") String secret, @RequestBody TextcardRequestBody textcardRequestBody) throws Exception {
 		textcardRequestBody.setMsgtype("textcard");
         return send(secret, textcardRequestBody);
+	}
+	
+	@ApiOperation("发送企业微信图文消息")
+	@PostMapping("/news/{secret}")
+	public Response sendNews(@PathVariable("secret") String secret, @RequestBody NewsRequestBody newsRequestBody) throws Exception {
+		newsRequestBody.setMsgtype("news");
+		return send(secret, newsRequestBody);
 	}
 
 	/**

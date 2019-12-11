@@ -7,6 +7,6 @@ ENV JAR_FILE cloud-suntak-wechat.jar
 RUN echo 'Asia/Shanghai' >/etc/timezone 
 
 ADD ./target/$JAR_FILE /app/
-CMD java -Xmx200m -jar /app/$JAR_FILE
+CMD java -Xms50m -Xmx300m -jar /app/$JAR_FILE
 
 EXPOSE 10014
