@@ -11,10 +11,10 @@ set -e
 
 # Docker image prefix
 REGPREFIX=suntak
-VERSION=$CLOUD_VERSION
+VERSION=0.0.3
 
 cd ../cloud-suntak/cloud-suntak-test
-mvn -e package
+mvn -e clean package
 progress "Building cloud-suntak-test image ..."
 docker tag $(docker build -t ${REGPREFIX}/cloud-suntak-test -q .) ${REGPREFIX}/cloud-suntak-test:${VERSION}
 cd -

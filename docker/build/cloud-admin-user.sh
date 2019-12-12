@@ -14,7 +14,7 @@ REGPREFIX=suntak
 VERSION=$CLOUD_VERSION
 
 cd ../cloud-admin/cloud-admin-user
-mvn -e package
+mvn -e clean package
 progress "Building cloud-admin-user image ..."
 docker tag $(docker build -t ${REGPREFIX}/cloud-admin-user -q .) ${REGPREFIX}/cloud-admin-user:${VERSION}
 cd -

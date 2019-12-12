@@ -69,5 +69,8 @@
 		<module>cloud-suntak-ems</module>
 		<module>cloud-suntak-warning</module>
 		<module>cloud-suntak-push</module>
+		<module>cloud-suntak-reserve</module>
+		<module>cloud-suntak-report</module>
+		<module>cloud-suntak-erp</module>
 	</modules>
 </project>

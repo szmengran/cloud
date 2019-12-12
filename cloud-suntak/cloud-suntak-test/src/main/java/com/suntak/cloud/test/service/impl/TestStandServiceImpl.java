@@ -41,7 +41,7 @@ public class TestStandServiceImpl implements TestStandService{
 		.append(" decode(a.validstatus, 0, '作废', 1, '可用', 2, '被领用') status, a.createstamp, a.updatestamp,")
 		.append(" a.companycode FROM T_OA_TEST_STAND a where")
 		.append(" a.companycode = ?")
-		.append(" order by a.validstatus desc,a.warehouse_code,a.test_stand_code");
+		.append(" order by a.validstatus desc, a.updatestamp desc");
 		Object[] params = new Object[1];
 		params[0] = companyCode;
 		return abstractDao.findBySql(T_oa_test_stand_ext.class, strSql.toString(), params);

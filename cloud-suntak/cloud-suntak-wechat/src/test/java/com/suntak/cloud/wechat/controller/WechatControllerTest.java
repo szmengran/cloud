@@ -25,7 +25,8 @@ public class WechatControllerTest {
 //    }
     @Test
     public void testGetUserInfo() throws JsonParseException, JsonMappingException, JsonProcessingException, IOException, BusinessException {
-        ResponseUserInfo object = new ResponseUserInfo();
+        long start = System.currentTimeMillis();
+    	ResponseUserInfo object = new ResponseUserInfo();
         object.setErrcode(0);
         object.setErrmsg("ok");
         ObjectMapper objectMapper = new ObjectMapper();
@@ -35,5 +36,6 @@ public class WechatControllerTest {
         if (!"ok".equalsIgnoreCase(errormsg)) {
             throw new BusinessException(errcode, "获取企业微信用户信息失败");
         }
+        System.out.println(System.currentTimeMillis() - start);
     }
 }
