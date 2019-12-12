@@ -1,0 +1,19 @@
+server:
+  port: 10025
+  servlet:
+    context-path: /api/v1/erp
+spring:
+  application:
+    name: cloud-suntak-erp
+  cloud:
+    config:
+      uri:  ${CONFIG_SERVER_ADDRESS}
+      fail-fast: true
+  profiles:
+    active: ${ENVIRONMENT}
+  sleuth:
+    traceId128: true
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER}
+logging:
+  config: ${CONFIG_SERVER_ADDRESS}/resources/logback-spring.xml
