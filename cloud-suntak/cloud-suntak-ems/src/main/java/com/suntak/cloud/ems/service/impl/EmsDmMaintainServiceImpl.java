@@ -53,10 +53,12 @@ public class EmsDmMaintainServiceImpl implements EmsDmMaintainService {
         return maintainMapper.findMaintain(organization_id, keyword, userid, id);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdate(String empcode, Ems_dm_maintain maintain, Ems_dm_maintain_content[] maintainContents) throws Exception {
-        int count = maintainMapper.updateMaintainStatus(maintain);
+        Long process_id = lunchOA(empcode, maintain, maintainContents);
+        maintain.setProcess_id(process_id);
+    	int count = maintainMapper.updateMaintainStatus(maintain);
         if (count != 1) {
         	throw new Exception("更新保养单主表数量不正确，count：【"+count+"】");
         }
@@ -71,7 +73,6 @@ public class EmsDmMaintainServiceImpl implements EmsDmMaintainService {
         		maintainContentMapper.insert(content);
         	}
         }
-        lunchOA(empcode, maintain, maintainContents);
     }
     
     private Map<String, String> genTableHeaderDataMap(Ems_dm_maintain maintain) {
@@ -145,7 +146,7 @@ public class EmsDmMaintainServiceImpl implements EmsDmMaintainService {
         return jsonNode.get("login_name").asText();
     }
     
-    private void lunchOA(String empcode, Ems_dm_maintain maintain, Ems_dm_maintain_content[] maintainContents) throws Exception {
+    private Long lunchOA(String empcode, Ems_dm_maintain maintain, Ems_dm_maintain_content[] maintainContents) throws Exception {
         OaFormXmlBean oaForm = new OaFormXmlBean();
         oaForm.setTableName("formmain_5353");
         oaForm.setTableHeaderDataMap(genTableHeaderDataMap(maintain));
@@ -182,18 +183,15 @@ public class EmsDmMaintainServiceImpl implements EmsDmMaintainService {
             if (errorNumber != 0) {
             	throw new Exception("同步OA失败:"+errorMessage);
             }
+            return serviceResp.getResult();
         } catch (AxisFault e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw e;
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw e;
         } catch (com.suntak.autotask.authorityService.ServiceException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw e;
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw e;
         }
     }
 

@@ -35,7 +35,7 @@ public interface MaintainMapper extends IMapper<Ems_dm_maintain> {
      * @return
      * @throws Exception
      */
-    @Update("update ems_dm_maintain set solo_person_id=#{solo_person_id},solo_person_name=#{solo_person_name},maintain_person=#{maintain_person},maintain_result=#{maintain_result},mlt_use_state=#{mlt_use_state},execute_time=#{execute_time},status=1 where id=#{id}")
+    @Update("update ems_dm_maintain set solo_person_id=#{solo_person_id},solo_person_name=#{solo_person_name},maintain_person=#{maintain_person},maintain_result=#{maintain_result},mlt_use_state=#{mlt_use_state},execute_time=#{execute_time},status=2 where id=#{id}")
     int updateMaintainStatus(Ems_dm_maintain maintain) throws Exception;
     
     class SqlProvider {

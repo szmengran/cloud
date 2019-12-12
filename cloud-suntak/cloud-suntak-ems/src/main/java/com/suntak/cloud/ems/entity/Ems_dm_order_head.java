@@ -32,6 +32,8 @@ public class Ems_dm_order_head {
     private String txn_name;
     private String result_str;
     private String exe_time;
+    private Integer status;
+    private Long process_id;
     public Long getId() {
         return id;
     }
@@ -152,4 +154,16 @@ public class Ems_dm_order_head {
     public void setExe_time(String exe_time) {
         this.exe_time = exe_time;
     }
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	public Long getProcess_id() {
+		return process_id;
+	}
+	public void setProcess_id(Long process_id) {
+		this.process_id = process_id;
+	}
 }

@@ -36,4 +36,14 @@ public interface EmsDmOrderHeadService {
      * @author <a href="mailto:android_li@sina.cn">Joe</a>
      */
     Long insert(String empcode, Ems_dm_order_head orderHead, Ems_dm_order_line[] lines) throws Exception;
+    
+    /**
+     * 
+     * @description 同步EBS
+     * @param org_id
+     * @param id
+     * @date Dec 12, 2019 3:23:34 PM
+     * @author <a href="mailto:android_li@sina.cn">Joe</a>
+     */
+    void submitEbs(Integer org_id, Long id);
 }

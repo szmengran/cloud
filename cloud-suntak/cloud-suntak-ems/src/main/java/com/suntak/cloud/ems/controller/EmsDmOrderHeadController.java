@@ -57,4 +57,10 @@ public class EmsDmOrderHeadController {
         response.setData(id);
         return response;
     }
+    
+    @PostMapping("/submitebs/{org_id}/{id}")
+    public Response submitEbs(Integer org_id, Long id) {
+    	emsDmOrderHeadService.submitEbs(org_id, id);
+    	return new Response();
+    }
 }

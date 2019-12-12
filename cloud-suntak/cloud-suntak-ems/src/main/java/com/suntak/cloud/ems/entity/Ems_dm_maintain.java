@@ -34,6 +34,7 @@ public class Ems_dm_maintain {
     private String solo_person_name;
     private String maintain_result;
     private String mlt_use_state;
+    private Long process_id;
     public Long getId() {
         return id;
     }
@@ -166,5 +167,11 @@ public class Ems_dm_maintain {
     public void setMlt_use_state(String mlt_use_state) {
         this.mlt_use_state = mlt_use_state;
     }
+	public Long getProcess_id() {
+		return process_id;
+	}
+	public void setProcess_id(Long process_id) {
+		this.process_id = process_id;
+	}
     
 }

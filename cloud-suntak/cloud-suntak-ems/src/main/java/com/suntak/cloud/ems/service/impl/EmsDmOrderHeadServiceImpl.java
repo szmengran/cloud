@@ -6,8 +6,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.axis2.AxisFault;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,11 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.suntak.autotask.BPMService.BPMServiceStub;
 import com.suntak.autotask.bean.OaFormXmlBean;
 import com.suntak.autotask.utils.OaConfigInfo;
 import com.suntak.autotask.utils.OaInterfaceUtil;
 import com.suntak.autotask.utils.XmlUtil;
+import com.suntak.cloud.ems.client.ErpClient;
 import com.suntak.cloud.ems.client.OaClient;
 import com.suntak.cloud.ems.entity.Cux_oa_org_info_v;
 import com.suntak.cloud.ems.entity.Ems_dm_order_head;
@@ -28,6 +36,7 @@ import com.suntak.cloud.ems.mapper.Cux_oa_org_info_vMapper;
 import com.suntak.cloud.ems.mapper.EmsDmOrderHeadMapper;
 import com.suntak.cloud.ems.mapper.EmsDmOrderLineMapper;
 import com.suntak.cloud.ems.service.EmsDmOrderHeadService;
+import com.suntak.exception.model.Response;
 
 /** 
  * @Package com.suntak.cloud.ems.service.impl 
@@ -38,6 +47,9 @@ import com.suntak.cloud.ems.service.EmsDmOrderHeadService;
 @Service
 public class EmsDmOrderHeadServiceImpl implements EmsDmOrderHeadService {
 
+	private final static ExecutorService executor = new ThreadPoolExecutor(20, 200, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+	private final static Logger logger = LoggerFactory.getLogger(EmsDmOrderHeadServiceImpl.class);
+	
 	@Value("${cloud.environment.oa}")
     private String environment;
 	
@@ -53,25 +65,58 @@ public class EmsDmOrderHeadServiceImpl implements EmsDmOrderHeadService {
     @Autowired
     private OaClient oaClient;
     
+    @Autowired
+    private ErpClient erpClient;
+    
     @Override
     public List<Ems_dm_order_head> findOrders(Integer use_p_id) throws Exception {
         return emsDmOrderHeadMapper.findOrders(use_p_id);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Long insert(String empcode, Ems_dm_order_head orderHead, Ems_dm_order_line[] lines) throws Exception {
         Long id = emsDmOrderHeadMapper.findSeq();
         orderHead.setId(id);
         orderHead.setDate_time(new Timestamp(System.currentTimeMillis()));
         orderHead.setEbs_state(-1);
+        orderHead.setStatus(2);
+        Long process_id = lunchOA(empcode, orderHead, lines);
+        orderHead.setProcess_id(process_id);
         emsDmOrderHeadMapper.insert(orderHead);
         for (Ems_dm_order_line order_line: lines) {
             order_line.setHead_id(id);
             emsDmOrderLineMapper.insert(order_line);
         }
-        lunchOA(empcode, orderHead, lines);
+        executor.submit(() -> {
+        	submitEbs(orderHead.getOrganization_id(), id);
+        });
         return id;
+    }
+    
+    public void submitEbs(Integer org_id, Long id) {
+    	try {
+    		Long start = System.currentTimeMillis();
+    		Response resp = erpClient.submitEbs(org_id, id);
+    		logger.info("同步EBS结果：{},{},{}", org_id, id, new Gson().toJson(resp));
+    		if (resp.getStatus() != 200) {
+    			logger.error("同步EBS失败：{}", new Gson().toJson(resp));
+    			return;
+    		}
+    		
+    		ObjectMapper objectMapper = new ObjectMapper();
+    	    JsonNode jsonNode = objectMapper.readTree(objectMapper.writeValueAsBytes(resp.getData()));
+    	    Integer x_ebs_number = jsonNode.get("x_ebs_number").asInt();
+    	    String result_str = null;
+    	    Integer ebs_state = 0;
+    	    if (x_ebs_number != null) {
+    	    	result_str = "同步EBS成功， 本次产生的领料申请单号为："+x_ebs_number;
+    	    	ebs_state = 1;
+    	    }
+    	    emsDmOrderHeadMapper.updateEbsNumber(id, x_ebs_number, result_str, ebs_state, System.currentTimeMillis()-start);
+    	} catch (Exception e) {
+    		logger.error("同步EBS异常：{}", e);
+    	}
     }
 
     private Map<String, String> genTableHeaderDataMap(Ems_dm_order_head orderHead) {
@@ -116,7 +161,7 @@ public class EmsDmOrderHeadServiceImpl implements EmsDmOrderHeadService {
         return jsonNode.get("login_name").asText();
     }
 	
-    private void lunchOA(String empcode, Ems_dm_order_head orderHead, Ems_dm_order_line[] lines) throws Exception {
+    private Long lunchOA(String empcode, Ems_dm_order_head orderHead, Ems_dm_order_line[] lines) throws Exception {
         OaFormXmlBean oaForm = new OaFormXmlBean();
         oaForm.setTableName("formmain_6737");
         oaForm.setTableHeaderDataMap(genTableHeaderDataMap(orderHead));
@@ -148,6 +193,7 @@ public class EmsDmOrderHeadServiceImpl implements EmsDmOrderHeadService {
             if (errorNumber != 0) {
             	throw new Exception("同步OA失败:"+errorMessage);
             }
+            return serviceResp.getResult();
         } catch (AxisFault e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
