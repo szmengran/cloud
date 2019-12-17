@@ -1,4 +1,4 @@
-package com.suntak.report.monitor.entity;
+package com.suntak.report.efficiency.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

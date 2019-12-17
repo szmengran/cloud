@@ -1,8 +1,8 @@
-package com.suntak.report.monitor.service;
+package com.suntak.report.efficiency.service;
 
 import java.util.List;
 
-import com.suntak.report.monitor.entity.T_report_monitor;
+import com.suntak.report.efficiency.entity.T_report_monitor;
 
 public interface MonitorService {
 	/**

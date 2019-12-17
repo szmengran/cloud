@@ -1,7 +1,7 @@
 server:
-  port: 10024
+  port: 10027
   servlet:
-    context-path: /api/v1/monitor
+    context-path: /api/v1/report
 spring:
   application:
     name: cloud-suntak-report

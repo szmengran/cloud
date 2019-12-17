@@ -1,4 +1,4 @@
-package com.suntak.report.monitor.service.impl;
+package com.suntak.report.efficiency.service.impl;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -15,8 +15,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.suntak.report.monitor.entity.T_report_monitor;
-import com.suntak.report.monitor.service.MonitorService;
+import com.suntak.report.efficiency.entity.T_report_monitor;
+import com.suntak.report.efficiency.service.MonitorService;
 import com.szmengran.common.orm.DBManager;
 import com.szmengran.common.orm.dao.oracle.OracleDao;
 

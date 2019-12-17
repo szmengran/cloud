@@ -1,25 +1,20 @@
-package com.suntak.report.monitor.controller;
+package com.suntak.report.efficiency.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.suntak.exception.model.Response;
-import com.suntak.report.monitor.entity.T_report_monitor;
-import com.suntak.report.monitor.service.MonitorService;
+import com.suntak.report.efficiency.entity.T_report_monitor;
+import com.suntak.report.efficiency.service.MonitorService;
 
 @RestController
 public class MonitorController {
@@ -27,8 +22,20 @@ public class MonitorController {
 	@Autowired
 	private MonitorService monitorService;
 	
-	@RequestMapping(value = "/report/worktime/{count}/{date}/{time}/{org_id}", method = RequestMethod.GET)
-	public Response worktime_monitor(@PathVariable("count") Integer count,@PathVariable("date") String calculation_date,@PathVariable("time") String calculation_time,@PathVariable("org_id") Integer org_id,@RequestHeader HttpHeaders headers,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws Exception {
+	/**
+	 * 
+	 * @description 工作效率报表数据提取
+	 * @param count
+	 * @param calculation_date
+	 * @param calculation_time
+	 * @param org_id
+	 * @return
+	 * @throws Exception
+	 * @date Dec 17, 2019 2:42:25 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@RequestMapping(value = "/efficiency/worktime/{count}/{date}/{time}/{org_id}", method = RequestMethod.GET)
+	public Response worktime_monitor(@PathVariable("count") Integer count,@PathVariable("date") String calculation_date,@PathVariable("time") String calculation_time,@PathVariable("org_id") Integer org_id) throws Exception {
 		Response response = new Response();
 		String key = "worktime_monitor"+count+calculation_date+calculation_time+org_id;
 		StringBuffer conditions = new StringBuffer();
@@ -45,8 +52,18 @@ public class MonitorController {
 		return response;
 	}
 
-	@GetMapping(value = "/report/findYearMonthWorktime/{date}/{org_id}")
-	public Response findYearMonthWorktime(@PathVariable("date") String date,@PathVariable("org_id") Integer org_id,@RequestHeader HttpHeaders headers,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws Exception {
+	/**
+	 * 
+	 * @description 工作效率月度报表
+	 * @param date
+	 * @param org_id
+	 * @return
+	 * @throws Exception
+	 * @date Dec 17, 2019 2:43:06 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@GetMapping(value = "/efficiency/findYearMonthWorktime/{date}/{org_id}")
+	public Response findYearMonthWorktime(@PathVariable("date") String date,@PathVariable("org_id") Integer org_id) throws Exception {
 		Response response = new Response();
 		String key = "findYearMonthWorktime"+date+org_id;
 		List<T_report_monitor> list = monitorService.findYearMonthWorktime(key, date, org_id);
@@ -56,8 +73,18 @@ public class MonitorController {
 		return response;
 	}
 	
-	@GetMapping(value = "/report/findDayWorktime/{date}/{org_id}")
-	public Response findDayWorktime(@PathVariable("date") String date,@PathVariable("org_id") Integer org_id,@RequestHeader HttpHeaders headers,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws Exception {
+	/**
+	 * 
+	 * @description 工作效率日报表
+	 * @param date
+	 * @param org_id
+	 * @return
+	 * @throws Exception
+	 * @date Dec 17, 2019 2:43:25 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@GetMapping(value = "/efficiency/findDayWorktime/{date}/{org_id}")
+	public Response findDayWorktime(@PathVariable("date") String date,@PathVariable("org_id") Integer org_id) throws Exception {
 		Response response = new Response();
 		String key = "findDayWorktime"+date+org_id;
 		List<T_report_monitor> list = monitorService.findDayWorktime(key, date, org_id);
@@ -67,8 +94,18 @@ public class MonitorController {
 		return response;
 	}
 	
-	@RequestMapping(value = "/report/getWorktimeMonitorData/{count}/{date}", method = RequestMethod.GET)
-	public Response getWorktimeMonitorData(@PathVariable("count") Integer count,@PathVariable("date") String date,@RequestHeader HttpHeaders headers,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws Exception {
+	/**
+	 * 
+	 * @description 工作效率班次报表
+	 * @param count
+	 * @param date
+	 * @return
+	 * @throws Exception
+	 * @date Dec 17, 2019 2:43:59 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@RequestMapping(value = "/efficiency/getWorktimeMonitorData/{count}/{date}", method = RequestMethod.GET)
+	public Response getWorktimeMonitorData(@PathVariable("count") Integer count,@PathVariable("date") String date) throws Exception {
 		Response response = new Response();
 		if(StringUtils.isBlank(date.trim().replace("*", ""))){
 			date = new SimpleDateFormat("yyyy-MM-dd HH").format(new Date());
