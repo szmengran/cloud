@@ -12,7 +12,7 @@ public class OaConfigInfo {
 
         // 正式环境地址
         if ("prod".equalsIgnoreCase(env)) {
-            setUrl("http://oa.suntakpcb.com");
+            setUrl("http://10.1.100.170");
             setUsername("service-admin");
             setPassword("mustchange");
             setRestuser("oasupport");
