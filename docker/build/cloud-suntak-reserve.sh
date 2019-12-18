@@ -10,7 +10,7 @@ function progress() {
 set -e
 
 PREFIX=suntak
-VERSION=0.0.9
+VERSION=0.0.10
 
 cd ../cloud-suntak/cloud-suntak-reserve
 mvn clean package
