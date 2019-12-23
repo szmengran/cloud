@@ -6,10 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.axis2.AxisFault;
 import org.slf4j.Logger;
@@ -47,7 +43,7 @@ import com.suntak.exception.model.Response;
 @Service
 public class EmsDmOrderHeadServiceImpl implements EmsDmOrderHeadService {
 
-	private final static ExecutorService executor = new ThreadPoolExecutor(20, 200, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+//	private final static ExecutorService executor = new ThreadPoolExecutor(20, 200, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 	private final static Logger logger = LoggerFactory.getLogger(EmsDmOrderHeadServiceImpl.class);
 	
 	@Value("${cloud.environment.oa}")
@@ -88,9 +84,9 @@ public class EmsDmOrderHeadServiceImpl implements EmsDmOrderHeadService {
             order_line.setHead_id(id);
             emsDmOrderLineMapper.insert(order_line);
         }
-        executor.submit(() -> {
-        	submitEbs(orderHead.getOrganization_id(), id);
-        });
+//        executor.submit(() -> {
+//        	submitEbs(orderHead.getOrganization_id(), id);
+//        });
         return id;
     }
     
@@ -139,7 +135,7 @@ public class EmsDmOrderHeadServiceImpl implements EmsDmOrderHeadService {
 			map.put("申请数量", line.getQty()+"");
 			map.put("单位", line.getUom_code()+"");
 			map.put("仓库代码", line.getSubinventory_code());
-			map.put("库存数量", line.getActual_qty()+"");
+			map.put("库存数量", line.getOnhand_qty()+"");
 			map.put("消耗工序", line.getItem_type());
 			map.put("设备名称", line.getEquipment_name());
 			map.put("设备号", line.getEquipment_no());
