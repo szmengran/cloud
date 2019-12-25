@@ -24,7 +24,7 @@ public class MonitorController {
 	
 	/**
 	 * 
-	 * @description 工作效率报表数据提取
+	 * @description 工作效率班次数据查询
 	 * @param count
 	 * @param calculation_date
 	 * @param calculation_time
@@ -96,7 +96,7 @@ public class MonitorController {
 	
 	/**
 	 * 
-	 * @description 工作效率班次报表
+	 * @description 工作效率班次数据提取
 	 * @param count
 	 * @param date
 	 * @return
@@ -104,8 +104,8 @@ public class MonitorController {
 	 * @date Dec 17, 2019 2:43:59 PM
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	@GetMapping(value = "/efficiency/getWorktimeMonitorData/{count}/{date}")
-	public Response getWorktimeMonitorData(@PathVariable("count") Integer count,@PathVariable("date") String date) throws Exception {
+	@GetMapping(value = "/efficiency/extractWorkData/{count}/{date}")
+	public Response extractWorkData(@PathVariable("count") Integer count,@PathVariable("date") String date) throws Exception {
 		Response response = new Response();
 		if(StringUtils.isBlank(date.trim().replace("*", ""))){
 			date = new SimpleDateFormat("yyyy-MM-dd HH").format(new Date());
@@ -119,7 +119,7 @@ public class MonitorController {
 		}
 		String calculation_date = date.split(" ")[0];
 		String calculation_time = date.split(" ")[1]+":00:00";
-		monitorService.getWorktimeMonitorData(calculation_date, calculation_time, count);
+		monitorService.extractWorkData(calculation_date, calculation_time, count);
 		return response;
 	}
 	

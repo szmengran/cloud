@@ -209,7 +209,7 @@ public class MonitorServiceImpl extends OracleDao implements MonitorService {
 	}
 	
 	@Override
-	public void getWorktimeMonitorData(String calculation_date, String calculation_time, Integer count) throws Exception {
+	public void extractWorkData(String calculation_date, String calculation_time, Integer count) throws Exception {
 		DBManager dbManager = null;
 		try {
 			dbManager = new DBManager(writeDataSource);

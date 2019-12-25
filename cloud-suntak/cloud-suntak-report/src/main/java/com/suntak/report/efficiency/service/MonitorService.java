@@ -39,5 +39,5 @@ public interface MonitorService {
 	 * @param count
 	 * @throws Exception
 	 */
-	public void getWorktimeMonitorData(String calculation_date, String calculation_time, Integer count) throws Exception;
+	public void extractWorkData(String calculation_date, String calculation_time, Integer count) throws Exception;
 }
