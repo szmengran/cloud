@@ -287,4 +287,20 @@ public class WechatController {
         return new Response();
         
 	}
+	
+	/**
+	 * 
+	 * @description 机器人发送企业微信图文消息
+	 * @param robotid
+	 * @param newsRequestBody
+	 * @return
+	 * @throws Exception
+	 * @date Sep 27, 2019 2:47:34 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@PostMapping("/robot/news/{robotid}")
+	public Response sendRobotNews(@PathVariable("robotid") String robotid, @RequestBody NewsRequestBody newsRequestBody) throws Exception {
+		wechatClient.sendNews(robotid, newsRequestBody);
+		return new Response();
+	}
 }

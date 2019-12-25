@@ -104,7 +104,7 @@ public class MonitorController {
 	 * @date Dec 17, 2019 2:43:59 PM
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	@RequestMapping(value = "/efficiency/getWorktimeMonitorData/{count}/{date}", method = RequestMethod.GET)
+	@GetMapping(value = "/efficiency/getWorktimeMonitorData/{count}/{date}")
 	public Response getWorktimeMonitorData(@PathVariable("count") Integer count,@PathVariable("date") String date) throws Exception {
 		Response response = new Response();
 		if(StringUtils.isBlank(date.trim().replace("*", ""))){

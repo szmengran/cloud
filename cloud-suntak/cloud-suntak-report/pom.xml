@@ -45,6 +45,14 @@
 			<groupId>com.szmengran</groupId>
 			<artifactId>orm-oracle</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.suntak</groupId>
+			<artifactId>cloud-api-wechat</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

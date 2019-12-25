@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.suntak.cloud.wechat.entity.request.AbstractRequestBody;
+import com.suntak.cloud.wechat.entity.request.NewsRequestBody;
 import com.suntak.cloud.wechat.entity.response.MsgResponseBody;
+import com.suntak.cloud.wechat.entity.response.RobotResponse;
 import com.suntak.cloud.wechat.entity.response.TokenResponseBody;
 
 /**
@@ -20,10 +22,20 @@ import com.suntak.cloud.wechat.entity.response.TokenResponseBody;
 public interface WechatClient {
 	@GetMapping(value = "/cgi-bin/gettoken?corpid={corpid}&corpsecret={corpsecret}")
 	TokenResponseBody getToken(@PathVariable("corpid") String corpid, @PathVariable("corpsecret") String corpsecret);
-//	
-//	@PostMapping(value = "/cgi-bin/message/send?access_token={access_token}")
-//	MsgResponseBody send(@RequestBody MsgRequestBody msgRequestBody, @PathVariable("access_token") String access_token);
-//	
+
+	/**
+	 * 
+	 * @description 机器人发送企业微信图文消息
+	 * @param robotid
+	 * @param newsRequestBody
+	 * @return
+	 * @throws Exception
+	 * @date Sep 27, 2019 2:47:34 PM
+	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
+	 */
+	@PostMapping("/cgi-bin/webhook/send?key={robotid}")
+	RobotResponse sendNews(@PathVariable("robotid") String robotid, @RequestBody NewsRequestBody newsRequestBody);
+
 	/**
 	 * 发送企业微信消息
 	 * @param abstractRequestBody
