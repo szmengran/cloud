@@ -123,7 +123,7 @@ public class MonitorAutoTaskController {
 				article.setTitle(title);
 				article.setDescription(Constants.ORG_NAMES[i]+"\n"+stamp);
 				article.setUrl(url+"/report/monitor/t_report_monitor_yearmonth.html?date="+date+"&org_id="+Constants.ORG_IDS[i]+"&t="+System.currentTimeMillis());
-				article.setPicurl("https://i.ibb.co/B4jYZFV/We-Work-Helper20191226102811.png");
+				article.setPicurl(picUrl);
 				articles[0] = article;
 				news.setArticles(articles);
 				requestBody.setNews(news);
