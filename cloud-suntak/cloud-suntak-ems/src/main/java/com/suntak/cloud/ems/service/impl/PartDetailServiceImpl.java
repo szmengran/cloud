@@ -28,7 +28,11 @@ public class PartDetailServiceImpl implements PartDetailService {
 
     @Override
     public List<Ems_partdetail_v> findPartByNo(String part_no, Integer org_id) throws Exception {
-        return partDetailMapper.findPartByNo(part_no, org_id);
+        List<Ems_partdetail_v> list = partDetailMapper.findPartByNo(part_no, org_id);
+        if (list == null || list.size() == 0) {
+        	return partDetailMapper.findPartDetailInfo(part_no, org_id);
+        }
+        return list;
     }
 
 }
