@@ -148,7 +148,7 @@ public class WechatController {
                 objectMapper = new ObjectMapper();
                 response.setData(map);
             } else {
-                throw new Exception("登录失败，你的账号还没有在设备系统中绑定！");
+                throw new Exception("登录失败，你的账号【"+empcode+"】还没有在设备系统中绑定！");
             }
 		}
 		return response;

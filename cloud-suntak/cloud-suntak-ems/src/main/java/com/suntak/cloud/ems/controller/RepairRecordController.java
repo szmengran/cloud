@@ -44,7 +44,7 @@ public class RepairRecordController {
     @ApiOperation("维修记录保存")
     @PostMapping("repairRecord/{token}")
     public Response insert(@PathVariable("token") String token, @RequestBody RepairRecordRequestBody repairRecordRequestBody) throws Exception {
-        logger.info("{}", new Gson().toJson(token));
+        logger.info("维修记录保存请求：{}，{}", token, new Gson().toJson(repairRecordRequestBody));
         String userJson = JwtUtil.parseToken(token);
         if (userJson == null) {
             throw new BusinessException(10007001);
