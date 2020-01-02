@@ -20,7 +20,7 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 public class DataSourceConfig {
   
     @Bean(initMethod = "init", name = "writeDataSource")  
-    @ConfigurationProperties(prefix = "spring.datasource.druid.write")  
+    @ConfigurationProperties(prefix = "spring.datasource.druid")  
     @Primary
     public DataSource writeDataSource(){  
             return DruidDataSourceBuilder.create().build();  

@@ -11,6 +11,7 @@ public class CuxSoaWipPush extends Push implements Serializable  {
 	 * 
 	 */
 	private static final long serialVersionUID = 7319332030400208765L;
+	private Integer organization_id;
 	private String department_code;
 	private String department_name;
 	private String operation_code;
@@ -22,6 +23,12 @@ public class CuxSoaWipPush extends Push implements Serializable  {
 	private String wip_unit;
 	private String pnl_cp_area;
 	private String data_type;
+	public Integer getOrganization_id() {
+		return organization_id;
+	}
+	public void setOrganization_id(Integer organization_id) {
+		this.organization_id = organization_id;
+	}
 	public String getDepartment_code() {
 		return department_code;
 	}

@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,15 +37,14 @@ public class MiPushServiceImpl implements MiPushService {
 	public void send() {
 		List<TPushRobot> robots = cuxSoaMiPushMapper.findRobot();
 		for (TPushRobot robot: robots) {
-			CuxSoaMiPush cuxSoaMiPush = new CuxSoaMiPush();
-			cuxSoaMiPush.setMi_status(robot.getName());
-			Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-			cuxSoaMiPush.setPush_date(currentTime);
-			String attribute30 = "mi_"+System.currentTimeMillis();
-			cuxSoaMiPush.setAttribute30(attribute30);
-			cuxSoaMiPush.setLast_update_date(currentTime);
 			CuxSoaMiPushExt cuxSoaMiPushExt = new CuxSoaMiPushExt();
-			BeanUtils.copyProperties(cuxSoaMiPush, cuxSoaMiPushExt);
+			cuxSoaMiPushExt.setMi_status(robot.getName());
+			Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+			cuxSoaMiPushExt.setPush_date(currentTime);
+			String attribute30 = "mi_"+System.currentTimeMillis();
+			cuxSoaMiPushExt.setAttribute30(attribute30);
+			cuxSoaMiPushExt.setLast_update_date(currentTime);
+			cuxSoaMiPushExt.setOrganization_id(robot.getOrg_id());
 			cuxSoaMiPushExt.setRange_start(robot.getRange_start());
 			cuxSoaMiPushExt.setRange_end(robot.getRange_end());
 			Boolean flag = cuxSoaMiPushMapper.updatePush(cuxSoaMiPushExt) > 0;

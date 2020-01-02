@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,15 +37,15 @@ public class WipPushServiceImpl implements WipPushService {
 	public void send() {
 		List<TPushRobot> robots = CuxSoaWipPushMapper.findRobot();
 		for (TPushRobot robot: robots) {
-			CuxSoaWipPush cuxSoaWipPush = new CuxSoaWipPush();
-			cuxSoaWipPush.setDepartment_name(robot.getName());
-			Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-			cuxSoaWipPush.setPush_date(currentTime);
-			String attribute30 = "wip_"+System.currentTimeMillis();
-			cuxSoaWipPush.setAttribute30(attribute30);
-			cuxSoaWipPush.setLast_update_date(currentTime);
 			CuxSoaWipPushExt cuxSoaWipPushExt = new CuxSoaWipPushExt();
-			BeanUtils.copyProperties(cuxSoaWipPush, cuxSoaWipPushExt);
+			cuxSoaWipPushExt.setDepartment_name(robot.getName());
+			Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+			cuxSoaWipPushExt.setPush_date(currentTime);
+			String attribute30 = "wip_"+System.currentTimeMillis();
+			cuxSoaWipPushExt.setAttribute30(attribute30);
+			cuxSoaWipPushExt.setLast_update_date(currentTime);
+			cuxSoaWipPushExt.setOrganization_id(robot.getOrg_id());
+			cuxSoaWipPushExt.setData_type(robot.getStatus());
 			cuxSoaWipPushExt.setRange_start(robot.getRange_start());
 			cuxSoaWipPushExt.setRange_end(robot.getRange_end());
 			Boolean flag = CuxSoaWipPushMapper.updatePush(cuxSoaWipPushExt) > 0;
@@ -66,9 +65,9 @@ public class WipPushServiceImpl implements WipPushService {
 		News news = new News();
 		Articles[] articles = new Articles[1];
 		Articles article = new Articles();
-		article.setTitle("【"+robot.getName()+"】工单停留异常通知");
+		article.setTitle("【"+robot.getName()+"-"+robot.getStatus()+"】工单停留异常通知");
 		String date = new SimpleDateFormat("yyyy年MM月dd日").format(new Date());
-		article.setDescription(date + "【"+robot.getName()+"】工单停留异常通知");
+		article.setDescription(date + "【"+robot.getName()+"-"+robot.getStatus()+"】工单停留异常通知");
 		article.setUrl(robot.getUrl()+"?attribute30="+attribute30);
 		article.setPicurl(robot.getPicurl());
 		articles[0] = article;

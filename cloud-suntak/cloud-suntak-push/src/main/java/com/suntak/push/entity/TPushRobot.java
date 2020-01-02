@@ -15,10 +15,12 @@ public class TPushRobot implements Serializable {
 	private String type;
 	private String name;
 	private String robotid;
+	private Integer org_id;
 	private String url;
 	private String picurl;
 	private Integer range_start;
 	private Integer range_end;
+	private String status;
 	private Timestamp createstamp;
 	private Integer validstatus;
 	public String getType() {
@@ -38,6 +40,12 @@ public class TPushRobot implements Serializable {
 	}
 	public void setRobotid(String robotid) {
 		this.robotid = robotid;
+	}
+	public Integer getOrg_id() {
+		return org_id;
+	}
+	public void setOrg_id(Integer org_id) {
+		this.org_id = org_id;
 	}
 	public String getUrl() {
 		return url;
@@ -62,6 +70,12 @@ public class TPushRobot implements Serializable {
 	}
 	public void setRange_end(Integer range_end) {
 		this.range_end = range_end;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public Timestamp getCreatestamp() {
 		return createstamp;
