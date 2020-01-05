@@ -64,9 +64,9 @@ public class MiPushServiceImpl implements MiPushService {
 		News news = new News();
 		Articles[] articles = new Articles[1];
 		Articles article = new Articles();
-		article.setTitle("【"+robot.getName()+"】工单停留异常通知");
+		article.setTitle("【"+robot.getName()+"】生产型号停留异常通知");
 		String date = new SimpleDateFormat("yyyy年MM月dd日").format(new Date());
-		article.setDescription(date + "【"+robot.getName()+"】工单停留异常通知");
+		article.setDescription(date + "【"+robot.getName()+"】生产型号停留异常通知");
 		article.setUrl(robot.getUrl()+"?attribute30="+attribute30);
 		article.setPicurl(robot.getPicurl());
 		articles[0] = article;

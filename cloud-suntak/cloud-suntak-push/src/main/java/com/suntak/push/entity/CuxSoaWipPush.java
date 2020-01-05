@@ -23,6 +23,7 @@ public class CuxSoaWipPush extends Push implements Serializable  {
 	private String wip_unit;
 	private String pnl_cp_area;
 	private String data_type;
+	private String attribute3;
 	public Integer getOrganization_id() {
 		return organization_id;
 	}
@@ -94,6 +95,12 @@ public class CuxSoaWipPush extends Push implements Serializable  {
 	}
 	public void setData_type(String data_type) {
 		this.data_type = data_type;
+	}
+	public String getAttribute3() {
+		return attribute3;
+	}
+	public void setAttribute3(String attribute3) {
+		this.attribute3 = attribute3;
 	}
 	
 }
