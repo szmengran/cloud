@@ -58,6 +58,7 @@ public class Ems_dm_repair_record {
     private String service_pass            ;
     private String failure_cause           ;
     private String maintenance_plan        ;
+    private Integer source;
     public Long getId() {
         return id;
     }
@@ -328,4 +329,10 @@ public class Ems_dm_repair_record {
     public void setMaintenance_plan(String maintenance_plan) {
         this.maintenance_plan = maintenance_plan;
     }
+	public Integer getSource() {
+		return source;
+	}
+	public void setSource(Integer source) {
+		this.source = source;
+	}
 }

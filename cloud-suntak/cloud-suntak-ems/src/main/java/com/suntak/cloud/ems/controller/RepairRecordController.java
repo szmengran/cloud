@@ -72,6 +72,7 @@ public class RepairRecordController {
     	ems_dm_repair_record.setCreated_by(employerId);
     	ems_dm_repair_record.setUpdated_by(employerId);
         ems_dm_repair_record.setOrganization_id(userinfo.getOrg_id());
+        ems_dm_repair_record.setSource(1);
         Boolean flag = repairRecordService.insert(repairRecordRequestBody);
         if (!flag) {
             response.setStatus(500);
@@ -114,6 +115,7 @@ public class RepairRecordController {
     	ems_dm_repair_record.setUpdated_date(currentTime);
     	ems_dm_repair_record.setCreated_by(employerId);
     	ems_dm_repair_record.setUpdated_by(employerId);
+        ems_dm_repair_record.setSource(1);
     	Boolean flag = repairRecordService.insert(repairRecordRequestBody);
     	if (!flag) {
     		response.setStatus(500);
