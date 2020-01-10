@@ -6,6 +6,7 @@
 		<artifactId>cloud-common</artifactId>
 		<version>0.0.3</version>
 	</parent>
+	<version>0.0.4</version>
 	<artifactId>cloud-common-utils</artifactId>
 	<dependencies>
 		<dependency>

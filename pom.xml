@@ -259,11 +259,16 @@
 			<dependency>
 				<groupId>com.suntak</groupId>
 				<artifactId>cloud-common-utils</artifactId>
-				<version>${project.version}</version>
+				<version>0.0.4</version>
 			</dependency>
 			<dependency>
 				<groupId>com.suntak</groupId>
 				<artifactId>cloud-model-suntak</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.suntak</groupId>
+				<artifactId>cloud-api-wechat</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -383,5 +388,6 @@
 		<module>cloud-exception</module>
 		<module>cloud-suntak</module>
 		<module>cloud-mes</module>
+		<module>cloud-api</module>
 	</modules>
 </project>

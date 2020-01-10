@@ -77,7 +77,7 @@ public class BlessingSmsController {
 		Response response = null;
 		T_common_sms_log t_common_sms_log = new T_common_sms_log();
 		try {
-			t_common_sms_log.setTemplatecode("SMS_130912375");
+			t_common_sms_log.setTemplatecode("SMS_181505309");
 			t_common_sms_log.setSignname("崇达技术");
 			response = ehrUserServiceClient.getBirthdayEhrUser(monthdate);
 			this.send(response, t_common_sms_log, MSG_TYPE_BIRTHDAY);

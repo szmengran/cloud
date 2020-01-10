@@ -253,7 +253,7 @@ public class TaskServiceImpl implements TaskService {
         Long processId = serviceResp.getResult(); // 流程ID
 
         if (errorNumber != 0) {
-        	logger.info("错误代码：{}，错误消息：{}， 流程ID：{}", errorNumber , errorMessage, processId);
+        	logger.error("错误代码：{}，错误消息：{}， 流程ID：{}", errorNumber , errorMessage, processId);
         }
     }
     
