@@ -35,7 +35,7 @@ public class MiPushServiceImpl implements MiPushService {
 	
 	@Override
 	public void send() {
-		List<TPushRobot> robots = cuxSoaMiPushMapper.findRobot();
+		List<TPushRobot> robots = cuxSoaMiPushMapper.findCommonRobot();
 		for (TPushRobot robot: robots) {
 			CuxSoaMiPushExt cuxSoaMiPushExt = new CuxSoaMiPushExt();
 			cuxSoaMiPushExt.setMi_status(robot.getName());
@@ -47,7 +47,7 @@ public class MiPushServiceImpl implements MiPushService {
 			cuxSoaMiPushExt.setOrganization_id(robot.getOrg_id());
 			cuxSoaMiPushExt.setRange_start(robot.getRange_start());
 			cuxSoaMiPushExt.setRange_end(robot.getRange_end());
-			Boolean flag = cuxSoaMiPushMapper.updatePush(cuxSoaMiPushExt) > 0;
+			Boolean flag = cuxSoaMiPushMapper.updateCommonPush(cuxSoaMiPushExt) > 0;
 			if (flag) {
 				NewsRequestBody newsRequestBody = generateRequestBody(robot, attribute30);
 				logger.info("机器人请求：{},{}", robot.getRobotid(), new Gson().toJson(newsRequestBody));
@@ -55,7 +55,26 @@ public class MiPushServiceImpl implements MiPushService {
 				logger.info("机器人响应：{}", new Gson().toJson(robotResponse));
 			}
 		}
-		
+		robots = cuxSoaMiPushMapper.findSpecialRobot();
+		for (TPushRobot robot: robots) {
+			CuxSoaMiPushExt cuxSoaMiPushExt = new CuxSoaMiPushExt();
+			cuxSoaMiPushExt.setMi_status(robot.getName());
+			Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+			cuxSoaMiPushExt.setPush_date(currentTime);
+			String attribute30 = "mi_"+System.currentTimeMillis();
+			cuxSoaMiPushExt.setAttribute30(attribute30);
+			cuxSoaMiPushExt.setLast_update_date(currentTime);
+			cuxSoaMiPushExt.setOrganization_id(robot.getOrg_id());
+			cuxSoaMiPushExt.setRange_start(robot.getRange_start());
+			cuxSoaMiPushExt.setRange_end(robot.getRange_end());
+			Boolean flag = cuxSoaMiPushMapper.updateSpecialPush(cuxSoaMiPushExt) > 0;
+			if (flag) {
+				NewsRequestBody newsRequestBody = generateRequestBody(robot, attribute30);
+				logger.info("机器人请求：{},{}", robot.getRobotid(), new Gson().toJson(newsRequestBody));
+				RobotResponse robotResponse = wechatClient.sendNews(robot.getRobotid(), newsRequestBody);
+				logger.info("机器人响应：{}", new Gson().toJson(robotResponse));
+			}
+		}
 	}
 
 	private NewsRequestBody generateRequestBody(TPushRobot robot, String attribute30) {
