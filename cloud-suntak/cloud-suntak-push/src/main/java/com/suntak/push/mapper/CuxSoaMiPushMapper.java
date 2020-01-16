@@ -67,7 +67,7 @@ public interface CuxSoaMiPushMapper extends IMapper<CuxSoaMiPush> {
 	 * @date Sep 27, 2019 1:53:20 PM
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	@Update("update cux.cux_soa_mi_push set push_mark=#{push_mark},push_date=#{push_date},attribute30=#{attribute30},last_update_date=#{last_update_date} where push_date is null and a.attribute1 = '普通件' and a.sch_date < sysdate + 30 and a.stop_time > 24 and mi_status=#{mi_status} and organization_id=#{organization_id}")
+	@Update("update cux.cux_soa_mi_push set push_mark=#{push_mark},push_date=#{push_date},attribute30=#{attribute30},last_update_date=#{last_update_date} where push_date is null and attribute1 = '普通件' and sch_date < sysdate + 30 and stop_time > 24 and mi_status=#{mi_status} and organization_id=#{organization_id}")
 	int updateCommonPush(CuxSoaMiPushExt cuxSoaMiPushExt);
 	
 	/**
@@ -90,6 +90,6 @@ public interface CuxSoaMiPushMapper extends IMapper<CuxSoaMiPush> {
 	 * @date Sep 27, 2019 1:53:20 PM
 	 * @author <a href="mailto:android_li@sina.cn">Joe</a>
 	 */
-	@Update("update cux.cux_soa_mi_push set push_mark=#{push_mark},push_date=#{push_date},attribute30=#{attribute30},last_update_date=#{last_update_date} where push_date is null and a.attribute1 in ('快件','收费保期') and a.stop_time > 12 and a.stop_time > 24 and mi_status=#{mi_status} and organization_id=#{organization_id}")
+	@Update("update cux.cux_soa_mi_push set push_mark=#{push_mark},push_date=#{push_date},attribute30=#{attribute30},last_update_date=#{last_update_date} where push_date is null and attribute1 in ('快件','收费保期') and stop_time > 12 and mi_status=#{mi_status} and organization_id=#{organization_id}")
 	int updateSpecialPush(CuxSoaMiPushExt cuxSoaMiPushExt);
 }
