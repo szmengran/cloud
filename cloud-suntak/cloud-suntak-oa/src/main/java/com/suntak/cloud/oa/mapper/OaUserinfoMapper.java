@@ -26,9 +26,12 @@ public interface OaUserinfoMapper extends IMapper<Oa_user_info> {
         public String findByCode() {
             return new SQL(){
                 {
-                    SELECT("a.id, a.name, a.code, b.login_name");
+                    SELECT("a.id, a.name, a.code, a.org_department_id, b.login_name, c.name deptname, c.code deptcode,a.org_post_id,d.name postname,d.code postcode,a.org_level_id,e.name levelname,e.code levelcode");
                     FROM("org_member a");
                     LEFT_OUTER_JOIN("org_principal b on a.id = b.member_id");
+                    LEFT_OUTER_JOIN("org_unit c on a.org_department_id = c.id");
+                    LEFT_OUTER_JOIN("org_post d on a.org_post_id = d.id");
+                    LEFT_OUTER_JOIN("org_level e on a.org_level_id = e.id");
                     WHERE("b.login_name is not null");
                     WHERE("a.is_deleted=0");
                     WHERE("a.code = #{code}");
