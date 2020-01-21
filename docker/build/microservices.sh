@@ -11,7 +11,7 @@ set -e
 
 # Docker image prefix
 REGPREFIX=suntak
-VERSION=0.0.6
+VERSION=0.0.7
 
 cd ../cloud-suntak/cloud-suntak-microservices
 mvn -e package

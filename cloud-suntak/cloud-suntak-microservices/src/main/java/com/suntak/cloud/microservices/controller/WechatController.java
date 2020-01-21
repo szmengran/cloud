@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -33,7 +32,6 @@ import io.swagger.annotations.Api;
  */
 @Api(value = "microservices")
 @RestController
-@RequestMapping(path = "/api/v1/microservices", produces = { "application/json" })
 public class WechatController {
 
 	private static final ExecutorService executor = new ThreadPoolExecutor(2, 50, 0L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());

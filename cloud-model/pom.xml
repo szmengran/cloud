@@ -16,5 +16,6 @@
   	<module>cloud-model-wechat</module>
   	<module>cloud-model-haiwd</module>
   	<module>cloud-model-erp</module>
+  	<module>cloud-model-oa</module>
   </modules>
 </project>

@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.suntak.admin.user.exception.BusinessException;
 import com.suntak.cloud.microservices.client.ProofClient;
 import com.suntak.cloud.microservices.client.WechatClient;
 import com.suntak.cloud.microservices.entity.ErrorNotification;
@@ -30,7 +30,6 @@ import com.suntak.ehr.entity.EhrUser;
 import com.suntak.exception.model.Response;
 import com.suntak.utils.JwtUtil;
 import com.suntak.utils.MD5Util;
-import com.suntak.admin.user.exception.BusinessException;
 
 import io.swagger.annotations.Api;
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
@@ -43,10 +42,10 @@ import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
  */
 @Api(value = "microservices")
 @RestController
-@RequestMapping(path = "/api/v1/microservices", produces = { "application/json" })
 public class ProofController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProofController.class);
+	private static final ExecutorService executor = Executors.newCachedThreadPool();
 	
 	@Value("${wechat.qy.AgentId}")
 	private String agentId;
@@ -72,7 +71,6 @@ public class ProofController {
 		}
 		EhrUser ehrUser = new Gson().fromJson(userJson, EhrUser.class);
 		final String userid = ehrUser.getEmpcode();
-		ExecutorService executor = Executors.newCachedThreadPool();
 		executor.submit(() -> {
 			try{
 				String code = "EMP_INCOME";

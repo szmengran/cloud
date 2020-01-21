@@ -58,6 +58,5 @@
 	</dependencies>
 	<modules>
 		<module>cloud-mes-copper</module>
-		<module>cloud-mes-erp</module>
 	</modules>
 </project>

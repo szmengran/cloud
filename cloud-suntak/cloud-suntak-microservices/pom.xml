@@ -88,6 +88,14 @@
 			<classifier>jdk15</classifier>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.suntak</groupId>
+			<artifactId>cloud-common-oa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.suntak</groupId>
+			<artifactId>cloud-model-oa</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

@@ -232,11 +232,6 @@
 				<version>${ch.qos.logback.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.github.pagehelper</groupId>
-				<artifactId>pagehelper</artifactId>
-				<version>5.1.4</version>
-			</dependency>
-			<dependency>
 				<groupId>com.szmengran</groupId>
 				<artifactId>orm-mysql</artifactId>
 				<version>${orm.version}</version>
@@ -249,7 +244,7 @@
 			<dependency>
 				<groupId>com.szmengran</groupId>
 				<artifactId>mybatis</artifactId>
-				<version>0.0.4</version>
+				<version>0.0.5</version>
 			</dependency>
 			<dependency>
 				<groupId>com.suntak</groupId>
@@ -321,6 +316,11 @@
 				<groupId>net.devh</groupId>
 				<artifactId>grpc-spring-boot-starter</artifactId>
 				<version>2.6.0.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>com.suntak</groupId>
+			    <artifactId>cloud-model-oa</artifactId>
+			    <version>0.0.3</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
